@@ -1,0 +1,660 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Vue3_Router | Web前端</title><meta name="author" content="站点作者"><meta name="copyright" content="站点作者"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Vue_RouterRouter认识前端路由 路由其实是网络工程中的一个术语：  在架构一个网络时，非常重要的两个设备就是路由器和交换机。 当然，目前在我们生活中路由器也是越来越被大家所熟知，因为我们生活中都会用到路由器： 事实上，路由器主要维护的是一个映射表； 映射表会决定数据的流向；   路由的概念在软件工程中出现，最早是在后端路由中实现的，原因是 web 的发展主要经历了这样一些阶段：  后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3_Router">
+<meta property="og:url" content="https://myths289.github.io/posts/d07bb7cc.html">
+<meta property="og:site_name" content="Web前端">
+<meta property="og:description" content="Vue_RouterRouter认识前端路由 路由其实是网络工程中的一个术语：  在架构一个网络时，非常重要的两个设备就是路由器和交换机。 当然，目前在我们生活中路由器也是越来越被大家所熟知，因为我们生活中都会用到路由器： 事实上，路由器主要维护的是一个映射表； 映射表会决定数据的流向；   路由的概念在软件工程中出现，最早是在后端路由中实现的，原因是 web 的发展主要经历了这样一些阶段：  后">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img0.baidu.com/it/u=3875994168,2419021573&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800">
+<meta property="article:published_time" content="2023-03-12T03:01:00.000Z">
+<meta property="article:modified_time" content="2023-03-12T03:05:30.345Z">
+<meta property="article:author" content="站点作者">
+<meta property="article:tag" content="关键字">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=3875994168,2419021573&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://myths289.github.io/posts/d07bb7cc.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/manifest.json"/><meta name="msapplication-TileColor" content="#3b70fc"/><link rel="apple-touch-icon" sizes="180x180" href="/img/siteicon/128.png"/><link rel="icon" type="image/png" sizes="32x32" href="/img/siteicon/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/img/siteicon/16.png"/><link rel="mask-icon" href="/img/siteicon/128.png" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vue3_Router',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-12 11:05:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu@1.1.6/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-blog@2.0.4/css/runtime/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://cdn.cbd.int/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Web前端" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img01.anzhiy.cn/useruploads/0/2023/03/05/640413bd58e33.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/index.html"><i class="fa-fw fas fa-home"></i><span> 追番</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img0.baidu.com/it/u=3875994168,2419021573&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1422&amp;h=800')"><nav id="nav"><span id="blog-info"><a href="/" title="Web前端"><span class="site-name">Web前端</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/index.html"><i class="fa-fw fas fa-home"></i><span> 追番</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Vue3_Router</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-12T03:01:00.000Z" title="发表于 2023-03-12 11:01:00">2023-03-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-12T03:05:30.345Z" title="更新于 2023-03-12 11:05:30">2023-03-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Vue3_Router"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Vue-Router"><a href="#Vue-Router" class="headerlink" title="Vue_Router"></a>Vue_Router</h1><h2 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h2><h3 id="认识前端路由"><a href="#认识前端路由" class="headerlink" title="认识前端路由"></a>认识前端路由</h3><ul>
+<li><p>路由其实是网络工程中的一个术语：</p>
+<ul>
+<li>在架构一个网络时，非常重要的两个设备就是路由器和交换机。</li>
+<li>当然，目前在我们生活中路由器也是越来越被大家所熟知，因为我们生活中都会用到路由器：</li>
+<li>事实上，路由器主要维护的是一个映射表；</li>
+<li>映射表会决定数据的流向；</li>
+</ul>
+</li>
+<li><p>路由的概念在软件工程中出现，最早是在后端路由中实现的，原因是 web 的发展主要经历了这样一些阶段：</p>
+<ul>
+<li><strong>后端路由阶段；</strong></li>
+<li><strong>前后端分离阶段；</strong></li>
+<li><strong>单页面富应用（SPA）；</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="后端路由阶段"><a href="#后端路由阶段" class="headerlink" title="后端路由阶段"></a>后端路由阶段</h3><ul>
+<li>早期的网站开发<strong>整个 HTML 页面是由服务器来渲染的</strong>.<ul>
+<li>服务器直接生产渲染好对应的 HTML 页面, 返回给客户端进行展示.</li>
+</ul>
+</li>
+<li>但是, 一个网站, 这么多页面服务器如何处理呢?<ul>
+<li>一个页面有自己对应的网址, 也就是 URL；</li>
+<li>URL 会发送到服务器, 服务器会通过正则对该 URL 进行匹配, 并且最后交给一个 Controller 进行处理；</li>
+<li>Controller 进行各种处理, 最终生成 HTML 或者数据, 返回给前端.</li>
+</ul>
+</li>
+<li>上面的这种操作, 就是后端路由：<ul>
+<li>当我们<strong>页面中需要请求不同的路径内容时, 交给服务器来进行处理, 服务器渲染好整个页面, 并且将页面返回给客户端</strong>.</li>
+<li>这种情况下渲染好的页面, 不需要单独加载任何的 js 和 css, 可以直接交给浏览器展示, 这样也有利于 SEO 的优化.</li>
+</ul>
+</li>
+<li>后端路由的缺点:<ul>
+<li>一种情况是整个页面的模块由后端人员来编写和维护的；</li>
+<li>另一种情况是前端开发人员如果要开发页面, 需要通过 PHP 和 Java 等语言来编写页面代码；</li>
+<li>而且通常情况下 HTML 代码和数据以及对应的逻辑会混在一起, 编写和维护都是非常糟糕的事情；</li>
+</ul>
+</li>
+</ul>
+<h3 id="前后端分离阶段"><a href="#前后端分离阶段" class="headerlink" title="前后端分离阶段"></a>前后端分离阶段</h3><ul>
+<li>前端渲染的理解：<ul>
+<li>每次请求涉及到的静态资源都会从静态资源服务器获取，这些资源包括 HTML+CSS+JS，然后在前端对这些请求回来的资源进行渲染；</li>
+<li>需要注意的是，客户端的每一次请求，都会从静态资源服务器请求文件；</li>
+<li>同时可以看到，和之前的后端路由不同，这时后端只是负责提供 API 了；</li>
+</ul>
+</li>
+<li>前后端分离阶段：<ul>
+<li>随着 Ajax 的出现, 有了前后端分离的开发模式；</li>
+<li><strong>后端只提供 API 来返回数据，前端通过 Ajax 获取数据，并且可以通过 JavaScript 将数据渲染到页面中；</strong></li>
+<li>这样做最大的优点就是<strong>前后端责任的清晰，后端专注于数据上，前端专注于交互和可视化上</strong>；</li>
+<li>并且当移动端 (iOS/Android) 出现后，后端不需要进行任何处理，依然使用之前的一套 API 即可；</li>
+<li>目前比较少的网站采用这种模式开发；</li>
+</ul>
+</li>
+</ul>
+<h3 id="单页面富应用阶段"><a href="#单页面富应用阶段" class="headerlink" title="单页面富应用阶段"></a>单页面富应用阶段</h3><ul>
+<li>单页面富应用阶段:<ul>
+<li>其实 SPA 最主要的特点就是在前后端分离的基础上加了一层前端路由.</li>
+<li>也就是前端来维护一套路由规则.</li>
+</ul>
+</li>
+<li>前端路由的核心是什么呢？<strong>改变URL，但是页面不进行整体的刷新</strong>。</li>
+</ul>
+<h3 id="URL的hash"><a href="#URL的hash" class="headerlink" title="URL的hash"></a>URL的hash</h3><ul>
+<li>前端路由是如何做到 URL 和内容进行映射呢？监听 URL 的改变。</li>
+<li><p>URL 的 hash</p>
+<ul>
+<li>URL 的 hash 也就是锚点(#), <strong>本质上是改变 window.location 的 href 属性</strong>；</li>
+<li>我们可以通过直接赋值 location.hash 来改变 href, 但是页面不发生刷新；</li>
+</ul>
+</li>
+<li><p>hash 的优势就是兼容性更好，在老版 IE 中都可以运行，但是缺陷是有一个 <code>#</code>，显得不像一个真实的路径。</p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/3c82bbd4116f4bca9e632175199a0e59" alt="1661484814409"></p>
+<h3 id="HTML5-的-History"><a href="#HTML5-的-History" class="headerlink" title="HTML5 的 History"></a>HTML5 的 History</h3><ul>
+<li>history 接口是 HTML5 新增的, 它有六种模式改变 URL 而不刷新页面：<ul>
+<li>replaceState：替换原来的路径；</li>
+<li>pushState：使用新的路径；</li>
+<li>popState：路径的回退；</li>
+<li>go：向前或向后改变路径；</li>
+<li>forward：向前改变路径；</li>
+<li>back：向后改变路径；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/089475a917f048c2a20b7ee69e8b7b17" alt="1661484941981"></p>
+<h3 id="认识vue-router"><a href="#认识vue-router" class="headerlink" title="认识vue-router"></a>认识vue-router</h3><ul>
+<li>目前前端流行的三大框架, 都有自己的路由实现:<ul>
+<li>Angular 的 ngRouter</li>
+<li>React 的 ReactRouter</li>
+<li><strong>Vue 的 vue-router</strong></li>
+</ul>
+</li>
+<li>Vue Router 是 Vue.js 的官方路由：<ul>
+<li>它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用（SPA）变得非常容易；</li>
+<li>目前 Vue 路由最新的版本是 4.x 版本，我们上课会基于最新的版本讲解；</li>
+</ul>
+</li>
+<li><strong>vue-router 是基于路由和组件的</strong><ul>
+<li><strong>路由用于设定访问路径, 将路径和组件映射起来</strong>；</li>
+<li><strong>在 vue-router 的单页面应用中, 页面的路径的改变就是组件的切换</strong>；</li>
+</ul>
+</li>
+<li>安装 Vue Router： <strong>npm install vue-router</strong></li>
+</ul>
+<h3 id="路由的使用步骤"><a href="#路由的使用步骤" class="headerlink" title="路由的使用步骤"></a>路由的使用步骤</h3><ul>
+<li>使用 vue-router 的步骤:<ul>
+<li>第一步：创建路由需要映射的组件（打算要显示的页面）；</li>
+<li>第二步：通过 createRouter 创建路由对象，并且传入 routes 和 history 模式；<ul>
+<li>配置路由映射: 组件和路径映射关系的 routes 数组；</li>
+<li>创建基于 hash 或者 history 的模式；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第三步：使用 app 注册路由对象（use 方法）；</li>
+<li>第四步：路由使用: 通过 <code>&lt;router-link&gt;</code>和<code>&lt;router-view&gt;</code>；</li>
+</ul>
+<h3 id="路由的使用流程"><a href="#路由的使用流程" class="headerlink" title="路由的使用流程"></a>路由的使用流程</h3><ul>
+<li>01 配置路由映射表:  <strong>./src/router/index.js :</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建路由映射表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.1 导入方法</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  createRouter,</span><br><span class="line">  createWebHashHistory,</span><br><span class="line">  createWebHistory,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.2 导入组件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Home</span> <span class="keyword">from</span> <span class="string">&quot;../Views/Home.vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">About</span> <span class="keyword">from</span> <span class="string">&quot;../Views/About.vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.3 创建路由配置信息</span></span><br><span class="line"><span class="keyword">const</span> router = <span class="title function_">createRouter</span>(&#123;</span><br><span class="line">  <span class="comment">// history: createWebHashHistory(), // hash 模式 ,url带有 # 号分隔</span></span><br><span class="line">  <span class="attr">history</span>: <span class="title function_">createWebHistory</span>(), <span class="comment">// history 模式, url不带有 # 号</span></span><br><span class="line">  <span class="attr">routes</span>: [</span><br><span class="line">    <span class="comment">//映射表  redirect:路由重定向</span></span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>, <span class="attr">redirect</span>: <span class="string">&quot;/home&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&quot;/home&quot;</span>, <span class="attr">component</span>: <span class="title class_">Home</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&quot;/about&quot;</span>, <span class="attr">component</span>: <span class="title class_">About</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.4 暴露路由配置对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>02 注册路由配置信息:  <strong>./src/main.js</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&quot;./App.vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.1 导入路由配置信息</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&quot;./router&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.2 注册路由</span></span><br><span class="line">app.<span class="title function_">use</span>(router);</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&quot;#app&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>03 路由的出口: <strong>./src/App.vue :</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;App&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 3.1 按钮,点击跳转路由 --&gt;</span><br><span class="line">    &lt;router-link to=&quot;/home&quot;&gt;首页&lt;/router-link&gt;</span><br><span class="line">    &lt;router-link to=&quot;/about&quot;&gt;关于&lt;/router-link&gt;</span><br><span class="line">    &lt;!-- 3.2 路由组件的出口 --&gt;</span><br><span class="line">    &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    return &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>图解:</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/e812f1cfb7494cb281b8e2eec90d8590" alt="1661507040954"></p>
+<h3 id="路由重定向"><a href="#路由重定向" class="headerlink" title="路由重定向"></a>路由重定向</h3><ul>
+<li>我们这里还有一个不太好的实现:<ul>
+<li>默认情况下, 进入网站的首页, 我们希望<code>&lt;router-view&gt;</code>渲染首页的内容；</li>
+<li>但是我们的实现中, 默认没有显示首页组件, 必须让用户点击才可以；</li>
+</ul>
+</li>
+<li>如何可以让路径默认跳到到首页, 并且<code>&lt;router-view&gt;</code>渲染首页组件呢?</li>
+<li>我们在 routes 中又配置了一个映射：<ul>
+<li>path 配置的是根路径:  <code>/</code></li>
+<li>redirect 是重定向, 也就是我们将根路径重定向到 <code>/home</code>的路径下, 这样就可以得到我们想要的结果了.</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/a5e284063e314bbbbbba529b89192026" alt="image-20230312104716463"></p>
+<h3 id="history模式"><a href="#history模式" class="headerlink" title="history模式"></a>history模式</h3><ul>
+<li>另外一种选择的模式是 history 模式：<ul>
+<li>history 模式, url 不带有<code>#</code>号:</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/1b07678777fa4fd69cbb2baaa6176d34" alt="image-20230312104746061"></p>
+<h3 id="router-link标签"><a href="#router-link标签" class="headerlink" title="router-link标签"></a>router-link标签</h3><ul>
+<li>router-link 事实上有很多属性可以配置：</li>
+<li>to 属性：<ul>
+<li>是一个字符串，或者是一个对象.  <code>&lt;router-link :to=&quot;&#123;path:&#39;/home&#39;&#125;&quot; replace&gt;首页&lt;/router-link&gt;</code> ,需要在 to 前面加冒号 <code>:</code></li>
+</ul>
+</li>
+<li>replace 属性：<ul>
+<li>设置 replace 属性的话，当点击时，会调用 router.replace()，而不是 router.push()；点击浏览器的返回按钮,无法返回上一条页面记录</li>
+</ul>
+</li>
+<li>active-class 属性：<ul>
+<li>设置激活 a 元素后应用的 class，默认是 router-link-active</li>
+</ul>
+</li>
+<li>exact-active-class 属性：<ul>
+<li>链接精准激活时，应用于渲染的<code>&lt;a&gt;</code>的 class，默认是 router-link-exact-active；</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123;path:&#x27;/home&#x27;&#125;&quot;</span> <span class="attr">replace</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="路由懒加载"><a href="#路由懒加载" class="headerlink" title="路由懒加载"></a>路由懒加载</h3><ul>
+<li>当打包构建应用时，JavaScript 包会变得非常大，影响页面加载：<ul>
+<li>如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就会更加高效；</li>
+<li>也<strong>可以提高首屏的渲染效率</strong>；</li>
+</ul>
+</li>
+<li>其实这里还是我们前面讲到过的 webpack 的分包知识，而 Vue Router 默认就支持动态来导入组件：<ul>
+<li>这是因为 component 可以传入一个组件，也可以接收一个函数，该函数需要返回一个 Promise；而 import 函数就是返回一个 Promise</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/ec0aafbc3ccf4cc68fee3be700b2d276" alt="image-20230312104825075"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 路由的懒加载</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">Home</span> = (<span class="params"></span>) =&gt; <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;home&#x27; */</span><span class="string">&quot;../Views/Home.vue&quot;</span>)  <span class="comment">/* 在魔法注释指定分包后的文件名称 */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">About</span> = (<span class="params"></span>) =&gt; <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;about&#x27; */</span><span class="string">&quot;../Views/About.vue&quot;</span>) <span class="comment">/* 在魔法注释指定分包后的文件名称 */</span></span><br></pre></td></tr></table></figure>
+<h3 id="name和meta属性"><a href="#name和meta属性" class="headerlink" title="name和meta属性"></a>name和meta属性</h3><ul>
+<li>name 属性：路由记录独一无二的名称；</li>
+<li>meta 属性：自定义的数据</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/ce425fc7866f4639bdf4fcb8e90f46af" alt="1661519904745"></p>
+<h3 id="动态路由的匹配"><a href="#动态路由的匹配" class="headerlink" title="动态路由的匹配"></a>动态路由的匹配</h3><ul>
+<li>很多时候我们需要将给定匹配模式的路由映射到同一个组件：<ul>
+<li>例如，我们可能有一个 User 组件，它应该对所有用户进行渲染，但是用户的 ID 是不同的；</li>
+<li>在 Vue Router 中，我们可以在路径中使用一个动态字段来实现，我们称之为 路径参数；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/3c0820d7189c4bac9543a28da8555028" alt="1661520468830"></p>
+<h3 id="获取动态路由的值"><a href="#获取动态路由的值" class="headerlink" title="获取动态路由的值"></a>获取动态路由的值</h3><ul>
+<li>那么在 User 中如何获取到对应的值呢？<ul>
+<li>在 template 中，直接通过<code>$route.params</code>获取值；<ul>
+<li>在 created 中，通过<code>this.$route.params</code> 获取值；</li>
+<li>在 setup 中，我们要使用 vue-router 库给我们提供的一个 hook useRoute；<ul>
+<li>该 Hook 会返回一个 Route 对象，对象中保存着当前路由相关的值；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/f30b20625543453780c8f2787bdfc71a" alt="image-20230312104947423"></p>
+<h3 id="NotFound"><a href="#NotFound" class="headerlink" title="NotFound"></a>NotFound</h3><ul>
+<li>对于哪些没有匹配到的路由，我们通常会匹配到固定的某个页面<ul>
+<li>比如 NotFound 的错误页面中，这个时候我们可编写一个动态路由用于匹配所有的页面；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/c86d04d19c054962806d2d723ee632a5" alt="1661520948740"></p>
+<ul>
+<li>我们可以通过 <code>$route.params.pathMatch</code> 获取到传入的参数</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/b15b3588bc85408a92cd3eeaf67823e4" alt="1661520973014"></p>
+<ul>
+<li>如果在 <code>/:pathMatch(.*)</code>的后面再加一个星号<code>*</code>,则通过 <code>$route.params.pathMatch</code> 获取到的是一个由路径经过<code>/</code>分隔后的数组:(区别在于是否解析<code>/</code>)</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/d0c0aa86cf2646dea5b948aac4c0ab6e" alt=""></p>
+<h3 id="路由的嵌套"><a href="#路由的嵌套" class="headerlink" title="路由的嵌套"></a>路由的嵌套</h3><ul>
+<li>什么是路由的嵌套呢？<ul>
+<li>目前我们匹配的 Home、About、User 等都属于第一层路由，我们在它们之间可以来回进行切换；</li>
+</ul>
+</li>
+<li>但是呢，我们 Home 页面本身，也可能会在多个组件之间来回切换：<ul>
+<li>比如 Home 中包括 Product、Message，它们可以在 Home 内部来回切换；</li>
+<li>这个时候我们就需要使用嵌套路由，在 Home 中也使用 router-view 来占位之后需要渲染的组件；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/fcfa9c380e7a4edbab7ef22add9ce448" alt="1661521229056"></p>
+<h3 id="编程式导航"><a href="#编程式导航" class="headerlink" title="编程式导航"></a>编程式导航</h3><ul>
+<li>在 Option API 中 :</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>App<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 3.1 按钮,点击跳转路由 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;homeClick&quot;</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;aboutClick&quot;</span>&gt;</span>关于<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 3.2 路由的出口 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">homeClick</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 编程式导航</span></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">this</span>.<span class="property">$router</span>.<span class="title function_">push</span>(<span class="string">&quot;/home&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">aboutClick</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 编程式导航,传递一个对象</span></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">this</span>.<span class="property">$router</span>.<span class="title function_">push</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">path</span>:<span class="string">&quot;/about&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">      &#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">  &#125;,</span></span><br><span class="line"><span class="language-javascript">&#125;;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 Composition API 中:</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>App<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 3.1 按钮,点击跳转路由 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;homeClick&quot;</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;aboutClick&quot;</span>&gt;</span>关于<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 3.2 路由的出口 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> &#123; useRouter &#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> router = <span class="title function_">useRouter</span>();</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> <span class="title function_">homeClick</span> = (<span class="params"></span>) =&gt; &#123;</span></span><br><span class="line"><span class="language-javascript">  router.<span class="title function_">push</span>(<span class="string">&quot;/home&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">&#125;;</span></span><br><span class="line"><span class="language-javascript"><span class="comment">// 传递一个对象并携带参数</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> <span class="title function_">aboutClick</span> = (<span class="params"></span>) =&gt; &#123;</span></span><br><span class="line"><span class="language-javascript">  router.<span class="title function_">push</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">path</span>: <span class="string">&quot;/about&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">query</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">      <span class="attr">age</span>: <span class="number">18</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript">&#125;;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在 /about 对应的组件的模板中获取 query 参数 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>query:&#123;&#123; $route.query.name &#125;&#125;-&#123;&#123; $route.query.age &#125;&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="页面的前进与后退"><a href="#页面的前进与后退" class="headerlink" title="页面的前进与后退"></a>页面的前进与后退</h3><ul>
+<li>router 的 go 方法：</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/3905c5350159462a98ee0b6020a74c22" alt="1661522833729"></p>
+<ul>
+<li>router 也有 back：<ul>
+<li>通过调用 history.back() 回溯历史。相当于 router.go(-1)；</li>
+</ul>
+</li>
+<li>router 也有 forward：<ul>
+<li>通过调用 history.forward() 在历史中前进。相当于 router.go(1)；</li>
+</ul>
+</li>
+</ul>
+<h3 id="动态添加路由"><a href="#动态添加路由" class="headerlink" title="动态添加路由"></a>动态添加路由</h3><ul>
+<li><p>某些情况下我们可能需要动态的来添加路由：</p>
+<ul>
+<li>比如根据用户不同的权限，注册不同的路由；</li>
+<li>这个时候我们可以使用一个方法 addRoute；</li>
+</ul>
+</li>
+<li><p>如果我们是为 route 添加一个 children 路由，那么可以传入对应的 name：</p>
+</li>
+</ul>
+<p><strong>./src/router/index.js :</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.动态管理路由</span></span><br><span class="line"><span class="keyword">let</span> isAdmin = <span class="literal">true</span></span><br><span class="line"><span class="keyword">if</span> (isAdmin) &#123;</span><br><span class="line">  <span class="comment">// 一级路由</span></span><br><span class="line">  router.<span class="title function_">addRoute</span>(&#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/admin&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;../Views/Admin.vue&quot;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 给home 路由添加二级子路由  参数一: 一级路由的 name 属性,该 name 属性要求唯一,不能重复</span></span><br><span class="line">  router.<span class="title function_">addRoute</span>(<span class="string">&quot;home&quot;</span>, &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;vip&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;../Views/HomeVip.vue&quot;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取router中所有的映射路由对象</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(router.<span class="title function_">getRoutes</span>())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="动态路由的其他方法"><a href="#动态路由的其他方法" class="headerlink" title="动态路由的其他方法"></a>动态路由的其他方法</h3><ul>
+<li>删除路由有以下三种方式：<ul>
+<li>方式一：添加一个 name 相同的路由；</li>
+<li>方式二：通过 removeRoute 方法，传入路由的名称；</li>
+<li>方式三：通过 addRoute 方法的返回值回调；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/ff28b9b1b56e4a43a87d80a0c945f5ad" alt="image-20230312105126056"></p>
+<ul>
+<li>路由的其他方法补充：<ul>
+<li>router.hasRoute()：检查路由是否存在。</li>
+<li>router.getRoutes()：获取一个包含所有路由记录的数组。</li>
+</ul>
+</li>
+</ul>
+<h3 id="路由导航守卫"><a href="#路由导航守卫" class="headerlink" title="路由导航守卫"></a>路由导航守卫</h3><ul>
+<li>vue-router 提供的导航守卫主要用来通过跳转或取消的方式守卫导航。</li>
+<li>全局的前置守卫 beforeEach 是在导航触发时会被回调的：</li>
+<li>它有两个参数：<ul>
+<li><strong>to：即将进入的路由 Route 对象；</strong></li>
+<li><strong>from：即将离开的路由 Route 对象；</strong></li>
+</ul>
+</li>
+<li>它有返回值：<ul>
+<li>false：取消当前导航；</li>
+<li>不返回或者 undefined：进行默认导航；</li>
+<li>返回一个路由地址：<ul>
+<li>可以是一个 string 类型的路径；</li>
+<li>可以是一个对象，对象中包含 path、query、params 等信息；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可选的第三个参数：next（不推荐使用）<ul>
+<li>在 Vue2 中我们是通过 next 函数来决定如何进行跳转的；</li>
+<li>但是<strong>在 Vue3 中我们是通过返回值来控制的，不再推荐使用 next 函数，这是因为开发中很容易调用多次 next</strong>；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/12/e4c767e7b9ae4dd6b2f2fd69965048df" alt="image-20230312105150911"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2.路由导航守卫</span></span><br><span class="line"><span class="comment">// 进行任何的路由跳转之前, 传入的beforeEach中的函数都会被回调</span></span><br><span class="line"><span class="comment">// 需求: 进入到订单(order)页面时, 判断用户是否登录(isLogin -&gt; localStorage保存token)</span></span><br><span class="line"><span class="comment">// 情况一: 用户没有登录, 那么跳转到登录页面, 进行登录的操作</span></span><br><span class="line"><span class="comment">// 情况二: 用户已经登录, 那么直接进入到订单页面</span></span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to, <span class="keyword">from</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 1.进入到任何别的页面时, 都跳转到login页面</span></span><br><span class="line">  <span class="comment">// if (to.path !== &quot;/login&quot;) &#123;</span></span><br><span class="line">  <span class="comment">//   return &quot;/login&quot;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.进入到订单页面时, 判断用户是否登录</span></span><br><span class="line">  <span class="keyword">const</span> token = <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;token&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> (to.<span class="property">path</span> === <span class="string">&quot;/order&quot;</span> &amp;&amp; !token) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;/login&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="其他导航守卫"><a href="#其他导航守卫" class="headerlink" title="其他导航守卫"></a>其他导航守卫</h3><ul>
+<li>Vue还提供了很多的其他守卫函数，目的都是在某一个时刻给予我们回调，让我们可以更好的控制程序的流程或者功能：<ul>
+<li><a target="_blank" rel="noopener" href="https://next.router.vuejs.org/zh/guide/advanced/navigation-guards.html">https://next.router.vuejs.org/zh/guide/advanced/navigation-guards.html</a></li>
+</ul>
+</li>
+<li>我们一起来看一下完整的导航解析流程：<ul>
+<li>导航被触发。</li>
+<li>在失活的组件里调用 beforeRouteLeave 守卫。</li>
+<li>调用全局的 beforeEach 守卫。</li>
+<li>在重用的组件里调用 beforeRouteUpdate 守卫(2.2+)。</li>
+<li>在路由配置里调用 beforeEnter。</li>
+<li>解析异步路由组件。</li>
+<li>在被激活的组件里调用 beforeRouteEnter。</li>
+<li>调用全局的 beforeResolve 守卫(2.5+)。</li>
+<li>导航被确认。</li>
+<li>调用全局的 afterEach 钩子。</li>
+<li>触发 DOM 更新。</li>
+<li>调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://myths289.github.io">站点作者</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://myths289.github.io/posts/d07bb7cc.html">https://myths289.github.io/posts/d07bb7cc.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://myths289.github.io" target="_blank">Web前端</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://img0.baidu.com/it/u=3875994168,2419021573&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1422&amp;h=800" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/23b4411c.html" title="Vue3_VueX"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=3019689614,3305223884&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Vue3_VueX</div></div></a></div><div class="next-post pull-right"><a href="/posts/6a9554f2.html" title="Vue3_基础核心"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=970873607,346231305&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=640&amp;h=267" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue3_基础核心</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img01.anzhiy.cn/useruploads/0/2023/03/05/640413bd58e33.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">站点作者</div><div class="author-info__description">站点描述</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vue-Router"><span class="toc-number">1.</span> <span class="toc-text">Vue_Router</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Router"><span class="toc-number">1.1.</span> <span class="toc-text">Router</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.1.</span> <span class="toc-text">认识前端路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E8%B7%AF%E7%94%B1%E9%98%B6%E6%AE%B5"><span class="toc-number">1.1.2.</span> <span class="toc-text">后端路由阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%98%B6%E6%AE%B5"><span class="toc-number">1.1.3.</span> <span class="toc-text">前后端分离阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B5%E9%9D%A2%E5%AF%8C%E5%BA%94%E7%94%A8%E9%98%B6%E6%AE%B5"><span class="toc-number">1.1.4.</span> <span class="toc-text">单页面富应用阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E7%9A%84hash"><span class="toc-number">1.1.5.</span> <span class="toc-text">URL的hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5-%E7%9A%84-History"><span class="toc-number">1.1.6.</span> <span class="toc-text">HTML5 的 History</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86vue-router"><span class="toc-number">1.1.7.</span> <span class="toc-text">认识vue-router</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.8.</span> <span class="toc-text">路由的使用步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.9.</span> <span class="toc-text">路由的使用流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.1.10.</span> <span class="toc-text">路由重定向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.11.</span> <span class="toc-text">history模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#router-link%E6%A0%87%E7%AD%BE"><span class="toc-number">1.1.12.</span> <span class="toc-text">router-link标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.1.13.</span> <span class="toc-text">路由懒加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#name%E5%92%8Cmeta%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.14.</span> <span class="toc-text">name和meta属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E5%8C%B9%E9%85%8D"><span class="toc-number">1.1.15.</span> <span class="toc-text">动态路由的匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E5%80%BC"><span class="toc-number">1.1.16.</span> <span class="toc-text">获取动态路由的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NotFound"><span class="toc-number">1.1.17.</span> <span class="toc-text">NotFound</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="toc-number">1.1.18.</span> <span class="toc-text">路由的嵌套</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA"><span class="toc-number">1.1.19.</span> <span class="toc-text">编程式导航</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%89%8D%E8%BF%9B%E4%B8%8E%E5%90%8E%E9%80%80"><span class="toc-number">1.1.20.</span> <span class="toc-text">页面的前进与后退</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.21.</span> <span class="toc-text">动态添加路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.22.</span> <span class="toc-text">动态路由的其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB"><span class="toc-number">1.1.23.</span> <span class="toc-text">路由导航守卫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB"><span class="toc-number">1.1.24.</span> <span class="toc-text">其他导航守卫</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/f5a434cb.html" title="Vue3_Vue3原理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img1.baidu.com/it/u=2904480601,3253252657&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=889&amp;h=500" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue3_Vue3原理"/></a><div class="content"><a class="title" href="/posts/f5a434cb.html" title="Vue3_Vue3原理">Vue3_Vue3原理</a><time datetime="2023-03-12T03:08:00.000Z" title="发表于 2023-03-12 11:08:00">2023-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/39d7b691.html" title="Vue3_过渡与动画"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=3875994168,2419021573&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1422&amp;h=800" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue3_过渡与动画"/></a><div class="content"><a class="title" href="/posts/39d7b691.html" title="Vue3_过渡与动画">Vue3_过渡与动画</a><time datetime="2023-03-12T03:07:00.000Z" title="发表于 2023-03-12 11:07:00">2023-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f9b5822f.html" title="Vue3_自定义指令与插件"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=1049131339,3908621840&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue3_自定义指令与插件"/></a><div class="content"><a class="title" href="/posts/f9b5822f.html" title="Vue3_自定义指令与插件">Vue3_自定义指令与插件</a><time datetime="2023-03-12T03:05:00.000Z" title="发表于 2023-03-12 11:05:00">2023-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/a312a399.html" title="Vue3_Pinia"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=2181098084,639539451&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=889&amp;h=500" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue3_Pinia"/></a><div class="content"><a class="title" href="/posts/a312a399.html" title="Vue3_Pinia">Vue3_Pinia</a><time datetime="2023-03-12T03:04:00.000Z" title="发表于 2023-03-12 11:04:00">2023-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/23b4411c.html" title="Vue3_VueX"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img0.baidu.com/it/u=3019689614,3305223884&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue3_VueX"/></a><div class="content"><a class="title" href="/posts/23b4411c.html" title="Vue3_VueX">Vue3_VueX</a><time datetime="2023-03-12T03:03:00.000Z" title="发表于 2023-03-12 11:03:00">2023-03-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 站点作者</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="8152976493" data-server="netease" data-type="playlist"   data-order="list" data-fixed="true" data-preload="auto" data-autoplay="false" data-mutex="true" ></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><div class="app-refresh" id="app-refresh" style="position: fixed;top: -2.2rem;left: 0;right: 0;z-index: 99999;padding: 0 1rem;font-size: 15px;height: 2.2rem;transition: all 0.3s ease;"><div class="app-refresh-wrap" style=" display: flex;color: #fff;height: 100%;align-items: center;justify-content: center;"><label>✨ 有新文章啦！ 👉</label><a href="javascript:void(0)" onclick="location.reload()"><span style="color: #fff;text-decoration: underline;cursor: pointer;">🍗点击食用🍔</span></a></div></div><script>if ('serviceWorker' in navigator) {
+if (navigator.serviceWorker.controller) {
+navigator.serviceWorker.addEventListener('controllerchange', function() {
+showNotification()
+})
+}
+window.addEventListener('load', function() {
+navigator.serviceWorker.register('/sw.js')
+})
+}
+function showNotification() {
+if (GLOBAL_CONFIG.Snackbar) {
+var snackbarBg =
+document.documentElement.getAttribute('data-theme') === 'light' ?
+GLOBAL_CONFIG.Snackbar.bgLight :
+GLOBAL_CONFIG.Snackbar.bgDark
+var snackbarPos = GLOBAL_CONFIG.Snackbar.position
+Snackbar.show({
+text: '✨ 有新文章啦！ 👉',
+backgroundColor: snackbarBg,
+duration: 500000,
+pos: snackbarPos,
+actionText: '🍗点击食用🍔',
+actionTextColor: '#fff',
+onActionClick: function(e) {
+location.reload()
+},
+})
+} else {
+var showBg =
+document.documentElement.getAttribute('data-theme') === 'light' ?
+'#3b70fc' :
+'#1f1f1f'
+var cssText = `top: 0; background: ${showBg};`
+document.getElementById('app-refresh').style.cssText = cssText
+}
+}</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu@1.1.6/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = '81ee92d95024419f8e579ac0218ee32c';
+  var gaud_map_key = '6f82932ff3a0bf13313bf7ee0acf960d';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '112.6534116,27.96920845';
+  var clock_default_rectangle_enable = 'true';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu@1.1.6/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.2.2" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/#/Integrated/index" style="margin-inline:5px" data-title="本站已在湘进行备案" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/湘ICP备-2022004213号-e1d492?style=flat&amp;logo=data:image/png;base64,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" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime/runtime.min.js"></script><script async src="/js/ali_font.js"></script><script data-pjax src="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://github.anzhiy.cn/api?anzhiyu-c",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'anzhiyu-c')
+    }
+  </script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
