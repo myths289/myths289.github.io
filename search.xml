@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>使用 Github Pages 和 Hexo 搭建自己的独立博客</title>
-    <url>/2023/12/10/hello-world%20copy%202/</url>
+    <url>/2023/12/10/hello-world%20copy%203/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -23,7 +23,28 @@
   </entry>
   <entry>
     <title>使用 Github Pages 和 Hexo 搭建自己的独立博客</title>
-    <url>/2023/12/10/hello-world%20copy%203/</url>
+    <url>/2023/12/10/hello-world%20copy/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Github Pages 和 Hexo 搭建自己的独立博客</title>
+    <url>/2023/12/10/hello-world%20copy%202/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -224,6 +245,27 @@
       </tags>
   </entry>
   <entry>
+    <title>HTML</title>
+    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web1/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <tags>
+        <tag>Web</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 Github Pages 和 Hexo 搭建自己的独立博客</title>
     <url>/2023/12/10/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -242,69 +284,6 @@
 ]]></content>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Github Pages 和 Hexo 搭建自己的独立博客</title>
-    <url>/2023/12/10/hello-world%20copy/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTML</title>
-    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web2/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <tags>
-        <tag>Web</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTML</title>
-    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web3/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <tags>
-        <tag>Web</tag>
       </tags>
   </entry>
   <entry>
@@ -351,7 +330,7 @@
   </entry>
   <entry>
     <title>HTML</title>
-    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web4%20copy/</url>
+    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web2/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -372,7 +351,7 @@
   </entry>
   <entry>
     <title>HTML</title>
-    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web1/</url>
+    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web3/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -413,515 +392,25 @@
       </tags>
   </entry>
   <entry>
-    <title>邂逅前端开发</title>
-    <url>/2023/02/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/101_HTML_CSS/10101_WebBase/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer" />
+    <title>HTML</title>
+    <url>/2023/12/10/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/web4%20copy/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="邂逅前端开发"><a href="#邂逅前端开发" class="headerlink" title="邂逅前端开发"></a>邂逅前端开发</h1><h2 id="软件的认识"><a href="#软件的认识" class="headerlink" title="软件的认识"></a>软件的认识</h2><h3 id="常见的软件"><a href="#常见的软件" class="headerlink" title="常见的软件"></a>常见的软件</h3><p><img src="https://s1.vika.cn/space/2023/02/19/2b3b01b1f6d94e81bef0ff657434b1a6"></p>
-<h3 id="软件的定义"><a href="#软件的定义" class="headerlink" title="软件的定义"></a>软件的定义</h3><ul>
-<li>专业的软件定义：<strong>一系列按照特定顺序组织的计算机数据和指令，是电脑的非有型部分</strong>。</li>
-<li>软件开发是什么呢？<strong>就是告诉计算机一系列的指令，这些指令也称之为程序</strong>。</li>
-<li>开发软件的这部分人就称之为 软件开发工程师，也称之为程序员。</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/86a32bcb1e9c42cab0639a23445de936" alt="1670140185694"></p>
-<h3 id="完善的软件系统"><a href="#完善的软件系统" class="headerlink" title="完善的软件系统"></a>完善的软件系统</h3><p><img src="https://s1.vika.cn/space/2023/02/19/d138e657367e4c36a8faab5cb4929db0" alt="1670140223633"></p>
-<h2 id="前端开发工程师"><a href="#前端开发工程师" class="headerlink" title="前端开发工程师"></a>前端开发工程师</h2><h3 id="前端开发工程师-1"><a href="#前端开发工程师-1" class="headerlink" title="前端开发工程师"></a>前端开发工程师</h3><ul>
-<li><p>开发系统中各个环节的不同部分都属于软件开发：</p>
-<ul>
-<li>这些开发者我们称之为<strong>软件开发工程师</strong>；</li>
-<li>开发者、程序员、码农、IT 民工等等；</li>
-</ul>
-</li>
-<li><p>按照职能的不同也可以划分两类：</p>
-<ul>
-<li>后端（Back-end）开发，称之为<strong>后端开发工程师</strong>；</li>
-<li>前端（Front-end）开发，称之为<strong>前端开发工程师</strong>；</li>
-</ul>
-</li>
-<li><p>前端开发工程师：</p>
-<ul>
-<li><strong>主要负责的：Web（网站、后台管理系统、手机 H5）、小程序端；</strong></li>
-<li><strong>也可以做：移动端（Uniapp、React Native）、桌面端（Electron）、服务器开发（Node.js）；</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="前端行业发展"><a href="#前端行业发展" class="headerlink" title="前端行业发展"></a>前端行业发展</h3><ul>
-<li><p>为什么要聊这个话题呢？</p>
-<ul>
-<li>时代的一粒灰，落在个人头上，就是一座山；</li>
-<li>如何行业已经停滞，甚至是倒退，没有需求，那么你如何努力也改变不了现状；</li>
-</ul>
-</li>
-<li><p>技术角度：</p>
-<ul>
-<li>新框架（Ember.js、Preact.js）、框架更新迭代（vue3、react18）、新工具（Vite）、新模式（工程化、低代码、微前端） 层出不穷；</li>
-</ul>
-</li>
-<li><p>市场需求：</p>
-<ul>
-<li><strong>人才需求大、薪资高；</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="前端技术发展线路"><a href="#前端技术发展线路" class="headerlink" title="前端技术发展线路"></a>前端技术发展线路</h3><ul>
-<li><p><strong>初级程序员</strong>（薪资 6k-10k，1~2 年）</p>
-<ul>
-<li>写一些简单的业务，负责项目某些模块的开发、维护；</li>
-<li>遇到很多问题不知道如何处理，需要查询资料或者交流后可以解决；</li>
-<li>代码通常写的杂乱无章，能用就行！</li>
-</ul>
-</li>
-<li><p><strong>中级程序员</strong>（薪资 10k-20k，2~4 年）</p>
-<ul>
-<li>可以独立负责中小型项目，负责公司项目核心业务的开发、维护；</li>
-<li>遇到大多数问题可以自行查到解决方案，有一定的自学能力，通过官网文档可以自学；</li>
-<li>代码质量较高，遵守代码规范，并且会对组内其他人的代码有要求；</li>
-</ul>
-</li>
-<li><p><strong>高级程序员</strong>（薪资 20k-50k，4~6 年）</p>
-<ul>
-<li>独立负责中大型项目，可以为公司项目搭建架构，创建内部的脚手架，公司内部的 UI 框架；</li>
-<li>可以读懂框架源码，并且从一些开源框架中借鉴优秀的设计、架构、思想；</li>
-<li>公司的核心员工，具备可替代性，成为公司技术不可或缺的一部分；</li>
-</ul>
-</li>
-<li><p><strong>系统架构师</strong>（50k~）</p>
-<ul>
-<li>可以对大型项目进行系统架构，不再局限于某个领域（前端、后端?）或者某项技术（JavaScript、Java、 C++?）；</li>
-<li>对技术领域 现有技术方案进行评估，对不同的场景给出对应的解决方案；</li>
-<li>确定项目最终方案，并且对整个项目进行“核心架构”（包括完成 核心架构 实现的能力）；</li>
-<li>保证项目的各个环节有序进行，包括项目的高性能、高可用、可扩展能力；</li>
-</ul>
-</li>
-<li><p><strong>资深技术专家</strong>（50k~）</p>
-<ul>
-<li>专注于某一个特定领域<ul>
-<li>比如前端包括不限于对框架源码、node、js 引擎进行定制化需求、优化；</li>
-<li>比如后端包括不仅限于 JVM、线程池、SQL 调试、优化；</li>
-<li>比如可以主导公司项目某些特定领域技术的落地，类似流媒体、即时通信技术等；</li>
-</ul>
-</li>
-<li>某些人在行业内有一定的影响力，是某一块技术领域的 Top 人物；</li>
-</ul>
-</li>
-</ul>
-<h2 id="认识网页和网站"><a href="#认识网页和网站" class="headerlink" title="认识网页和网站"></a>认识网页和网站</h2><h3 id="什么是网页"><a href="#什么是网页" class="headerlink" title="什么是网页"></a>什么是网页</h3><ul>
-<li>网页的专业术语叫做 Web Page；</li>
-<li>打开浏览器查看到的页面，是网络中的一“页”, 通常是 HTML 格式的文件，它要通过浏览器来阅读；</li>
-<li>网页的内容可以非常丰富：<strong>包括文字、链接、图片、音乐、视频等等</strong></li>
-<li>网页是构成网站的基本元素，<strong>网页通常由图片、链接、文字、声音、视频等元素组成</strong>。</li>
-<li>通常我们看到的网页，常见以<code>.htm</code>或<code>.html</code>后缀结尾的文件，因此将其<strong>俗称为 HTML 文件</strong>。</li>
-<li><code>.htm</code> 和 <code>.html</code> 扩展名区别 :<ul>
-<li>因历史遗留问题，<code>Win95\Win98</code> 系统的文件拓展名不能超过 3 字符，所以使用<code> .htm</code></li>
-<li>但在 windows 后缀长度可以大于 3 位，所以 windows 下无所谓<code>.htm</code>与 <code>.html</code>，<code>.html </code>是为长文件的格式命名的</li>
-<li>所以 <code>.htm</code> 是为了兼容过去的 DOS 命名格式存在的</li>
-<li>现在统一使用 .html</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/9f223c2252f743779a1e982af15f964b" alt="1670143805729"></p>
-<h3 id="什么是网站"><a href="#什么是网站" class="headerlink" title="什么是网站"></a>什么是网站</h3><ul>
-<li>网站是什么呢？<ul>
-<li><strong>网站是指在因特网上根据一定的规则，使用 HTML 等制作的用于展示特定内容相关的网页集合。网站是由多个网页组成的</strong>；</li>
-<li>通常一个网站由 N 个网页组成（- &gt;&#x3D; 1）；</li>
-</ul>
-</li>
-</ul>
-<h3 id="网页的显示过程"><a href="#网页的显示过程" class="headerlink" title="网页的显示过程"></a>网页的显示过程</h3><h4 id="用户角度"><a href="#用户角度" class="headerlink" title="用户角度"></a>用户角度</h4><ul>
-<li>用户在浏览器输入一个网站；</li>
-<li>浏览器会找到对应的服务器地址，请求静态资源（可以存放在世界上任何一个地方）；</li>
-<li>服务器返回静态资源给浏览器；</li>
-<li>浏览器对静态资源进行解析和展示；</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/1f4622e44a8b47819db4901c1de4a2cd" alt="1670143919724"></p>
-<h4 id="前端工程师角度"><a href="#前端工程师角度" class="headerlink" title="前端工程师角度"></a>前端工程师角度</h4><ul>
-<li><strong>网页是由网页元素组成的，这些元素是利用 html 标签描述出来，然后通过浏览器解析来显示给用户的。</strong><ul>
-<li>开发项目（HTML&#x2F;CSS&#x2F;JavaScript&#x2F;Vue&#x2F;React）</li>
-<li>打包、部署项目到服务器里面</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/cd7c18af95a943dfb81895c614419569" alt="1670143954317"></p>
-<p><img src="https://s1.vika.cn/space/2023/02/19/2282527d93a14267987fb826c1ac7ffe" alt="image-20220125132408920"></p>
-<h3 id="HTML-XHTML-H5-区别"><a href="#HTML-XHTML-H5-区别" class="headerlink" title="HTML&#x2F;XHTML&#x2F;H5 区别"></a>HTML&#x2F;XHTML&#x2F;H5 区别</h3><ul>
-<li><p>HTML 语法非常宽松, 容错性强;</p>
-</li>
-<li><p>XHTML 更为严格,它要求标签必须小写、标签必须严格闭合、标签中的属性必须使用引号引起等等;</p>
-</li>
-<li><p>HTML5 是 HTML 的下一个版本, 所以除了非常宽松,容错性强以外,还增加许多新的特性</p>
-</li>
-</ul>
-<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="什么是服务器"><a href="#什么是服务器" class="headerlink" title="什么是服务器"></a>什么是服务器</h3><ul>
-<li>我们日常生活接触到的基本都属于客户端、前端的内容：<ul>
-<li>比如浏览器、微信、QQ、小程序；</li>
-</ul>
-</li>
-<li>我们知道自己的手机并不可能存放哪些多的数据和资源：<ul>
-<li>比如你用《网易云听音乐》，音乐数据大部分都是存在“服务器”中的；</li>
-</ul>
-</li>
-<li>那么服务到底是什么呢？<ul>
-<li>服务器本质上也是一台类似于你电脑一样的主机；</li>
-<li>但是这个主机有几个特点：<ul>
-<li>二十四小时不关机的（稳定运行）；</li>
-<li>没有显示器的；</li>
-<li>一般装的是 Linux 操作系统（比如 centos）；</li>
-</ul>
-</li>
-<li>服务器是<code>专门用于存储数据</code>电脑， 访问者可以<code>访问服务器上存储的资源</code></li>
-<li>服务器<code>一旦关机</code>，访问者就<code>无法访问</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="云服务器"><a href="#云服务器" class="headerlink" title="云服务器"></a>云服务器</h3><ul>
-<li>那么我以后到公司是不是就看得见服务器了呢？<ul>
-<li>目前公司大部分用的是<strong>云服务器</strong>（比如阿里云、腾讯云、华为云）；</li>
-</ul>
-</li>
-</ul>
-<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h3 id="浏览器的作用"><a href="#浏览器的作用" class="headerlink" title="浏览器的作用"></a>浏览器的作用</h3><ul>
-<li>我们已经明确知道了网页的组成部分：HTML + CSS + JavaScript。</li>
-<li>那么这些看起来枯燥的代码，是如何被渲染成多彩的网页呢？<ul>
-<li>我们知道是通过浏览器来完成；</li>
-</ul>
-</li>
-</ul>
-<h3 id="常用浏览器"><a href="#常用浏览器" class="headerlink" title="常用浏览器"></a>常用浏览器</h3><ul>
-<li><strong>浏览器是网页显示、运行的平台</strong>。常用的浏览器有<strong>IE、火狐（Firefox）、谷歌（Chrome）、Safari 和 Opera</strong>等。平时称为五大浏览器。</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/939d61cb0c1f4584abb8dde6ec953b28"></p>
-<blockquote>
-<p>查看浏览器市场份额：<a href="https://tongji.baidu.com/research/site?source=index">https://tongji.baidu.com/research/site?source=index</a></p>
-</blockquote>
-<ul>
-<li>浏览器最核心的部分是<strong>渲染引擎（Rendering Engine），一般也称为“浏览器内核”</strong><ul>
-<li><strong>负责解析网页语法，并渲染（显示）网页</strong></li>
-</ul>
-</li>
-<li>常见的国内的浏览器也有很多：</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/cc238bd5474c4201b1d518b9a6cc627d" alt="1670144167088"></p>
-<ul>
-<li>安装最多和使用最广泛的浏览器：Chrome 浏览器</li>
-</ul>
-<h3 id="常见的浏览器内核"><a href="#常见的浏览器内核" class="headerlink" title="常见的浏览器内核"></a>常见的浏览器内核</h3><ul>
-<li><p><strong>浏览器最核心的部分其实是 “浏览器内核”；</strong></p>
-</li>
-<li><p>浏览器内核（渲染引擎）： <strong>负责读取网页内容，整理讯息，计算网页的显示方式并显示页面</strong>。</p>
-</li>
-<li><p>目前国内一般浏览器都会采用 <strong>Webkit&#x2F;Blink 内核</strong>，如 360、UC、QQ、搜狗等。</p>
-<ul>
-<li><strong>Trident</strong> （ 三叉戟）：IE、360 安全浏览器、搜狗高速浏览器、百度浏览器、UC 浏览器；</li>
-<li><strong>Gecko</strong>（ 壁虎） ：Mozilla Firefox；</li>
-<li><strong>Presto</strong>（急板乐曲）-&gt; Blink （眨眼）：Opera</li>
-<li><strong>Webkit</strong> ：Safari、360 极速浏览器、搜狗高速浏览器、移动端浏览器（Android、iOS）</li>
-<li>Webkit -&gt; <strong>Blink</strong> ：Google Chrome</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/7559f6a0b6be43af8f6dc542cae3b102"></p>
-<ul>
-<li>不同的浏览器内核有不同的解析、渲染规则，所以同一网页在不同内核的浏览器中的渲染效果也可能不同。</li>
-</ul>
-<h3 id="浏览器的访问过程"><a href="#浏览器的访问过程" class="headerlink" title="浏览器的访问过程"></a>浏览器的访问过程</h3><ul>
-<li>01 当我们利用浏览器访问网页时,其实是<strong>有真实的物理文件传输</strong>的.<ul>
-<li><code>浏览会先将网页上的内容缓存到本地文件夹中,然后再渲染出来呈现给用户查看</code></li>
-</ul>
-</li>
-<li>02 平时我们在上网时会感觉到第二次访问网页会比第一次访问网页要快,就是因为第一次访问时已经将这个网页上的信息缓存到了本地</li>
-<li>03 通过观察我们还发现缓存文件夹中除了缓存图片以外还缓存了一些例如<code>.js .css .html</code>等文件<ul>
-<li>一个网页不是一个文件,而是一堆文件.</li>
-<li>网页越复杂,那么组成这个网页的文件就越多</li>
-</ul>
-</li>
-</ul>
-<h3 id="浏览器请求数据的过程"><a href="#浏览器请求数据的过程" class="headerlink" title="浏览器请求数据的过程"></a>浏览器请求数据的过程</h3><ul>
-<li>01 在浏览器地址栏输入 URL 地址,按下回车后, 浏览器会根据输入的 URL 地址发送<code>请求报文</code></li>
-<li>02 服务器接收到请求报文，会对<code>请求报文</code>进行处理</li>
-<li>03 服务器将处理完的结果通过<code>响应报文</code>返回给浏览器</li>
-<li>04 浏览器<code>解析服务器返回的结果</code>，将结果显示出来</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/4be1211af7ac4b84b3ff75571d562a42"></p>
-<h3 id="统一资源定位符-URL"><a href="#统一资源定位符-URL" class="headerlink" title="统一资源定位符 URL"></a>统一资源定位符 URL</h3><h4 id="什么是-URL"><a href="#什么是-URL" class="headerlink" title="什么是 URL"></a>什么是 URL</h4><ul>
-<li>我们在浏览器的地址栏中输入的地址其实就是 URL<ul>
-<li>URL 全称 Uniform Resource Locator (<strong>统一资源定位符</strong>)</li>
-<li>通俗点说：URL 无非就是一个给定的独特资源在 Web 上的地址。<ul>
-<li>理论上说，每个有效的 URL 都指向一个唯一的资源；</li>
-<li>这个资源可以是一个 HTML 页面，一个 CSS 文档，一幅图像，等等；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/58eae9ffbb3f42dcae8cc7f75ec73a5b" alt="1670210394753"></p>
-<h4 id="URL-的格式"><a href="#URL-的格式" class="headerlink" title="URL 的格式"></a>URL 的格式</h4><ul>
-<li>URL 的标准格式如下：<ul>
-<li><code>[协议类型]://[服务器地址]:[端口号]/[文件路径][文件名]?[查询]#[片段ID]</code></li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/b9f901a6b5674a30bafeb079b1c138c4" alt="1670210482891"></p>
-<ul>
-<li>比如 :<ul>
-<li><code>127.0.0.1/index.html </code>（浏览器会自动补全 <code>http:</code> 和：<code>80端口</code>,默认是 80 端口）</li>
-<li><a href="https://link.jianshu.com/?t=http://127.0.0.1/index.html">http://127.0.0.1/index.html</a> （浏览器会自动补全：80）</li>
-<li><a href="https://link.jianshu.com/?t=http://127.0.0.1:80/index.html">http://127.0.0.1:80/index.html</a> （完整格式）</li>
-<li>协议类型:&#x2F;&#x2F;ip 地址:端口号&#x2F;资源路径&#x2F;资源名称</li>
-</ul>
-</li>
-</ul>
-<h4 id="URL-和-URI-的区别"><a href="#URL-和-URI-的区别" class="headerlink" title="URL 和 URI 的区别"></a>URL 和 URI 的区别</h4><ul>
-<li>和 URI 的区别：<ul>
-<li>URI &#x3D; Uniform Resource Identifier 统一资源标志符，用于标识 Web 技术使用的逻辑或物理资源。；</li>
-<li>URL &#x3D; Uniform Resource Locator 统一资源定位符，俗称网络地址，相当于网络中的门牌号；</li>
-</ul>
-</li>
-<li>URI 在某一个规则下能把一个资源独一无二的识别出来。<ul>
-<li>URL 作为一个网络 Web 资源的地址，可以唯一将一个资源识别出来，所以 URL 是一个 URI；</li>
-<li>所以 URL 是 URI 的一个子集；</li>
-<li>但是 URI 并不一定是 URL</li>
-</ul>
-</li>
-</ul>
-<h4 id="URL-拆分"><a href="#URL-拆分" class="headerlink" title="URL 拆分"></a>URL 拆分</h4><ul>
-<li>网络协议类型 <code>http://</code></li>
-<li>服务器 IP 地址 <code>127.0.0.1</code><ul>
-<li>由于 IP 地址全都是数字， 没有任何的含义，比较难以记忆。 所以在访问网页时最常见的不是 IP 地址 而是“<strong>域名</strong>”（一串有含义的字符）</li>
-<li>例如： <a href="https://link.jianshu.com/?t=http://www.baidu.com">http://www.baidu.com</a> 和 <a href="http://111.13.100.92/">http://111.13.100.92:80/</a></li>
-</ul>
-</li>
-<li>服务器端口号 <code>:80</code></li>
-<li>资源路径 : 网页在服务器上的路径<ul>
-<li>资源名称 <code>index.html</code></li>
-</ul>
-</li>
-</ul>
-<h4 id="URL-各部分的作用"><a href="#URL-各部分的作用" class="headerlink" title="URL 各部分的作用"></a>URL 各部分的作用</h4><ul>
-<li><p>服务器 <strong>IP 地址</strong> 和 <strong>服务器端口号</strong> 它们两的作用：</p>
-<ul>
-<li><p>告诉浏览器要去什么地方才能找到对应的服务器， 也就是告诉浏览器服务器的详细地址</p>
-</li>
-<li><p>服务器 IP 地址相当于现实生活中的地址； 例如：广州市天河区棠安苑</p>
-</li>
-<li><p>服务器端口号相当于现实生活中的门牌号码； 例如： 9 栋 909 室</p>
-</li>
-<li><p>那么如果将地址和门牌号码结合在一起， 就是我的详细地址</p>
-</li>
-</ul>
-</li>
-<li><p>资源名称的作用：</p>
-<ul>
-<li>告诉服务器我需要获取哪一个文件</li>
-</ul>
-</li>
-<li><p>资源名称</p>
-<ul>
-<li>需要访问的文件名称</li>
-</ul>
-</li>
-</ul>
-<h3 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h3><h4 id="什么是-HTTP-协议"><a href="#什么是-HTTP-协议" class="headerlink" title="什么是 HTTP 协议"></a>什么是 HTTP 协议</h4><ul>
-<li>HTTP 是 Hypertext Transfer Protocol 的缩写, <strong>超文本传输协议</strong></li>
-<li>什么是协议<ul>
-<li>在现实生活中有很多的协议, 例如 租房协议&#x2F;买卖协议&#x2F;离婚协议</li>
-<li>无论是什么协议他们都是一个共同点, 就是<strong>用来规范&#x2F;约束某一类事物</strong></li>
-</ul>
-</li>
-<li>沟通问题<ul>
-<li>沟通最常见的问题就是语言不通, 例如中国人和美国人沟通, 一个人说中文, 一个人说英文, 如果两个人都不懂中文或者英文, 那么就会出现沟通问题</li>
-<li>如果要想解决沟通问题, 需要先拟定规定, 两个人都说中文, 或者两个人都说英文, 或者请一个既懂中文又懂英文的翻译</li>
-</ul>
-</li>
-</ul>
-<h4 id="HTTP-协议的作用"><a href="#HTTP-协议的作用" class="headerlink" title="HTTP 协议的作用"></a>HTTP 协议的作用</h4><ul>
-<li><strong>HTTP 协议是用来规范&#x2F;约束哪一类事物</strong><ul>
-<li><strong>浏览器访问网页其实就是去服务器请求数据</strong>, 所以浏览器需要和服务器沟通, 所以也会存在沟通问题</li>
-<li>HTTP 协议就相当于我们让两个人都说中文或者都说英文一样, 就是提前规范两个人之间如何沟通, <strong>HTTP 协议也就是规范&#x2F;约束浏览器和服务器之间如何沟通</strong></li>
-</ul>
-</li>
-</ul>
-<h3 id="SEO-优化"><a href="#SEO-优化" class="headerlink" title="SEO 优化"></a>SEO 优化</h3><ul>
-<li>搜索引擎优化（英语：search engine optimization，缩写为 SEO）是通过了解搜索引擎的运作规则来调整网站，以及提高网站在有关搜索引擎内排名的方式。</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/9fe2a3e7c69e43fb8ebc84aa4578ced4" alt="1670210899189"></p>
-<ul>
-<li>后续还会讲解 SPA 以及 SSR 相关的概念 , 它们也有 SEO、首屏渲染速度有关；</li>
-</ul>
-<h2 id="计算机中的进制"><a href="#计算机中的进制" class="headerlink" title="计算机中的进制"></a>计算机中的进制</h2><h3 id="认识进制"><a href="#认识进制" class="headerlink" title="认识进制"></a>认识进制</h3><ul>
-<li>进制的概念：<ul>
-<li>维基百科：进位制是一种记数方式，亦称进位计数法或位值计数法。</li>
-<li>通俗理解：当数字达到某个值时，进一位(比如从 1 位变成 2 位)。</li>
-</ul>
-</li>
-<li>按照进制的概念，来理解一下十进制：<ul>
-<li>当数字到 9 的时候，用一位已经表示不了了，那么就进一位变成 2 位</li>
-</ul>
-</li>
-<li>按照上面的来理解，二进制、八进制、十六进制：<ul>
-<li>二进制：当数字到 1 的时候，用一位已经表示不了了，那么就进一位。</li>
-<li>八进制：当数字到 7 的时候，用一位已经表示不了了，那么就进一位。</li>
-<li>十六进制：等等，用一位如何表示十六个数字呢？a(10)、b(11)、c(12) 、 d(13) 、 e(14) 、 f(15)</li>
-</ul>
-</li>
-</ul>
-<h3 id="计算机中的进制-1"><a href="#计算机中的进制-1" class="headerlink" title="计算机中的进制"></a>计算机中的进制</h3><ul>
-<li>如何表示二进制、八进制、十六进制?<ul>
-<li>二进制（0b 开头, binary）：其中的数字由 0、1 组成，可以回顾之前学习过的机器语言。</li>
-<li>八进制（0o 开头, Octonary）：其中的数字由 0~7 组成。</li>
-<li>十六进制（0x 开头, hexadecimal）：其中的数字由 0~9 和字母 a-f 组成（大小写都可以）</li>
-</ul>
-</li>
-<li>十进制 or 二进制:<ul>
-<li>虽然计算机更喜欢二进制, 但是编程中我们还是以十进制为主.</li>
-<li>因为高级编程语言的目的就是更加接近自然语言, 让我们人类更容易理解.</li>
-</ul>
-</li>
-</ul>
-<h3 id="进制之间的转换-补充"><a href="#进制之间的转换-补充" class="headerlink" title="进制之间的转换(补充)"></a>进制之间的转换(补充)</h3><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><h3 id="开发必备软件"><a href="#开发必备软件" class="headerlink" title="开发必备软件"></a>开发必备软件</h3><ul>
-<li>Chrome 浏览器：开发必备浏览器<ul>
-<li><a href="https://www.google.cn/chrome/index.html">https://www.google.cn/chrome/index.html</a></li>
-</ul>
-</li>
-<li>VSCode 编辑器：开发推荐编辑器（编写代码）<ul>
-<li><a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
-</ul>
-</li>
-<li>Xmind Zen 思维导图：思维导图笔记<ul>
-<li><a href="https://www.xmind.cn/">https://www.xmind.cn/</a></li>
-</ul>
-</li>
-<li>Typora：markdown 笔记软件</li>
-</ul>
-<h3 id="VSCode-的安装"><a href="#VSCode-的安装" class="headerlink" title="VSCode 的安装"></a>VSCode 的安装</h3><ul>
-<li>VSCode 编辑器下载-安装：<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
-<li>安装插件（增加功能）：右侧图标最后一项，Extensions，查找需要的插件（联网）<ul>
-<li>中文插件：Chinese</li>
-<li>颜色主题：atom one dark</li>
-<li>文件夹图标：VSCode Great Icons</li>
-<li>在浏览器中打开网页：open in browser、Live Sever</li>
-<li>自动重命名标签：auto rename tag</li>
-</ul>
-</li>
-<li>VSCode 的配置：<ul>
-<li>Auto Save 自动保存</li>
-<li>Font Size 修改代码字体大小</li>
-<li>Word Wrap 代码自动换行</li>
-<li>Render Whitespace 空格的渲染方式(个人推荐)</li>
-<li>Tab Size 代码缩进<ul>
-<li>推荐 2 个空格（公司开发项目基本都是 2 个空格）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="常用-VScode-插件"><a href="#常用-VScode-插件" class="headerlink" title="常用 VScode 插件"></a>常用 VScode 插件</h3><ul>
-<li><strong>Atom One Dark Theme</strong> : 编辑器的颜色主题</li>
-<li><strong>Auto Rename Tag</strong> : 自动关闭标签，在修改开始标记后，将自动插入结束标记</li>
-<li><strong>background-cover</strong> : 修改 VScode 背景</li>
-<li><strong>Beautify css&#x2F;sass&#x2F;scss&#x2F;less</strong> : 美化 css&#x2F;sass&#x2F;scss&#x2F;less</li>
-<li><strong>Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code</strong> : 编辑器语言设置为 简体中文</li>
-<li><strong>Code Runner</strong> : 快速运行调试代码</li>
-<li><strong>CSS Peek</strong> : 快速定位 CSS</li>
-<li><strong>Easy LESS</strong> : 自动编译 Less 生成 CSS</li>
-<li><strong>EditorConfig for VS Code</strong> : 自动格式化代码的插件</li>
-<li><strong>Guides</strong> : 缩进参考线</li>
-<li><strong>Live Server</strong> : 实时加载功能的小型服务器</li>
-<li><strong>open in browser</strong> : 在浏览器打开</li>
-<li><strong>Open In Default Browser</strong> : 在默认浏览器打开</li>
-<li><strong>Polacode</strong> : 代码截图生成图片</li>
-<li><strong>Prettier</strong> : 前端代码格式化</li>
-<li><strong>px to rem &amp; rpx &amp; vw (cssrem)</strong> : px 单位转 rem</li>
-<li><strong>Vetur</strong> : .vue 文件语法高亮</li>
-<li><strong>VSCode Great Icons</strong> : VScode 目录图标</li>
-<li><strong>Vue 3 Snippets</strong> : 快速生成 Vue3 代码片段</li>
-<li><strong>Vue VSCode Snippets</strong> : 生成 Vue 基本模板</li>
-<li><strong>ESlint</strong> : 代码检测工具</li>
-<li><strong>Error Lens</strong> : 编码时提示错误信息</li>
-</ul>
-<h3 id="常用代码片段"><a href="#常用代码片段" class="headerlink" title="常用代码片段"></a>常用代码片段</h3><h4 id="生成代码片段站点"><a href="#生成代码片段站点" class="headerlink" title="生成代码片段站点"></a>生成代码片段站点</h4><ul>
-<li>站点 : <a href="https://snippet-generator.app/">https://snippet-generator.app/</a><ul>
-<li>用于生成 VScode 代码片段</li>
-</ul>
-</li>
-</ul>
-<h4 id="示例与解析"><a href="#示例与解析" class="headerlink" title="示例与解析"></a>示例与解析</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>$&#123;TM_FILENAME_BASE&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;../js/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;root&quot;</span>&gt;</span>$0<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">productionTip</span> = <span class="literal">false</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">el</span>: <span class="string">&#x27;#root&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">          $1, <span class="comment">//光标出现的第一个位置</span></span></span><br><span class="line"><span class="language-javascript">        &#125;,</span></span><br><span class="line"><span class="language-javascript">      &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>注意这里的<code>$1,$2……$0</code>，这是你代码快捷生成之后鼠标光标的所在位置，光标会首先定位在$1,按 Tab 键切换到$2 的位置，以此类推，光标最后会定位在$0 的位置。</li>
-<li>还有其他语法，在这里一并讲解：</li>
-<li><strong>占位符</strong>：<ul>
-<li>占位符是带有值的制表符，如将插入并选择占位符文本，以便可以轻松更改。说白了占位符<code>$&#123;1:foo&#125;</code>就是在<code>$1</code>的基础上，光标跳到<code>$1</code>位置的同时会自动生成并选中 foo，同样按 Tab 键切换到<code>$2</code>的位置。占位符可以嵌套，如 。<code>$&#123;1:foo&#125;</code> <code>$&#123;1:another $&#123;2:placeholder&#125;&#125;</code></li>
-</ul>
-</li>
-<li><strong>选择</strong><ul>
-<li>占位符可以作为有选择的值。语法是以逗号分隔的值的枚举，用竖线字符括起来，例如 。插入代码段并选择占位符时，选项将提示用户选取其中一个值。<code>$&#123;1|one,two,three|&#125;</code></li>
-</ul>
-</li>
-<li><strong>变量</strong><ul>
-<li>插入变量的值。如果未设置变量，则插入其默认值或空字符串。当变量未知（即未定义其名称）时，将插入变量的名称并将其转换为占位符。<code>$name</code> <code>$&#123;name:default&#125;</code></li>
-<li>可以使用以下变量：<ul>
-<li><code>TM_SELECTED_TEXT</code>当前选定的文本或空字符串</li>
-<li><code>TM_CURRENT_LINE</code>当前行的内容</li>
-<li><code>TM_CURRENT_WORD</code>光标下单词的内容或空字符串</li>
-<li><code>TM_LINE_INDEX</code>基于零索引的行号</li>
-<li><code>TM_LINE_NUMBER</code>基于一个索引的行号</li>
-<li><code>TM_FILENAME</code>当前文档的文件名</li>
-<li><code>TM_FILENAME_BASE</code>不带扩展名的当前文档的文件名 （比如这里你在用户代码片段中写了${TM_FILENAME_BASE}，在自动生成的代码里就会在这个位置自动填充上你的文件的不含扩展名的文件名）</li>
-<li><code>TM_DIRECTORY</code>当前文档的目录</li>
-<li><code>TM_FILEPATH</code>当前文档的完整文件路径</li>
-<li><code>RELATIVE_FILEPATH</code>当前文档的相对（相对于打开的工作空间或文件夹）文件路径</li>
-<li><code>CLIPBOARD</code>剪贴板的内容</li>
-<li><code>WORKSPACE_NAME</code>打开的工作区或文件夹的名称</li>
-<li><code>WORKSPACE_FOLDER</code>打开的工作区或文件夹的路径</li>
-</ul>
-</li>
-<li>要插入当前日期和时间：<ul>
-<li><code>CURRENT_YEAR</code>本年度</li>
-<li><code>CURRENT_YEAR_SHORT</code>本年度的最后两位数</li>
-<li><code>CURRENT_MONTH</code>以两位数字表示的月份（例如”02”）</li>
-<li><code>CURRENT_MONTH_NAME</code>月份的全名（例如”七月”）</li>
-<li><code>CURRENT_MONTH_NAME_SHORT</code>月份的短名称（例如”Jul”）</li>
-<li><code>CURRENT_DATE</code>以两位数字表示的月份中的某一天（例如”08”）</li>
-<li><code>CURRENT_DAY_NAME</code>日期的名称（例如”星期一”）</li>
-<li><code>CURRENT_DAY_NAME_SHORT</code>日期的短名称（例如”星期一”）</li>
-<li><code>CURRENT_HOUR</code>24 小时制格式的当前小时</li>
-<li><code>CURRENT_MINUTE</code>当前分钟为两位数</li>
-<li><code>CURRENT_SECOND</code>当前第二位为两位数</li>
-<li><code>CURRENT_SECONDS_UNIX</code>自 Unix 纪元以来的秒数</li>
-</ul>
-</li>
-<li>对于插入随机值：<ul>
-<li><code>RANDOM</code>6 个随机的 Base-10 数字</li>
-<li><code>RANDOM_HEX</code>6 个随机的 16 位基本数字</li>
-<li><code>UUID</code>A 版本 4 UUID</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="Chrome-浏览器开发者工具"><a href="#Chrome-浏览器开发者工具" class="headerlink" title="Chrome 浏览器开发者工具"></a>Chrome 浏览器开发者工具</h3><ul>
-<li>打开 Chrome 调试工具：<ul>
-<li>方式一：右键 – 检查</li>
-<li>方式二：快捷键 – F12</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s1.vika.cn/space/2023/02/19/885bba22470b42eb94305d880b05ce1a"></p>
-<ul>
-<li>其他技巧：<ul>
-<li>快捷键：ctrl++ 可以调整页面或者调试工具的字体大小；</li>
-<li>可以通过删除某些元素来查看网页结构;</li>
-<li>可以通过增删 css 来调试网页样式;</li>
-</ul>
-</li>
-</ul>
-<h2 id="prettier-插件常用配置规则"><a href="#prettier-插件常用配置规则" class="headerlink" title="prettier 插件常用配置规则"></a>prettier 插件常用配置规则</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// 使能每一种语言默认格式化规则</span></span><br><span class="line">  <span class="attr">&quot;[html]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[css]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[less]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[javascript]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/*  prettier的配置 */</span></span><br><span class="line">  <span class="attr">&quot;prettier.printWidth&quot;</span><span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span> <span class="comment">// 超过最大值换行</span></span><br><span class="line">  <span class="attr">&quot;prettier.tabWidth&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span> <span class="comment">// 缩进字节数</span></span><br><span class="line">  <span class="attr">&quot;prettier.useTabs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span> <span class="comment">// 缩进不使用tab，使用空格</span></span><br><span class="line">  <span class="attr">&quot;prettier.semi&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 句尾添加分号</span></span><br><span class="line">  <span class="comment">// 使用单引号代替双引号,false 不替换</span></span><br><span class="line">  <span class="attr">&quot;prettier.singleQuote&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[vue]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;octref.vetur&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 默认值。因为使用了一些折行敏感型的渲染器（如GitHub comment）而按照markdown文本样式进行折行</span></span><br><span class="line">  <span class="attr">&quot;prettier.proseWrap&quot;</span><span class="punctuation">:</span> <span class="string">&quot;preserve&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//  (x) =&gt; &#123;&#125; 箭头函数参数只有一个时是否要有小括号。avoid：省略括号</span></span><br><span class="line">  <span class="attr">&quot;prettier.arrowParens&quot;</span><span class="punctuation">:</span> <span class="string">&quot;avoid&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在对象，数组括号与文字之间加空格 &quot;&#123; foo: bar &#125;&quot;</span></span><br><span class="line">  <span class="attr">&quot;prettier.bracketSpacing&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不格式化vue文件，vue文件的格式化单独设置</span></span><br><span class="line">  <span class="attr">&quot;prettier.disableLanguages&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;vue&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 结尾是 \n \r \n\r auto</span></span><br><span class="line">  <span class="attr">&quot;prettier.endOfLine&quot;</span><span class="punctuation">:</span> <span class="string">&quot;auto&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//不让prettier使用eslint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.eslintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;prettier.htmlWhitespaceSensitivity&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ignore&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不使用prettier格式化的文件填写在项目的.prettierignore文件中</span></span><br><span class="line">  <span class="attr">&quot;prettier.ignorePath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.prettierignore&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在jsx中把&#x27;&gt;&#x27; 是否单独放一行</span></span><br><span class="line">  <span class="attr">&quot;prettier.jsxBracketSameLine&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在jsx中使用单引号代替双引号</span></span><br><span class="line">  <span class="attr">&quot;prettier.jsxSingleQuote&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 格式化的解析器，默认是babylon</span></span><br><span class="line">  <span class="attr">&quot;prettier.parser&quot;</span><span class="punctuation">:</span> <span class="string">&quot;babylon&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// Require a &#x27;prettierconfig&#x27; to format prettier</span></span><br><span class="line">  <span class="attr">&quot;prettier.requireConfig&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//不让prettier使用stylelint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.stylelintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在对象或数组最后一个元素后面是否加逗号（在ES5中加尾逗号）</span></span><br><span class="line">  <span class="attr">&quot;prettier.trailingComma&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es5&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不让prettier使用tslint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.tslintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<h2 id="ESlint-常用配置规则"><a href="#ESlint-常用配置规则" class="headerlink" title="ESlint 常用配置规则"></a>ESlint 常用配置规则</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;no-alert&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用alert confirm prompt</span></span><br><span class="line"><span class="string">&quot;no-array-constructor&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用数组构造器</span></span><br><span class="line"><span class="string">&quot;no-bitwise&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用按位运算符</span></span><br><span class="line"><span class="string">&quot;no-caller&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用arguments.caller或arguments.callee</span></span><br><span class="line"><span class="string">&quot;no-catch-shadow&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止catch子句参数与外部作用域变量同名</span></span><br><span class="line"><span class="string">&quot;no-class-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给类赋值</span></span><br><span class="line"><span class="string">&quot;no-cond-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在条件表达式中使用赋值语句</span></span><br><span class="line"><span class="string">&quot;no-console&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用console</span></span><br><span class="line"><span class="string">&quot;no-const-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止修改const声明的变量</span></span><br><span class="line"><span class="string">&quot;no-constant-condition&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在条件中使用常量表达式 if(true) if(1)</span></span><br><span class="line"><span class="string">&quot;no-continue&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用continue</span></span><br><span class="line"><span class="string">&quot;no-control-regex&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在正则表达式中使用控制字符</span></span><br><span class="line"><span class="string">&quot;no-debugger&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用debugger</span></span><br><span class="line"><span class="string">&quot;no-delete-var&quot;</span>: <span class="number">2</span>,<span class="comment">//不能对var声明的变量使用delete操作符</span></span><br><span class="line"><span class="string">&quot;no-div-regex&quot;</span>: <span class="number">1</span>,<span class="comment">//不能使用看起来像除法的正则表达式/=foo/</span></span><br><span class="line"><span class="string">&quot;no-dupe-keys&quot;</span>: <span class="number">2</span>,<span class="comment">//在创建对象字面量时不允许键重复 &#123;a:1,a:1&#125;</span></span><br><span class="line"><span class="string">&quot;no-dupe-args&quot;</span>: <span class="number">2</span>,<span class="comment">//函数参数不能重复</span></span><br><span class="line"><span class="string">&quot;no-duplicate-case&quot;</span>: <span class="number">2</span>,<span class="comment">//switch中的case标签不能重复</span></span><br><span class="line"><span class="string">&quot;no-else-return&quot;</span>: <span class="number">2</span>,<span class="comment">//如果if语句里面有return,后面不能跟else语句</span></span><br><span class="line"><span class="string">&quot;no-empty&quot;</span>: <span class="number">2</span>,<span class="comment">//块语句中的内容不能为空</span></span><br><span class="line"><span class="string">&quot;no-empty-character-class&quot;</span>: <span class="number">2</span>,<span class="comment">//正则表达式中的[]内容不能为空</span></span><br><span class="line"><span class="string">&quot;no-empty-label&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用空label</span></span><br><span class="line"><span class="string">&quot;no-eq-null&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止对null使用==或!=运算符</span></span><br><span class="line"><span class="string">&quot;no-eval&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用eval</span></span><br><span class="line"><span class="string">&quot;no-ex-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给catch语句中的异常参数赋值</span></span><br><span class="line"><span class="string">&quot;no-extend-native&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止扩展native对象</span></span><br><span class="line"><span class="string">&quot;no-extra-bind&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的函数绑定</span></span><br><span class="line"><span class="string">&quot;no-extra-boolean-cast&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的bool转换</span></span><br><span class="line"><span class="string">&quot;no-extra-parens&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止非必要的括号</span></span><br><span class="line"><span class="string">&quot;no-extra-semi&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止多余的冒号</span></span><br><span class="line"><span class="string">&quot;no-fallthrough&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止switch穿透</span></span><br><span class="line"><span class="string">&quot;no-floating-decimal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止省略浮点数中的0 .5 3.</span></span><br><span class="line"><span class="string">&quot;no-func-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止重复的函数声明</span></span><br><span class="line"><span class="string">&quot;no-implicit-coercion&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止隐式转换</span></span><br><span class="line"><span class="string">&quot;no-implied-eval&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用隐式eval</span></span><br><span class="line"><span class="string">&quot;no-inline-comments&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止行内备注</span></span><br><span class="line"><span class="string">&quot;no-inner-declarations&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;functions&quot;</span>],<span class="comment">//禁止在块语句中使用声明（变量或函数）</span></span><br><span class="line"><span class="string">&quot;no-invalid-regexp&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无效的正则表达式</span></span><br><span class="line"><span class="string">&quot;no-invalid-this&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无效的this，只能用在构造器，类，对象字面量</span></span><br><span class="line"><span class="string">&quot;no-irregular-whitespace&quot;</span>: <span class="number">2</span>,<span class="comment">//不能有不规则的空格</span></span><br><span class="line"><span class="string">&quot;no-iterator&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用__iterator__ 属性</span></span><br><span class="line"><span class="string">&quot;no-label-var&quot;</span>: <span class="number">2</span>,<span class="comment">//label名不能与var声明的变量名相同</span></span><br><span class="line"><span class="string">&quot;no-labels&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止标签声明</span></span><br><span class="line"><span class="string">&quot;no-lone-blocks&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的嵌套块</span></span><br><span class="line"><span class="string">&quot;no-lonely-if&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止else语句内只有if语句</span></span><br><span class="line"><span class="string">&quot;no-loop-func&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）</span></span><br><span class="line"><span class="string">&quot;no-mixed-requires&quot;</span>: [<span class="number">0</span>, <span class="literal">false</span>],<span class="comment">//声明时不能混用声明类型</span></span><br><span class="line"><span class="string">&quot;no-mixed-spaces-and-tabs&quot;</span>: [<span class="number">2</span>, <span class="literal">false</span>],<span class="comment">//禁止混用tab和空格</span></span><br><span class="line"><span class="string">&quot;linebreak-style&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;windows&quot;</span>],<span class="comment">//换行风格</span></span><br><span class="line"><span class="string">&quot;no-multi-spaces&quot;</span>: <span class="number">1</span>,<span class="comment">//不能用多余的空格</span></span><br><span class="line"><span class="string">&quot;no-multi-str&quot;</span>: <span class="number">2</span>,<span class="comment">//字符串不能用\换行</span></span><br><span class="line"><span class="string">&quot;no-multiple-empty-lines&quot;</span>: [<span class="number">1</span>, &#123;<span class="string">&quot;max&quot;</span>: <span class="number">2</span>&#125;],<span class="comment">//空行最多不能超过2行</span></span><br><span class="line"><span class="string">&quot;no-native-reassign&quot;</span>: <span class="number">2</span>,<span class="comment">//不能重写native对象</span></span><br><span class="line"><span class="string">&quot;no-negated-in-lhs&quot;</span>: <span class="number">2</span>,<span class="comment">//in 操作符的左边不能有!</span></span><br><span class="line"><span class="string">&quot;no-nested-ternary&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用嵌套的三目运算</span></span><br><span class="line"><span class="string">&quot;no-new&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止在使用new构造一个实例后不赋值</span></span><br><span class="line"><span class="string">&quot;no-new-func&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用new Function</span></span><br><span class="line"><span class="string">&quot;no-new-object&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new Object()</span></span><br><span class="line"><span class="string">&quot;no-new-require&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new require</span></span><br><span class="line"><span class="string">&quot;no-new-wrappers&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new创建包装实例，new String new Boolean new Number</span></span><br><span class="line"><span class="string">&quot;no-obj-calls&quot;</span>: <span class="number">2</span>,<span class="comment">//不能调用内置的全局对象，比如Math() JSON()</span></span><br><span class="line"><span class="string">&quot;no-octal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用八进制数字</span></span><br><span class="line"><span class="string">&quot;no-octal-escape&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用八进制转义序列</span></span><br><span class="line"><span class="string">&quot;no-param-reassign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给参数重新赋值</span></span><br><span class="line"><span class="string">&quot;no-path-concat&quot;</span>: <span class="number">0</span>,<span class="comment">//node中不能使用__dirname或__filename做路径拼接</span></span><br><span class="line"><span class="string">&quot;no-plusplus&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用++，--</span></span><br><span class="line"><span class="string">&quot;no-process-env&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用process.env</span></span><br><span class="line"><span class="string">&quot;no-process-exit&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用process.exit()</span></span><br><span class="line"><span class="string">&quot;no-proto&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用__proto__属性</span></span><br><span class="line"><span class="string">&quot;no-redeclare&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止重复声明变量</span></span><br><span class="line"><span class="string">&quot;no-regex-spaces&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在正则表达式字面量中使用多个空格 /foo bar/</span></span><br><span class="line"><span class="string">&quot;no-restricted-modules&quot;</span>: <span class="number">0</span>,<span class="comment">//如果禁用了指定模块，使用就会报错</span></span><br><span class="line"><span class="string">&quot;no-return-assign&quot;</span>: <span class="number">1</span>,<span class="comment">//return 语句中不能有赋值表达式</span></span><br><span class="line"><span class="string">&quot;no-script-url&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用javascript:void(0)</span></span><br><span class="line"><span class="string">&quot;no-self-compare&quot;</span>: <span class="number">2</span>,<span class="comment">//不能比较自身</span></span><br><span class="line"><span class="string">&quot;no-sequences&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用逗号运算符</span></span><br><span class="line"><span class="string">&quot;no-shadow&quot;</span>: <span class="number">2</span>,<span class="comment">//外部作用域中的变量不能与它所包含的作用域中的变量或参数同名</span></span><br><span class="line"><span class="string">&quot;no-shadow-restricted-names&quot;</span>: <span class="number">2</span>,<span class="comment">//严格模式中规定的限制标识符不能作为声明时的变量名使用</span></span><br><span class="line"><span class="string">&quot;no-spaced-func&quot;</span>: <span class="number">2</span>,<span class="comment">//函数调用时 函数名与()之间不能有空格</span></span><br><span class="line"><span class="string">&quot;no-sparse-arrays&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止稀疏数组， [1,,2]</span></span><br><span class="line"><span class="string">&quot;no-sync&quot;</span>: <span class="number">0</span>,<span class="comment">//nodejs 禁止同步方法</span></span><br><span class="line"><span class="string">&quot;no-ternary&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用三目运算符</span></span><br><span class="line"><span class="string">&quot;no-trailing-spaces&quot;</span>: <span class="number">1</span>,<span class="comment">//一行结束后面不要有空格</span></span><br><span class="line"><span class="string">&quot;no-this-before-super&quot;</span>: <span class="number">0</span>,<span class="comment">//在调用super()之前不能使用this或super</span></span><br><span class="line"><span class="string">&quot;no-throw-literal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止抛出字面量错误 throw &quot;error&quot;;</span></span><br><span class="line"><span class="string">&quot;no-undef&quot;</span>: <span class="number">1</span>,<span class="comment">//不能有未定义的变量</span></span><br><span class="line"><span class="string">&quot;no-undef-init&quot;</span>: <span class="number">2</span>,<span class="comment">//变量初始化时不能直接给它赋值为undefined</span></span><br><span class="line"><span class="string">&quot;no-undefined&quot;</span>: <span class="number">2</span>,<span class="comment">//不能使用undefined</span></span><br><span class="line"><span class="string">&quot;no-unexpected-multiline&quot;</span>: <span class="number">2</span>,<span class="comment">//避免多行表达式</span></span><br><span class="line"><span class="string">&quot;no-underscore-dangle&quot;</span>: <span class="number">1</span>,<span class="comment">//标识符不能以_开头或结尾</span></span><br><span class="line"><span class="string">&quot;no-unneeded-ternary&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的嵌套 var isYes = answer === 1 ? true : false;</span></span><br><span class="line"><span class="string">&quot;no-unreachable&quot;</span>: <span class="number">2</span>,<span class="comment">//不能有无法执行的代码</span></span><br><span class="line"><span class="string">&quot;no-unused-expressions&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无用的表达式</span></span><br><span class="line"><span class="string">&quot;no-unused-vars&quot;</span>: [<span class="number">2</span>, &#123;<span class="string">&quot;vars&quot;</span>: <span class="string">&quot;all&quot;</span>, <span class="string">&quot;args&quot;</span>: <span class="string">&quot;after-used&quot;</span>&#125;],<span class="comment">//不能有声明后未被使用的变量或参数</span></span><br><span class="line"><span class="string">&quot;no-use-before-define&quot;</span>: <span class="number">2</span>,<span class="comment">//未定义前不能使用</span></span><br><span class="line"><span class="string">&quot;no-useless-call&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的call和apply</span></span><br><span class="line"><span class="string">&quot;no-void&quot;</span>: <span class="number">2</span>,<span class="comment">//禁用void操作符</span></span><br><span class="line"><span class="string">&quot;no-var&quot;</span>: <span class="number">0</span>,<span class="comment">//禁用var，用let和const代替</span></span><br><span class="line"><span class="string">&quot;no-warning-comments&quot;</span>: [<span class="number">1</span>, &#123; <span class="string">&quot;terms&quot;</span>: [<span class="string">&quot;todo&quot;</span>, <span class="string">&quot;fixme&quot;</span>, <span class="string">&quot;xxx&quot;</span>], <span class="string">&quot;location&quot;</span>: <span class="string">&quot;start&quot;</span> &#125;],<span class="comment">//不能有警告备注</span></span><br><span class="line"><span class="string">&quot;no-with&quot;</span>: <span class="number">2</span>,<span class="comment">//禁用with</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;array-bracket-spacing&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//是否允许非空数组里面有多余的空格</span></span><br><span class="line"><span class="string">&quot;arrow-parens&quot;</span>: <span class="number">0</span>,<span class="comment">//箭头函数用小括号括起来</span></span><br><span class="line"><span class="string">&quot;arrow-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//=&gt;的前/后括号</span></span><br><span class="line"><span class="string">&quot;accessor-pairs&quot;</span>: <span class="number">0</span>,<span class="comment">//在对象中使用getter/setter</span></span><br><span class="line"><span class="string">&quot;block-scoped-var&quot;</span>: <span class="number">0</span>,<span class="comment">//块语句中使用var</span></span><br><span class="line"><span class="string">&quot;brace-style&quot;</span>: [<span class="number">1</span>, <span class="string">&quot;1tbs&quot;</span>],<span class="comment">//大括号风格</span></span><br><span class="line"><span class="string">&quot;callback-return&quot;</span>: <span class="number">1</span>,<span class="comment">//避免多次调用回调什么的</span></span><br><span class="line"><span class="string">&quot;camelcase&quot;</span>: <span class="number">2</span>,<span class="comment">//强制驼峰法命名</span></span><br><span class="line"><span class="string">&quot;comma-dangle&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//对象字面量项尾不能有逗号</span></span><br><span class="line"><span class="string">&quot;comma-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//逗号前后的空格</span></span><br><span class="line"><span class="string">&quot;comma-style&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;last&quot;</span>],<span class="comment">//逗号风格，换行时在行首还是行尾</span></span><br><span class="line"><span class="string">&quot;complexity&quot;</span>: [<span class="number">0</span>, <span class="number">11</span>],<span class="comment">//循环复杂度</span></span><br><span class="line"><span class="string">&quot;computed-property-spacing&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//是否允许计算后的键名什么的</span></span><br><span class="line"><span class="string">&quot;consistent-return&quot;</span>: <span class="number">0</span>,<span class="comment">//return 后面是否允许省略</span></span><br><span class="line"><span class="string">&quot;consistent-this&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;that&quot;</span>],<span class="comment">//this别名</span></span><br><span class="line"><span class="string">&quot;constructor-super&quot;</span>: <span class="number">0</span>,<span class="comment">//非派生类不能调用super，派生类必须调用super</span></span><br><span class="line"><span class="string">&quot;curly&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;all&quot;</span>],<span class="comment">//必须使用 if()&#123;&#125; 中的&#123;&#125;</span></span><br><span class="line"><span class="string">&quot;default-case&quot;</span>: <span class="number">2</span>,<span class="comment">//switch语句最后必须有default</span></span><br><span class="line"><span class="string">&quot;dot-location&quot;</span>: <span class="number">0</span>,<span class="comment">//对象访问符的位置，换行的时候在行首还是行尾</span></span><br><span class="line"><span class="string">&quot;dot-notation&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;allowKeywords&quot;</span>: <span class="literal">true</span> &#125;],<span class="comment">//避免不必要的方括号</span></span><br><span class="line"><span class="string">&quot;eol-last&quot;</span>: <span class="number">0</span>,<span class="comment">//文件以单一的换行符结束</span></span><br><span class="line"><span class="string">&quot;eqeqeq&quot;</span>: <span class="number">2</span>,<span class="comment">//必须使用全等</span></span><br><span class="line"><span class="string">&quot;func-names&quot;</span>: <span class="number">0</span>,<span class="comment">//函数表达式必须有名字</span></span><br><span class="line"><span class="string">&quot;func-style&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;declaration&quot;</span>],<span class="comment">//函数风格，规定只能使用函数声明/函数表达式</span></span><br><span class="line"><span class="string">&quot;generator-star-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//生成器函数*的前后空格</span></span><br><span class="line"><span class="string">&quot;guard-for-in&quot;</span>: <span class="number">0</span>,<span class="comment">//for in循环要用if语句过滤</span></span><br><span class="line"><span class="string">&quot;handle-callback-err&quot;</span>: <span class="number">0</span>,<span class="comment">//nodejs 处理错误</span></span><br><span class="line"><span class="string">&quot;id-length&quot;</span>: <span class="number">0</span>,<span class="comment">//变量名长度</span></span><br><span class="line"><span class="string">&quot;indent&quot;</span>: [<span class="number">2</span>, <span class="number">4</span>],<span class="comment">//缩进风格</span></span><br><span class="line"><span class="string">&quot;init-declarations&quot;</span>: <span class="number">0</span>,<span class="comment">//声明时必须赋初值</span></span><br><span class="line"><span class="string">&quot;key-spacing&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;beforeColon&quot;</span>: <span class="literal">false</span>, <span class="string">&quot;afterColon&quot;</span>: <span class="literal">true</span> &#125;],<span class="comment">//对象字面量中冒号的前后空格</span></span><br><span class="line"><span class="string">&quot;lines-around-comment&quot;</span>: <span class="number">0</span>,<span class="comment">//行前/行后备注</span></span><br><span class="line"><span class="string">&quot;max-depth&quot;</span>: [<span class="number">0</span>, <span class="number">4</span>],<span class="comment">//嵌套块深度</span></span><br><span class="line"><span class="string">&quot;max-len&quot;</span>: [<span class="number">0</span>, <span class="number">80</span>, <span class="number">4</span>],<span class="comment">//字符串最大长度</span></span><br><span class="line"><span class="string">&quot;max-nested-callbacks&quot;</span>: [<span class="number">0</span>, <span class="number">2</span>],<span class="comment">//回调嵌套深度</span></span><br><span class="line"><span class="string">&quot;max-params&quot;</span>: [<span class="number">0</span>, <span class="number">3</span>],<span class="comment">//函数最多只能有3个参数</span></span><br><span class="line"><span class="string">&quot;max-statements&quot;</span>: [<span class="number">0</span>, <span class="number">10</span>],<span class="comment">//函数内最多有几个声明</span></span><br><span class="line"><span class="string">&quot;new-cap&quot;</span>: <span class="number">2</span>,<span class="comment">//函数名首行大写必须使用new方式调用，首行小写必须用不带new方式调用</span></span><br><span class="line"><span class="string">&quot;new-parens&quot;</span>: <span class="number">2</span>,<span class="comment">//new时必须加小括号</span></span><br><span class="line"><span class="string">&quot;newline-after-var&quot;</span>: <span class="number">2</span>,<span class="comment">//变量声明后是否需要空一行</span></span><br><span class="line"><span class="string">&quot;object-curly-spacing&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//大括号内是否允许不必要的空格</span></span><br><span class="line"><span class="string">&quot;object-shorthand&quot;</span>: <span class="number">0</span>,<span class="comment">//强制对象字面量缩写语法</span></span><br><span class="line"><span class="string">&quot;one-var&quot;</span>: <span class="number">1</span>,<span class="comment">//连续声明</span></span><br><span class="line"><span class="string">&quot;operator-assignment&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//赋值运算符 += -=什么的</span></span><br><span class="line"><span class="string">&quot;operator-linebreak&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;after&quot;</span>],<span class="comment">//换行时运算符在行尾还是行首</span></span><br><span class="line"><span class="string">&quot;padded-blocks&quot;</span>: <span class="number">0</span>,<span class="comment">//块语句内行首行尾是否要空行</span></span><br><span class="line"><span class="string">&quot;prefer-const&quot;</span>: <span class="number">0</span>,<span class="comment">//首选const</span></span><br><span class="line"><span class="string">&quot;prefer-spread&quot;</span>: <span class="number">0</span>,<span class="comment">//首选展开运算</span></span><br><span class="line"><span class="string">&quot;prefer-reflect&quot;</span>: <span class="number">0</span>,<span class="comment">//首选Reflect的方法</span></span><br><span class="line"><span class="string">&quot;quotes&quot;</span>: [<span class="number">1</span>, <span class="string">&quot;single&quot;</span>],<span class="comment">//引号类型 `` &quot;&quot; &#x27;&#x27;</span></span><br><span class="line"><span class="string">&quot;quote-props&quot;</span>:[<span class="number">2</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//对象字面量中的属性名是否强制双引号</span></span><br><span class="line"><span class="string">&quot;radix&quot;</span>: <span class="number">2</span>,<span class="comment">//parseInt必须指定第二个参数</span></span><br><span class="line"><span class="string">&quot;id-match&quot;</span>: <span class="number">0</span>,<span class="comment">//命名检测</span></span><br><span class="line"><span class="string">&quot;require-yield&quot;</span>: <span class="number">0</span>,<span class="comment">//生成器函数必须有yield</span></span><br><span class="line"><span class="string">&quot;semi&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//语句强制分号结尾</span></span><br><span class="line"><span class="string">&quot;semi-spacing&quot;</span>: [<span class="number">0</span>, &#123;<span class="string">&quot;before&quot;</span>: <span class="literal">false</span>, <span class="string">&quot;after&quot;</span>: <span class="literal">true</span>&#125;],<span class="comment">//分号前后空格</span></span><br><span class="line"><span class="string">&quot;sort-vars&quot;</span>: <span class="number">0</span>,<span class="comment">//变量声明时排序</span></span><br><span class="line"><span class="string">&quot;space-after-keywords&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//关键字后面是否要空一格</span></span><br><span class="line"><span class="string">&quot;space-before-blocks&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//不以新行开始的块&#123;前面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-before-function-paren&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//函数定义时括号前面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-in-parens&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//小括号里面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-infix-ops&quot;</span>: <span class="number">0</span>,<span class="comment">//中缀操作符周围要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-return-throw-case&quot;</span>: <span class="number">2</span>,<span class="comment">//return throw case后面要不要加空格</span></span><br><span class="line"><span class="string">&quot;space-unary-ops&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;words&quot;</span>: <span class="literal">true</span>, <span class="string">&quot;nonwords&quot;</span>: <span class="literal">false</span> &#125;],<span class="comment">//一元运算符的前/后要不要加空格</span></span><br><span class="line"><span class="string">&quot;spaced-comment&quot;</span>: <span class="number">0</span>,<span class="comment">//注释风格要不要有空格什么的</span></span><br><span class="line"><span class="string">&quot;strict&quot;</span>: <span class="number">2</span>,<span class="comment">//使用严格模式</span></span><br><span class="line"><span class="string">&quot;use-isnan&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止比较时使用NaN，只能用isNaN()</span></span><br><span class="line"><span class="string">&quot;valid-jsdoc&quot;</span>: <span class="number">0</span>,<span class="comment">//jsdoc规则</span></span><br><span class="line"><span class="string">&quot;valid-typeof&quot;</span>: <span class="number">2</span>,<span class="comment">//必须使用合法的typeof的值</span></span><br><span class="line"><span class="string">&quot;vars-on-top&quot;</span>: <span class="number">2</span>,<span class="comment">//var必须放在作用域顶部</span></span><br><span class="line"><span class="string">&quot;wrap-iife&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;inside&quot;</span>],<span class="comment">//立即执行函数表达式的小括号风格</span></span><br><span class="line"><span class="string">&quot;wrap-regex&quot;</span>: <span class="number">0</span>,<span class="comment">//正则表达式字面量用小括号包起来</span></span><br><span class="line"><span class="string">&quot;yoda&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>]<span class="comment">//禁止尤达条件</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <categories>
-        <category>Web前端开发</category>
-      </categories>
+      <tags>
+        <tag>Web</tag>
+      </tags>
   </entry>
   <entry>
     <title>HTML</title>
@@ -2226,6 +1715,517 @@
 <li><p>04 我们当前阶段不需要提交表单元素,所以我们只负责表单元素的外观形态即可.</p>
 </li>
 </ul>
+]]></content>
+      <categories>
+        <category>Web前端开发</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>邂逅前端开发</title>
+    <url>/2023/02/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/101_HTML_CSS/10101_WebBase/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer" />
+
+<h1 id="邂逅前端开发"><a href="#邂逅前端开发" class="headerlink" title="邂逅前端开发"></a>邂逅前端开发</h1><h2 id="软件的认识"><a href="#软件的认识" class="headerlink" title="软件的认识"></a>软件的认识</h2><h3 id="常见的软件"><a href="#常见的软件" class="headerlink" title="常见的软件"></a>常见的软件</h3><p><img src="https://s1.vika.cn/space/2023/02/19/2b3b01b1f6d94e81bef0ff657434b1a6"></p>
+<h3 id="软件的定义"><a href="#软件的定义" class="headerlink" title="软件的定义"></a>软件的定义</h3><ul>
+<li>专业的软件定义：<strong>一系列按照特定顺序组织的计算机数据和指令，是电脑的非有型部分</strong>。</li>
+<li>软件开发是什么呢？<strong>就是告诉计算机一系列的指令，这些指令也称之为程序</strong>。</li>
+<li>开发软件的这部分人就称之为 软件开发工程师，也称之为程序员。</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/86a32bcb1e9c42cab0639a23445de936" alt="1670140185694"></p>
+<h3 id="完善的软件系统"><a href="#完善的软件系统" class="headerlink" title="完善的软件系统"></a>完善的软件系统</h3><p><img src="https://s1.vika.cn/space/2023/02/19/d138e657367e4c36a8faab5cb4929db0" alt="1670140223633"></p>
+<h2 id="前端开发工程师"><a href="#前端开发工程师" class="headerlink" title="前端开发工程师"></a>前端开发工程师</h2><h3 id="前端开发工程师-1"><a href="#前端开发工程师-1" class="headerlink" title="前端开发工程师"></a>前端开发工程师</h3><ul>
+<li><p>开发系统中各个环节的不同部分都属于软件开发：</p>
+<ul>
+<li>这些开发者我们称之为<strong>软件开发工程师</strong>；</li>
+<li>开发者、程序员、码农、IT 民工等等；</li>
+</ul>
+</li>
+<li><p>按照职能的不同也可以划分两类：</p>
+<ul>
+<li>后端（Back-end）开发，称之为<strong>后端开发工程师</strong>；</li>
+<li>前端（Front-end）开发，称之为<strong>前端开发工程师</strong>；</li>
+</ul>
+</li>
+<li><p>前端开发工程师：</p>
+<ul>
+<li><strong>主要负责的：Web（网站、后台管理系统、手机 H5）、小程序端；</strong></li>
+<li><strong>也可以做：移动端（Uniapp、React Native）、桌面端（Electron）、服务器开发（Node.js）；</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="前端行业发展"><a href="#前端行业发展" class="headerlink" title="前端行业发展"></a>前端行业发展</h3><ul>
+<li><p>为什么要聊这个话题呢？</p>
+<ul>
+<li>时代的一粒灰，落在个人头上，就是一座山；</li>
+<li>如何行业已经停滞，甚至是倒退，没有需求，那么你如何努力也改变不了现状；</li>
+</ul>
+</li>
+<li><p>技术角度：</p>
+<ul>
+<li>新框架（Ember.js、Preact.js）、框架更新迭代（vue3、react18）、新工具（Vite）、新模式（工程化、低代码、微前端） 层出不穷；</li>
+</ul>
+</li>
+<li><p>市场需求：</p>
+<ul>
+<li><strong>人才需求大、薪资高；</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="前端技术发展线路"><a href="#前端技术发展线路" class="headerlink" title="前端技术发展线路"></a>前端技术发展线路</h3><ul>
+<li><p><strong>初级程序员</strong>（薪资 6k-10k，1~2 年）</p>
+<ul>
+<li>写一些简单的业务，负责项目某些模块的开发、维护；</li>
+<li>遇到很多问题不知道如何处理，需要查询资料或者交流后可以解决；</li>
+<li>代码通常写的杂乱无章，能用就行！</li>
+</ul>
+</li>
+<li><p><strong>中级程序员</strong>（薪资 10k-20k，2~4 年）</p>
+<ul>
+<li>可以独立负责中小型项目，负责公司项目核心业务的开发、维护；</li>
+<li>遇到大多数问题可以自行查到解决方案，有一定的自学能力，通过官网文档可以自学；</li>
+<li>代码质量较高，遵守代码规范，并且会对组内其他人的代码有要求；</li>
+</ul>
+</li>
+<li><p><strong>高级程序员</strong>（薪资 20k-50k，4~6 年）</p>
+<ul>
+<li>独立负责中大型项目，可以为公司项目搭建架构，创建内部的脚手架，公司内部的 UI 框架；</li>
+<li>可以读懂框架源码，并且从一些开源框架中借鉴优秀的设计、架构、思想；</li>
+<li>公司的核心员工，具备可替代性，成为公司技术不可或缺的一部分；</li>
+</ul>
+</li>
+<li><p><strong>系统架构师</strong>（50k~）</p>
+<ul>
+<li>可以对大型项目进行系统架构，不再局限于某个领域（前端、后端?）或者某项技术（JavaScript、Java、 C++?）；</li>
+<li>对技术领域 现有技术方案进行评估，对不同的场景给出对应的解决方案；</li>
+<li>确定项目最终方案，并且对整个项目进行“核心架构”（包括完成 核心架构 实现的能力）；</li>
+<li>保证项目的各个环节有序进行，包括项目的高性能、高可用、可扩展能力；</li>
+</ul>
+</li>
+<li><p><strong>资深技术专家</strong>（50k~）</p>
+<ul>
+<li>专注于某一个特定领域<ul>
+<li>比如前端包括不限于对框架源码、node、js 引擎进行定制化需求、优化；</li>
+<li>比如后端包括不仅限于 JVM、线程池、SQL 调试、优化；</li>
+<li>比如可以主导公司项目某些特定领域技术的落地，类似流媒体、即时通信技术等；</li>
+</ul>
+</li>
+<li>某些人在行业内有一定的影响力，是某一块技术领域的 Top 人物；</li>
+</ul>
+</li>
+</ul>
+<h2 id="认识网页和网站"><a href="#认识网页和网站" class="headerlink" title="认识网页和网站"></a>认识网页和网站</h2><h3 id="什么是网页"><a href="#什么是网页" class="headerlink" title="什么是网页"></a>什么是网页</h3><ul>
+<li>网页的专业术语叫做 Web Page；</li>
+<li>打开浏览器查看到的页面，是网络中的一“页”, 通常是 HTML 格式的文件，它要通过浏览器来阅读；</li>
+<li>网页的内容可以非常丰富：<strong>包括文字、链接、图片、音乐、视频等等</strong></li>
+<li>网页是构成网站的基本元素，<strong>网页通常由图片、链接、文字、声音、视频等元素组成</strong>。</li>
+<li>通常我们看到的网页，常见以<code>.htm</code>或<code>.html</code>后缀结尾的文件，因此将其<strong>俗称为 HTML 文件</strong>。</li>
+<li><code>.htm</code> 和 <code>.html</code> 扩展名区别 :<ul>
+<li>因历史遗留问题，<code>Win95\Win98</code> 系统的文件拓展名不能超过 3 字符，所以使用<code> .htm</code></li>
+<li>但在 windows 后缀长度可以大于 3 位，所以 windows 下无所谓<code>.htm</code>与 <code>.html</code>，<code>.html </code>是为长文件的格式命名的</li>
+<li>所以 <code>.htm</code> 是为了兼容过去的 DOS 命名格式存在的</li>
+<li>现在统一使用 .html</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/9f223c2252f743779a1e982af15f964b" alt="1670143805729"></p>
+<h3 id="什么是网站"><a href="#什么是网站" class="headerlink" title="什么是网站"></a>什么是网站</h3><ul>
+<li>网站是什么呢？<ul>
+<li><strong>网站是指在因特网上根据一定的规则，使用 HTML 等制作的用于展示特定内容相关的网页集合。网站是由多个网页组成的</strong>；</li>
+<li>通常一个网站由 N 个网页组成（- &gt;&#x3D; 1）；</li>
+</ul>
+</li>
+</ul>
+<h3 id="网页的显示过程"><a href="#网页的显示过程" class="headerlink" title="网页的显示过程"></a>网页的显示过程</h3><h4 id="用户角度"><a href="#用户角度" class="headerlink" title="用户角度"></a>用户角度</h4><ul>
+<li>用户在浏览器输入一个网站；</li>
+<li>浏览器会找到对应的服务器地址，请求静态资源（可以存放在世界上任何一个地方）；</li>
+<li>服务器返回静态资源给浏览器；</li>
+<li>浏览器对静态资源进行解析和展示；</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/1f4622e44a8b47819db4901c1de4a2cd" alt="1670143919724"></p>
+<h4 id="前端工程师角度"><a href="#前端工程师角度" class="headerlink" title="前端工程师角度"></a>前端工程师角度</h4><ul>
+<li><strong>网页是由网页元素组成的，这些元素是利用 html 标签描述出来，然后通过浏览器解析来显示给用户的。</strong><ul>
+<li>开发项目（HTML&#x2F;CSS&#x2F;JavaScript&#x2F;Vue&#x2F;React）</li>
+<li>打包、部署项目到服务器里面</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/cd7c18af95a943dfb81895c614419569" alt="1670143954317"></p>
+<p><img src="https://s1.vika.cn/space/2023/02/19/2282527d93a14267987fb826c1ac7ffe" alt="image-20220125132408920"></p>
+<h3 id="HTML-XHTML-H5-区别"><a href="#HTML-XHTML-H5-区别" class="headerlink" title="HTML&#x2F;XHTML&#x2F;H5 区别"></a>HTML&#x2F;XHTML&#x2F;H5 区别</h3><ul>
+<li><p>HTML 语法非常宽松, 容错性强;</p>
+</li>
+<li><p>XHTML 更为严格,它要求标签必须小写、标签必须严格闭合、标签中的属性必须使用引号引起等等;</p>
+</li>
+<li><p>HTML5 是 HTML 的下一个版本, 所以除了非常宽松,容错性强以外,还增加许多新的特性</p>
+</li>
+</ul>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="什么是服务器"><a href="#什么是服务器" class="headerlink" title="什么是服务器"></a>什么是服务器</h3><ul>
+<li>我们日常生活接触到的基本都属于客户端、前端的内容：<ul>
+<li>比如浏览器、微信、QQ、小程序；</li>
+</ul>
+</li>
+<li>我们知道自己的手机并不可能存放哪些多的数据和资源：<ul>
+<li>比如你用《网易云听音乐》，音乐数据大部分都是存在“服务器”中的；</li>
+</ul>
+</li>
+<li>那么服务到底是什么呢？<ul>
+<li>服务器本质上也是一台类似于你电脑一样的主机；</li>
+<li>但是这个主机有几个特点：<ul>
+<li>二十四小时不关机的（稳定运行）；</li>
+<li>没有显示器的；</li>
+<li>一般装的是 Linux 操作系统（比如 centos）；</li>
+</ul>
+</li>
+<li>服务器是<code>专门用于存储数据</code>电脑， 访问者可以<code>访问服务器上存储的资源</code></li>
+<li>服务器<code>一旦关机</code>，访问者就<code>无法访问</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="云服务器"><a href="#云服务器" class="headerlink" title="云服务器"></a>云服务器</h3><ul>
+<li>那么我以后到公司是不是就看得见服务器了呢？<ul>
+<li>目前公司大部分用的是<strong>云服务器</strong>（比如阿里云、腾讯云、华为云）；</li>
+</ul>
+</li>
+</ul>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h3 id="浏览器的作用"><a href="#浏览器的作用" class="headerlink" title="浏览器的作用"></a>浏览器的作用</h3><ul>
+<li>我们已经明确知道了网页的组成部分：HTML + CSS + JavaScript。</li>
+<li>那么这些看起来枯燥的代码，是如何被渲染成多彩的网页呢？<ul>
+<li>我们知道是通过浏览器来完成；</li>
+</ul>
+</li>
+</ul>
+<h3 id="常用浏览器"><a href="#常用浏览器" class="headerlink" title="常用浏览器"></a>常用浏览器</h3><ul>
+<li><strong>浏览器是网页显示、运行的平台</strong>。常用的浏览器有<strong>IE、火狐（Firefox）、谷歌（Chrome）、Safari 和 Opera</strong>等。平时称为五大浏览器。</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/939d61cb0c1f4584abb8dde6ec953b28"></p>
+<blockquote>
+<p>查看浏览器市场份额：<a href="https://tongji.baidu.com/research/site?source=index">https://tongji.baidu.com/research/site?source=index</a></p>
+</blockquote>
+<ul>
+<li>浏览器最核心的部分是<strong>渲染引擎（Rendering Engine），一般也称为“浏览器内核”</strong><ul>
+<li><strong>负责解析网页语法，并渲染（显示）网页</strong></li>
+</ul>
+</li>
+<li>常见的国内的浏览器也有很多：</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/cc238bd5474c4201b1d518b9a6cc627d" alt="1670144167088"></p>
+<ul>
+<li>安装最多和使用最广泛的浏览器：Chrome 浏览器</li>
+</ul>
+<h3 id="常见的浏览器内核"><a href="#常见的浏览器内核" class="headerlink" title="常见的浏览器内核"></a>常见的浏览器内核</h3><ul>
+<li><p><strong>浏览器最核心的部分其实是 “浏览器内核”；</strong></p>
+</li>
+<li><p>浏览器内核（渲染引擎）： <strong>负责读取网页内容，整理讯息，计算网页的显示方式并显示页面</strong>。</p>
+</li>
+<li><p>目前国内一般浏览器都会采用 <strong>Webkit&#x2F;Blink 内核</strong>，如 360、UC、QQ、搜狗等。</p>
+<ul>
+<li><strong>Trident</strong> （ 三叉戟）：IE、360 安全浏览器、搜狗高速浏览器、百度浏览器、UC 浏览器；</li>
+<li><strong>Gecko</strong>（ 壁虎） ：Mozilla Firefox；</li>
+<li><strong>Presto</strong>（急板乐曲）-&gt; Blink （眨眼）：Opera</li>
+<li><strong>Webkit</strong> ：Safari、360 极速浏览器、搜狗高速浏览器、移动端浏览器（Android、iOS）</li>
+<li>Webkit -&gt; <strong>Blink</strong> ：Google Chrome</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/7559f6a0b6be43af8f6dc542cae3b102"></p>
+<ul>
+<li>不同的浏览器内核有不同的解析、渲染规则，所以同一网页在不同内核的浏览器中的渲染效果也可能不同。</li>
+</ul>
+<h3 id="浏览器的访问过程"><a href="#浏览器的访问过程" class="headerlink" title="浏览器的访问过程"></a>浏览器的访问过程</h3><ul>
+<li>01 当我们利用浏览器访问网页时,其实是<strong>有真实的物理文件传输</strong>的.<ul>
+<li><code>浏览会先将网页上的内容缓存到本地文件夹中,然后再渲染出来呈现给用户查看</code></li>
+</ul>
+</li>
+<li>02 平时我们在上网时会感觉到第二次访问网页会比第一次访问网页要快,就是因为第一次访问时已经将这个网页上的信息缓存到了本地</li>
+<li>03 通过观察我们还发现缓存文件夹中除了缓存图片以外还缓存了一些例如<code>.js .css .html</code>等文件<ul>
+<li>一个网页不是一个文件,而是一堆文件.</li>
+<li>网页越复杂,那么组成这个网页的文件就越多</li>
+</ul>
+</li>
+</ul>
+<h3 id="浏览器请求数据的过程"><a href="#浏览器请求数据的过程" class="headerlink" title="浏览器请求数据的过程"></a>浏览器请求数据的过程</h3><ul>
+<li>01 在浏览器地址栏输入 URL 地址,按下回车后, 浏览器会根据输入的 URL 地址发送<code>请求报文</code></li>
+<li>02 服务器接收到请求报文，会对<code>请求报文</code>进行处理</li>
+<li>03 服务器将处理完的结果通过<code>响应报文</code>返回给浏览器</li>
+<li>04 浏览器<code>解析服务器返回的结果</code>，将结果显示出来</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/4be1211af7ac4b84b3ff75571d562a42"></p>
+<h3 id="统一资源定位符-URL"><a href="#统一资源定位符-URL" class="headerlink" title="统一资源定位符 URL"></a>统一资源定位符 URL</h3><h4 id="什么是-URL"><a href="#什么是-URL" class="headerlink" title="什么是 URL"></a>什么是 URL</h4><ul>
+<li>我们在浏览器的地址栏中输入的地址其实就是 URL<ul>
+<li>URL 全称 Uniform Resource Locator (<strong>统一资源定位符</strong>)</li>
+<li>通俗点说：URL 无非就是一个给定的独特资源在 Web 上的地址。<ul>
+<li>理论上说，每个有效的 URL 都指向一个唯一的资源；</li>
+<li>这个资源可以是一个 HTML 页面，一个 CSS 文档，一幅图像，等等；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/58eae9ffbb3f42dcae8cc7f75ec73a5b" alt="1670210394753"></p>
+<h4 id="URL-的格式"><a href="#URL-的格式" class="headerlink" title="URL 的格式"></a>URL 的格式</h4><ul>
+<li>URL 的标准格式如下：<ul>
+<li><code>[协议类型]://[服务器地址]:[端口号]/[文件路径][文件名]?[查询]#[片段ID]</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/b9f901a6b5674a30bafeb079b1c138c4" alt="1670210482891"></p>
+<ul>
+<li>比如 :<ul>
+<li><code>127.0.0.1/index.html </code>（浏览器会自动补全 <code>http:</code> 和：<code>80端口</code>,默认是 80 端口）</li>
+<li><a href="https://link.jianshu.com/?t=http://127.0.0.1/index.html">http://127.0.0.1/index.html</a> （浏览器会自动补全：80）</li>
+<li><a href="https://link.jianshu.com/?t=http://127.0.0.1:80/index.html">http://127.0.0.1:80/index.html</a> （完整格式）</li>
+<li>协议类型:&#x2F;&#x2F;ip 地址:端口号&#x2F;资源路径&#x2F;资源名称</li>
+</ul>
+</li>
+</ul>
+<h4 id="URL-和-URI-的区别"><a href="#URL-和-URI-的区别" class="headerlink" title="URL 和 URI 的区别"></a>URL 和 URI 的区别</h4><ul>
+<li>和 URI 的区别：<ul>
+<li>URI &#x3D; Uniform Resource Identifier 统一资源标志符，用于标识 Web 技术使用的逻辑或物理资源。；</li>
+<li>URL &#x3D; Uniform Resource Locator 统一资源定位符，俗称网络地址，相当于网络中的门牌号；</li>
+</ul>
+</li>
+<li>URI 在某一个规则下能把一个资源独一无二的识别出来。<ul>
+<li>URL 作为一个网络 Web 资源的地址，可以唯一将一个资源识别出来，所以 URL 是一个 URI；</li>
+<li>所以 URL 是 URI 的一个子集；</li>
+<li>但是 URI 并不一定是 URL</li>
+</ul>
+</li>
+</ul>
+<h4 id="URL-拆分"><a href="#URL-拆分" class="headerlink" title="URL 拆分"></a>URL 拆分</h4><ul>
+<li>网络协议类型 <code>http://</code></li>
+<li>服务器 IP 地址 <code>127.0.0.1</code><ul>
+<li>由于 IP 地址全都是数字， 没有任何的含义，比较难以记忆。 所以在访问网页时最常见的不是 IP 地址 而是“<strong>域名</strong>”（一串有含义的字符）</li>
+<li>例如： <a href="https://link.jianshu.com/?t=http://www.baidu.com">http://www.baidu.com</a> 和 <a href="http://111.13.100.92/">http://111.13.100.92:80/</a></li>
+</ul>
+</li>
+<li>服务器端口号 <code>:80</code></li>
+<li>资源路径 : 网页在服务器上的路径<ul>
+<li>资源名称 <code>index.html</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="URL-各部分的作用"><a href="#URL-各部分的作用" class="headerlink" title="URL 各部分的作用"></a>URL 各部分的作用</h4><ul>
+<li><p>服务器 <strong>IP 地址</strong> 和 <strong>服务器端口号</strong> 它们两的作用：</p>
+<ul>
+<li><p>告诉浏览器要去什么地方才能找到对应的服务器， 也就是告诉浏览器服务器的详细地址</p>
+</li>
+<li><p>服务器 IP 地址相当于现实生活中的地址； 例如：广州市天河区棠安苑</p>
+</li>
+<li><p>服务器端口号相当于现实生活中的门牌号码； 例如： 9 栋 909 室</p>
+</li>
+<li><p>那么如果将地址和门牌号码结合在一起， 就是我的详细地址</p>
+</li>
+</ul>
+</li>
+<li><p>资源名称的作用：</p>
+<ul>
+<li>告诉服务器我需要获取哪一个文件</li>
+</ul>
+</li>
+<li><p>资源名称</p>
+<ul>
+<li>需要访问的文件名称</li>
+</ul>
+</li>
+</ul>
+<h3 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h3><h4 id="什么是-HTTP-协议"><a href="#什么是-HTTP-协议" class="headerlink" title="什么是 HTTP 协议"></a>什么是 HTTP 协议</h4><ul>
+<li>HTTP 是 Hypertext Transfer Protocol 的缩写, <strong>超文本传输协议</strong></li>
+<li>什么是协议<ul>
+<li>在现实生活中有很多的协议, 例如 租房协议&#x2F;买卖协议&#x2F;离婚协议</li>
+<li>无论是什么协议他们都是一个共同点, 就是<strong>用来规范&#x2F;约束某一类事物</strong></li>
+</ul>
+</li>
+<li>沟通问题<ul>
+<li>沟通最常见的问题就是语言不通, 例如中国人和美国人沟通, 一个人说中文, 一个人说英文, 如果两个人都不懂中文或者英文, 那么就会出现沟通问题</li>
+<li>如果要想解决沟通问题, 需要先拟定规定, 两个人都说中文, 或者两个人都说英文, 或者请一个既懂中文又懂英文的翻译</li>
+</ul>
+</li>
+</ul>
+<h4 id="HTTP-协议的作用"><a href="#HTTP-协议的作用" class="headerlink" title="HTTP 协议的作用"></a>HTTP 协议的作用</h4><ul>
+<li><strong>HTTP 协议是用来规范&#x2F;约束哪一类事物</strong><ul>
+<li><strong>浏览器访问网页其实就是去服务器请求数据</strong>, 所以浏览器需要和服务器沟通, 所以也会存在沟通问题</li>
+<li>HTTP 协议就相当于我们让两个人都说中文或者都说英文一样, 就是提前规范两个人之间如何沟通, <strong>HTTP 协议也就是规范&#x2F;约束浏览器和服务器之间如何沟通</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="SEO-优化"><a href="#SEO-优化" class="headerlink" title="SEO 优化"></a>SEO 优化</h3><ul>
+<li>搜索引擎优化（英语：search engine optimization，缩写为 SEO）是通过了解搜索引擎的运作规则来调整网站，以及提高网站在有关搜索引擎内排名的方式。</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/9fe2a3e7c69e43fb8ebc84aa4578ced4" alt="1670210899189"></p>
+<ul>
+<li>后续还会讲解 SPA 以及 SSR 相关的概念 , 它们也有 SEO、首屏渲染速度有关；</li>
+</ul>
+<h2 id="计算机中的进制"><a href="#计算机中的进制" class="headerlink" title="计算机中的进制"></a>计算机中的进制</h2><h3 id="认识进制"><a href="#认识进制" class="headerlink" title="认识进制"></a>认识进制</h3><ul>
+<li>进制的概念：<ul>
+<li>维基百科：进位制是一种记数方式，亦称进位计数法或位值计数法。</li>
+<li>通俗理解：当数字达到某个值时，进一位(比如从 1 位变成 2 位)。</li>
+</ul>
+</li>
+<li>按照进制的概念，来理解一下十进制：<ul>
+<li>当数字到 9 的时候，用一位已经表示不了了，那么就进一位变成 2 位</li>
+</ul>
+</li>
+<li>按照上面的来理解，二进制、八进制、十六进制：<ul>
+<li>二进制：当数字到 1 的时候，用一位已经表示不了了，那么就进一位。</li>
+<li>八进制：当数字到 7 的时候，用一位已经表示不了了，那么就进一位。</li>
+<li>十六进制：等等，用一位如何表示十六个数字呢？a(10)、b(11)、c(12) 、 d(13) 、 e(14) 、 f(15)</li>
+</ul>
+</li>
+</ul>
+<h3 id="计算机中的进制-1"><a href="#计算机中的进制-1" class="headerlink" title="计算机中的进制"></a>计算机中的进制</h3><ul>
+<li>如何表示二进制、八进制、十六进制?<ul>
+<li>二进制（0b 开头, binary）：其中的数字由 0、1 组成，可以回顾之前学习过的机器语言。</li>
+<li>八进制（0o 开头, Octonary）：其中的数字由 0~7 组成。</li>
+<li>十六进制（0x 开头, hexadecimal）：其中的数字由 0~9 和字母 a-f 组成（大小写都可以）</li>
+</ul>
+</li>
+<li>十进制 or 二进制:<ul>
+<li>虽然计算机更喜欢二进制, 但是编程中我们还是以十进制为主.</li>
+<li>因为高级编程语言的目的就是更加接近自然语言, 让我们人类更容易理解.</li>
+</ul>
+</li>
+</ul>
+<h3 id="进制之间的转换-补充"><a href="#进制之间的转换-补充" class="headerlink" title="进制之间的转换(补充)"></a>进制之间的转换(补充)</h3><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><h3 id="开发必备软件"><a href="#开发必备软件" class="headerlink" title="开发必备软件"></a>开发必备软件</h3><ul>
+<li>Chrome 浏览器：开发必备浏览器<ul>
+<li><a href="https://www.google.cn/chrome/index.html">https://www.google.cn/chrome/index.html</a></li>
+</ul>
+</li>
+<li>VSCode 编辑器：开发推荐编辑器（编写代码）<ul>
+<li><a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+</ul>
+</li>
+<li>Xmind Zen 思维导图：思维导图笔记<ul>
+<li><a href="https://www.xmind.cn/">https://www.xmind.cn/</a></li>
+</ul>
+</li>
+<li>Typora：markdown 笔记软件</li>
+</ul>
+<h3 id="VSCode-的安装"><a href="#VSCode-的安装" class="headerlink" title="VSCode 的安装"></a>VSCode 的安装</h3><ul>
+<li>VSCode 编辑器下载-安装：<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>安装插件（增加功能）：右侧图标最后一项，Extensions，查找需要的插件（联网）<ul>
+<li>中文插件：Chinese</li>
+<li>颜色主题：atom one dark</li>
+<li>文件夹图标：VSCode Great Icons</li>
+<li>在浏览器中打开网页：open in browser、Live Sever</li>
+<li>自动重命名标签：auto rename tag</li>
+</ul>
+</li>
+<li>VSCode 的配置：<ul>
+<li>Auto Save 自动保存</li>
+<li>Font Size 修改代码字体大小</li>
+<li>Word Wrap 代码自动换行</li>
+<li>Render Whitespace 空格的渲染方式(个人推荐)</li>
+<li>Tab Size 代码缩进<ul>
+<li>推荐 2 个空格（公司开发项目基本都是 2 个空格）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="常用-VScode-插件"><a href="#常用-VScode-插件" class="headerlink" title="常用 VScode 插件"></a>常用 VScode 插件</h3><ul>
+<li><strong>Atom One Dark Theme</strong> : 编辑器的颜色主题</li>
+<li><strong>Auto Rename Tag</strong> : 自动关闭标签，在修改开始标记后，将自动插入结束标记</li>
+<li><strong>background-cover</strong> : 修改 VScode 背景</li>
+<li><strong>Beautify css&#x2F;sass&#x2F;scss&#x2F;less</strong> : 美化 css&#x2F;sass&#x2F;scss&#x2F;less</li>
+<li><strong>Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code</strong> : 编辑器语言设置为 简体中文</li>
+<li><strong>Code Runner</strong> : 快速运行调试代码</li>
+<li><strong>CSS Peek</strong> : 快速定位 CSS</li>
+<li><strong>Easy LESS</strong> : 自动编译 Less 生成 CSS</li>
+<li><strong>EditorConfig for VS Code</strong> : 自动格式化代码的插件</li>
+<li><strong>Guides</strong> : 缩进参考线</li>
+<li><strong>Live Server</strong> : 实时加载功能的小型服务器</li>
+<li><strong>open in browser</strong> : 在浏览器打开</li>
+<li><strong>Open In Default Browser</strong> : 在默认浏览器打开</li>
+<li><strong>Polacode</strong> : 代码截图生成图片</li>
+<li><strong>Prettier</strong> : 前端代码格式化</li>
+<li><strong>px to rem &amp; rpx &amp; vw (cssrem)</strong> : px 单位转 rem</li>
+<li><strong>Vetur</strong> : .vue 文件语法高亮</li>
+<li><strong>VSCode Great Icons</strong> : VScode 目录图标</li>
+<li><strong>Vue 3 Snippets</strong> : 快速生成 Vue3 代码片段</li>
+<li><strong>Vue VSCode Snippets</strong> : 生成 Vue 基本模板</li>
+<li><strong>ESlint</strong> : 代码检测工具</li>
+<li><strong>Error Lens</strong> : 编码时提示错误信息</li>
+</ul>
+<h3 id="常用代码片段"><a href="#常用代码片段" class="headerlink" title="常用代码片段"></a>常用代码片段</h3><h4 id="生成代码片段站点"><a href="#生成代码片段站点" class="headerlink" title="生成代码片段站点"></a>生成代码片段站点</h4><ul>
+<li>站点 : <a href="https://snippet-generator.app/">https://snippet-generator.app/</a><ul>
+<li>用于生成 VScode 代码片段</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例与解析"><a href="#示例与解析" class="headerlink" title="示例与解析"></a>示例与解析</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>$&#123;TM_FILENAME_BASE&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;../js/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;root&quot;</span>&gt;</span>$0<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">productionTip</span> = <span class="literal">false</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">el</span>: <span class="string">&#x27;#root&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">          $1, <span class="comment">//光标出现的第一个位置</span></span></span><br><span class="line"><span class="language-javascript">        &#125;,</span></span><br><span class="line"><span class="language-javascript">      &#125;)</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意这里的<code>$1,$2……$0</code>，这是你代码快捷生成之后鼠标光标的所在位置，光标会首先定位在$1,按 Tab 键切换到$2 的位置，以此类推，光标最后会定位在$0 的位置。</li>
+<li>还有其他语法，在这里一并讲解：</li>
+<li><strong>占位符</strong>：<ul>
+<li>占位符是带有值的制表符，如将插入并选择占位符文本，以便可以轻松更改。说白了占位符<code>$&#123;1:foo&#125;</code>就是在<code>$1</code>的基础上，光标跳到<code>$1</code>位置的同时会自动生成并选中 foo，同样按 Tab 键切换到<code>$2</code>的位置。占位符可以嵌套，如 。<code>$&#123;1:foo&#125;</code> <code>$&#123;1:another $&#123;2:placeholder&#125;&#125;</code></li>
+</ul>
+</li>
+<li><strong>选择</strong><ul>
+<li>占位符可以作为有选择的值。语法是以逗号分隔的值的枚举，用竖线字符括起来，例如 。插入代码段并选择占位符时，选项将提示用户选取其中一个值。<code>$&#123;1|one,two,three|&#125;</code></li>
+</ul>
+</li>
+<li><strong>变量</strong><ul>
+<li>插入变量的值。如果未设置变量，则插入其默认值或空字符串。当变量未知（即未定义其名称）时，将插入变量的名称并将其转换为占位符。<code>$name</code> <code>$&#123;name:default&#125;</code></li>
+<li>可以使用以下变量：<ul>
+<li><code>TM_SELECTED_TEXT</code>当前选定的文本或空字符串</li>
+<li><code>TM_CURRENT_LINE</code>当前行的内容</li>
+<li><code>TM_CURRENT_WORD</code>光标下单词的内容或空字符串</li>
+<li><code>TM_LINE_INDEX</code>基于零索引的行号</li>
+<li><code>TM_LINE_NUMBER</code>基于一个索引的行号</li>
+<li><code>TM_FILENAME</code>当前文档的文件名</li>
+<li><code>TM_FILENAME_BASE</code>不带扩展名的当前文档的文件名 （比如这里你在用户代码片段中写了${TM_FILENAME_BASE}，在自动生成的代码里就会在这个位置自动填充上你的文件的不含扩展名的文件名）</li>
+<li><code>TM_DIRECTORY</code>当前文档的目录</li>
+<li><code>TM_FILEPATH</code>当前文档的完整文件路径</li>
+<li><code>RELATIVE_FILEPATH</code>当前文档的相对（相对于打开的工作空间或文件夹）文件路径</li>
+<li><code>CLIPBOARD</code>剪贴板的内容</li>
+<li><code>WORKSPACE_NAME</code>打开的工作区或文件夹的名称</li>
+<li><code>WORKSPACE_FOLDER</code>打开的工作区或文件夹的路径</li>
+</ul>
+</li>
+<li>要插入当前日期和时间：<ul>
+<li><code>CURRENT_YEAR</code>本年度</li>
+<li><code>CURRENT_YEAR_SHORT</code>本年度的最后两位数</li>
+<li><code>CURRENT_MONTH</code>以两位数字表示的月份（例如”02”）</li>
+<li><code>CURRENT_MONTH_NAME</code>月份的全名（例如”七月”）</li>
+<li><code>CURRENT_MONTH_NAME_SHORT</code>月份的短名称（例如”Jul”）</li>
+<li><code>CURRENT_DATE</code>以两位数字表示的月份中的某一天（例如”08”）</li>
+<li><code>CURRENT_DAY_NAME</code>日期的名称（例如”星期一”）</li>
+<li><code>CURRENT_DAY_NAME_SHORT</code>日期的短名称（例如”星期一”）</li>
+<li><code>CURRENT_HOUR</code>24 小时制格式的当前小时</li>
+<li><code>CURRENT_MINUTE</code>当前分钟为两位数</li>
+<li><code>CURRENT_SECOND</code>当前第二位为两位数</li>
+<li><code>CURRENT_SECONDS_UNIX</code>自 Unix 纪元以来的秒数</li>
+</ul>
+</li>
+<li>对于插入随机值：<ul>
+<li><code>RANDOM</code>6 个随机的 Base-10 数字</li>
+<li><code>RANDOM_HEX</code>6 个随机的 16 位基本数字</li>
+<li><code>UUID</code>A 版本 4 UUID</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Chrome-浏览器开发者工具"><a href="#Chrome-浏览器开发者工具" class="headerlink" title="Chrome 浏览器开发者工具"></a>Chrome 浏览器开发者工具</h3><ul>
+<li>打开 Chrome 调试工具：<ul>
+<li>方式一：右键 – 检查</li>
+<li>方式二：快捷键 – F12</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.vika.cn/space/2023/02/19/885bba22470b42eb94305d880b05ce1a"></p>
+<ul>
+<li>其他技巧：<ul>
+<li>快捷键：ctrl++ 可以调整页面或者调试工具的字体大小；</li>
+<li>可以通过删除某些元素来查看网页结构;</li>
+<li>可以通过增删 css 来调试网页样式;</li>
+</ul>
+</li>
+</ul>
+<h2 id="prettier-插件常用配置规则"><a href="#prettier-插件常用配置规则" class="headerlink" title="prettier 插件常用配置规则"></a>prettier 插件常用配置规则</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// 使能每一种语言默认格式化规则</span></span><br><span class="line">  <span class="attr">&quot;[html]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[css]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[less]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[javascript]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esbenp.prettier-vscode&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/*  prettier的配置 */</span></span><br><span class="line">  <span class="attr">&quot;prettier.printWidth&quot;</span><span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span> <span class="comment">// 超过最大值换行</span></span><br><span class="line">  <span class="attr">&quot;prettier.tabWidth&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span> <span class="comment">// 缩进字节数</span></span><br><span class="line">  <span class="attr">&quot;prettier.useTabs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span> <span class="comment">// 缩进不使用tab，使用空格</span></span><br><span class="line">  <span class="attr">&quot;prettier.semi&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 句尾添加分号</span></span><br><span class="line">  <span class="comment">// 使用单引号代替双引号,false 不替换</span></span><br><span class="line">  <span class="attr">&quot;prettier.singleQuote&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[vue]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;octref.vetur&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 默认值。因为使用了一些折行敏感型的渲染器（如GitHub comment）而按照markdown文本样式进行折行</span></span><br><span class="line">  <span class="attr">&quot;prettier.proseWrap&quot;</span><span class="punctuation">:</span> <span class="string">&quot;preserve&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//  (x) =&gt; &#123;&#125; 箭头函数参数只有一个时是否要有小括号。avoid：省略括号</span></span><br><span class="line">  <span class="attr">&quot;prettier.arrowParens&quot;</span><span class="punctuation">:</span> <span class="string">&quot;avoid&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在对象，数组括号与文字之间加空格 &quot;&#123; foo: bar &#125;&quot;</span></span><br><span class="line">  <span class="attr">&quot;prettier.bracketSpacing&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不格式化vue文件，vue文件的格式化单独设置</span></span><br><span class="line">  <span class="attr">&quot;prettier.disableLanguages&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;vue&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 结尾是 \n \r \n\r auto</span></span><br><span class="line">  <span class="attr">&quot;prettier.endOfLine&quot;</span><span class="punctuation">:</span> <span class="string">&quot;auto&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//不让prettier使用eslint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.eslintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;prettier.htmlWhitespaceSensitivity&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ignore&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不使用prettier格式化的文件填写在项目的.prettierignore文件中</span></span><br><span class="line">  <span class="attr">&quot;prettier.ignorePath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.prettierignore&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在jsx中把&#x27;&gt;&#x27; 是否单独放一行</span></span><br><span class="line">  <span class="attr">&quot;prettier.jsxBracketSameLine&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在jsx中使用单引号代替双引号</span></span><br><span class="line">  <span class="attr">&quot;prettier.jsxSingleQuote&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 格式化的解析器，默认是babylon</span></span><br><span class="line">  <span class="attr">&quot;prettier.parser&quot;</span><span class="punctuation">:</span> <span class="string">&quot;babylon&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// Require a &#x27;prettierconfig&#x27; to format prettier</span></span><br><span class="line">  <span class="attr">&quot;prettier.requireConfig&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">//不让prettier使用stylelint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.stylelintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 在对象或数组最后一个元素后面是否加逗号（在ES5中加尾逗号）</span></span><br><span class="line">  <span class="attr">&quot;prettier.trailingComma&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es5&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="comment">// 不让prettier使用tslint的代码格式进行校验</span></span><br><span class="line">  <span class="attr">&quot;prettier.tslintIntegration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ESlint-常用配置规则"><a href="#ESlint-常用配置规则" class="headerlink" title="ESlint 常用配置规则"></a>ESlint 常用配置规则</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;no-alert&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用alert confirm prompt</span></span><br><span class="line"><span class="string">&quot;no-array-constructor&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用数组构造器</span></span><br><span class="line"><span class="string">&quot;no-bitwise&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用按位运算符</span></span><br><span class="line"><span class="string">&quot;no-caller&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用arguments.caller或arguments.callee</span></span><br><span class="line"><span class="string">&quot;no-catch-shadow&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止catch子句参数与外部作用域变量同名</span></span><br><span class="line"><span class="string">&quot;no-class-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给类赋值</span></span><br><span class="line"><span class="string">&quot;no-cond-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在条件表达式中使用赋值语句</span></span><br><span class="line"><span class="string">&quot;no-console&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用console</span></span><br><span class="line"><span class="string">&quot;no-const-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止修改const声明的变量</span></span><br><span class="line"><span class="string">&quot;no-constant-condition&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在条件中使用常量表达式 if(true) if(1)</span></span><br><span class="line"><span class="string">&quot;no-continue&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用continue</span></span><br><span class="line"><span class="string">&quot;no-control-regex&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在正则表达式中使用控制字符</span></span><br><span class="line"><span class="string">&quot;no-debugger&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用debugger</span></span><br><span class="line"><span class="string">&quot;no-delete-var&quot;</span>: <span class="number">2</span>,<span class="comment">//不能对var声明的变量使用delete操作符</span></span><br><span class="line"><span class="string">&quot;no-div-regex&quot;</span>: <span class="number">1</span>,<span class="comment">//不能使用看起来像除法的正则表达式/=foo/</span></span><br><span class="line"><span class="string">&quot;no-dupe-keys&quot;</span>: <span class="number">2</span>,<span class="comment">//在创建对象字面量时不允许键重复 &#123;a:1,a:1&#125;</span></span><br><span class="line"><span class="string">&quot;no-dupe-args&quot;</span>: <span class="number">2</span>,<span class="comment">//函数参数不能重复</span></span><br><span class="line"><span class="string">&quot;no-duplicate-case&quot;</span>: <span class="number">2</span>,<span class="comment">//switch中的case标签不能重复</span></span><br><span class="line"><span class="string">&quot;no-else-return&quot;</span>: <span class="number">2</span>,<span class="comment">//如果if语句里面有return,后面不能跟else语句</span></span><br><span class="line"><span class="string">&quot;no-empty&quot;</span>: <span class="number">2</span>,<span class="comment">//块语句中的内容不能为空</span></span><br><span class="line"><span class="string">&quot;no-empty-character-class&quot;</span>: <span class="number">2</span>,<span class="comment">//正则表达式中的[]内容不能为空</span></span><br><span class="line"><span class="string">&quot;no-empty-label&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用空label</span></span><br><span class="line"><span class="string">&quot;no-eq-null&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止对null使用==或!=运算符</span></span><br><span class="line"><span class="string">&quot;no-eval&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用eval</span></span><br><span class="line"><span class="string">&quot;no-ex-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给catch语句中的异常参数赋值</span></span><br><span class="line"><span class="string">&quot;no-extend-native&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止扩展native对象</span></span><br><span class="line"><span class="string">&quot;no-extra-bind&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的函数绑定</span></span><br><span class="line"><span class="string">&quot;no-extra-boolean-cast&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的bool转换</span></span><br><span class="line"><span class="string">&quot;no-extra-parens&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止非必要的括号</span></span><br><span class="line"><span class="string">&quot;no-extra-semi&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止多余的冒号</span></span><br><span class="line"><span class="string">&quot;no-fallthrough&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止switch穿透</span></span><br><span class="line"><span class="string">&quot;no-floating-decimal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止省略浮点数中的0 .5 3.</span></span><br><span class="line"><span class="string">&quot;no-func-assign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止重复的函数声明</span></span><br><span class="line"><span class="string">&quot;no-implicit-coercion&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止隐式转换</span></span><br><span class="line"><span class="string">&quot;no-implied-eval&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用隐式eval</span></span><br><span class="line"><span class="string">&quot;no-inline-comments&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止行内备注</span></span><br><span class="line"><span class="string">&quot;no-inner-declarations&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;functions&quot;</span>],<span class="comment">//禁止在块语句中使用声明（变量或函数）</span></span><br><span class="line"><span class="string">&quot;no-invalid-regexp&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无效的正则表达式</span></span><br><span class="line"><span class="string">&quot;no-invalid-this&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无效的this，只能用在构造器，类，对象字面量</span></span><br><span class="line"><span class="string">&quot;no-irregular-whitespace&quot;</span>: <span class="number">2</span>,<span class="comment">//不能有不规则的空格</span></span><br><span class="line"><span class="string">&quot;no-iterator&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用__iterator__ 属性</span></span><br><span class="line"><span class="string">&quot;no-label-var&quot;</span>: <span class="number">2</span>,<span class="comment">//label名不能与var声明的变量名相同</span></span><br><span class="line"><span class="string">&quot;no-labels&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止标签声明</span></span><br><span class="line"><span class="string">&quot;no-lone-blocks&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的嵌套块</span></span><br><span class="line"><span class="string">&quot;no-lonely-if&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止else语句内只有if语句</span></span><br><span class="line"><span class="string">&quot;no-loop-func&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）</span></span><br><span class="line"><span class="string">&quot;no-mixed-requires&quot;</span>: [<span class="number">0</span>, <span class="literal">false</span>],<span class="comment">//声明时不能混用声明类型</span></span><br><span class="line"><span class="string">&quot;no-mixed-spaces-and-tabs&quot;</span>: [<span class="number">2</span>, <span class="literal">false</span>],<span class="comment">//禁止混用tab和空格</span></span><br><span class="line"><span class="string">&quot;linebreak-style&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;windows&quot;</span>],<span class="comment">//换行风格</span></span><br><span class="line"><span class="string">&quot;no-multi-spaces&quot;</span>: <span class="number">1</span>,<span class="comment">//不能用多余的空格</span></span><br><span class="line"><span class="string">&quot;no-multi-str&quot;</span>: <span class="number">2</span>,<span class="comment">//字符串不能用\换行</span></span><br><span class="line"><span class="string">&quot;no-multiple-empty-lines&quot;</span>: [<span class="number">1</span>, &#123;<span class="string">&quot;max&quot;</span>: <span class="number">2</span>&#125;],<span class="comment">//空行最多不能超过2行</span></span><br><span class="line"><span class="string">&quot;no-native-reassign&quot;</span>: <span class="number">2</span>,<span class="comment">//不能重写native对象</span></span><br><span class="line"><span class="string">&quot;no-negated-in-lhs&quot;</span>: <span class="number">2</span>,<span class="comment">//in 操作符的左边不能有!</span></span><br><span class="line"><span class="string">&quot;no-nested-ternary&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用嵌套的三目运算</span></span><br><span class="line"><span class="string">&quot;no-new&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止在使用new构造一个实例后不赋值</span></span><br><span class="line"><span class="string">&quot;no-new-func&quot;</span>: <span class="number">1</span>,<span class="comment">//禁止使用new Function</span></span><br><span class="line"><span class="string">&quot;no-new-object&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new Object()</span></span><br><span class="line"><span class="string">&quot;no-new-require&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new require</span></span><br><span class="line"><span class="string">&quot;no-new-wrappers&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用new创建包装实例，new String new Boolean new Number</span></span><br><span class="line"><span class="string">&quot;no-obj-calls&quot;</span>: <span class="number">2</span>,<span class="comment">//不能调用内置的全局对象，比如Math() JSON()</span></span><br><span class="line"><span class="string">&quot;no-octal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用八进制数字</span></span><br><span class="line"><span class="string">&quot;no-octal-escape&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用八进制转义序列</span></span><br><span class="line"><span class="string">&quot;no-param-reassign&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止给参数重新赋值</span></span><br><span class="line"><span class="string">&quot;no-path-concat&quot;</span>: <span class="number">0</span>,<span class="comment">//node中不能使用__dirname或__filename做路径拼接</span></span><br><span class="line"><span class="string">&quot;no-plusplus&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用++，--</span></span><br><span class="line"><span class="string">&quot;no-process-env&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用process.env</span></span><br><span class="line"><span class="string">&quot;no-process-exit&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用process.exit()</span></span><br><span class="line"><span class="string">&quot;no-proto&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止使用__proto__属性</span></span><br><span class="line"><span class="string">&quot;no-redeclare&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止重复声明变量</span></span><br><span class="line"><span class="string">&quot;no-regex-spaces&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止在正则表达式字面量中使用多个空格 /foo bar/</span></span><br><span class="line"><span class="string">&quot;no-restricted-modules&quot;</span>: <span class="number">0</span>,<span class="comment">//如果禁用了指定模块，使用就会报错</span></span><br><span class="line"><span class="string">&quot;no-return-assign&quot;</span>: <span class="number">1</span>,<span class="comment">//return 语句中不能有赋值表达式</span></span><br><span class="line"><span class="string">&quot;no-script-url&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用javascript:void(0)</span></span><br><span class="line"><span class="string">&quot;no-self-compare&quot;</span>: <span class="number">2</span>,<span class="comment">//不能比较自身</span></span><br><span class="line"><span class="string">&quot;no-sequences&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用逗号运算符</span></span><br><span class="line"><span class="string">&quot;no-shadow&quot;</span>: <span class="number">2</span>,<span class="comment">//外部作用域中的变量不能与它所包含的作用域中的变量或参数同名</span></span><br><span class="line"><span class="string">&quot;no-shadow-restricted-names&quot;</span>: <span class="number">2</span>,<span class="comment">//严格模式中规定的限制标识符不能作为声明时的变量名使用</span></span><br><span class="line"><span class="string">&quot;no-spaced-func&quot;</span>: <span class="number">2</span>,<span class="comment">//函数调用时 函数名与()之间不能有空格</span></span><br><span class="line"><span class="string">&quot;no-sparse-arrays&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止稀疏数组， [1,,2]</span></span><br><span class="line"><span class="string">&quot;no-sync&quot;</span>: <span class="number">0</span>,<span class="comment">//nodejs 禁止同步方法</span></span><br><span class="line"><span class="string">&quot;no-ternary&quot;</span>: <span class="number">0</span>,<span class="comment">//禁止使用三目运算符</span></span><br><span class="line"><span class="string">&quot;no-trailing-spaces&quot;</span>: <span class="number">1</span>,<span class="comment">//一行结束后面不要有空格</span></span><br><span class="line"><span class="string">&quot;no-this-before-super&quot;</span>: <span class="number">0</span>,<span class="comment">//在调用super()之前不能使用this或super</span></span><br><span class="line"><span class="string">&quot;no-throw-literal&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止抛出字面量错误 throw &quot;error&quot;;</span></span><br><span class="line"><span class="string">&quot;no-undef&quot;</span>: <span class="number">1</span>,<span class="comment">//不能有未定义的变量</span></span><br><span class="line"><span class="string">&quot;no-undef-init&quot;</span>: <span class="number">2</span>,<span class="comment">//变量初始化时不能直接给它赋值为undefined</span></span><br><span class="line"><span class="string">&quot;no-undefined&quot;</span>: <span class="number">2</span>,<span class="comment">//不能使用undefined</span></span><br><span class="line"><span class="string">&quot;no-unexpected-multiline&quot;</span>: <span class="number">2</span>,<span class="comment">//避免多行表达式</span></span><br><span class="line"><span class="string">&quot;no-underscore-dangle&quot;</span>: <span class="number">1</span>,<span class="comment">//标识符不能以_开头或结尾</span></span><br><span class="line"><span class="string">&quot;no-unneeded-ternary&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的嵌套 var isYes = answer === 1 ? true : false;</span></span><br><span class="line"><span class="string">&quot;no-unreachable&quot;</span>: <span class="number">2</span>,<span class="comment">//不能有无法执行的代码</span></span><br><span class="line"><span class="string">&quot;no-unused-expressions&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止无用的表达式</span></span><br><span class="line"><span class="string">&quot;no-unused-vars&quot;</span>: [<span class="number">2</span>, &#123;<span class="string">&quot;vars&quot;</span>: <span class="string">&quot;all&quot;</span>, <span class="string">&quot;args&quot;</span>: <span class="string">&quot;after-used&quot;</span>&#125;],<span class="comment">//不能有声明后未被使用的变量或参数</span></span><br><span class="line"><span class="string">&quot;no-use-before-define&quot;</span>: <span class="number">2</span>,<span class="comment">//未定义前不能使用</span></span><br><span class="line"><span class="string">&quot;no-useless-call&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止不必要的call和apply</span></span><br><span class="line"><span class="string">&quot;no-void&quot;</span>: <span class="number">2</span>,<span class="comment">//禁用void操作符</span></span><br><span class="line"><span class="string">&quot;no-var&quot;</span>: <span class="number">0</span>,<span class="comment">//禁用var，用let和const代替</span></span><br><span class="line"><span class="string">&quot;no-warning-comments&quot;</span>: [<span class="number">1</span>, &#123; <span class="string">&quot;terms&quot;</span>: [<span class="string">&quot;todo&quot;</span>, <span class="string">&quot;fixme&quot;</span>, <span class="string">&quot;xxx&quot;</span>], <span class="string">&quot;location&quot;</span>: <span class="string">&quot;start&quot;</span> &#125;],<span class="comment">//不能有警告备注</span></span><br><span class="line"><span class="string">&quot;no-with&quot;</span>: <span class="number">2</span>,<span class="comment">//禁用with</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;array-bracket-spacing&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//是否允许非空数组里面有多余的空格</span></span><br><span class="line"><span class="string">&quot;arrow-parens&quot;</span>: <span class="number">0</span>,<span class="comment">//箭头函数用小括号括起来</span></span><br><span class="line"><span class="string">&quot;arrow-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//=&gt;的前/后括号</span></span><br><span class="line"><span class="string">&quot;accessor-pairs&quot;</span>: <span class="number">0</span>,<span class="comment">//在对象中使用getter/setter</span></span><br><span class="line"><span class="string">&quot;block-scoped-var&quot;</span>: <span class="number">0</span>,<span class="comment">//块语句中使用var</span></span><br><span class="line"><span class="string">&quot;brace-style&quot;</span>: [<span class="number">1</span>, <span class="string">&quot;1tbs&quot;</span>],<span class="comment">//大括号风格</span></span><br><span class="line"><span class="string">&quot;callback-return&quot;</span>: <span class="number">1</span>,<span class="comment">//避免多次调用回调什么的</span></span><br><span class="line"><span class="string">&quot;camelcase&quot;</span>: <span class="number">2</span>,<span class="comment">//强制驼峰法命名</span></span><br><span class="line"><span class="string">&quot;comma-dangle&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//对象字面量项尾不能有逗号</span></span><br><span class="line"><span class="string">&quot;comma-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//逗号前后的空格</span></span><br><span class="line"><span class="string">&quot;comma-style&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;last&quot;</span>],<span class="comment">//逗号风格，换行时在行首还是行尾</span></span><br><span class="line"><span class="string">&quot;complexity&quot;</span>: [<span class="number">0</span>, <span class="number">11</span>],<span class="comment">//循环复杂度</span></span><br><span class="line"><span class="string">&quot;computed-property-spacing&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//是否允许计算后的键名什么的</span></span><br><span class="line"><span class="string">&quot;consistent-return&quot;</span>: <span class="number">0</span>,<span class="comment">//return 后面是否允许省略</span></span><br><span class="line"><span class="string">&quot;consistent-this&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;that&quot;</span>],<span class="comment">//this别名</span></span><br><span class="line"><span class="string">&quot;constructor-super&quot;</span>: <span class="number">0</span>,<span class="comment">//非派生类不能调用super，派生类必须调用super</span></span><br><span class="line"><span class="string">&quot;curly&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;all&quot;</span>],<span class="comment">//必须使用 if()&#123;&#125; 中的&#123;&#125;</span></span><br><span class="line"><span class="string">&quot;default-case&quot;</span>: <span class="number">2</span>,<span class="comment">//switch语句最后必须有default</span></span><br><span class="line"><span class="string">&quot;dot-location&quot;</span>: <span class="number">0</span>,<span class="comment">//对象访问符的位置，换行的时候在行首还是行尾</span></span><br><span class="line"><span class="string">&quot;dot-notation&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;allowKeywords&quot;</span>: <span class="literal">true</span> &#125;],<span class="comment">//避免不必要的方括号</span></span><br><span class="line"><span class="string">&quot;eol-last&quot;</span>: <span class="number">0</span>,<span class="comment">//文件以单一的换行符结束</span></span><br><span class="line"><span class="string">&quot;eqeqeq&quot;</span>: <span class="number">2</span>,<span class="comment">//必须使用全等</span></span><br><span class="line"><span class="string">&quot;func-names&quot;</span>: <span class="number">0</span>,<span class="comment">//函数表达式必须有名字</span></span><br><span class="line"><span class="string">&quot;func-style&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;declaration&quot;</span>],<span class="comment">//函数风格，规定只能使用函数声明/函数表达式</span></span><br><span class="line"><span class="string">&quot;generator-star-spacing&quot;</span>: <span class="number">0</span>,<span class="comment">//生成器函数*的前后空格</span></span><br><span class="line"><span class="string">&quot;guard-for-in&quot;</span>: <span class="number">0</span>,<span class="comment">//for in循环要用if语句过滤</span></span><br><span class="line"><span class="string">&quot;handle-callback-err&quot;</span>: <span class="number">0</span>,<span class="comment">//nodejs 处理错误</span></span><br><span class="line"><span class="string">&quot;id-length&quot;</span>: <span class="number">0</span>,<span class="comment">//变量名长度</span></span><br><span class="line"><span class="string">&quot;indent&quot;</span>: [<span class="number">2</span>, <span class="number">4</span>],<span class="comment">//缩进风格</span></span><br><span class="line"><span class="string">&quot;init-declarations&quot;</span>: <span class="number">0</span>,<span class="comment">//声明时必须赋初值</span></span><br><span class="line"><span class="string">&quot;key-spacing&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;beforeColon&quot;</span>: <span class="literal">false</span>, <span class="string">&quot;afterColon&quot;</span>: <span class="literal">true</span> &#125;],<span class="comment">//对象字面量中冒号的前后空格</span></span><br><span class="line"><span class="string">&quot;lines-around-comment&quot;</span>: <span class="number">0</span>,<span class="comment">//行前/行后备注</span></span><br><span class="line"><span class="string">&quot;max-depth&quot;</span>: [<span class="number">0</span>, <span class="number">4</span>],<span class="comment">//嵌套块深度</span></span><br><span class="line"><span class="string">&quot;max-len&quot;</span>: [<span class="number">0</span>, <span class="number">80</span>, <span class="number">4</span>],<span class="comment">//字符串最大长度</span></span><br><span class="line"><span class="string">&quot;max-nested-callbacks&quot;</span>: [<span class="number">0</span>, <span class="number">2</span>],<span class="comment">//回调嵌套深度</span></span><br><span class="line"><span class="string">&quot;max-params&quot;</span>: [<span class="number">0</span>, <span class="number">3</span>],<span class="comment">//函数最多只能有3个参数</span></span><br><span class="line"><span class="string">&quot;max-statements&quot;</span>: [<span class="number">0</span>, <span class="number">10</span>],<span class="comment">//函数内最多有几个声明</span></span><br><span class="line"><span class="string">&quot;new-cap&quot;</span>: <span class="number">2</span>,<span class="comment">//函数名首行大写必须使用new方式调用，首行小写必须用不带new方式调用</span></span><br><span class="line"><span class="string">&quot;new-parens&quot;</span>: <span class="number">2</span>,<span class="comment">//new时必须加小括号</span></span><br><span class="line"><span class="string">&quot;newline-after-var&quot;</span>: <span class="number">2</span>,<span class="comment">//变量声明后是否需要空一行</span></span><br><span class="line"><span class="string">&quot;object-curly-spacing&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//大括号内是否允许不必要的空格</span></span><br><span class="line"><span class="string">&quot;object-shorthand&quot;</span>: <span class="number">0</span>,<span class="comment">//强制对象字面量缩写语法</span></span><br><span class="line"><span class="string">&quot;one-var&quot;</span>: <span class="number">1</span>,<span class="comment">//连续声明</span></span><br><span class="line"><span class="string">&quot;operator-assignment&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//赋值运算符 += -=什么的</span></span><br><span class="line"><span class="string">&quot;operator-linebreak&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;after&quot;</span>],<span class="comment">//换行时运算符在行尾还是行首</span></span><br><span class="line"><span class="string">&quot;padded-blocks&quot;</span>: <span class="number">0</span>,<span class="comment">//块语句内行首行尾是否要空行</span></span><br><span class="line"><span class="string">&quot;prefer-const&quot;</span>: <span class="number">0</span>,<span class="comment">//首选const</span></span><br><span class="line"><span class="string">&quot;prefer-spread&quot;</span>: <span class="number">0</span>,<span class="comment">//首选展开运算</span></span><br><span class="line"><span class="string">&quot;prefer-reflect&quot;</span>: <span class="number">0</span>,<span class="comment">//首选Reflect的方法</span></span><br><span class="line"><span class="string">&quot;quotes&quot;</span>: [<span class="number">1</span>, <span class="string">&quot;single&quot;</span>],<span class="comment">//引号类型 `` &quot;&quot; &#x27;&#x27;</span></span><br><span class="line"><span class="string">&quot;quote-props&quot;</span>:[<span class="number">2</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//对象字面量中的属性名是否强制双引号</span></span><br><span class="line"><span class="string">&quot;radix&quot;</span>: <span class="number">2</span>,<span class="comment">//parseInt必须指定第二个参数</span></span><br><span class="line"><span class="string">&quot;id-match&quot;</span>: <span class="number">0</span>,<span class="comment">//命名检测</span></span><br><span class="line"><span class="string">&quot;require-yield&quot;</span>: <span class="number">0</span>,<span class="comment">//生成器函数必须有yield</span></span><br><span class="line"><span class="string">&quot;semi&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//语句强制分号结尾</span></span><br><span class="line"><span class="string">&quot;semi-spacing&quot;</span>: [<span class="number">0</span>, &#123;<span class="string">&quot;before&quot;</span>: <span class="literal">false</span>, <span class="string">&quot;after&quot;</span>: <span class="literal">true</span>&#125;],<span class="comment">//分号前后空格</span></span><br><span class="line"><span class="string">&quot;sort-vars&quot;</span>: <span class="number">0</span>,<span class="comment">//变量声明时排序</span></span><br><span class="line"><span class="string">&quot;space-after-keywords&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//关键字后面是否要空一格</span></span><br><span class="line"><span class="string">&quot;space-before-blocks&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//不以新行开始的块&#123;前面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-before-function-paren&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;always&quot;</span>],<span class="comment">//函数定义时括号前面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-in-parens&quot;</span>: [<span class="number">0</span>, <span class="string">&quot;never&quot;</span>],<span class="comment">//小括号里面要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-infix-ops&quot;</span>: <span class="number">0</span>,<span class="comment">//中缀操作符周围要不要有空格</span></span><br><span class="line"><span class="string">&quot;space-return-throw-case&quot;</span>: <span class="number">2</span>,<span class="comment">//return throw case后面要不要加空格</span></span><br><span class="line"><span class="string">&quot;space-unary-ops&quot;</span>: [<span class="number">0</span>, &#123; <span class="string">&quot;words&quot;</span>: <span class="literal">true</span>, <span class="string">&quot;nonwords&quot;</span>: <span class="literal">false</span> &#125;],<span class="comment">//一元运算符的前/后要不要加空格</span></span><br><span class="line"><span class="string">&quot;spaced-comment&quot;</span>: <span class="number">0</span>,<span class="comment">//注释风格要不要有空格什么的</span></span><br><span class="line"><span class="string">&quot;strict&quot;</span>: <span class="number">2</span>,<span class="comment">//使用严格模式</span></span><br><span class="line"><span class="string">&quot;use-isnan&quot;</span>: <span class="number">2</span>,<span class="comment">//禁止比较时使用NaN，只能用isNaN()</span></span><br><span class="line"><span class="string">&quot;valid-jsdoc&quot;</span>: <span class="number">0</span>,<span class="comment">//jsdoc规则</span></span><br><span class="line"><span class="string">&quot;valid-typeof&quot;</span>: <span class="number">2</span>,<span class="comment">//必须使用合法的typeof的值</span></span><br><span class="line"><span class="string">&quot;vars-on-top&quot;</span>: <span class="number">2</span>,<span class="comment">//var必须放在作用域顶部</span></span><br><span class="line"><span class="string">&quot;wrap-iife&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;inside&quot;</span>],<span class="comment">//立即执行函数表达式的小括号风格</span></span><br><span class="line"><span class="string">&quot;wrap-regex&quot;</span>: <span class="number">0</span>,<span class="comment">//正则表达式字面量用小括号包起来</span></span><br><span class="line"><span class="string">&quot;yoda&quot;</span>: [<span class="number">2</span>, <span class="string">&quot;never&quot;</span>]<span class="comment">//禁止尤达条件</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Web前端开发</category>
