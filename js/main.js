@@ -50,15 +50,16 @@ const scrollFn = function () {
         const isDown = scrollDirection(currentTop);
 
         if (currentTop > 0) {
-            $header.classList.add('nav-fixed');
             if (isDown) {
                 if ($header.classList.contains('nav-visible')) $header.classList.remove('nav-visible');
             } else {
                 if (!$header.classList.contains('nav-visible')) $header.classList.add('nav-visible');
             }
+            $header.classList.add('nav-fixed');
         } else {
             $header.classList.remove('nav-fixed', 'nav-visible');
         }
+
         percent();
     }, 200));
 
@@ -191,7 +192,7 @@ class toc {
         const $tocContent = document.getElementById('toc-content')
         const list = $article.querySelectorAll('h1,h2,h3,h4,h5,h6')
         let detectItem = ''
-        const autoScroll = (el) => {
+        function autoScroll(el) {
             const activePosition = el.getBoundingClientRect().top
             const sidebarScrollTop = $tocContent.scrollTop
             if (activePosition > (document.documentElement.clientHeight - 100)) {
@@ -201,16 +202,19 @@ class toc {
                 $tocContent.scrollTop = sidebarScrollTop - 150
             }
         }
-        const findHeadPosition = (top) => {
+        function findHeadPosition(top) {
             if (top === 0) {
                 return false
             }
+
             let currentIndex = ''
-            list.forEach((ele, index) => {
+
+            list.forEach(function (ele, index) {
                 if (top > utils.getEleTop(ele) - 80) {
                     currentIndex = index
                 }
             })
+
             if (detectItem === currentIndex) return
             detectItem = currentIndex
             document.querySelectorAll('.toc .active').forEach((i) => {
@@ -218,19 +222,19 @@ class toc {
             })
             const activeitem = toc[detectItem]
             if (activeitem) {
+                let parent = toc[detectItem].parentNode
                 activeitem.classList.add('active')
                 autoScroll(activeitem)
-                let parent = activeitem.parentNode
-                while (!parent.matches('.toc')) {
+                for (; !parent.matches('.toc'); parent = parent.parentNode) {
                     if (parent.matches('li')) parent.classList.add('active')
-                    parent = parent.parentNode
                 }
             }
         }
-        window.tocScrollFn = utils.throttle(() => {
+        window.tocScrollFn = utils.throttle(function () {
             const currentTop = window.scrollY || document.documentElement.scrollTop
             findHeadPosition(currentTop)
         }, 100)
+
         window.addEventListener('scroll', tocScrollFn)
     }
 }
@@ -507,14 +511,17 @@ let sco = {
      * @param txt
      */
     toTalk: function (txt) {
-        const input = document.querySelector('.el-textarea__inner');
-        const evt = new Event('input', {bubbles: true, cancelable: true});
-        const inputValue = txt.replace(/\n/g, '\n> ');
-        input.value = '> ' + inputValue + '\n\n';
-        input.dispatchEvent(evt);
-        utils.scrollToDest(utils.getEleTop(document.getElementById('post-comment')), 300)
-        input.focus();
-        input.setSelectionRange(-1, -1);
+        const inputs = ["#wl-edit", ".el-textarea__inner"]
+        for (let i = 0; i < inputs.length; i++) {
+            let el = document.querySelector(inputs[i])
+            if (el != null) {
+                el.dispatchEvent(new Event('input', { bubble: true, cancelable: true }))
+                el.value = '> ' + txt.replace(/\n/g, '\n> ') + '\n\n'
+                utils.scrollToDest(utils.getEleTop(document.getElementById('post-comment')), 300)
+                el.focus()
+                el.setSelectionRange(-1, -1)
+            }
+        }
         const commentTips = document.querySelector("#comment-tips");
         if (commentTips) {
             commentTips.classList.add("show");
@@ -536,7 +543,7 @@ let sco = {
         }
     },
     /**
-     * 图片添加水印
+     * 图片添加底部展示信息
      */
     addPhotoFigcaption: function () {
         let images = document.querySelectorAll('#article-container img');
@@ -646,11 +653,11 @@ let sco = {
             const hours = timeNow.getHours();
             const lang = GLOBAL_CONFIG.lang.sayhello;
             const greetings = [
-                {start: 0, end: 5, text: lang.goodnight},
-                {start: 6, end: 10, text: lang.morning},
-                {start: 11, end: 14, text: lang.noon},
-                {start: 15, end: 18, text: lang.afternoon},
-                {start: 19, end: 24, text: lang.night},
+                { start: 0, end: 5, text: lang.goodnight },
+                { start: 6, end: 10, text: lang.morning },
+                { start: 11, end: 14, text: lang.noon },
+                { start: 15, end: 18, text: lang.afternoon },
+                { start: 19, end: 24, text: lang.night },
             ];
             for (let greeting of greetings) {
                 if (hours >= greeting.start && hours <= greeting.end) {
@@ -869,6 +876,25 @@ let sco = {
             document.getElementById("toPageButton").href = targetPageUrl;
         }
     },
+    addRandomCommentInfo: function () {
+        const e = `${GLOBAL_CONFIG.comment.randomInfoStart[Math.floor(Math.random() * GLOBAL_CONFIG.comment.randomInfoStart.length)]}${GLOBAL_CONFIG.comment.randomInfoEnd[Math.floor(Math.random() * GLOBAL_CONFIG.comment.randomInfoEnd.length)]}`;
+
+        const nameSelectors = ["#author", "input[name='comname']", "#inpName", "input[name='author']", "#ds-dialog-name", "#name", "input[name='nick']", "#comment_author"];
+        const emailSelectors = ["#mail", "#email", "input[name='commail']", "#inpEmail", "input[name='email']", "#ds-dialog-email", "input[name='mail']", "#comment_email"];
+
+        const nameElements = nameSelectors.map(selector => document.querySelector(selector)).filter(Boolean);
+        const emailElements = emailSelectors.map(selector => document.querySelector(selector)).filter(Boolean);
+
+        nameElements.forEach(element => {
+            element.value = e;
+            element.dispatchEvent(new Event("input"));
+        });
+
+        emailElements.forEach(element => {
+            element.value = "donotreply@examp.com";
+            element.dispatchEvent(new Event("input"));
+        });
+    }
 }
 
 /*
@@ -877,13 +903,13 @@ let sco = {
 class hightlight {
     static createEle(langEl, item) {
         const fragment = document.createDocumentFragment()
-        const highlightCopyEle = '<i class="scoicon sco-copy-fill"></i>'
+        const highlightCopyEle = GLOBAL_CONFIG.hightlight.copy ? '<i class="scoicon sco-copy-fill"></i>' : '<i></i>'
         const highlightExpandEle = '<i class="scoicon sco-arrow-down expand"></i>'
 
         const hlTools = document.createElement('div')
         hlTools.className = `highlight-tools`
         hlTools.innerHTML = highlightExpandEle + langEl + highlightCopyEle
-        let expand = true
+        let expand = GLOBAL_CONFIG.hightlight.expand
         hlTools.children[0].addEventListener('click', (e) => {
             if (expand) {
                 hlTools.children[0].classList.add('closed')
@@ -920,10 +946,12 @@ class hightlight {
             ele.addEventListener('click', (e) => {
                 $table.setAttribute('style', `height: ${itemHeight}px`)
                 e.target.classList.add('expand-done')
+                e.target.setAttribute('style', 'display:none')
             })
             fragment.appendChild(ele)
         }
         item.insertBefore(fragment, item.firstChild)
+        hlTools.children[0].click()
     }
 
     static init() {
@@ -968,6 +996,7 @@ class tabs {
         document.querySelectorAll('#article-container .tabs .tab-to-top').forEach(function (item) {
             item.addEventListener('click', function () {
                 utils.scrollToDest(utils.getEleTop(item.parentElement.parentElement.parentNode), 300)
+
             })
         })
     }
@@ -995,14 +1024,15 @@ window.refreshFn = () => {
     PAGE_CONFIG.toc && toc.init();
     (PAGE_CONFIG.is_post || PAGE_CONFIG.is_page) && ((GLOBAL_CONFIG.hightlight.enable && hightlight.init()) || tabs.init())
     PAGE_CONFIG.is_home && (showTodayCard() || sco.initbbtalk())
-    GLOBAL_CONFIG.covercolor && coverColor()
+    GLOBAL_CONFIG.covercolor.enable && coverColor()
     sco.initConsoleState()
     document.getElementById('history-baidu') && sco.card_history()
     document.getElementById('welcome-info') && sco.card_welcome()
     GLOBAL_CONFIG.comment.commentBarrage && PAGE_CONFIG.comment && initializeCommentBarrage()
     document.body.setAttribute('data-type', PAGE_CONFIG.page)
     PAGE_CONFIG.page === "music" && scoMusic.init()
-    scoMusic && document.removeEventListener('keydown', scoMusic.setKeydown)
+    GLOBAL_CONFIG.music.enable && !document.querySelector('#Music-page') && document.removeEventListener('keydown', scoMusic.setKeydown)
+    GLOBAL_CONFIG.ai.enable && PAGE_CONFIG.page === "post" && ScoAI.init()
 }
 
 sco.initTheme()

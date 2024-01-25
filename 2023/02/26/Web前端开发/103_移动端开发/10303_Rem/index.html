@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>rem布局 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><script src="https://cdn.staticfile.org/twikoo/1.6.26/twikoo.all.min.js"></script><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="rem 适配布局 思考: 页面布局文字能否随着屏幕大小变化而变化？ 流式布局和 flex 布局主要针对于宽度布局，那高度如何设置？ 怎么样让屏幕发生变化的时候元素高度和宽度等比例缩放？ rem 单位 rem (root em)是一个相对单位，类似于 em，em 是父元素字体大小。 不同的"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: true,
+        type: 'twikoo',
+        commentBarrage: true,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: 'https://twikoo.sondy.top/',
+            accessToken: 'accessToken'
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/Hexo/">Hexo<sup>4</sup></a><a href="/tags/JavaScript/">JavaScript<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2023/')" href="javascript:void(0);"><span class="card-archive-list-date">2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">16</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="sco.switchCommentBarrage()"><a class="commentBarrage"><i class="scoicon sco-chat-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/Hexo/">Hexo<sup>4</sup></a><a href="/tags/JavaScript/">JavaScript<sup>1</sup></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">rem布局</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://img1.baidu.com/it/u=198570510,3940391362&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" alt="rem布局"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Web前端开发/">Web前端开发</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">rem布局</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2023-02-26 09:59:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2023-02-26T01:59:00.000Z">2023-02-26T01:59:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2023-12-22 22:53:40"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2023-12-22T14:53:40.348Z">2023-12-22T14:53:40.348Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">2.5k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>9 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2023/02/26/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/103_%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/10303_Rem/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="twikoo_visitors"><i class="scoicon sco-loading-line"></i></span></a><span class="post-meta-commentcount" title="评论数" onclick="sco.scrollTo('post-comment')"><i class="scoicon sco-chat-fill"></i><a href="/2023/02/26/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/103_%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/10303_Rem/#post-comment"><span id="twikoo-count"><i class="scoicon sco-loading-line"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+
+<h1 id="rem-适配布局"><a href="#rem-适配布局" class="headerlink" title="rem 适配布局"></a>rem 适配布局</h1><ul>
+<li>思考:<ul>
+<li>页面布局文字能否随着屏幕大小变化而变化？</li>
+<li>流式布局和 flex 布局主要针对于宽度布局，那高度如何设置？</li>
+<li>怎么样让屏幕发生变化的时候元素高度和宽度等比例缩放？</li>
+</ul>
+</li>
+</ul>
+<h2 id="rem-单位"><a href="#rem-单位" class="headerlink" title="rem 单位"></a>rem 单位</h2><ul>
+<li><p><strong>rem</strong> (root em)是一个相对单位，类似于 em，<strong>em 是父元素字体大小</strong>。</p>
+</li>
+<li><p>不同的是 <strong>rem 的基准是相对于 html 元素的字体大小。</strong></p>
+<ul>
+<li><strong>比如，根元素（ html ）设置 font-size&#x3D;12px; 非根元素设置 width:2rem; 则换成 px 表示就是 24px。</strong></li>
+</ul>
+</li>
+<li><p>rem 的优势：父元素文字大小可能不一致， 但是整个页面只有一个 html ，可以很好来控制整个页面的元素大小</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 根html 为 12px */</span></span><br><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 此时 div 的字体大小就是 24px */</span></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是媒体查询"><a href="#什么是媒体查询" class="headerlink" title="什么是媒体查询"></a>什么是媒体查询</h2><ul>
+<li>媒体查询（Media Query）是 CSS3 新语法。<ul>
+<li>使用 @media 查询，可以针对不同的媒体类型定义不同的样式</li>
+<li>@media 可以针对不同的屏幕尺寸设置不同的样式</li>
+<li>当你重置浏览器大小的过程中，页面也会根据浏览器的宽度和高度重新渲染页面</li>
+<li>目前针对很多苹果手机、Android 手机，平板等设备都用得到多媒体查询</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/6d45362a7b9540d195a8a53ed288de44" alt="1656556079314"></p>
+<h2 id="媒体查询语法规范"><a href="#媒体查询语法规范" class="headerlink" title="媒体查询语法规范"></a>媒体查询语法规范</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> mediatype <span class="keyword">and</span>|<span class="keyword">not</span>|<span class="keyword">only</span> (media feature) &#123;</span><br><span class="line">	CSS-<span class="selector-tag">Code</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用 @media 开头 注意 @ 符号</li>
+<li>mediatype 媒体类型</li>
+<li>关键字 and not only</li>
+<li>media feature 媒体特性 必须有小括号包含</li>
+</ul>
+<h2 id="mediatype-查询类型"><a href="#mediatype-查询类型" class="headerlink" title="mediatype 查询类型"></a>mediatype 查询类型</h2><ul>
+<li>将不同的终端设备划分成不同的类型，称为媒体类型</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/d913028e5a624282bd6381c7917f3da7" alt="1656556163195"></p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><ul>
+<li>关键字: 将媒体类型或多个媒体特性连接到一起做为媒体查询的条件。<ul>
+<li>and：可以将多个媒体特性连接到一起，相当于“且”的意思。</li>
+<li>not：排除某个媒体类型，相当于“非”的意思，可以省略。</li>
+<li>only：指定某个特定的媒体类型，可以省略。</li>
+</ul>
+</li>
+</ul>
+<h2 id="媒体特性"><a href="#媒体特性" class="headerlink" title="媒体特性"></a>媒体特性</h2><ul>
+<li>每种媒体类型都具体各自不同的特性，根据不同媒体类型的媒体特性设置不同的展示风格。我们暂且了解三个。注意他们要加小括号包含</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/ebfbc9ab4762418dad58f0c1d3c1174b" alt="1656556282794"></p>
+<h2 id="媒体查询案例"><a href="#媒体查询案例" class="headerlink" title="媒体查询案例"></a>媒体查询案例</h2><ul>
+<li>页面效果</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/017ec913d59646499081d5915660e80a" alt="1656556335356"></p>
+<ul>
+<li><p>实现思路</p>
+<ul>
+<li><p>01 按照从大到小的或者从小到大的思路</p>
+</li>
+<li><p>02 注意我们有最大值 max-width 和最小值 min-width 都是包含等于的</p>
+</li>
+<li><p>03 当屏幕小于 540 像素， 背景颜色变为蓝色 （x &lt;&#x3D; 539）</p>
+</li>
+<li><p>04 当屏幕大于等于 540 像素 并且小于等于 969 像素的时候 背景颜色为 绿色 ( 540&#x3D;&lt;x &lt;&#x3D; 969）</p>
+</li>
+<li><p>05 当屏幕大于等于 970 像素的时候，背景颜色为红色 （ x &gt;&#x3D; 970）</p>
+</li>
+<li><p>注意： 为了防止混乱，媒体查询我们要按照从小到大或者从大到小的顺序来写,但是我们最喜欢的还是从小到大来写，这样代码更简洁</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/0f36183432f14daf8014604324fa340d" alt="1656556468050"></p>
+<h2 id="媒体查询与-rem"><a href="#媒体查询与-rem" class="headerlink" title="媒体查询与 rem"></a>媒体查询与 rem</h2><ul>
+<li>rem 单位是跟着 html 来走的，有了 rem 页面元素可以设置不同大小尺寸</li>
+<li>媒体查询可以根据不同设备宽度来修改样式</li>
+<li>媒体查询 + rem 就可以实现不同设备宽度，实现页面元素大小的动态变化</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/7c56580400104cb48be133fa27a5653c" alt="1656556546440"></p>
+<h2 id="资源的分别引入"><a href="#资源的分别引入" class="headerlink" title="资源的分别引入"></a>资源的分别引入</h2><ul>
+<li>当样式比较繁多的时候，我们可以针对不同的媒体使用不同 stylesheets（样式表）。</li>
+<li>原理，就是直接在 link 中判断设备的尺寸，然后引用不同的 css 文件。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;styleA.css&quot;</span> <span class="attr">media</span>=<span class="string">&quot;screen and (min-width: 400px)&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="rem-适配方案"><a href="#rem-适配方案" class="headerlink" title="rem 适配方案"></a>rem 适配方案</h2><ul>
+<li>01 让一些不能等比自适应的元素，达到当设备尺寸发生改变的时候，等比例适配当前设备。</li>
+<li><strong>02 使用媒体查询根据不同设备按比例设置 html 的字体大小，然后页面元素使用 rem 做尺寸单位，当 html 字体大小变化,元素尺寸也会发生变化，从而达到等比缩放的适配。</strong></li>
+</ul>
+<h2 id="rem-实际开发适配方案"><a href="#rem-实际开发适配方案" class="headerlink" title="rem 实际开发适配方案"></a>rem 实际开发适配方案</h2><ul>
+<li>01 按照设计稿与设备宽度的比例，动态计算并设置 html 根标签的 font-size 大小；（媒体查询）</li>
+<li>02 CSS 中，设计稿元素的宽、高、相对位置等取值，按照同等比例换算为 rem 为单位的值；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/47011040d3d148c484ec058c13948123" alt="1656557355775"></p>
+<h2 id="rem-适配方案技术使用"><a href="#rem-适配方案技术使用" class="headerlink" title="rem 适配方案技术使用"></a>rem 适配方案技术使用</h2><ul>
+<li><p>技术方案 1</p>
+<ul>
+<li>less</li>
+<li>媒体查询</li>
+<li>rem</li>
+</ul>
+</li>
+<li><p>技术方案 2（推荐）</p>
+<ul>
+<li>flexible.js</li>
+<li>rem</li>
+</ul>
+</li>
+<li><p>总结：</p>
+<ul>
+<li>01 两种方案现在都存在。</li>
+<li>02 方案 2 更简单，现阶段大家无需了解里面的 js 代码。</li>
+</ul>
+</li>
+</ul>
+<h2 id="rem-实际开发适配方案-1"><a href="#rem-实际开发适配方案-1" class="headerlink" title="rem 实际开发适配方案 1"></a>rem 实际开发适配方案 1</h2><ul>
+<li><p>rem + 媒体查询 + less 技术</p>
+</li>
+<li><ol>
+<li>设计稿常见尺寸宽度</li>
+</ol>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/5d46d99ca40b4094bbe93529969fe25e" alt="1656557544955"></p>
+<ul>
+<li><p>一般情况下，我们以一套或两套效果图适应大部分的屏幕，放弃极端屏或对其优雅降级，牺牲一些效果现在基本以 750 为准。</p>
+</li>
+<li><ol start="2">
+<li>动态设置 html 标签 font-size 大小</li>
+</ol>
+<ul>
+<li>01 假设设计稿是 750px</li>
+<li>02 假设我们把整个屏幕划分为 15 等份（划分标准不一,可以是 20 份,也可以是 10 等份）</li>
+<li>03 每一份作为 html 字体大小，这里就是 50px</li>
+<li>04 那么在 320px 设备的时候，字体大小为 320&#x2F;15 就是 21.33px</li>
+<li>05 用我们页面元素的大小 除以不同的 html 字体大小会发现他们比例还是相同的</li>
+<li>06 比如我们以 750 为标准设计稿</li>
+<li>07 一个 100*100 像素的页面元素 在 750 屏幕下， 就是 100 &#x2F; 50 转换为 rem 是 2rem * 2rem 比例是 1 比 1</li>
+<li>08 320 屏幕下，html 字体大小为 21.33 则 2rem &#x3D; 42.66px 此时宽和高都是 42.66 但是 宽和高的比例还是 1 比 1</li>
+<li>09 但是已经能实现不同屏幕下,页面元素盒子等比例缩放的效果</li>
+</ul>
+</li>
+<li><ol start="3">
+<li>元素大小取值方法</li>
+</ol>
+<ul>
+<li>01 最后的公式： 页面元素的 rem 值 &#x3D; 页面元素值（ px ） &#x2F; （屏幕宽度 &#x2F; 划分的份数）</li>
+<li>02 屏幕宽度 &#x2F; 划分的份数 就是 html font-size 的大小</li>
+<li>03 或者： 页面元素的 rem 值 &#x3D; 页面元素值（px） &#x2F; html font-size 字体大小</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 尚硅谷: 方案一</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">adapter</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 获取布局视口宽度，因为开启了理想视口，布局视口=设备横向独立像素值</span></span><br><span class="line">  <span class="keyword">const</span> dpWidth = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">clientWidth</span></span><br><span class="line">  <span class="comment">// 计算根字体大小</span></span><br><span class="line">  <span class="keyword">const</span> rootFontSize = (dpWidth * <span class="number">100</span>) / <span class="number">375</span></span><br><span class="line">  <span class="comment">// 设置根字体大小</span></span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">style</span>.<span class="property">fontSize</span> = rootFontSize + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">adapter</span>()</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">onresize</span> = adapter</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 尚硅谷: 方案二</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">adapter</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 获取布局视口宽度，因为开启了理想视口，布局视口=设备横向独立像素值</span></span><br><span class="line">  <span class="keyword">const</span> dpWidth = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">clientWidth</span></span><br><span class="line">  <span class="comment">// 计算根字体大小</span></span><br><span class="line">  <span class="keyword">const</span> rootFontSize = dpWidth / <span class="number">10</span></span><br><span class="line">  <span class="comment">// 设置根字体大小</span></span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">style</span>.<span class="property">fontSize</span> = rootFontSize + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">adapter</span>()</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">onresize</span> = adapter</span><br></pre></td></tr></table></figure>
+
+<h2 id="案例-苏宁网移动端首页"><a href="#案例-苏宁网移动端首页" class="headerlink" title="案例-苏宁网移动端首页"></a>案例-苏宁网移动端首页</h2><ul>
+<li>01 效果图展示</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/0c450d96763a452bafb3b14cb0a0e8f3" alt="1656557768576"></p>
+<ul>
+<li><p>02 技术选型</p>
+<ul>
+<li>方案：我们采取单独制作移动页面方案</li>
+<li>技术：布局采取 rem 适配布局（ less + rem + 媒体查询 ）</li>
+<li>设计图： 本设计图采用 750px 设计尺寸</li>
+</ul>
+</li>
+<li><p>03 设置视口标签以及引入初始化样式</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span></span></span><br><span class="line"><span class="tag">  <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">content</span>=<span class="string">&quot;width=device-width, user-scalable=no,</span></span></span><br><span class="line"><span class="string"><span class="tag">initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;css/normalize.css&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>04 设置公共 common.less 文件</p>
+<ul>
+<li>01 新建 common.less 设置好最常见的屏幕尺寸，利用媒体查询设置不同的 html 字体大小，因为除了首页其他页面也需要</li>
+<li>02 我们关心的尺寸有 320px、360px、375px、384px、400px、414px、424px、480px、540px、720px、750px</li>
+<li>03 划分的份数我们定为 15 等份</li>
+<li>04 因为我们 pc 端也可以打开我们苏宁移动端首页，我们默认 html 字体大小为 50px，注意这句话写到最上面</li>
+</ul>
+</li>
+<li><p>05 新建 index.less 文件</p>
+<ul>
+<li>01 新建 index.less 这里面写首页的样式</li>
+<li>02 将刚才设置好的 common.less 引入到 index.less 里面 语法：**@import “common”**</li>
+<li>03 生成 index.css 引入到 index.html 里面</li>
+</ul>
+</li>
+<li><p>06 body 样式</p>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">320px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">15rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">1.5</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: Arial, Helvetica;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#f2f2f2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="rem-实际开发适配方案-2"><a href="#rem-实际开发适配方案-2" class="headerlink" title="rem 实际开发适配方案 2"></a>rem 实际开发适配方案 2</h2><ul>
+<li>简洁高效的 rem 适配方案 flexible.js<ul>
+<li>手机淘宝团队出的简洁高效 移动端适配库</li>
+<li>我们再也不需要在写不同屏幕的媒体查询，因为里面 js 做了处理</li>
+<li>它的原理是把当前设备划分为 10 等份，但是不同设备下，比例还是一致的。</li>
+<li>我们要做的，就是确定好我们当前设备的 html 文字大小就可以了</li>
+<li>比如当前设计稿是 750px ， 那么我们只需要把 html 文字大小设置为 75px(750px &#x2F; 10) 就可以</li>
+<li>里面页面元素 rem 值： 页面元素的 px 值 &#x2F; 75</li>
+<li>剩余的，让 flexible.js 来去算</li>
+<li>github 地址：<a target="_blank" rel="noopener" href="https://github.com/amfe/lib-flexible">https://github.com/amfe/lib-flexible</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="案例-苏宁移动端首页"><a href="#案例-苏宁移动端首页" class="headerlink" title="案例-苏宁移动端首页"></a>案例-苏宁移动端首页</h2><ul>
+<li><p>01 技术选型</p>
+<ul>
+<li>方案：我们采取单独制作移动页面方案</li>
+<li>技术：布局采取 rem 适配布局 2（ flexible.js + rem）</li>
+<li>设计图： 本设计图采用 750px 设计尺寸</li>
+</ul>
+</li>
+<li><p>02 设置视口标签以及引入初始化样式还有 js 文件</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span></span></span><br><span class="line"><span class="tag">  <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">content</span>=<span class="string">&quot;width=device-width, user-scalable=no,</span></span></span><br><span class="line"><span class="string"><span class="tag">initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;css/normalize.css&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;css/index.css&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们页面需要引入 这个 js 文件，在 index.html 中 引入 flexible.js 这个文件</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">“js/flexible.js”</span>&gt;</span> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>03 body 样式</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">320px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">15rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">1.5</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: Arial, Helvetica;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#f2f2f2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/26/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/103_%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/10304_Flex/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">flex弹性布局</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/26/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/103_%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/10302_Percent/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">流式布局</div></div></a></div></nav><div id="post-comment" view-image><div class="comment-head"><div class="comment-headline"><i class="scoicon sco-chat-fill"></i><span> 评论</span><span></span></div><div class="comment-randomInfo"><a onclick="sco.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div id="comment"></div><script>async function initComment() {
+    var initOptions = Object.assign(
+        {"envId":"https://twikoo.sondy.top/","lang":"zh-CN","accessToken":"accessToken"},
+        {
+            el: '#comment',
+            onCommentLoaded: function () {
+                GLOBAL_CONFIG.lightbox && sco.lightbox('#article-container img, #twikoo .tk-content img:not(.tk-owo-emotion)')
+            },
+            lang: 'zh-CN',
+        }
+    )
+    await twikoo.init(initOptions)
+    if (true) {
+        var countOptions = Object.assign(
+            {"envId":"https://twikoo.sondy.top/","lang":"zh-CN","accessToken":"accessToken"},
+            {
+                urls: [window.location.pathname],
+                includeReply: false
+            }
+        )
+        const res = await twikoo.getCommentsCount(countOptions)
+        try {
+            document.getElementById('twikoo-count').innerText = res[0].count
+            document.querySelector('.comment-headline span:last-child').innerText = ` (${res[0].count})`
+        } catch (e) {
+            document.getElementById('twikoo-count').innerText = '加载错误'
+        }
+    }
+}</script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rem-%E9%80%82%E9%85%8D%E5%B8%83%E5%B1%80"><span class="toc-text">rem 适配布局</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E5%8D%95%E4%BD%8D"><span class="toc-text">rem 单位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2"><span class="toc-text">什么是媒体查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95%E8%A7%84%E8%8C%83"><span class="toc-text">媒体查询语法规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mediatype-%E6%9F%A5%E8%AF%A2%E7%B1%BB%E5%9E%8B"><span class="toc-text">mediatype 查询类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E7%89%B9%E6%80%A7"><span class="toc-text">媒体特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2%E6%A1%88%E4%BE%8B"><span class="toc-text">媒体查询案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2%E4%B8%8E-rem"><span class="toc-text">媒体查询与 rem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E7%9A%84%E5%88%86%E5%88%AB%E5%BC%95%E5%85%A5"><span class="toc-text">资源的分别引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88"><span class="toc-text">rem 适配方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88"><span class="toc-text">rem 实际开发适配方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88%E6%8A%80%E6%9C%AF%E4%BD%BF%E7%94%A8"><span class="toc-text">rem 适配方案技术使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88-1"><span class="toc-text">rem 实际开发适配方案 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E8%8B%8F%E5%AE%81%E7%BD%91%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%A6%96%E9%A1%B5"><span class="toc-text">案例-苏宁网移动端首页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem-%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88-2"><span class="toc-text">rem 实际开发适配方案 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E8%8B%8F%E5%AE%81%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%A6%96%E9%A1%B5"><span class="toc-text">案例-苏宁移动端首页</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/12/31/00_%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B_%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="Less"><img alt="Less" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=2632584504,1674231730&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2023/12/31/00_%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B_%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="Less">Less</a><a class="article-recent_post_categories" href="/2023/12/31/00_%E8%AF%BE%E7%A8%8B%E7%AE%80%E4%BB%8B_%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/hello-world%20copy%203/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客"><img alt="使用 Github Pages 和 Hexo 搭建自己的独立博客" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=3603662479,2675360914&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2023/12/10/hello-world%20copy%203/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客">使用 Github Pages 和 Hexo 搭建自己的独立博客</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/hello-world%20copy%202/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客"><img alt="使用 Github Pages 和 Hexo 搭建自己的独立博客" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=3089151237,812609665&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2023/12/10/hello-world%20copy%202/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客">使用 Github Pages 和 Hexo 搭建自己的独立博客</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/hello-world%20copy/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客"><img alt="使用 Github Pages 和 Hexo 搭建自己的独立博客" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=232122092,1661475654&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=498&amp;h=280"></a><div class="content"><a class="title" href="/2023/12/10/hello-world%20copy/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客">使用 Github Pages 和 Hexo 搭建自己的独立博客</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/10/hello-world/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客"><img alt="使用 Github Pages 和 Hexo 搭建自己的独立博客" src= "/img/loading.gif" data-lazy-src="https://img1.baidu.com/it/u=3989788988,851857147&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=540&amp;h=230"></a><div class="content"><a class="title" href="/2023/12/10/hello-world/" title="使用 Github Pages 和 Hexo 搭建自己的独立博客">使用 Github Pages 和 Hexo 搭建自己的独立博客</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/wleelw" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:wleelw@wzsco.top" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com/iJsLc8jt/" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div><div class="comment-barrage needEndHide"></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script async src="https://cdn.bootcdn.net/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: true,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><script src="/js/extend/comment/twikoo/twikoo.js"></script><script src="/js/extend/comment/twikoo/commentBarrage.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2023/12/31/00_课程简介_环境搭建/","2023/12/10/hello-world copy 3/","2023/12/10/hello-world copy 2/","2023/12/10/hello-world copy/","2023/12/10/hello-world/","2023/12/10/hello-world copy 4/","2023/02/26/Web前端开发/104_Less/10401_Less/","2023/02/26/Web前端开发/103_移动端开发/10304_Flex/","2023/02/26/Web前端开发/103_移动端开发/10303_Rem/","2023/02/26/Web前端开发/103_移动端开发/10302_Percent/","2023/02/26/Web前端开发/103_移动端开发/10301_WebMobileBase/","2023/02/26/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2023/02/26/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2023/02/19/Web前端开发/101_HTML_CSS/10103_CSS/","2023/02/19/Web前端开发/101_HTML_CSS/10102_HTML/","2023/02/19/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
