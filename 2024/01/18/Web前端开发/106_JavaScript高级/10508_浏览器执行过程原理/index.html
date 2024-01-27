@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>浏览器执行原理 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# 浏览器执行过程 浏览器渲染原理网页被解析的过程 大家有没有深入思考过：一个网页URL从输入到浏览器中，到显示经历过怎么样的解析过程呢? 输入域名 -&amp;gt; DNS解析(也叫域名解析) -&amp;gt; IP地址 -&amp;gt; 根据解析出来的IP地址找到服务器 -&amp;gt; 服务器返回资源 从服务器最"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">26</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">浏览器执行原理</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://img1.baidu.com/it/u=1261362413,17986373&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" alt="浏览器执行原理"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Web前端开发/">Web前端开发</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">浏览器执行原理</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-18 00:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-17T16:00:00.000Z">2024-01-17T16:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-27 23:00:14"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-27T15:00:14.771Z">2024-01-27T15:00:14.771Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">2.2k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>8 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/18/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10508_%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%8E%9F%E7%90%86/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# 浏览器执行过程
+
+<h2 id="浏览器渲染原理"><a href="#浏览器渲染原理" class="headerlink" title="浏览器渲染原理"></a>浏览器渲染原理</h2><h3 id="网页被解析的过程"><a href="#网页被解析的过程" class="headerlink" title="网页被解析的过程"></a>网页被解析的过程</h3><ul>
+<li>大家有没有深入思考过：一个网页URL从输入到浏览器中，到显示经历过怎么样的解析过程呢?<ul>
+<li><strong>输入域名 -&gt; DNS解析(也叫域名解析) -&gt; IP地址 -&gt; 根据解析出来的IP地址找到服务器 -&gt; 服务器返回资源</strong></li>
+<li>从服务器最先返回的是 index.html , 浏览器会对 index.html 进行解析,遇到 css 文件或 js 文件等资源,会再次发起请求从服务器下载对应资源</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/b59d560839804af1880d1f39c632d99f" alt="1660052470611"></p>
+<ul>
+<li>要想深入理解下载的过程，我们还要先理解，一个 index.html 被下载下来后是如何被解析和显示在浏览器上的 .</li>
+</ul>
+<h3 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h3><ul>
+<li>常见的浏览器内核有<ul>
+<li><strong>Trident</strong> (三叉戟）： IE 、 360 安全浏览器、搜狗高速浏览器、百度浏览器、 UC 浏览器；</li>
+<li><strong>Gecko</strong> (壁虎）: Mozilla Firefox</li>
+<li><strong>Presto</strong>（急板乐曲)  -&gt;  <strong>Blink</strong> （眨眼) :  Opera</li>
+<li><strong>Webkit</strong> : Safari 、 360 极速浏览器、搜狗高速浏览器、移动端浏览器（ Android 、 iOS)</li>
+<li><strong>Webkit</strong> -&gt; <strong>Blink</strong> : Google Chrome Edge</li>
+</ul>
+</li>
+<li>我们经常说的浏览器内核指的是浏览器的排版引擎：<ul>
+<li><strong>排版引擎 (layout engine），也称为 浏览器引擎 ( browser engine ）、 页面渲染引擎( rendering engine ）或 样版引擎 。</strong></li>
+<li>也就是一个网页下载下来后，就是由我们的渲染引擎来帮助我们解析的。</li>
+</ul>
+</li>
+</ul>
+<h3 id="渲染引擎解析页面过程"><a href="#渲染引擎解析页面过程" class="headerlink" title="渲染引擎解析页面过程"></a>渲染引擎解析页面过程</h3><ul>
+<li>渲染引擎在拿到一个页面后，如何解析整个页面并且最终呈现出我们的网页呢？<ul>
+<li>若解析 HTML 时遇到 CSS,就会去加载 CSS,但是不会阻塞 HTML 的解析，会继续进行 HTML 解析创建DOM树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/57277cc11a784a4e9d227a485f05be89" alt="1660054670561"></p>
+<ul>
+<li>渲染引擎解析页面的更加详细的过程如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/37b9ee04865d4cacbae2f0ace596b568" alt="1660054790133"></p>
+<ul>
+<li>参考链接: <a target="_blank" rel="noopener" href="https://www.html5rocks.com/en/tutorials/internals/howbrowserswork">https://www.html5rocks.com/en/tutorials/internals/howbrowserswork</a></li>
+</ul>
+<h3 id="渲染过程详解"><a href="#渲染过程详解" class="headerlink" title="渲染过程详解"></a>渲染过程详解</h3><h4 id="生成DOM树"><a href="#生成DOM树" class="headerlink" title="生成DOM树"></a>生成DOM树</h4><ul>
+<li><p>第一步: 解析 HTML ，会构建 DOM Tree</p>
+</li>
+<li><p>因为默认情况下服务器会给浏览器返回 index.html 文件，所以解析 HTML 是所有步骤的开始：</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/f64595d2d28f4b08a6cbde83189f762a" alt="1660055665240"></p>
+<h4 id="生成CSS规则"><a href="#生成CSS规则" class="headerlink" title="生成CSS规则"></a>生成CSS规则</h4><ul>
+<li><p>第二步: 解析出对应的规则树</p>
+<ul>
+<li>在解析的过程中，如果遇到CSS 的 link 元素，那么会由浏览器负责下载对应的 CSS 文件：<ul>
+<li>注意：下载CSS 文件是不会影响 DOM 的解析的；</li>
+</ul>
+</li>
+<li>浏览器下载完CSS 文件后，就会对 CSS 文件进行解析， 解析出对应的规则树<ul>
+<li>我们可以称之为 CSSOM ( CSS Object Model , <strong>CSS 对象模型</strong>）；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/9c29e8efc00e4bf4be59d16c174298e9" alt="1660055786901"></p>
+<h4 id="构建渲染树"><a href="#构建渲染树" class="headerlink" title="构建渲染树"></a>构建渲染树</h4><ul>
+<li><p>第三步: 构建 Render Tree</p>
+<ul>
+<li>当有了 DOM Tree 和 CSSOM Tree 后，就可以两个结合来构建 Render Tree(渲染树) 了</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/dbc410f3f5fe4b51b538793e8624ad43" alt="1660055918084"></p>
+<ul>
+<li>注意一：link 元素不会阻塞 DOM Tree 的构建过程 ，但是 会阻塞 Render Tree 的构建过程<ul>
+<li>这是因为 Render Tree 在构建时，需要对应的 CSSOM Tree</li>
+</ul>
+</li>
+<li>注意二：Render Tree 和 DOM Tree 并不是一一对应的关系 ，比如对于 display 为 none 的元素，压根不会出现在 render tree 中；</li>
+</ul>
+<h4 id="布局与绘制"><a href="#布局与绘制" class="headerlink" title="布局与绘制"></a>布局与绘制</h4><ul>
+<li><p>第四步: 是在渲染树（ Render Tree Tree）上运行 布局（ LayoutLayout）以计算每个节点的几何体。</p>
+<ul>
+<li>渲染树会表示显示哪些节点以及其他样式，但是不表示每个节点的尺寸、位置 等信息；</li>
+<li>布局是确定呈现树中 所有节点的宽度、高度和位置信息 ；</li>
+</ul>
+</li>
+<li><p>第五步: 是将每个节点绘制（ PaintPaint）</p>
+<ul>
+<li>在绘制阶段，浏览器将布局阶段计算的每个 frame 转为屏幕上实际的像素点 ；</li>
+<li>包括将元素的可见部分进行绘制 ，比如 文本、颜色、边框、阴影、替换元素（比如 img）</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/626f4b95bbc0432bbd34c58da5aea690" alt="1660056344252"></p>
+<h4 id="合成图层"><a href="#合成图层" class="headerlink" title="合成图层"></a>合成图层</h4><ul>
+<li><p>第五步: 特殊解析 – composite 合成图层</p>
+</li>
+<li><p>绘制的过程，可以将布局后的元素绘制到多个合成图层中。</p>
+<ul>
+<li>这是浏览器的一种优化手段；</li>
+</ul>
+</li>
+<li><p>默认情况下，标准流中的内容都是被绘制在同一个图层（Layer）中的；</p>
+</li>
+<li><p>而一些特殊的属性，会创建一个新的合成层（ CompositingLayer ），并且新的图层可以利用GPU来加速绘制；</p>
+<ul>
+<li>因为每个合成层都是单独渲染的；</li>
+</ul>
+</li>
+<li><p>哪些属性可以形成新的合成层呢？常见的一些属性：</p>
+<ul>
+<li>3D transforms</li>
+<li>video、canvas、iframe</li>
+<li>opacity 动画转换时；</li>
+<li>position: fixed</li>
+<li>will-change：一个实验性的属性，提前告诉浏览器元素可能发生哪些变化；</li>
+<li>animation 或 transition 设置了opacity、transform；</li>
+</ul>
+</li>
+<li><p>分层确实可以提高性能，但是它以内存管理为代价，因此不应作为 web 性能优化策略的一部分过度使用。</p>
+</li>
+<li><p>谷歌浏览器查看网页图层:</p>
+<ul>
+<li>谷歌浏览器查看网页图层: F12 -&gt; 右边三个点 -&gt; more tools -&gt; Layers</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/25e21d2507864e9bbc6c8f19b8c1312d" alt="1660056739176"></p>
+<h3 id="回流与重绘"><a href="#回流与重绘" class="headerlink" title="回流与重绘"></a>回流与重绘</h3><h4 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h4><ul>
+<li>理解回流 reflowreflow：（也可以称之为重排）<ul>
+<li>第一次确定节点的大小和位置，称之为<strong>布局</strong>（ layoutlayout）。</li>
+<li><strong>对节点的大小、位置修改重新计算称为回流。</strong></li>
+</ul>
+</li>
+<li>什么情况下引起回流呢？<ul>
+<li>比如 DOM 结构发生改变（添加新的节点或者移除）；</li>
+<li>比如改变了布局（修改 width 、height 、padding 、font-size 等值）</li>
+<li>比如窗口 resizeresize（修改了窗口的尺寸等）</li>
+<li>比如调用 getComputedStyle 方法获取尺寸,位置信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h4><ul>
+<li>理解重绘 repaintrepaint：<ul>
+<li>第一次渲染内容称之为<strong>绘制</strong>（ paintpaint）。</li>
+<li><strong>重新渲染称为重绘。</strong></li>
+</ul>
+</li>
+<li>什么情况下会引起重绘呢？<ul>
+<li>比如修改背景色、文字颜色、边框颜色、样式等；</li>
+</ul>
+</li>
+</ul>
+<h4 id="如何避免回流重绘"><a href="#如何避免回流重绘" class="headerlink" title="如何避免回流重绘"></a>如何避免回流重绘</h4><ul>
+<li><strong>回流一定会引起重绘，所以回流是一件很消耗性能的事情。</strong></li>
+<li>在开发中要尽量避免发生回流<ul>
+<li><strong>01 修改样式时尽量一次性修改</strong><ul>
+<li>比如通过 cssText 修改，比如通过添加 class 修改</li>
+</ul>
+</li>
+<li><strong>02 尽量避免频繁的操作 DOM</strong><ul>
+<li>我们可以在一个 DocumentFragment (文档片段)或者父元素中将要操作的 DOM 操作完成，再一次性的操作；</li>
+</ul>
+</li>
+<li><strong>03 尽量避免通过 getComputedStyle 获取尺寸、位置等信息；</strong></li>
+<li><strong>04 对某些元素使用 position 的 absolute 或者 fixed</strong><ul>
+<li><code>并不是不会引起回流，而是开销相对较小，不会对其他元素造成影响。</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="script标签与页面解析"><a href="#script标签与页面解析" class="headerlink" title="script标签与页面解析"></a>script标签与页面解析</h3><ul>
+<li>我们现在已经知道了页面的渲染过程，但是 JavaScript 在哪里呢？<ul>
+<li>事实上，浏览器在解析 HTML 的过程中，遇到了 script 元素是不能继续构建 DOM 树的；</li>
+<li>它会停止继续构建，首先下载 JavaScript 代码，并且执行 JavaScript 的脚本；</li>
+<li>只有等到 JavaScript 脚本执行结束后，才会继续解析 HTML，构建 DOM 树；</li>
+</ul>
+</li>
+<li>为什么要这样做呢？<ul>
+<li>这是因为 JavaScript 的作用之一就是操作 DOM，并且可以修改 DOM；</li>
+<li>如果我们等到 DOM 树构建完成并且渲染再执行 JavaScript，会造成严重的回流和重绘，影响页面的性能；</li>
+<li>所以会在遇到 script 元素时，优先下载和执行 JavaScript 代码，再继续构建 DOM 树；</li>
+</ul>
+</li>
+<li>但是这个也往往会带来新的问题，特别是现代页面开发中：<ul>
+<li>在目前的开发模式中（比如 Vue、React），脚本往往比 HTML 页面更“重”，处理时间需要更长；</li>
+<li>所以会造成页面的解析阻塞，在脚本下载、执行完成之前，用户在界面上什么都看不到；</li>
+</ul>
+</li>
+<li>为了解决这个问题，script 元素给我们提供了两个属性（attribute）：<strong>defer 和 async</strong>。</li>
+</ul>
+<h4 id="defer属性"><a href="#defer属性" class="headerlink" title="defer属性"></a>defer属性</h4><ul>
+<li>defer 属性告诉浏览器不要等待脚本下载，而继续解析 HTML，构建 DOM Tree。<ul>
+<li>脚本会由浏览器来进行下载，但是不会阻塞 DOM Tree 的构建过程；</li>
+<li>如果脚本提前下载好了，它会等待 DOM Tree 构建完成，在 DOMContentLoaded 事件之前先执行 defer 中的代码；</li>
+</ul>
+</li>
+<li>所以 DOMContentLoaded 总是会等待 defer 中的代码先执行完成。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/99315db99b1343a1a4412505187b54d3" alt="1660057689993"></p>
+<ul>
+<li>另外多个带 defer 的脚本是可以保持正确的顺序执行的。</li>
+<li>从某种角度来说，defer 可以提高页面的性能，并且推荐放到 head 元素中,让浏览器提前下载</li>
+<li>注意：defer 仅适用于外部脚本，对于 script 默认内容会被忽略。</li>
+</ul>
+<h4 id="async属性"><a href="#async属性" class="headerlink" title="async属性"></a>async属性</h4><ul>
+<li>async 特性与 defer 有些类似，它也能够让脚本不阻塞页面。</li>
+<li>async 是让一个脚本完全独立的：</li>
+<li>浏览器不会因 async 脚本而阻塞（与 defer 类似）；</li>
+<li>async 脚本不能保证顺序，它是独立下载、独立运行，不会等待其他脚本；</li>
+<li>async 不会能保证在 DOMContentLoaded 之前或者之后执行；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/d7d51c4d3b594548afd09555aab84244" alt="1660057807407"></p>
+<ul>
+<li>defer 通常用于需要在文档解析后操作 DOM 的 JavaScript 代码，并且对多个 script 文件有顺序要求的；</li>
+<li>async 通常用于独立的脚本，对其他脚本，甚至 DOM 没有依赖的；</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/202_Promise/20201_Promise/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Promise</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/18/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/201_Ajax/20101_Ajax/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Ajax</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86"><span class="toc-text">浏览器渲染原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E8%A2%AB%E8%A7%A3%E6%9E%90%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">网页被解析的过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8"><span class="toc-text">浏览器内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E8%A7%A3%E6%9E%90%E9%A1%B5%E9%9D%A2%E8%BF%87%E7%A8%8B"><span class="toc-text">渲染引擎解析页面过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3"><span class="toc-text">渲染过程详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90DOM%E6%A0%91"><span class="toc-text">生成DOM树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90CSS%E8%A7%84%E5%88%99"><span class="toc-text">生成CSS规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E6%B8%B2%E6%9F%93%E6%A0%91"><span class="toc-text">构建渲染树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%83%E5%B1%80%E4%B8%8E%E7%BB%98%E5%88%B6"><span class="toc-text">布局与绘制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%88%E6%88%90%E5%9B%BE%E5%B1%82"><span class="toc-text">合成图层</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98"><span class="toc-text">回流与重绘</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E6%B5%81"><span class="toc-text">回流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E7%BB%98"><span class="toc-text">重绘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E5%9B%9E%E6%B5%81%E9%87%8D%E7%BB%98"><span class="toc-text">如何避免回流重绘</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#script%E6%A0%87%E7%AD%BE%E4%B8%8E%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90"><span class="toc-text">script标签与页面解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#defer%E5%B1%9E%E6%80%A7"><span class="toc-text">defer属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#async%E5%B1%9E%E6%80%A7"><span class="toc-text">async属性</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/" title="ModuleJS"><img alt="ModuleJS" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=2699047564,3202279374&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/" title="ModuleJS">ModuleJS</a><a class="article-recent_post_categories" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/" title="Git"><img alt="Git" src= "/img/loading.gif" data-lazy-src="https://img1.baidu.com/it/u=2467733905,2384498983&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281"></a><div class="content"><a class="title" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/" title="Git">Git</a><a class="article-recent_post_categories" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/" title="Fetch"><img alt="Fetch" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=549559475,2095831225&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=700&amp;h=393"></a><div class="content"><a class="title" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/" title="Fetch">Fetch</a><a class="article-recent_post_categories" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/" title="axios"><img alt="axios" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=4020045672,2483171357&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281"></a><div class="content"><a class="title" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/" title="axios">axios</a><a class="article-recent_post_categories" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" title="JS代码执行原理"><img alt="JS代码执行原理" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=3035522986,691107819&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" title="JS代码执行原理">JS代码执行原理</a><a class="article-recent_post_categories" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/">Web前端开发</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/软件测试/软件测试test/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

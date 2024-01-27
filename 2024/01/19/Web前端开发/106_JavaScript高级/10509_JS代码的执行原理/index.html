@@ -1,0 +1,424 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>JS代码执行原理 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# JS 代码的执行原理 JS 代码的执行原理 我们知道，浏览器内核是由两部分组成的，以 webkit 为例： WebCore 负责 HTML 解析、布局、渲染等等相关的工作； JavaScriptCore 解析、执行 JavaScript 代码；另外一个强大的 JavaScript 引擎就是"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">26</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">JS代码执行原理</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://img2.baidu.com/it/u=3035522986,691107819&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" alt="JS代码执行原理"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Web前端开发/">Web前端开发</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">JS代码执行原理</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-19 00:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-18T16:00:00.000Z">2024-01-18T16:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-27 23:00:22"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-27T15:00:22.041Z">2024-01-27T15:00:22.041Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">2.7k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>9 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# JS 代码的执行原理
+
+<h2 id="JS-代码的执行原理"><a href="#JS-代码的执行原理" class="headerlink" title="JS 代码的执行原理"></a>JS 代码的执行原理</h2><ul>
+<li>我们知道，浏览器内核是由两部分组成的，以 webkit 为例：<ul>
+<li>WebCore 负责 HTML 解析、布局、渲染等等相关的工作；</li>
+<li>JavaScriptCore 解析、执行 JavaScript 代码；另外一个强大的 JavaScript 引擎就是 V8 引擎。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/85d72e341f354d7796ac5ff482daa627" alt="1660112626791"></p>
+<h3 id="V8-引擎的执行原理"><a href="#V8-引擎的执行原理" class="headerlink" title="V8 引擎的执行原理"></a>V8 引擎的执行原理</h3><ul>
+<li>官方对 V8 引擎的定义：<ul>
+<li>V8 是用 C ++编写的 Google 开源高性能 JavaScript 和 WebAssembly 引擎，它用于 Chrome 和 Node.js 等。</li>
+<li>它实现 ECMAScript 和 WebAssembly，并在 Windows 7 或更高版本，macOS 10.12+和使用 x64，IA-32，ARM 或 MIPS 处理器的 Linux 系统上运行。</li>
+<li>V8 可以独立运行，也可以嵌入到任何 C ++应用程序中。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/0e165b5c2d5b4ed8a689f703d1378955" alt="1660112808469"></p>
+<h3 id="V8-引擎的架构"><a href="#V8-引擎的架构" class="headerlink" title="V8 引擎的架构"></a>V8 引擎的架构</h3><ul>
+<li><p>V8 引擎本身的源码非常复杂，大概有超过 100w 行 C++ 代码，通过了解它的架构，我们可以知道它是如何对 JavaScript 执行的：</p>
+</li>
+<li><p><strong>Parse 模块会将 JavaScript 代码转换成 AST（抽象语法树）</strong>，这是因为解释器并不直接认识 JavaScript 代码；</p>
+<ul>
+<li>如果函数没有被调用，那么是不会被转换成 AST 的；</li>
+<li>Parse 的 V8 官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/scanner">https://v8.dev/blog/scanner</a></li>
+</ul>
+</li>
+<li><p><strong>Ignition 是一个解释器，会将 AST 转换成 ByteCode（字节码）</strong></p>
+<ul>
+<li>同时会收集 TurboFan 优化所需要的信息（比如函数参数的类型信息，有了类型才能进行真实的运算）；</li>
+<li>如果函数只调用一次，Ignition 会解释执行 ByteCode；</li>
+<li>Ignition 的 V8 官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/ignition-interpreter">https://v8.dev/blog/ignition-interpreter</a></li>
+</ul>
+</li>
+<li><p><strong>TurboFan 是一个编译器，可以将字节码编译为 CPU 可以直接执行的机器码；</strong></p>
+</li>
+<li><p>如果一个函数被多次调用，那么就会被标记为热点函数，那么就会经过 TurboFan 转换成优化的机器码，提高代码的执行性能；</p>
+</li>
+<li><p>但是，机器码实际上也会被还原为 ByteCode，这是因为如果后续执行函数的过程中，类型发生了变化（比如 sum 函数原来执行的是 number 类型，后来执行变成了 string 类型），之前优化的机器码并不能正确的处理运算，就会逆向的转换成字节码；</p>
+</li>
+<li><p>TurboFan 的 V8 官方文档：<a target="_blank" rel="noopener" href="https://v8.dev/blog/turbofan-jit">https://v8.dev/blog/turbofan-jit</a></p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/868e80dbbbd74e1e988c59c23040be43" alt="1660113245614"></p>
+<h3 id="ECMAScript-版本说明"><a href="#ECMAScript-版本说明" class="headerlink" title="ECMAScript 版本说明"></a>ECMAScript 版本说明</h3><ul>
+<li><p>在 ECMA 早期的版本中（ ECMAScript3 ），代码的执行流程的术语和 ECMAScript5 以及之后的术语会有所区别：</p>
+<ul>
+<li>目前网上大多数流行的说法都是基于 ECMAScript3 版本的解析 ，并且在面试时问到的大多数都是 ECMAScript3 的版本内容。</li>
+<li>但是 ECMAScript3 终将过去， ECMAScript5 必然会成为主流 ，所以最好也理解 ECMAScript5 甚至包括 ECMAScript6 以及更好版本的内容；</li>
+<li>事实上在 TC39 的最新描述中，和 ECMAScript5 之后的版本又出现了一定的差异；</li>
+</ul>
+</li>
+<li><p>通过 ECMAScript3 中的概念学习 <strong>JavaScript 执行原理、作用域、作用域链、闭包</strong> 等概念；</p>
+</li>
+<li><p>通过 ECMAScript5 中的概念学习 <strong>块级作用域、 let 、 const</strong> 等概念；</p>
+</li>
+</ul>
+<h2 id="JS-代码的执行过程"><a href="#JS-代码的执行过程" class="headerlink" title="JS 代码的执行过程"></a>JS 代码的执行过程</h2><ul>
+<li>假如我们有下面一段代码，它在 JavaScript 中是如何被执行的呢？</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> message = <span class="string">&#x27;Global Message&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">num</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> message = <span class="string">&#x27;Foo Message&#x27;</span></span><br><span class="line">  <span class="keyword">var</span> age = <span class="number">18</span></span><br><span class="line">  <span class="keyword">var</span> height = <span class="number">1.88</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;foo function&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo</span>(<span class="number">123</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> num1 = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> result = num1 + num2</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="JS-代码的执行过程-1"><a href="#JS-代码的执行过程-1" class="headerlink" title="JS 代码的执行过程"></a>JS 代码的执行过程</h3><h4 id="初始化全局对象"><a href="#初始化全局对象" class="headerlink" title="初始化全局对象"></a>初始化全局对象</h4><ul>
+<li><strong>js 引擎会在执行代码之前，会在堆内存中创建一个全局对象</strong>：Global Object（GO）</li>
+<li>该对象 所有的作用域（scope）都可以访问；</li>
+<li>里面会包含 Date、Array、String、Number、setTimeout、setInterval 等等；</li>
+<li>其中还有一个 window 属性指向自己；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/f3cebe3db0f74213a7fa9a3daf2a93a0" alt="1674136596767"></p>
+<h4 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h4><ul>
+<li><strong>js 引擎内部有一个执行上下文栈（Execution Context Stack，简称 ECS），它是用于执行代码的调用栈</strong>。</li>
+<li>那么现在它要执行谁呢？执行的是全局的代码块：</li>
+<li>全局的代码块为了执行会构建一个 Global Execution Context（GEC）(全局执行上下文)；</li>
+<li>GEC 会 被放入到 ECS 中 执行；</li>
+<li>GEC 被放入到 ECS 中里面包含两部分内容：</li>
+<li>第一部分：在代码执行前，在 parser 转成 AST 的过程中，会将全局定义的变量、函数等加入到 GlobalObject 中，但是并不会赋值；<br>-  这个过程也称之为变量的作用域提升（hoisting）</li>
+<li>第二部分：在代码执行中，对变量赋值，或者执行其他的函数；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/04/02/74cc2e3379ea42b19dab6916046dc2e2" alt="1674136652927"></p>
+<h4 id="认识-VO-对象"><a href="#认识-VO-对象" class="headerlink" title="认识 VO 对象"></a>认识 VO 对象</h4><ul>
+<li>每一个执行上下文会关联一个 VO（Variable Object，变量对象），变量和函数声明会被添加到这个 VO 对象中。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/04/02/970ce14aa852436981550c7b86420aa0" alt="1674136723774"></p>
+<ul>
+<li>当全局代码被执行的时候，VO 就是 GO 对象了</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/04/02/9c9a4c58a5bc42d8a6fcb0739a1de0ac" alt="1674136730223"></p>
+<h3 id="全局代码的执行过程"><a href="#全局代码的执行过程" class="headerlink" title="全局代码的执行过程"></a>全局代码的执行过程</h3><h4 id="执行前"><a href="#执行前" class="headerlink" title="执行前"></a>执行前</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/06c1e9dc7b1d4c7192ea9942215360b2" alt="1674136785563"></p>
+<h4 id="执行后"><a href="#执行后" class="headerlink" title="执行后"></a>执行后</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/05b1dd87ad324060b5b43c88965b6ee1" alt="1674136799002"></p>
+<h3 id="函数的执行过程"><a href="#函数的执行过程" class="headerlink" title="函数的执行过程"></a>函数的执行过程</h3><ul>
+<li>在执行的过程中执行到一个函数时，就会根据函数体创建一个函数执行上下文（Functional Execution Context，简称 FEC），并且压入到 EC Stack 中。<br>因为每个执行上下文都会关联一个 VO，那么函数执行上下文关联的 VO 是什么呢？</li>
+<li>当进入一个函数执行上下文时，会创建一个 AO 对象（Activation Object）；</li>
+<li>这个 AO 对象会使用 arguments 作为初始化，并且初始值是传入的参数；</li>
+<li>这个 AO 对象会作为执行上下文的 VO 来存放变量的初始化；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/04/02/b365f650c7ad4dbc9ef15f44da85e435" alt="1674136853384"></p>
+<h4 id="执行前-1"><a href="#执行前-1" class="headerlink" title="执行前"></a>执行前</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/c474fc27a09f41b3b36d48bc66137891" alt="1674136882431"></p>
+<h4 id="执行后-1"><a href="#执行后-1" class="headerlink" title="执行后"></a>执行后</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/4862f04cb56d45dda3d961b953e18fd6" alt="1674136895779"></p>
+<h3 id="作用域与作用域链"><a href="#作用域与作用域链" class="headerlink" title="作用域与作用域链"></a>作用域与作用域链</h3><h4 id="作用域与作用域链-1"><a href="#作用域与作用域链-1" class="headerlink" title="作用域与作用域链"></a>作用域与作用域链</h4><ul>
+<li>当进入到一个执行上下文时，执行上下文也会关联一个作用域链（Scope Chain）</li>
+<li>作用域链是一个对象列表，用于变量标识符的求值；</li>
+<li>当进入一个执行上下文时，这个作用域链被创建，并且根据代码类型，添加一系列的对象；</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/326be69505af4e2db7d435f2622a4f89" alt="1674137043066"></p>
+<h4 id="作用域链面试题"><a href="#作用域链面试题" class="headerlink" title="作用域链面试题"></a>作用域链面试题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="JavaScript-内存管理"><a href="#JavaScript-内存管理" class="headerlink" title="JavaScript 内存管理"></a>JavaScript 内存管理</h2><h3 id="认识内存管理"><a href="#认识内存管理" class="headerlink" title="认识内存管理"></a>认识内存管理</h3><ul>
+<li><p>不管什么样的编程语言，在代码的执行过程中都是需要给它分配内存的，不同的是某些编程语言需要我们自己手动的管理内存，某些编程语言会可以自动帮助我们管理内存：</p>
+</li>
+<li><p>不管以什么样的方式来管理内存，内存的管理都会有如下的生命周期：</p>
+<ul>
+<li>第一步：分配申请你需要的内存（申请）；</li>
+<li>第二步：使用分配的内存（存放一些东西，比如对象等）；</li>
+<li>第三步：不需要使用时，对其进行释放；</li>
+</ul>
+</li>
+<li><p>不同的编程语言对于第一步和第三步会有不同的实现：</p>
+<ul>
+<li>手动管理内存：比如 C、C++，包括早期的 OC，都是需要手动来管理内存的申请和释放的（malloc 和 free 函数）；</li>
+<li>自动管理内存：比如 Java、JavaScript、Python、Swift、Dart 等，它们有自动帮助我们管理内存；</li>
+</ul>
+</li>
+<li><p>对于开发者来说，JavaScript 的内存管理是自动的、无形的。</p>
+</li>
+<li><p>我们创建的原始值、对象、函数……这一切都会占用内存；</p>
+</li>
+<li><p>但是我们并不需要手动来对它们进行管理，JavaScript 引擎会帮助我们处理好它；</p>
+</li>
+</ul>
+<h3 id="JavaScript-的内存管理"><a href="#JavaScript-的内存管理" class="headerlink" title="JavaScript 的内存管理"></a>JavaScript 的内存管理</h3><ul>
+<li><p>JavaScript 会在定义数据时为我们分配内存。</p>
+</li>
+<li><p>JS 对于原始数据类型内存的分配会在执行时，直接在栈空间进行分配；</p>
+</li>
+<li><p>JS 对于复杂数据类型内存的分配会在堆内存中开辟一块空间，并且将这块空间的指针返回值变量引用；</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/7c67954f54cc41c7b9e1869197272338" alt="1660128151953"></p>
+<h3 id="JavaScript-的垃圾回收"><a href="#JavaScript-的垃圾回收" class="headerlink" title="JavaScript 的垃圾回收"></a>JavaScript 的垃圾回收</h3><ul>
+<li>因为内存的大小是有限的，所以当内存不再需要的时候，我们需要对其进行释放，以便腾出更多的内存空间。</li>
+<li>在手动管理内存的语言中，我们需要通过一些方式自己来释放不再需要的内存，比如 free 函数：<ul>
+<li>但是这种管理的方式其实非常的低效，影响我们编写逻辑的代码的效率；</li>
+<li>并且这种方式对开发者的要求也很高，并且一不小心就会产生内存泄露；</li>
+</ul>
+</li>
+<li>所以大部分现代的编程语言都是有自己的垃圾回收机制：<ul>
+<li>垃圾回收的英文是 Garbage Collection，简称 GC；</li>
+<li>对于那些不再使用的对象，我们都称之为是垃圾，它需要被回收，以释放更多的内存空间；</li>
+<li>而我们的语言运行环境，比如 Java 的运行环境 JVM，JavaScript 的运行环境 js 引擎都会内存垃圾回收器；</li>
+<li>垃圾回收器我们也会简称为 GC，所以在很多地方你看到 GC 其实指的是垃圾回收器；</li>
+</ul>
+</li>
+<li>但是这里又出现了另外一个很关键的问题：GC 怎么知道哪些对象是不再使用的呢？<ul>
+<li>这里就要用到 GC 的实现以及对应的算法；</li>
+</ul>
+</li>
+</ul>
+<h4 id="常见的垃圾回收算法"><a href="#常见的垃圾回收算法" class="headerlink" title="常见的垃圾回收算法"></a>常见的垃圾回收算法</h4><ul>
+<li>01 引用计数：<ul>
+<li>当一个对象有一个引用指向它时，那么这个对象的引用就+1；</li>
+<li>当一个对象的引用为 0 时，这个对象就可以被销毁掉；</li>
+<li>这个算法有一个很大的弊端就是会产生循环引用；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/2b7da00ea1c040d998c46994d6778a40" alt="1660128423769"></p>
+<ul>
+<li>02 标记清除：<ul>
+<li>标记清除的核心思路是可达性（Reachability）</li>
+<li>这个算法是设置一个根对象（root object），垃圾回收器会定期从这个根开始，找所有从根开始有引用到的对象，对于哪些没有引用到的对象，就认为是不可用的对象；</li>
+<li>这个算法可以很好的解决循环引用的问题；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/7217ba0c638c40d3b444163b1a52d9f2" alt="1660128457208"></p>
+<h4 id="其他算法优化补充"><a href="#其他算法优化补充" class="headerlink" title="其他算法优化补充"></a>其他算法优化补充</h4><ul>
+<li>JS 引擎比较广泛的采用的就是可达性中的标记清除算法，当然类似于 V8 引擎为了进行更好的优化，它在算法的实现细节上也会结合一些其他的算法。</li>
+<li>标记整理（Mark-Compact） 和“标记－清除”相似；<ul>
+<li>不同的是，回收期间同时会将保留的存储对象搬运汇集到连续的内存空间，从而整合空闲空间，避免内存碎片化；</li>
+</ul>
+</li>
+<li>分代收集（Generational collection）—— 对象被分成两组：“新的”和“旧的”。<ul>
+<li>许多对象出现，完成它们的工作并很快死去，它们可以很快被清理；</li>
+<li>那些长期存活的对象会变得“老旧”，而且被检查的频次也会减少；</li>
+</ul>
+</li>
+<li>增量收集（Incremental collection）<ul>
+<li>如果有许多对象，并且我们试图一次遍历并标记整个对象集，则可能需要一些时间，并在执行过程中带来明显的延迟。</li>
+<li>所以引擎试图将垃圾收集工作分成几部分来做，然后将这几部分会逐一进行处理，这样会有许多微小的延迟而不是一个大的延迟；</li>
+</ul>
+</li>
+<li>闲时收集（Idle-time collection）<ul>
+<li>垃圾收集器只会在 CPU 空闲时尝试运行，以减少可能对代码执行的影响。</li>
+</ul>
+</li>
+</ul>
+<h3 id="V8-引擎的详细内存图"><a href="#V8-引擎的详细内存图" class="headerlink" title="V8 引擎的详细内存图"></a>V8 引擎的详细内存图</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/02/26/b6e4bb3eb92c4a5ab386cdede00f2044" alt="1660128544663"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">axios</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/202_Promise/20201_Promise/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Promise</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS-%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-text">JS 代码的执行原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#V8-%E5%BC%95%E6%93%8E%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-text">V8 引擎的执行原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V8-%E5%BC%95%E6%93%8E%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-text">V8 引擎的架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ECMAScript-%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E"><span class="toc-text">ECMAScript 版本说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS-%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">JS 代码的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS-%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B-1"><span class="toc-text">JS 代码的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%85%A8%E5%B1%80%E5%AF%B9%E8%B1%A1"><span class="toc-text">初始化全局对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-text">执行上下文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86-VO-%E5%AF%B9%E8%B1%A1"><span class="toc-text">认识 VO 对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">全局代码的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%8D"><span class="toc-text">执行前</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%90%8E"><span class="toc-text">执行后</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">函数的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%89%8D-1"><span class="toc-text">执行前</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%90%8E-1"><span class="toc-text">执行后</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-text">作用域与作用域链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-1"><span class="toc-text">作用域与作用域链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">作用域链面试题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">JavaScript 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">认识内存管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">JavaScript 的内存管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-text">JavaScript 的垃圾回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="toc-text">常见的垃圾回收算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96%E8%A1%A5%E5%85%85"><span class="toc-text">其他算法优化补充</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V8-%E5%BC%95%E6%93%8E%E7%9A%84%E8%AF%A6%E7%BB%86%E5%86%85%E5%AD%98%E5%9B%BE"><span class="toc-text">V8 引擎的详细内存图</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/" title="ModuleJS"><img alt="ModuleJS" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=2699047564,3202279374&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/" title="ModuleJS">ModuleJS</a><a class="article-recent_post_categories" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/206_%E6%A8%A1%E5%9D%97%E5%8C%96/20601_ModuleJS/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/" title="Git"><img alt="Git" src= "/img/loading.gif" data-lazy-src="https://img1.baidu.com/it/u=2467733905,2384498983&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281"></a><div class="content"><a class="title" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/" title="Git">Git</a><a class="article-recent_post_categories" href="/2024/01/22/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/205_Git/20501_Git/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/" title="Fetch"><img alt="Fetch" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=549559475,2095831225&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=700&amp;h=393"></a><div class="content"><a class="title" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/" title="Fetch">Fetch</a><a class="article-recent_post_categories" href="/2024/01/21/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/204_Fetch/20401_Fetch/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/" title="axios"><img alt="axios" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=4020045672,2483171357&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281"></a><div class="content"><a class="title" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/" title="axios">axios</a><a class="article-recent_post_categories" href="/2024/01/20/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/203_Axios/20301_Axios/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" title="JS代码执行原理"><img alt="JS代码执行原理" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=3035522986,691107819&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" title="JS代码执行原理">JS代码执行原理</a><a class="article-recent_post_categories" href="/2024/01/19/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/106_JavaScript%E9%AB%98%E7%BA%A7/10509_JS%E4%BB%A3%E7%A0%81%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/">Web前端开发</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/软件测试/软件测试test/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
