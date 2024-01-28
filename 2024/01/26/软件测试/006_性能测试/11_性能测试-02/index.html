@@ -1,0 +1,1496 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>性能测试基础02 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# JMeter测试报告 引入 性能测试的各种指标结果如何获取？ 性能测试时间一般比较长，如何获取测试过程中的所有指标数据？ 聚合报告介绍 作用：收集性能测试结束后，系统的各项性能指标。如：响应时间、并发数、吞吐量、错误率等 位置：测试计划-&amp;gt;右键-&amp;gt;监听器-&amp;gt;聚合报告"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">55</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">性能测试基础02</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="性能测试基础02"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">性能测试基础02</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-26 06:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-25T22:00:00.000Z">2024-01-25T22:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 22:37:42"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T14:37:42.198Z">2024-01-28T14:37:42.198Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">9.4k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>34 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# JMeter测试报告
+
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><ul>
+<li>性能测试的各种指标结果如何获取？</li>
+<li>性能测试时间一般比较长，如何获取测试过程中的所有指标数据？</li>
+</ul>
+<h2 id="聚合报告"><a href="#聚合报告" class="headerlink" title="聚合报告"></a>聚合报告</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>作用：收集性能测试结束后，系统的各项性能指标。如：响应时间、并发数、吞吐量、错误率等</p>
+</li>
+<li><p>位置：测试计划-&gt;右键-&gt;监听器-&gt;聚合报告</p>
+</li>
+<li><p>参数介绍：</p>
+<ul>
+<li><p>Label：每个请求的名称</p>
+</li>
+<li><p>样本：各请求发出的数量</p>
+</li>
+<li><p>平均值：平均响应时间（单位：毫秒）</p>
+</li>
+<li><p>中位数：中位数，50% &lt;&#x3D; 时间</p>
+</li>
+<li><p>90%百分比：90% &lt;&#x3D; 时间</p>
+</li>
+<li><p>95%百分比：95% &lt;&#x3D; 时间</p>
+</li>
+<li><p>99%百分比：99% &lt;&#x3D; 时间</p>
+</li>
+<li><p>最小值：最小响应时间</p>
+</li>
+<li><p>最大值：最大响应时间</p>
+</li>
+<li><p>异常%：请求的错误率</p>
+</li>
+<li><p>吞吐量：吞吐量。默认情况下表示每秒完成的请求数，一般认为它为TPS。</p>
+</li>
+<li><p>接收 KB&#x2F;sec：每秒接收到的千字节数</p>
+</li>
+<li><p>发送 KB&#x2F;sec：每秒发送的千字节数</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>1、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></li>
+<li>2、模拟5个用户并发，控制服务器QPS为20，运行时长设置为10分钟</li>
+<li>3、添加聚合报告，收集系统性能指标：响应时间、吞吐量、错误率、网路速率</li>
+</ul>
+<h2 id="html测试报告"><a href="#html测试报告" class="headerlink" title="html测试报告"></a>html测试报告</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>作用：JMeter支持生成HTML测试报告，以便从测试计划中获得图表和统计信息</p>
+</li>
+<li><p>命令：</p>
+<ul>
+<li><p><code>jmeter -n -t [jmx file] -l [result file] -e -o [html report folder]</code></p>
+</li>
+<li><p>eg: <code>jmeter -n -t hello.jmx -l result.jtl -e -o ./report</code></p>
+</li>
+</ul>
+</li>
+<li><p>参数描述：</p>
+<ul>
+<li>-n：非GUI模式执行JMeter</li>
+<li>-t [jmx file]：测试计划保存的路径及.jmx文件名，路径可以是相对路径也可以是绝对路径</li>
+<li>-l [result file]：保存生成测试结果的文件，jtl文件格式</li>
+<li>-e：测试结束后，生成测试报告</li>
+<li>-o [html report folder]：存放生成测试报告的路径，路径可以是相对路径也可以是绝对路径</li>
+<li>注意：result.jtl 和 report 会自动生成，如果在执行命令时 result.jtl 和 report 已存在，必须用先删除，否则在运行命令时就会报错</li>
+</ul>
+</li>
+</ul>
+<h3 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h3><ul>
+<li>1、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></li>
+<li>2、模拟5个用户并发，控制服务器QPS为20，运行时长设置为10分钟</li>
+<li>3、使用命令行的方式运行，并收集HTML测试报告</li>
+</ul>
+<h3 id="测试报告"><a href="#测试报告" class="headerlink" title="测试报告"></a>测试报告</h3><ul>
+<li>HTML测试报告：执行完毕后，用浏览器打开生成报告的文件目录下的index文件，效果展示如下</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/8fb72725bb2843e3b029afe5faf82104" alt="image-20240114175635392"></p>
+<ul>
+<li><p>APDEX (应用性能指标)：</p>
+<ul>
+<li><p>APDEX：满意度，范围在 0-1 之间，1表示达到所有用户均满意</p>
+</li>
+<li><p>T(Toleration threshold)：容忍或满意阈值</p>
+</li>
+<li><p>F(Frustration threshold)：失败阈值</p>
+</li>
+</ul>
+</li>
+<li><p>Requests Summary（请求总结）：</p>
+<ul>
+<li>成功与失败的请求占比，KO指失败率，OK指成功率</li>
+</ul>
+</li>
+<li><p>HTML测试报告：</p>
+<ul>
+<li>Chart（详细信息图表）：它包括Throughput（吞吐量） 、Response Times（响应时间）等</li>
+</ul>
+</li>
+<li><p>每秒事务数,即 TPS :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/ac53d3c634b848b8bd2a234865bcfcbe" alt="image-20240114175747693"></p>
+<ul>
+<li>Response Times Over Time（脚本运行期间的响应时间变化趋势图）</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c66a5da6722e4862aa2d977e6989c590" alt="image-20240114175804018"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）聚合报告的核心内容有哪些？<ul>
+<li>响应时间、吞吐量、错误率、网路速率</li>
+</ul>
+</li>
+<li>（2）JMeter生成html测试报告的命令？<ul>
+<li><code>jmeter -n -t hello.jmx -l result.jtl -e -o ./report</code></li>
+<li>注意事项：<ul>
+<li>如果在执行命令时result.jtl和report已存在，必须用先删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>（3）JMeter的HTML测试报告的内容？<ul>
+<li>性能统计仪表盘</li>
+<li>性能测试过程中的详细信息报表</li>
+</ul>
+</li>
+</ul>
+<h1 id="TPS计算"><a href="#TPS计算" class="headerlink" title="TPS计算"></a>TPS计算</h1><h2 id="引入-1"><a href="#引入-1" class="headerlink" title="引入"></a>引入</h2><ul>
+<li><p>稳定性测试时需要模拟用户真实负载量，真实负载量是多少？</p>
+</li>
+<li><p>压力测试时需要模拟高负载验证系统的容错能力，高负载有多高？</p>
+</li>
+<li><p>性能测试时的TPS，大都是根据用户真实的业务数据（运营数据）来计算的</p>
+</li>
+<li><p>运营数据：</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/771cdfac5df8476f96df028354c5eaed" alt="image-20240114180012012"></p>
+<ul>
+<li>PV:（Page View）即页面访问量，每打开一次页面PV计数+1，刷新页面也是。PV只统计页面访问次数。</li>
+</ul>
+<h2 id="普通计算"><a href="#普通计算" class="headerlink" title="普通计算"></a>普通计算</h2><ul>
+<li><p>计算公式：TPS &#x3D; 总请求数 &#x2F; 总时间</p>
+</li>
+<li><p>数据分析：</p>
+<ul>
+<li>根据数据统计，在2019年第32周，日均PV为4.13万，可以估算为1天有4.13万请求（1次浏览都至少对应1个请求）</li>
+<li>总请求数 &#x3D; 4.13 万请求数 &#x3D; 41300</li>
+<li>总时间 &#x3D; 1天 &#x3D; 1 * 24 小时 &#x3D; 24 * 3600 秒</li>
+</ul>
+</li>
+<li><p>套入公式：</p>
+<ul>
+<li>TPS &#x3D; 41300请求数&#x2F;24*3600秒 &#x3D; 0.48请求数&#x2F;秒</li>
+</ul>
+</li>
+<li><p>结论：按照普通计算方法，理论上每秒能够处理0.48请求，就可以满足线上的需要。</p>
+</li>
+</ul>
+<h2 id="二八原则计算"><a href="#二八原则计算" class="headerlink" title="二八原则计算"></a>二八原则计算</h2><ul>
+<li><p>二八原则就是指80%的请求在20%的时间内完成</p>
+</li>
+<li><p>计算公式：<code>TPS = 总请求数 * 80% / (总时间*20%)</code></p>
+</li>
+<li><p>套入公式：</p>
+<ul>
+<li><code>TPS = 41300 * 0.8请求数 / 24*3600*0.2秒 = 1.91 请求数/秒</code></li>
+</ul>
+</li>
+<li><p>结论：按照二八原则计算，在测试环境我们的TPS只要能达到1.91请求数每秒就能满足线上需要。二八原则的估算结果会比平均值的计算方法更能满足用户需求。</p>
+</li>
+</ul>
+<h2 id="计算稳定性测试并发量"><a href="#计算稳定性测试并发量" class="headerlink" title="计算稳定性测试并发量"></a>计算稳定性测试并发量</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/56e88383eea74790a784953b62d74ca9" alt="image-20240114180410714"></p>
+<ul>
+<li><p>数据分析：</p>
+<ul>
+<li><p>根据这些数据统计图，可以得出结论：</p>
+<ul>
+<li><p>大部分订单在8点-24点之间，因此系统的有效工作时长为16个小时</p>
+</li>
+<li><p>从订单数量统计，8-24点之间的订单占一天总订单的98%左右（40474个）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>结合二八原则计算公式 ： <code>TPS = 总请求数 * 80% / (总时间*20%)</code> ：</p>
+<ul>
+<li>需要在测试环境模拟用户正常业务操作（稳定性测试）的并发量为：<ul>
+<li><code>TPS = 40474 * 0.8请求数 / 16*3600*0.2秒 = 2.81 请求数/秒</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="计算压力测试并发量"><a href="#计算压力测试并发量" class="headerlink" title="计算压力测试并发量"></a>计算压力测试并发量</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/2c06e7a86d8b483995c209fa6fe52a70" alt="image-20240114180520619"></p>
+<ul>
+<li><p>数据分析：</p>
+<ul>
+<li>根据这些数据统计图，可以得出结论：<ul>
+<li>订单最高峰在在21点-22点之间，一小时的订单总数大约为 8853个</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>计算压力测试的并发数：</p>
+<ul>
+<li><code>TPS = 峰值请求数/峰值时间 * 系数</code>：</li>
+</ul>
+</li>
+<li><p>需要在测试环境模拟用户峰值业务操作（压力测试）的并发量为：</p>
+<ul>
+<li><code>TPS = 8853 请求数 / 3600秒 * 3（系数） = 7.38 请求数/秒</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><p>（1）并发数计算方法有哪几种？作用有什么区别？</p>
+</li>
+<li><p>普通方法：</p>
+<ul>
+<li><p>并发数TPS &#x3D; 总请求数&#x2F;总时间</p>
+</li>
+<li><p>作用：可以满足系统最最基本的应用场景（每天的总请求数）的要求。</p>
+</li>
+</ul>
+</li>
+<li><p>二八原则：</p>
+<ul>
+<li>并发数TPS &#x3D; 总请求数 * 80% &#x2F; 总时间 * 20%</li>
+<li>作用：可以满足绝大多数情况下，用户真实的业务场景要求。</li>
+</ul>
+</li>
+<li><p>根据业务运营数据的统计计算（通常用来做稳定性测试）</p>
+<ul>
+<li>并发数TPS &#x3D; 有效请求数 * 80% &#x2F; 有效时间 * 20%</li>
+<li>作用：可以满足绝大多数情况下用户真实的业务场景要求(当运营数据的统计越精确，计算结果越准确)</li>
+</ul>
+</li>
+<li><p>根据用户峰值业务操作来计算（通常用来做压力测试）</p>
+<ul>
+<li>并发数TPS &#x3D; 峰值请求数 &#x2F; 峰值时间 * 系数</li>
+<li>作用：专门用于满足极端的用户业务场景下的性能需求</li>
+</ul>
+</li>
+</ul>
+<h1 id="第三方插件"><a href="#第三方插件" class="headerlink" title="第三方插件"></a>第三方插件</h1><h2 id="引入-2"><a href="#引入-2" class="headerlink" title="引入"></a>引入</h2><ul>
+<li>JMeter自带监控功能无法监控服务器资源怎么办？</li>
+<li>JMeter自带的报告不能精确统计运行过程中的性能指标变化怎么办？</li>
+</ul>
+<h2 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h2><ul>
+<li><p>说明：先下载JMeter插件管理工具包，再用此包下载JMeter插件</p>
+</li>
+<li><p>下载插件管理包的步骤：</p>
+<ul>
+<li>下载包管理工具jar包</li>
+<li>将包管理工具jar包添加到JMeter放入到lib\ext目录下</li>
+<li>重启JMeter，可以在选项下看到插件管理</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/1627f8a4656443d6a3d759a3f036a946" alt="image-20240114182908868"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/1627f8a4656443d6a3d759a3f036a946"></p>
+<ul>
+<li>安装第三方插件的步骤：<ul>
+<li>打开Plugins Manager插件管理器</li>
+<li>选择Available Plugins，当前可用的插件</li>
+<li>选择需要下载的插件（等待右方文本内容展示出来）</li>
+<li>下载右下角的下载按钮，自动的完成下载，JMeter会自动重启</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/cc4dfd77e11642399ca0d7c84aca36c5" alt="image-20240114182945606"></p>
+<h2 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h2><ul>
+<li><p>1、安装插件管理包</p>
+</li>
+<li><p>2、安装如下指定的插件</p>
+<ul>
+<li><p>3 Basic Graphs</p>
+</li>
+<li><p>5 Additionally Graphs</p>
+</li>
+<li><p>Custom Thread Groups</p>
+</li>
+<li><p>PerfMon</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）第三方插件的作用？<ul>
+<li>使用第三方开发的扩展功能</li>
+</ul>
+</li>
+<li>（2）第三方插件的下载步骤？<ul>
+<li>下载插件管理器：<ul>
+<li>下载包管理工具jar包</li>
+<li>将包管理工具jar包添加到JMeter放入到lib\ext目录下</li>
+<li>重启JMeter</li>
+</ul>
+</li>
+<li>下载第三方插件：<ul>
+<li>打开Plugins Manager插件管理器</li>
+<li>选择Available Plugins，当前可用的插件</li>
+<li>选择需要下载的插件（等待右方文本内容展示出来）</li>
+<li>下载右下角的下载按钮，自动的完成下载，JMeter会自动重启</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="性能测试常用图表"><a href="#性能测试常用图表" class="headerlink" title="性能测试常用图表"></a>性能测试常用图表</h1><h2 id="Concurrency-Thread-Group-线程组"><a href="#Concurrency-Thread-Group-线程组" class="headerlink" title="Concurrency Thread Group 线程组"></a>Concurrency Thread Group 线程组</h2><ul>
+<li>阶梯线程组：作用是阶梯加压；图形界面显示运行状态</li>
+<li>添加方式：测试计划 –&gt; 线程（用户）–&gt; Concurrency Thread Group</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/bc67537c66d24da4a78ba1d1cf4def8f" alt="image-20240114183215225"></p>
+<ul>
+<li>参数介绍：<ul>
+<li><p>Target Concurrency：目标并发（线程数）</p>
+</li>
+<li><p>Ramp Up Time：加速时间</p>
+</li>
+<li><p>Ramp-Up Steps Count：加速步骤计数</p>
+</li>
+<li><p>Hold Target Rate Time：运行时间</p>
+</li>
+<li><p>Time Unit：时间单位（分钟或者秒）</p>
+</li>
+<li><p>Thread Iterations Limit：线程循环次数</p>
+</li>
+<li><p>Log Threads Status into File：日志记录</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Transactions-per-Second"><a href="#Transactions-per-Second" class="headerlink" title="Transactions per Second"></a>Transactions per Second</h2><ul>
+<li>每秒完成事务数：作用是统计各个事务每秒钟成功的事务个数</li>
+<li>添加方式：测试计划 –&gt; 线程组–&gt; 监听器–&gt;Transactions per Second</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/2e9482925ec04b24aefc67dac29f8bec" alt="image-20240114183249657"></p>
+<h2 id="Bytes-Throughput-per-Second"><a href="#Bytes-Throughput-per-Second" class="headerlink" title="Bytes Throughput per Second"></a>Bytes Throughput per Second</h2><ul>
+<li>每秒字节吞吐量：作用是查看服务器吞吐流量（单位&#x2F;字节）</li>
+<li>添加方式：测试计划 –&gt; 线程组–&gt; 监听器–&gt;Bytes Throughput Over Time</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/a71e14fe873f4502b55d75c2e8b63447" alt="image-20240114183313096"></p>
+<h2 id="案例-2"><a href="#案例-2" class="headerlink" title="案例"></a>案例</h2><ul>
+<li>1、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></li>
+<li>2、模拟5个用户并发，控制服务器QPS为20，运行时长设置为10分钟</li>
+<li>3、添加性能测试常用图表</li>
+</ul>
+<h2 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）Concurrency Thread Group 线程组的作用是什么？<ul>
+<li>阶梯加压</li>
+<li>图形界面显示运行状态</li>
+</ul>
+</li>
+<li>（2）Transactions per Second和Bytes Throughput per Second有什么作用？<ul>
+<li>Transactions per Second：作用是统计各个事务每秒钟成功的事务个数</li>
+<li>Bytes Throughput per Second：作用是查看服务器吞吐流量</li>
+</ul>
+</li>
+<li>（3）Transactions per Second和聚合报告中的TPS在性能测试时的作用有何不同，以哪个为准？<ul>
+<li>性能测试的结果统计，以聚合报告的结果为准</li>
+<li>每秒性能指标的作用是：查看系统长时间运行过程中是否有异常出现，有则进一步分析</li>
+</ul>
+</li>
+</ul>
+<h1 id="PerfMon组件监控服务器资源"><a href="#PerfMon组件监控服务器资源" class="headerlink" title="PerfMon组件监控服务器资源"></a>PerfMon组件监控服务器资源</h1><h2 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>作用：用来监控服务端的性能资源指标的工具，包括cpu、内存、磁盘、网络等性能数据</li>
+<li>添加方法：线程组-&gt;监听器-&gt;jp@gc - PerfMon Metrics Collector</li>
+<li>注意：使用之前需要在服务器端安装监听服务程序并启动</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/4bc189a613984eada1f43b6c487ec776" alt="image-20240114183623799"></p>
+<h2 id="监控资源指标步骤"><a href="#监控资源指标步骤" class="headerlink" title="监控资源指标步骤"></a>监控资源指标步骤</h2><ul>
+<li>监控服务器资源指标的步骤：<ul>
+<li><p>下载安装包ServerAgent-2.2.3.zip，链接地址：<a target="_blank" rel="noopener" href="https://github.com/undera/perfmon-agent">https://github.com/undera/perfmon-agent</a></p>
+</li>
+<li><p>上传到服务器上，并解压ServerAgent-2.2.3.zip</p>
+</li>
+<li><p>启动，如果是windows运行startAgent.bat，如果是linux运行startAgent.sh</p>
+</li>
+<li><p>启动这个工具后，jmeter的插件jp@gc - PerfMon Metrics Collector就可以收集服务端的资源使用率，并在 jmeter中查看了</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/d1cd56f0bb6a4693b2ef21f3592cfcd2" alt="image-20240114183715662"></p>
+<h2 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h2><ul>
+<li>1、启动windows上安装的Tpshop商城项目</li>
+<li>2、使用JMeter编写脚本，访问首页，控制运行时间为60s，并同步监控服务器资源指标</li>
+<li>操作步骤：<ol>
+<li>上传ServerAgent-2.2.3.zip到windows服务器上，并进行解压</li>
+<li>启动ServerAgent程序startAgent.bat</li>
+<li>添加线程组，配置持续时间为60s</li>
+<li>添加HTTP请求 – 首页</li>
+<li>添加PerFMon组件</li>
+<li>添加聚合报告</li>
+</ol>
+</li>
+</ul>
+<h2 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h2><ul>
+<li>1、启动linux上安装的Tpshop商城项目</li>
+<li>2、使用JMeter编写脚本，访问首页，控制运行时间为60s，并同步监控服务器资源指标</li>
+<li>操作步骤：<ol>
+<li>上传ServerAgent-2.2.3.zip到linux服务器上，并进行解压</li>
+<li>启动ServerAgent程序startAgent.sh</li>
+<li>添加线程组，配置持续时间为60s</li>
+<li>添加HTTP请求 – 首页</li>
+<li>添加PerFMon组件</li>
+<li>添加聚合报告</li>
+</ol>
+</li>
+</ul>
+<h2 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）PerfMon组件的作用？<ul>
+<li>用来监控服务端的性能资源指标，包括cpu、内存、磁盘、网络等性能数据</li>
+</ul>
+</li>
+<li>（2）PerFMon组件监服务器控资源指标的步骤？<ul>
+<li>下载ServerAgent-2.2.3.zip，并上传到服务器上进行解压</li>
+<li>启动ServerAgent程序<ul>
+<li>如果是windows运行startAgent.bat</li>
+<li>如果是linux运行startAgent.sh</li>
+</ul>
+</li>
+<li>编写JMeter脚本，配置运行时间</li>
+<li>添加PerFmon组件<ul>
+<li>服务器IP</li>
+<li>ServerAgent程序端口</li>
+<li>待监控的指标</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="项目实战"><a href="#项目实战" class="headerlink" title="项目实战"></a>项目实战</h1><h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><ul>
+<li>轻商城项目是一个现在流行的电商项目。我们需要综合评估该项目中各个关键接口的性能，并给出优化建议，以满足项目上线后的性能需要。</li>
+</ul>
+<h2 id="项目功能架构"><a href="#项目功能架构" class="headerlink" title="项目功能架构"></a>项目功能架构</h2><ul>
+<li>前台商城：购物车、订单、支付、优惠券等</li>
+<li>后台管理系统：商品管理、会员管理、商场管理、推广管理等</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/7064b1b9c7bf4893b185665633ed1054" alt="image-20240114183947730"></p>
+<h2 id="项目技术架构"><a href="#项目技术架构" class="headerlink" title="项目技术架构"></a>项目技术架构</h2><ul>
+<li>前端：VUE技术框架开发，支持微信小程序、手机移动端、web界面</li>
+<li>后端：SpringBoot框架开发，MySQL做数据库</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/520289c32400480aa89406d827e488ee" alt="image-20240114184019425"></p>
+<h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><ul>
+<li><p>作用：</p>
+<ul>
+<li><p>熟悉数据库设计结构，便于后期对数据库的性能监控，方便问题定位</p>
+</li>
+<li><p>构造性能测试数据</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/f44cb6486357431ca8bb0b1efd5d3bcf" alt="image-20240114184045350"></p>
+<h2 id="轻商城项目搭建"><a href="#轻商城项目搭建" class="headerlink" title="轻商城项目搭建"></a>轻商城项目搭建</h2><ul>
+<li>准备工作：安装JDK、MySQL、Nginx</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/1e5beb092b9e45ffafcc46e25c6a4eda" alt="image-20240114184250362"></p>
+<h2 id="性能测试需求分析"><a href="#性能测试需求分析" class="headerlink" title="性能测试需求分析"></a>性能测试需求分析</h2><h3 id="获取需求"><a href="#获取需求" class="headerlink" title="获取需求"></a>获取需求</h3><ul>
+<li><p>客户方提出：</p>
+<ul>
+<li>能够提出明确需求的一般是金融、银行、电信、医疗等企业，他们一般对系统的性能要求高，并且对性能也非常了解</li>
+</ul>
+</li>
+<li><p>根据历史运营数据分析，如：</p>
+<ul>
+<li><p>用户频繁使用的功能模块是哪些</p>
+</li>
+<li><p>每月、每周、每天的峰值业务量是多少</p>
+</li>
+</ul>
+</li>
+<li><p>竞品分析：</p>
+<ul>
+<li>对比同类型软件的性能指标结果</li>
+</ul>
+</li>
+</ul>
+<h3 id="提取性能测试点"><a href="#提取性能测试点" class="headerlink" title="提取性能测试点"></a>提取性能测试点</h3><ul>
+<li><p>业务维度提取：</p>
+<ul>
+<li><p>用户频繁使用的业务功能</p>
+</li>
+<li><p>非常关键的业务功能</p>
+</li>
+<li><p>特殊交易日或峰值交易的业务功能</p>
+</li>
+<li><p>核心业务发生重大调整的业务功能</p>
+</li>
+</ul>
+</li>
+<li><p>技术维度提取：</p>
+<ul>
+<li>资源占用非常高的业务功能</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/395a6bbb67894b15bca1a930656b2a64" alt="image-20240114185507650"></p>
+<h3 id="确定性能测试目标"><a href="#确定性能测试目标" class="headerlink" title="确定性能测试目标"></a>确定性能测试目标</h3><ul>
+<li>轻商城作为一个新开发的项目，性能测试目标包括：<ul>
+<li><p>确定核心业务功能的TPS</p>
+</li>
+<li><p>对业务流程（多接口组合）进行压测</p>
+</li>
+<li><p>系统能在实际系统运行压力的情况下，稳定的运行24小时</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/af0696bed84943c8bcb7ba87a6a122af" alt="image-20240114185545414"></p>
+<h2 id="性能测试计划及方案"><a href="#性能测试计划及方案" class="headerlink" title="性能测试计划及方案"></a>性能测试计划及方案</h2><ul>
+<li><p>掌握如何编写测试计划</p>
+</li>
+<li><p>测试计划核心内容：</p>
+<ul>
+<li><p>测试背景</p>
+</li>
+<li><p>测试目的</p>
+<ul>
+<li>确定核心业务功能的TPS</li>
+</ul>
+<ol start="2">
+<li>对业务流程（多接口组合）进行压测</li>
+</ol>
+<ul>
+<li>系统能在实际系统运行压力的情况下，稳定的运行24小时</li>
+</ul>
+</li>
+<li><p>测试范围</p>
+</li>
+<li><p>测试策略</p>
+<ul>
+<li>基准测试：先做基准测试，确定估算的标准</li>
+<li>负载测试：分别模拟5、10、30、50、100个用户对系统进行负载测试，查看不同并发时系统软件各项指标是否符合需求</li>
+<li>稳定性测试：用200用户对系统进行7*24小时的不间断稳定性测试</li>
+</ul>
+</li>
+<li><p>风险控制</p>
+</li>
+<li><p>交付清单</p>
+</li>
+<li><p>进度与分工</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/af0696bed84943c8bcb7ba87a6a122af" alt="image-20240114185735550"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/755a84edd42544d2a2d8c66b418fbc86" alt="image-20240114185739816"></p>
+<h2 id="性能测试用例设计"><a href="#性能测试用例设计" class="headerlink" title="性能测试用例设计"></a>性能测试用例设计</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/23b254cc372243278f824277eb70c943" alt="image-20240114185810871"></p>
+<h2 id="性能测试执行"><a href="#性能测试执行" class="headerlink" title="性能测试执行"></a>性能测试执行</h2><h3 id="编写测试脚本"><a href="#编写测试脚本" class="headerlink" title="编写测试脚本"></a>编写测试脚本</h3><ul>
+<li><p>常用测试元件：</p>
+<ul>
+<li>取样器-HTTP请求</li>
+<li>配置元件-HTTP请求默认值</li>
+<li>配置元件-用户定义的变量</li>
+<li>后置处理器-JSON提取器</li>
+<li>断言-响应断言</li>
+<li>断言-JSON断言</li>
+<li>监听器-察看结果树</li>
+<li>监听器-聚合报告</li>
+</ul>
+</li>
+<li><p>JMeter脚本的基本结构：</p>
+<ul>
+<li><p>创建测试用例结构</p>
+</li>
+<li><p>设置HTTP请求默认值</p>
+</li>
+<li><p>用户定义的变量</p>
+</li>
+<li><p>添加监听器-察看结果树</p>
+</li>
+<li><p>添加监听器-聚合报告</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/3d6b064d10a344a0a8c233846670f718" alt="image-20240114185934403"></p>
+<h3 id="使用JMeter实现测试用例"><a href="#使用JMeter实现测试用例" class="headerlink" title="使用JMeter实现测试用例"></a>使用JMeter实现测试用例</h3><ul>
+<li><p>例如：获取首页数据</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>在线程组下，添加取样器‘HTTP请求-获取首页数据’，并填写请求数据</p>
+</li>
+<li><p>在取样器下，添加‘响应断言’断言响应状态码</p>
+</li>
+<li><p>在取样器下，添加 ‘JSON断言’ 断言 errno 和 errmsg</p>
+</li>
+<li><p>发送请求，调试脚本</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/f8b9b5d3aea1477fbe54cdc17c0a31e3" alt="image-20240114190039654"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/f8b9b5d3aea1477fbe54cdc17c0a31e3"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/12b218b0b42b4cafa1ea7227981fea48" alt="image-20240114190051340"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/90f8e7041a214b9b8d84b13b521e179a" alt="image-20240114190054753"></p>
+<h2 id="搭建测试环境"><a href="#搭建测试环境" class="headerlink" title="搭建测试环境"></a>搭建测试环境</h2><h3 id="性能测试环境的特点"><a href="#性能测试环境的特点" class="headerlink" title="性能测试环境的特点"></a>性能测试环境的特点</h3><ul>
+<li>独占性</li>
+<li>尽量保持性能测试环境与真实生产环境的一致性<ul>
+<li>硬件环境<ul>
+<li>– 包括服务器环境、网络环境等</li>
+</ul>
+</li>
+<li>软件环境<ul>
+<li>– 版本一致性：包括操作系统、数据库、被测应用程序、第三方软件等</li>
+<li>– 配置一致性：包括操作系统、数据库、被测应用程序、第三方软件等</li>
+</ul>
+</li>
+<li>使用场景的一致性<ul>
+<li>– 基础业务数据的一致性</li>
+<li>– 业务操作模式的一致性：尽量模拟真实场景下用户的使用情况</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="构造性能测试数据"><a href="#构造性能测试数据" class="headerlink" title="构造性能测试数据"></a>构造性能测试数据</h3><ul>
+<li>目的：压测环境中的数据量尽量与生产环境中数据量一致</li>
+<li>方法：为了快速创建大量数据，可以直接操作数据库进行添加<ul>
+<li>准备插入数据的SQL语句</li>
+<li>循环执行SQL语句来插入数据<ul>
+<li>导包</li>
+<li>连接数据库</li>
+<li>创建游标</li>
+<li>执行SQL语句</li>
+<li>关闭游标</li>
+<li>关闭连接</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-构建大量数据"><a href="#案例-构建大量数据" class="headerlink" title="案例-构建大量数据"></a>案例-构建大量数据</h3><ul>
+<li>通过编写Python脚本，构造10万条商品记录</li>
+<li>操作步骤：<ul>
+<li>准备插入数据的SQL语句</li>
+<li>循环执行SQL语句来插入数据</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e9d4d355c9bb464aaa591535fec27cfe" alt="image-20240114190333572"></p>
+<h2 id="监控性能测试指标"><a href="#监控性能测试指标" class="headerlink" title="监控性能测试指标"></a>监控性能测试指标</h2><ul>
+<li>性能测试的基础指标指标：<ul>
+<li>系统指标：<ul>
+<li>响应时间</li>
+<li>并发数</li>
+<li>吞吐量</li>
+<li>错误率</li>
+</ul>
+</li>
+<li>服务器资源指标<ul>
+<li>CPU使用率：一般可接受上限为85%</li>
+<li>内存利用率：一般可接受上限为85%</li>
+<li>磁盘I&#x2F;O</li>
+<li>网络带宽</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/8cfbd086e26e477fabaa0b60a259b247" alt="image-20240114190424297"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/d1cd56f0bb6a4693b2ef21f3592cfcd2" alt="image-20240114190429052"></p>
+<h2 id="执行性能测试脚本"><a href="#执行性能测试脚本" class="headerlink" title="执行性能测试脚本"></a>执行性能测试脚本</h2><ul>
+<li>单台测试机执行：<ul>
+<li>前提：先保证脚本调试通过之后，才能进入正式压测阶段。</li>
+<li>可以选择Windows或者Linux测试机来执行：</li>
+</ul>
+</li>
+<li>Windows环境：操作界面化、直观、易上手，但是软件占用机器资源较多，导致资源使用率不高；可支持并发较低。<ul>
+<li>Linux环境：命令行操作，结果查看不太方便，但资源利用率相对较高；可支持较高并发。</li>
+<li>分布式执行：<ul>
+<li>如果单台压测机的并发量不能够满足要求，则可以通过分布式压测来提高并发量。</li>
+<li>JMeter工具支持分布式压测，即多台机器同时执行同一个脚本，然后统计结果。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能分析和调优"><a href="#性能分析和调优" class="headerlink" title="性能分析和调优"></a>性能分析和调优</h2><h3 id="性能调优的步骤"><a href="#性能调优的步骤" class="headerlink" title="性能调优的步骤"></a>性能调优的步骤</h3><ol>
+<li><p>确定问题：根据性能监控的数据和性能分析的结果，确定性能存在的问题（要求）</p>
+</li>
+<li><p>确定原因：确定了问题之后，对问题进行分析，找出问题产生的原因</p>
+</li>
+<li><p>给出解决方案：确定调整目标和解决方案（改服务器参数配置&#x2F;增加硬件资源配置&#x2F;修改代码）</p>
+</li>
+<li><p>验证问题：按照给出的解决方案，重新进行测试</p>
+</li>
+<li><p>分析调优结果：分析出问题的性能指标是否有提升，关注其他指标未下降</p>
+</li>
+</ol>
+<ul>
+<li>注意：性能测试调优并不是一次完成的过程，针对同一个性能问题，上面的五步可能要经过多次循环才能最终完成性能调优的目标（即：测试发现问题-找原因-调整-验证-分析-再测试。。。）</li>
+</ul>
+<h3 id="性能瓶颈分析"><a href="#性能瓶颈分析" class="headerlink" title="性能瓶颈分析"></a>性能瓶颈分析</h3><h4 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li><p>在实际的性能测试中，会遇到各种各样的问题，比如TPS压不上去，导致这种现象的原因很多，作为测试人员应配合开发人员进行分析尽快找出瓶颈的所在。</p>
+</li>
+<li><p>常见的性能瓶颈分析：</p>
+<ul>
+<li><p>服务器资源分析</p>
+<ul>
+<li>CPU瓶颈：CPU已压满（接近100%），通常其他指标的拐点出现的时刻是否与CPU压满的时刻基本一致</li>
+<li>内存瓶颈：内存不足时，操作系统会使用虚拟内存，从虚拟内存读取数据，影响处理速度</li>
+<li>磁盘I&#x2F;O瓶颈：磁盘I&#x2F;O成为瓶颈时，会出现磁盘I&#x2F;O繁忙，导致交易执行时在I&#x2F;O处等待</li>
+<li>网络带宽：如果传递的数据包过大，超过了带宽的传输能力，就会造成网络资源竞争，导致TPS上不去</li>
+</ul>
+</li>
+<li><p>JVM瓶颈分析</p>
+<ul>
+<li>JVM内存：内存申请没有及时释放，造成内存泄漏</li>
+</ul>
+</li>
+<li><p>数据库瓶颈分析</p>
+<ul>
+<li>慢查询</li>
+<li>数据库的连接池：设置太小，导致数据库连接出现排队</li>
+<li>数据库出现死锁</li>
+</ul>
+</li>
+<li><p>程序内部实现机制</p>
+</li>
+<li><p>压测机</p>
+<ul>
+<li>JMeter单机负载能力有限，如果需要模拟的用户请求数超过其负载极限，也会导致TPS压不上去</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="CPU瓶颈"><a href="#CPU瓶颈" class="headerlink" title="CPU瓶颈"></a>CPU瓶颈</h4><ul>
+<li>每个程序运行都需要占用CPU，那么单CPU的机器是如何同时运行多个程序的？<ul>
+<li>时间片即CPU分配给各个程序的时间，每个程序被分配一个时间段，称作它的时间片，即该程序允许运行的时间</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/39af45bd83534f69a0d17a1d34a32b95" alt="image-20240114190828401"></p>
+<ul>
+<li>CPU使用率：<ul>
+<li>表示一段时间内，正在使用的CPU时间段 &#x2F; 总的CPU时间段 * 100%  ,</li>
+</ul>
+</li>
+<li>CPU使用率分为用户态、系统态和空闲态<ul>
+<li>用户态：表示 CPU 处于应用程序执行的时间</li>
+<li>系统态：表示系统内核执行的时间</li>
+<li>空闲态：表示空闲系统进程执行的时间</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/b4e803bfb7e34ade8004d39d4f70d617" alt="image-20240114190909511"></p>
+<ul>
+<li>查看CPU使用率的命令：<code>top</code></li>
+<li>测试关注点：<ul>
+<li>当CPU使用率高时，确定是用户CPU高，还是系统CPU高</li>
+<li>如果是用户CPU高，说明某个软件程序的CPU资源占用率高，需要定位代码程序运行的效率</li>
+<li>如果是系统CPU高，同步观察是否是其他资源（磁盘IO、内存、网络等）不足</li>
+</ul>
+</li>
+</ul>
+<h4 id="内存和虚拟内存"><a href="#内存和虚拟内存" class="headerlink" title="内存和虚拟内存"></a>内存和虚拟内存</h4><ul>
+<li>内存：又称主存储器&#x2F;物理内存，计算机中所有程序的运行都在内存中进行</li>
+<li>虚拟内存：是计算机系统内存管理的一种技术。当计算器内存不足时，可以使用虚拟内存进行补偿<ul>
+<li>在程序运行时，可以将程序的一部分装入内存，而将其余部分留在外存（磁盘），就可以启动程序执行。</li>
+<li>在程序执行过程中，当所访问的信息不在内存时，由操作系统将所需要的部分调入内存,然后继续执行程序。</li>
+<li>同时，操作系统将内存中暂时不使用的内容换出到外存上，从而腾出空间存放将要调入内存的信息。</li>
+<li>这样，系统好像为用户提供了一个比实际内存大得多的存储器，称为虚拟存储器。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/9d7469e9c0794441ba179855cdb88fc3" alt="image-20240114191027075"></p>
+<h4 id="内存瓶颈"><a href="#内存瓶颈" class="headerlink" title="内存瓶颈"></a>内存瓶颈</h4><ul>
+<li>内存瓶颈：内存不足时，操作系统会使用虚拟内存，从虚拟内存读取数据；而内存的速度要远快于磁盘速度，因此使用虚拟内存时性能大大降低。</li>
+<li>查看内存使用的命令：<code>vmstat</code></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/5aa8390210414763afcd17abef77e80c" alt="image-20240114191054446"></p>
+<ul>
+<li><p>Swap：</p>
+<ul>
+<li>si: 每秒从交换区写到内存的大小</li>
+<li>so: 每秒写入交换区的内存大小</li>
+</ul>
+</li>
+<li><p>测试关注点：</p>
+<ul>
+<li>如果si，so 长期不等于0，表示内存不足。（需要大量的从内存和虚拟内存之间读来读去，说明内存盛不开那么多进程，说明内存不足）</li>
+</ul>
+</li>
+</ul>
+<h4 id="磁盘IO瓶颈"><a href="#磁盘IO瓶颈" class="headerlink" title="磁盘IO瓶颈"></a>磁盘IO瓶颈</h4><ul>
+<li>磁盘IO瓶颈：影响性能的是磁盘的读写速度（Input和Output速率），不是磁盘大小。</li>
+<li>查看磁盘IO使用的命令：<code>iostat -x 1 1</code></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/de77b6e58ae04a3abb0c514712d99eed" alt="image-20240114191152784"></p>
+<ul>
+<li><p>Ø %util： 表示一秒中有百分之多少的时间用于 I&#x2F;O</p>
+</li>
+<li><p>Ø %iowait：CPU等待输入输出完成时间的百分比。</p>
+</li>
+<li><p>测试关注点：</p>
+<ul>
+<li>Ø 如果%util接近100%，说明产生的I&#x2F;O请求太多，I&#x2F;O系统已经满负荷</li>
+<li>Ø 如果%iowait的值过高，表示硬盘存在I&#x2F;O瓶颈</li>
+</ul>
+</li>
+</ul>
+<h4 id="网络瓶颈"><a href="#网络瓶颈" class="headerlink" title="网络瓶颈"></a>网络瓶颈</h4><ul>
+<li>网络瓶颈：影响性能的是网络的传输速度，与网络的总带宽进行对比，接近总带宽，说明网络存在瓶颈。</li>
+<li>查看网络使用的命令：<code>sar -n DEV 1 2</code></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/87e06dffb0bd44f89e223998b1b2420c" alt="image-20240114191250352"></p>
+<ul>
+<li><p>Ø rxkB&#x2F;s： 每秒接收的数据量（千字节数）</p>
+</li>
+<li><p>Ø txkB&#x2F;s： 每秒发送的数据量（千字节数）</p>
+</li>
+<li><p>测试关注点：</p>
+<ul>
+<li>Ø 将每秒接收的数据量rxkB&#x2F;s，与网络最大带宽进行对比，如果实际传输速率接近网络最大带宽，说明网络IO有瓶颈</li>
+</ul>
+</li>
+</ul>
+<h4 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h4><ul>
+<li>慢查询定义：指执行速度低于设置的阀值的SQL语句</li>
+<li>作用：帮助定位查询速度较慢的SQL语句，方便更好的优化数据库系统的性能</li>
+<li>MySQL慢查询参数介绍：<ul>
+<li>Ø slow_query_log: 慢查询日志开启状态[ON:开启，OFF:关闭]</li>
+<li>Ø slow_query_log_file: 慢查询日志存放位置</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/255f1faa9f704ebda97712dec9a365f5" alt="image-20240114191347787"></p>
+<ul>
+<li>long_query_time: 慢查询时长设置（超过该时长才会被记录，单位：秒）</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/83317107c7d84bc29d05bb6bbc6c647c" alt="image-20240114191359002"></p>
+<ul>
+<li>慢查询开启并配置：<ul>
+<li>Ø <code>mysql&gt; set global slow_query_log=&#39;ON&#39;;</code> #开启慢查询日志</li>
+<li>Ø <code>mysql&gt; set global slow_query_log_file=&#39;/data/slow_query.log&#39;;</code> #设置慢查询日志存放位置</li>
+<li>Ø <code>mysql&gt; set global long_query_time=1;</code> # 设置慢查询时间标准，设置之后会在下次会话才生效</li>
+</ul>
+</li>
+<li>查看慢查询日志：<ul>
+<li>Ø 打开慢查询开关后，就可以记录系统运行时查询时间长的SQL语句，并同步在日志文件中查看慢查询的SQL</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/936632f2267b4f2894fcdc7292ec78ed" alt="image-20240114191452419"></p>
+<h4 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h4><ul>
+<li>为什么要使用数据库连接池？</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c376eac05d8b407d935d7f4ab5424f6e" alt="image-20240114191544480"></p>
+<ul>
+<li>数据库连接池定义：数据库连接池是负责分配、管理和释放数据库连接，它允许应用程序重复使用一个现有的数据库连接，而不是再重新建立一个</li>
+<li>作用：可以提高对数据库操作的性能</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/b24f1f5a48d2410d8621bc3dca3af912" alt="image-20240114191603450"></p>
+<ul>
+<li><p>当客户请求数据库连接时</p>
+<ul>
+<li>首先查看连接池中是否有空闲连接，如果存在空闲连接，则将连接分配给客户使用；</li>
+<li>如果没有空闲连接，则查看当前所开的连接数是否已经达到最大连接数，如果没达到就重新创建一个连接给请求的客户；</li>
+<li>如果达到就按设定的最大等待时间进行等待</li>
+<li>如果超出最大等待时间，则抛出异常给客户</li>
+</ul>
+</li>
+<li><p>测试关注点：</p>
+<ul>
+<li>Ø MYSQL官网给出了一个设置最大连接数的建议比例：Max_used_connections &#x2F; max_connections * 100% ≈ 85%，需要关注MYSQL的最大连接数 和 系统运行时数据库已建立连接数的比例</li>
+<li>Ø 如果已使用连接数与最大连接数比例超过85%，需要增加最大连接数设置，否则会造成连接失败</li>
+<li>Ø 如果已使用连接数与最大连接数比例小于10%，那显然设置的过大，会造成系统资源的浪费</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/11d1b4d50e5e42589e452baf171516c0" alt="image-20240114191710714"></p>
+<h4 id="数据库死锁"><a href="#数据库死锁" class="headerlink" title="数据库死锁"></a>数据库死锁</h4><ul>
+<li>MySQL主要有两种锁：表级、行级。<ul>
+<li>Ø 表级锁：开销小，加锁快；不会出现死锁；锁定粒度最大，并发度最低。</li>
+<li>Ø 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，并发度也最高。</li>
+</ul>
+</li>
+<li>死锁：是指两个或两个以上的进程在执行过程中,因争夺资源而造成的一种互相等待的现象。<ul>
+<li>Ø 若无外力作用，它们都将无法推进下去.此时称系统处于死锁状态或系统产生了死锁。</li>
+<li>Ø 表级锁不会产生死锁</li>
+</ul>
+</li>
+<li>死锁案例：<ul>
+<li>l 投资功能，A和B两人分别给用户1给用户2进行投资</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/528d542c2ac642e09e2af68cf5f4c694" alt="image-20240114191853722"></p>
+<ul>
+<li>测试关注点（初步确定死锁）：<ul>
+<li>Ø show open tables where in_use&gt;&#x3D;1 查询当前是否锁表<ul>
+<li>• 如果表锁了，这个sql可以查询出来</li>
+<li>• 但是这个sql查出来的表，不一定是被锁住的。因为用查询，如果耗费时间很长，也会查询出来</li>
+</ul>
+</li>
+<li>Ø show processlist：查看执行时间最长的线程，找到对应sql，找到表</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/adf7c58965374c7dbd41042821f7214b" alt="image-20240114191924477"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/f2d828cf969e4e9787e0170519486c3a" alt="image-20240114191928526"></p>
+<ul>
+<li>kill process_id：如果需要先紧急解决问题，可以先手动杀死死锁的连接</li>
+</ul>
+<h4 id="JVM内存"><a href="#JVM内存" class="headerlink" title="JVM内存"></a>JVM内存</h4><ul>
+<li><p>JVM内存：Java 虚拟机在执行 Java 程序的过程中所管理的不同的内存数据区域。可简单分为：堆内存和非堆内存</p>
+</li>
+<li><p>Ø 堆内存：主要存放用new关键字创建的对象，所有对象实例以及数组都在堆上分配。 —— 给开发人员使用的（关注）</p>
+</li>
+<li><p>Ø 非堆内存：保存虚拟机自己的静态数据，存放加载的Class类级别静态对象如类、方法等。 —— 给JVM自己使用的</p>
+</li>
+<li><p>JVM堆内存的管理机制（JAVA垃圾回收机制）：</p>
+<ul>
+<li>年轻代存储“新生对象”，我们新创建的对象存储在年轻代中。</li>
+<li>当年轻内存占满后，会触发Minor GC，清理年轻代内存空间。</li>
+<li>老年代存储长期存活的对象和大对象。年轻代中存储的对象，经过多次GC后仍然存活的对象会移动到老年代中进行存储。</li>
+<li>老年代空间占满后，会触发Full GC。Full GC是清理整个堆空间，包括年轻代和老年代</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e995532c360d4c3ba5cc1d10850a173d" alt="image-20240114192107721"></p>
+<h4 id="JVM内存分析"><a href="#JVM内存分析" class="headerlink" title="JVM内存分析"></a>JVM内存分析</h4><ul>
+<li><p>常见的内存问题：</p>
+<ul>
+<li>l 内存泄漏：<ul>
+<li>Ø 内存泄露 memory leak，是指程序在申请内存后，无法完全释放已申请的内存空间。</li>
+<li>Ø 一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光。</li>
+</ul>
+</li>
+<li>l 内存溢出：<ul>
+<li>Ø 内存溢出 out of memory，是指程序在申请内存时，没有足够的内存空间供其使用，出现out ofmemory</li>
+<li>Ø memory leak会最终会导致out of memory！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>测试关注点：</p>
+<ul>
+<li>堆内存使用量持续增长 —— 可能是内存泄漏</li>
+<li>Full GC比较慢，执行时会停止程序一些事务的处理。因此Full GC频率不能过高（低于10分钟）</li>
+<li>如果Full GC之后，堆中仍然无法存储对象，就会出现内存溢出 —— 程序出现crash（崩溃）</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/26cb94fe99034221841ede1fddc26d2f" alt="image-20240114192232017"></p>
+<h4 id="JVM内存监控"><a href="#JVM内存监控" class="headerlink" title="JVM内存监控"></a>JVM内存监控</h4><ul>
+<li><p>JVM监控 —— 使用本地jvisualvm远程监控服务器：</p>
+</li>
+<li><p>添加应用程序启动参数，并启动服务</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/409ba95864934955b3d712e6ac1dcfaf" alt="image-20240114192333999"></p>
+<ul>
+<li>进入本地jdk安装目录bin目录，找到jvisualvm.exe并启动</li>
+<li>右键“远程”选择“添加远程主机”，并输入主机IP</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/b673f1e1ba064cb08fb716d6bb3219cc" alt="image-20240114192412568"></p>
+<ul>
+<li>右键主机选择“添加JMX连接”，并输入JMX端口</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/3e72809c2caf4b5397f41f4d0ff2115b" alt="image-20240114192424829"></p>
+<ul>
+<li>连接成功后在主机下会有对应的连接显示，双击查看监控信息</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/3b96c94ef2344b48b1a282341a751a84" alt="image-20240114192447448"></p>
+<h4 id="压测机"><a href="#压测机" class="headerlink" title="压测机"></a>压测机</h4><ul>
+<li>压测机影响性能测试结果的原因主要是：<ul>
+<li>Ø JMeter单机负载能力有限，如果需要模拟的用户请求数超过其负载极限，也会导致TPS压不上去</li>
+</ul>
+</li>
+<li>压测机资源的监控方法：<ul>
+<li>Ø Windows测试机：自带“任务管理器”</li>
+<li>Ø Linux测试机：PerfMon组件</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>Ø 采用分布式执行的方法来提高负载量，达到系统性能测试要求的TPS</li>
+</ul>
+</li>
+</ul>
+<h4 id="小结-5"><a href="#小结-5" class="headerlink" title="小结"></a>小结</h4><ul>
+<li>常见的性能问题主要有哪些方面？<ul>
+<li><p>服务器资源分析</p>
+<ul>
+<li><p>CPU瓶颈：用户CPU和系统CPU</p>
+</li>
+<li><p>内存瓶颈：实际内存和虚拟内存</p>
+</li>
+<li><p>磁盘IO瓶颈：磁盘input和output</p>
+</li>
+<li><p>网络瓶颈：网络上下行带宽</p>
+</li>
+</ul>
+</li>
+<li><p>数据库瓶颈分析</p>
+<ul>
+<li><p>慢查询</p>
+</li>
+<li><p>数据库连接池</p>
+</li>
+<li><p>死锁</p>
+</li>
+</ul>
+</li>
+<li><p>JVM瓶颈分析</p>
+<ul>
+<li>JVM内存：堆内存和内存回收</li>
+</ul>
+</li>
+<li><p>程序内部实现机制</p>
+</li>
+<li><p>压测机</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能调优案例"><a href="#性能调优案例" class="headerlink" title="性能调优案例"></a>性能调优案例</h2><h3 id="案例1-获取首页数据"><a href="#案例1-获取首页数据" class="headerlink" title="案例1_获取首页数据"></a>案例1_获取首页数据</h3><ul>
+<li><p>场景描述：</p>
+<ul>
+<li>Ø 进入首页后，加载首页的相关数据，包括：轮播图、频道、优惠券、团购专区、品牌商直供、新品首发、热卖商品、专题精选等数据</li>
+</ul>
+</li>
+<li><p>测试结果数据 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e31b784663844676a47257fe316fc1b5" alt="image-20240114192825011"></p>
+<ul>
+<li>问题分析：<ul>
+<li>CPU已接近100%</li>
+<li>一次请求中需要查询很多数据</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>Ø 提升服务器配置</li>
+<li>Ø 分批次、异步加载首页数据，首页底部的数据（如：新品首发、热卖商品、专题精选等数据）等用户向下滑动页面时再加载</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例2-查看商品详情"><a href="#案例2-查看商品详情" class="headerlink" title="案例2_ 查看商品详情"></a>案例2_ 查看商品详情</h3><ul>
+<li>场景描述：<ul>
+<li>Ø 进入商品详情页面时，加载商品的详细信息</li>
+</ul>
+</li>
+<li>测试结果数据：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/8060bd23267a43a799c71eb190ab794b" alt="image-20240114192932560"></p>
+<ul>
+<li>问题分析：<ul>
+<li>网络带宽已跑满</li>
+<li>一次请求中返回了全部数据</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>Ø 提升服务器网络带宽</li>
+<li>Ø 分批次、异步加载商品数据</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例3-搜索商品"><a href="#案例3-搜索商品" class="headerlink" title="案例3_搜索商品"></a>案例3_搜索商品</h3><ul>
+<li>场景描述：<ul>
+<li>Ø 进入首页，在搜索框中输入关键字搜索商品</li>
+</ul>
+</li>
+<li>测试结果数据：<ul>
+<li>Ø 搜索关键字“床”时，出现慢查询SQL语句</li>
+<li>Ø 查看慢查询语句 <code>cat /var/lib/mysql/localhost-slow.log</code>,包含如下SQL语句</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/4d7cbc31539844158aba7fb50204c7f7" alt="image-20240114193046320"></p>
+<ul>
+<li>问题分析：<ul>
+<li>找出搜索商品接口对应的SQL语句（通过查看代码实现或者从日志中获取查询SQL）。如右图日志信息：</li>
+<li>分析具体的SQL语句</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/f8d7cd38e4224de8977e5959ef7cbbee" alt="image-20240114193124974"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/fd5cf5eb32e242fe88dff349d8344cfa" alt="image-20240114193129203"></p>
+<ul>
+<li>问题分析：<ul>
+<li>Ø 当搜索关键字匹配到大量的商品时，第3条SQL语句会返回大量重复数据</li>
+<li>Ø 第4条SQL语句中的in查询条件中同样包含大量重复的商品分类id</li>
+<li>Ø 因此：第4条SQL会出现查询时间较长,是由于第3条SQL返回的ID有大量重复</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>Ø 优化第3条SQL语句，因该SQL语句的查询结果大部分都是重复的，可以进行去重处理</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e971128c532e4f54af3691c0cfc7839e" alt="image-20240114193159650"></p>
+<h3 id="案例4-JVM内存溢出"><a href="#案例4-JVM内存溢出" class="headerlink" title="案例4_JVM内存溢出"></a>案例4_JVM内存溢出</h3><ul>
+<li><p>场景描述：</p>
+<ul>
+<li>Ø 请求测试接口（&#x2F;wx&#x2F;index&#x2F;oom），模拟内存溢出</li>
+</ul>
+</li>
+<li><p>测试结果数据：</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/410ea5892ebd4879a64a79b89eb2bcf4" alt="image-20240114193259108"></p>
+<ul>
+<li>问题分析：<ul>
+<li>JVM内存占用随着时间的推移占用越来越多，直至内存溢出，系统退出</li>
+</ul>
+</li>
+<li>解决方案：<ul>
+<li>Ø 排查代码存在的问题，及时释放无用的对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能测试报告"><a href="#性能测试报告" class="headerlink" title="性能测试报告"></a>性能测试报告</h2><ul>
+<li>测试报告核心内容：<ul>
+<li><p>测试过程回顾 ——测试目的、测试范围、测试环境、测试使用的工具</p>
+</li>
+<li><p>测试问题记录及结果分析 —— 性能测试过程中遇到的问题，分析过程和解决方案</p>
+</li>
+<li><p>测试结论</p>
+</li>
+<li><p>经验总结和教训</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Locust框架"><a href="#Locust框架" class="headerlink" title="Locust框架"></a>Locust框架</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ul>
+<li>掌握如何使用Locust进行接口性能测试</li>
+</ul>
+<h2 id="Locust介绍和安装"><a href="#Locust介绍和安装" class="headerlink" title="Locust介绍和安装"></a>Locust介绍和安装</h2><h3 id="Locust特点"><a href="#Locust特点" class="headerlink" title="Locust特点"></a>Locust特点</h3><ul>
+<li>Ø 基于Python的开源负载测试工具</li>
+<li>Ø 支持多种操作系统</li>
+<li>Ø 支持二次开发</li>
+<li>Ø 能够模拟更多用户</li>
+<li>Ø 基于协程（微线程）的并发</li>
+</ul>
+<h3 id="Locust-与-JMeter对比"><a href="#Locust-与-JMeter对比" class="headerlink" title="Locust 与 JMeter对比"></a>Locust 与 JMeter对比</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/aa86c363e34b46eca3223ff0eac6461a" alt="image-20240114193531978"></p>
+<h3 id="Locust安装"><a href="#Locust安装" class="headerlink" title="Locust安装"></a>Locust安装</h3><ul>
+<li>前提：已安装pycharm、python3.5以上的版本<ul>
+<li>Ø 在线安装: pip install locustio&#x3D;&#x3D;0.12.2</li>
+<li>Ø 离线安装</li>
+<li>Ø Pycharm安装</li>
+</ul>
+</li>
+</ul>
+<h3 id="演示环境接口说明"><a href="#演示环境接口说明" class="headerlink" title="演示环境接口说明"></a>演示环境接口说明</h3><ol>
+<li><p>登录</p>
+<ul>
+<li>   URL： <a target="_blank" rel="noopener" href="http://bms-test.itheima.net/bms/login">http://bms-test.itheima.net/bms/login</a></li>
+<li>   请求方式：POST</li>
+<li>   请求参数：{“username”: “admin”, “password”: “123456”}</li>
+</ul>
+</li>
+<li><p>首页</p>
+<ul>
+<li>   URL：<a target="_blank" rel="noopener" href="http://bms-test.itheima.net/bms/index">http://bms-test.itheima.net/bms/index</a></li>
+<li>   请求方式：GET</li>
+</ul>
+</li>
+<li><p>获取用户信息</p>
+<ul>
+<li>   URL：<a target="_blank" rel="noopener" href="http://bms-test.itheima.net/bms/profile">http://bms-test.itheima.net/bms/profile</a></li>
+<li>   请求方式：GET</li>
+</ul>
+</li>
+<li><p>退出</p>
+<ul>
+<li><p>   URL：<a target="_blank" rel="noopener" href="http://bms-test.itheima.net/bms/logout">http://bms-test.itheima.net/bms/logout</a></p>
+</li>
+<li><p>   请求方式：POST</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="编写Locust测试脚本"><a href="#编写Locust测试脚本" class="headerlink" title="编写Locust测试脚本"></a>编写Locust测试脚本</h2><h3 id="测试脚本实现步骤"><a href="#测试脚本实现步骤" class="headerlink" title="测试脚本实现步骤"></a>测试脚本实现步骤</h3><ul>
+<li>1、定义任务发送HTTP接口请求。</li>
+<li>2、定义任务集定义一个用户行为，包含多个HTTP请求（即具体的任务）。</li>
+<li>3、定义Locust类Locust类代表用户，用户会对应具体的用户行为（即任务集）</li>
+</ul>
+<h3 id="定义任务"><a href="#定义任务" class="headerlink" title="定义任务"></a>定义任务</h3><ul>
+<li><p>locust里发送请求是基于requests实现的，请求方法、参数、响应对象和requests使用方式一样</p>
+</li>
+<li><p>代码的案例：</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>(<span class="params">l</span>):</span><br><span class="line">	l.client.get(<span class="string">&quot;/index&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>(<span class="params">l</span>):</span><br><span class="line">	l.client.post(<span class="string">&quot;/login&quot;</span>, data=&#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义任务集"><a href="#定义任务集" class="headerlink" title="定义任务集"></a>定义任务集</h3><ul>
+<li><p>定义一个用户行为（任务集），包含多个具体的任务。</p>
+</li>
+<li><p>定义方式：</p>
+<ul>
+<li>• 定义一个用户行为类，要继承TaskSet类，表示一个任务集</li>
+<li>• tasks：用来添加任务，它是一个dict类型，key表示任务的方法名，value表示挑选执行的权重，数值越大执行频率越高</li>
+<li>• on_start：前置方法(前置任务)，在所有任务之前调用</li>
+<li>• on_stop：后置方法(后置任务)，当任务集停止时调用</li>
+</ul>
+</li>
+<li><p>代码案例 :</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from locust import TaskSet</span><br><span class="line"></span><br><span class="line">class UserBehavior(TaskSet):</span><br><span class="line">  tasks = &#123;index: 3, profile: 1&#125;</span><br><span class="line">  </span><br><span class="line">  def on_start(self):</span><br><span class="line">  	login(self)</span><br><span class="line">  	</span><br><span class="line">  def on_stop(self):</span><br><span class="line">  	logout(self)</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义Locust类"><a href="#定义Locust类" class="headerlink" title="定义Locust类"></a>定义Locust类</h3><ul>
+<li><p>定义一个Locust类，这个类代表用户。</p>
+</li>
+<li><p>定义方式：</p>
+<ul>
+<li>• 自定义的Locust类继承了<code>HttpLocust</code>类，这个类代表用户</li>
+<li>• task_set：该属性指向<code>TaskSet</code>类，定义用户的行为</li>
+<li>• min_wait：用户执行任务之间等待时间的下界，默认值：1000ms</li>
+<li>• max_wait：用户执行任务之间等待时间的上界，默认值：1000ms</li>
+<li>• host：被测应用的网址，例如：<a target="_blank" rel="noopener" href="http://bms-test.itheima.net/">http://bms-test.itheima.net</a></li>
+<li>• weight：用户被选中的概率，权重越大，被选中的机会就越大。默认值：10</li>
+</ul>
+</li>
+<li><p>代码案例</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> locust <span class="keyword">import</span> HttpLocust</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WebsiteUser</span>(<span class="title class_ inherited__">HttpLocust</span>):</span><br><span class="line">  task_set = UserBehavior</span><br><span class="line">  min_wait = <span class="number">2000</span></span><br><span class="line">  max_wait = <span class="number">3000</span></span><br><span class="line">  host = <span class="string">&quot;http://bms-test.itheima.net/bms&quot;</span></span><br><span class="line">  weight = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="运行Locust脚本"><a href="#运行Locust脚本" class="headerlink" title="运行Locust脚本"></a>运行Locust脚本</h2><h3 id="运行Locust脚本-1"><a href="#运行Locust脚本-1" class="headerlink" title="运行Locust脚本"></a>运行Locust脚本</h3><ul>
+<li>运行命令：<ul>
+<li><code>locust -f locust_files/my_locust_file.py --host=http://example.com</code></li>
+</ul>
+</li>
+<li>参数介绍：<ul>
+<li>Ø -f：用来指定locust文件所在路径</li>
+<li>Ø –host：用来指定测试应用的网址</li>
+</ul>
+</li>
+</ul>
+<h3 id="打开Locust的web界面"><a href="#打开Locust的web界面" class="headerlink" title="打开Locust的web界面"></a>打开Locust的web界面</h3><ul>
+<li>运行Locust脚本后，打开浏览器并访问：<a href="http://localhost:8089。可以看到如下界面：">http://localhost:8089。可以看到如下界面：</a></li>
+<li>参数介绍：<ul>
+<li>Ø Number of users to simulate：要模拟的用户数量</li>
+<li>Ø Hatch rate (users spawned&#x2F;second)：孵化率(用户生成&#x2F;秒)，即每秒启动虚拟用户数</li>
+<li>Ø 点击Start swarming 开始运行性能测试</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/7037e5dfc50e4d0eb0708da077694e2a" alt="image-20240114211451783"></p>
+<h3 id="Statistics界面"><a href="#Statistics界面" class="headerlink" title="Statistics界面"></a>Statistics界面</h3><ul>
+<li>类似于JMeter中的聚合报告：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/46e5e064ba45479690c8c2557767e758" alt="image-20240114211534714"></p>
+<h3 id="Charts界面"><a href="#Charts界面" class="headerlink" title="Charts界面"></a>Charts界面</h3><ul>
+<li>测试结果变化趋势的曲线展示图。分别为：每秒完成的请求数（RPS）、响应时间、不同时间的虚拟用户数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/576bcf11d7b445eeb62acaae98270e61" alt="image-20240114211652378"></p>
+<h3 id="Failures界面"><a href="#Failures界面" class="headerlink" title="Failures界面"></a>Failures界面</h3><ul>
+<li>失败请求的展示界面，即服务器原因导致无法处理请求。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/9c1cbe0e2617483c803ffb694e8edb0c" alt="image-20240114211711999"></p>
+<h3 id="Exceptions界面"><a href="#Exceptions界面" class="headerlink" title="Exceptions界面"></a>Exceptions界面</h3><ul>
+<li>异常请求的展示界面</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/34453a24a5294296aea232124e63e2c9" alt="image-20240114211736611"></p>
+<h3 id="Download-Data界面"><a href="#Download-Data界面" class="headerlink" title="Download Data界面"></a>Download Data界面</h3><ul>
+<li>测试数据下载模块， 提供三种类型的CSV格式的下载，分别是：Statistics CSV、responsetime CSV、failures CSV、exceptions CSV</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/11b488f8ae7f4f51a2077c9ad7598f6e" alt="image-20240114211805391"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/3a3dfd03edf94a82983d1356d04e4e4e" alt="image-20240114212202384"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">UI自动化测试</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">性能测试基础01</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E6%8A%A5%E5%91%8A"><span class="toc-text">聚合报告</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-text">案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">html测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0"><span class="toc-text">练习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">测试报告</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TPS%E8%AE%A1%E7%AE%97"><span class="toc-text">TPS计算</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5-1"><span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E8%AE%A1%E7%AE%97"><span class="toc-text">普通计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%85%AB%E5%8E%9F%E5%88%99%E8%AE%A1%E7%AE%97"><span class="toc-text">二八原则计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%B5%8B%E8%AF%95%E5%B9%B6%E5%8F%91%E9%87%8F"><span class="toc-text">计算稳定性测试并发量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B9%B6%E5%8F%91%E9%87%8F"><span class="toc-text">计算压力测试并发量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%92%E4%BB%B6"><span class="toc-text">第三方插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5-2"><span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">插件安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B8%B8%E7%94%A8%E5%9B%BE%E8%A1%A8"><span class="toc-text">性能测试常用图表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Concurrency-Thread-Group-%E7%BA%BF%E7%A8%8B%E7%BB%84"><span class="toc-text">Concurrency Thread Group 线程组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transactions-per-Second"><span class="toc-text">Transactions per Second</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bytes-Throughput-per-Second"><span class="toc-text">Bytes Throughput per Second</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-2"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-3"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PerfMon%E7%BB%84%E4%BB%B6%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B5%84%E6%BA%90"><span class="toc-text">PerfMon组件监控服务器资源</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E8%B5%84%E6%BA%90%E6%8C%87%E6%A0%87%E6%AD%A5%E9%AA%A4"><span class="toc-text">监控资源指标步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-4"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98"><span class="toc-text">项目实战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%9E%84"><span class="toc-text">项目功能架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84"><span class="toc-text">项目技术架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="toc-text">数据库设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%BB%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA"><span class="toc-text">轻商城项目搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-text">性能测试需求分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%9C%80%E6%B1%82"><span class="toc-text">获取需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%82%B9"><span class="toc-text">提取性能测试点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9B%AE%E6%A0%87"><span class="toc-text">确定性能测试目标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E5%8F%8A%E6%96%B9%E6%A1%88"><span class="toc-text">性能测试计划及方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1"><span class="toc-text">性能测试用例设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C"><span class="toc-text">性能测试执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-text">编写测试脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8JMeter%E5%AE%9E%E7%8E%B0%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">使用JMeter实现测试用例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-text">搭建测试环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">性能测试环境的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE"><span class="toc-text">构造性能测试数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E6%9E%84%E5%BB%BA%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE"><span class="toc-text">案例-构建大量数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%8C%87%E6%A0%87"><span class="toc-text">监控性能测试指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-text">执行性能测试脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%92%8C%E8%B0%83%E4%BC%98"><span class="toc-text">性能分析和调优</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-text">性能调优的步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%88%86%E6%9E%90"><span class="toc-text">性能瓶颈分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU%E7%93%B6%E9%A2%88"><span class="toc-text">CPU瓶颈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%92%8C%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-text">内存和虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%93%B6%E9%A2%88"><span class="toc-text">内存瓶颈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A3%81%E7%9B%98IO%E7%93%B6%E9%A2%88"><span class="toc-text">磁盘IO瓶颈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%93%B6%E9%A2%88"><span class="toc-text">网络瓶颈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2"><span class="toc-text">慢查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="toc-text">数据库连接池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AD%BB%E9%94%81"><span class="toc-text">数据库死锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98"><span class="toc-text">JVM内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="toc-text">JVM内存分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98%E7%9B%91%E6%8E%A7"><span class="toc-text">JVM内存监控</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%8B%E6%B5%8B%E6%9C%BA"><span class="toc-text">压测机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-5"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E6%A1%88%E4%BE%8B"><span class="toc-text">性能调优案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B1-%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E6%95%B0%E6%8D%AE"><span class="toc-text">案例1_获取首页数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B2-%E6%9F%A5%E7%9C%8B%E5%95%86%E5%93%81%E8%AF%A6%E6%83%85"><span class="toc-text">案例2_ 查看商品详情</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B3-%E6%90%9C%E7%B4%A2%E5%95%86%E5%93%81"><span class="toc-text">案例3_搜索商品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B4-JVM%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-text">案例4_JVM内存溢出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">性能测试报告</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Locust%E6%A1%86%E6%9E%B6"><span class="toc-text">Locust框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Locust%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%AE%89%E8%A3%85"><span class="toc-text">Locust介绍和安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Locust%E7%89%B9%E7%82%B9"><span class="toc-text">Locust特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Locust-%E4%B8%8E-JMeter%E5%AF%B9%E6%AF%94"><span class="toc-text">Locust 与 JMeter对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Locust%E5%AE%89%E8%A3%85"><span class="toc-text">Locust安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%94%E7%A4%BA%E7%8E%AF%E5%A2%83%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E"><span class="toc-text">演示环境接口说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99Locust%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-text">编写Locust测试脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-text">测试脚本实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1"><span class="toc-text">定义任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1%E9%9B%86"><span class="toc-text">定义任务集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Locust%E7%B1%BB"><span class="toc-text">定义Locust类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8CLocust%E8%84%9A%E6%9C%AC"><span class="toc-text">运行Locust脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8CLocust%E8%84%9A%E6%9C%AC-1"><span class="toc-text">运行Locust脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80Locust%E7%9A%84web%E7%95%8C%E9%9D%A2"><span class="toc-text">打开Locust的web界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Statistics%E7%95%8C%E9%9D%A2"><span class="toc-text">Statistics界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charts%E7%95%8C%E9%9D%A2"><span class="toc-text">Charts界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Failures%E7%95%8C%E9%9D%A2"><span class="toc-text">Failures界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exceptions%E7%95%8C%E9%9D%A2"><span class="toc-text">Exceptions界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Download-Data%E7%95%8C%E9%9D%A2"><span class="toc-text">Download Data界面</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试"><img alt="UI自动化测试" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.FjupsUlF0U4eTb-7NSK7VQHaEK?w=324&amp;h=182&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试">UI自动化测试</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02"><img alt="性能测试基础02" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02">性能测试基础02</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01"><img alt="性能测试基础01" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01">性能测试基础01</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装"><img alt="接口对象封装" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.28wuGV9jWB2_sq1WCmD7HAHaEK?w=304&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装">接口对象封装</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集"><img alt="接口测试_Requests库_UnitTest框架_数据库操作_日志收集" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.9CeGYs4RfVcivCbpKRmJKwHaEK?w=328&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/26/软件测试/007_UI自动化测试/001_UI自动化测试/","2024/01/26/软件测试/006_性能测试/11_性能测试-02/","2024/01/26/软件测试/006_性能测试/11_性能测试-01/","2024/01/26/软件测试/005_接口测试/10_接口测试_接口对象封装_接口自动化测试框架_全量字段校验_持续集成/","2024/01/26/软件测试/005_接口测试/09_接口测试_Requests库_UnitTest框架_数据库操作_日志收集/","2024/01/26/软件测试/005_接口测试/08_接口测试_Postman的使用/","2024/01/26/软件测试/005_接口测试/07_接口测试_接口测试基础/","2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

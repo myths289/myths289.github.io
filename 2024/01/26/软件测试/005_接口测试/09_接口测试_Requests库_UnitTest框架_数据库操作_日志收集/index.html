@@ -1,0 +1,896 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>接口测试_Requests库_UnitTest框架_数据库操作_日志收集 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# Requests库|UnitTest框架|数据库|日志 Requests库学习目标 能够使用 Requests 库发送 get&amp;#x2F;post&amp;#x2F;put&amp;#x2F;delete 请求，获取响应状态码、数据 能够使用 UnitTest 管理测试用例 requests请求对象构建介"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">55</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse1-mm.cn.bing.net/th/id/OIP-C.9CeGYs4RfVcivCbpKRmJKwHaEK?w=328&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="接口测试_Requests库_UnitTest框架_数据库操作_日志收集"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-26 03:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-25T19:00:00.000Z">2024-01-25T19:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 22:37:07"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T14:37:07.316Z">2024-01-28T14:37:07.316Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">5.8k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>24 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# Requests库|UnitTest框架|数据库|日志
+
+<h2 id="Requests库"><a href="#Requests库" class="headerlink" title="Requests库"></a>Requests库</h2><h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>能够使用 Requests 库发送 get&#x2F;post&#x2F;put&#x2F;delete 请求，获取响应状态码、数据</li>
+<li>能够使用 UnitTest 管理测试用例</li>
+</ol>
+<h3 id="requests请求对象构建"><a href="#requests请求对象构建" class="headerlink" title="requests请求对象构建"></a>requests请求对象构建</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>Requests库：是 Python编写的，基于urllib 的 HTTP 库，使用方便。<ul>
+<li>理解：Requests 库是接口自动化测试的工具箱</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/1bc23cfcccc64f6a998459c9f10bc49b" alt="image-20231211141309886"></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li>安装：<code>pip install requests -i https://pypi.douban.com/simple/</code> , 从豆瓣 pip 镜像下载安装 requests 库</li>
+<li>验证：<code>pip show requests</code> , 出现版本号等信息即为成功<ul>
+<li>或者使用 <code>pip list</code> 查看安装的所有库</li>
+</ul>
+</li>
+</ul>
+<h4 id="入门示例"><a href="#入门示例" class="headerlink" title="入门示例"></a>入门示例</h4><ul>
+<li>需求：使用 Requests 库访问百度 <a target="_blank" rel="noopener" href="http://www.baidu.com,并查看响应结果/">http://www.baidu.com，并查看响应结果</a></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导入requests库</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 准备测试数据</span></span><br><span class="line">url = <span class="string">&#x27;http://www.baidu.com/&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 发送接口请求</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 查看响应结果</span></span><br><span class="line"><span class="built_in">print</span>(response.status_code)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="发送接口请求"><a href="#发送接口请求" class="headerlink" title="发送接口请求"></a>发送接口请求</h4><ul>
+<li><code>resp = requests.请求方法(url=&#39;URL地址&#39;, params=&#123;k:v&#125;, headers=&#123;k:v&#125;,data=&#123;k:v&#125;, json=&#123;k:v&#125;, cookies=&#39;cookie数据&#39;(如：令牌))</code></li>
+<li>说明：<ul>
+<li>常见的请求方法： <code>get/post/put/delete</code></li>
+<li><strong>resp</strong>：响应结果</li>
+<li><strong>url</strong>: 请求的url地址</li>
+<li><strong>params</strong>：请求查询参数</li>
+<li><strong>data</strong>：表单参数</li>
+<li><strong>json</strong>：json参数</li>
+<li><strong>headers</strong>：请求头参数</li>
+<li><strong>cookies</strong>：cookie数据 - string类型</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导入requests库</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 获取响应结果</span></span><br><span class="line">resp = requests.post(url=<span class="string">&#x27;http://ceshi3.dishait.cn/api/goods/search&#x27;</span>, json=&#123;<span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;手机&#x27;</span>, <span class="string">&quot;page&quot;</span>: <span class="number">1</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 输出响应结果</span></span><br><span class="line"><span class="built_in">print</span>(resp.status_code)</span><br><span class="line"><span class="built_in">print</span>(resp.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="get请求的查询参数"><a href="#get请求的查询参数" class="headerlink" title="get请求的查询参数"></a>get请求的查询参数</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/c67f3f6fb41f4d3eb2178e19e9c18207" alt="image-20231211141504902"></p>
+<h4 id="get请求的查询参数案例"><a href="#get请求的查询参数案例" class="headerlink" title="get请求的查询参数案例"></a>get请求的查询参数案例</h4><ul>
+<li><p>发送带查询参数的get请求</p>
+</li>
+<li><p>需求：</p>
+<ul>
+<li>访问TPshop搜索商品的接口，传递搜索关键字iPhone，查看响应数据</li>
+</ul>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>请求方式：GET</li>
+<li>请求路径：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/Home/Goods/search.html">http://tpshop-test.itheima.net/Home/Goods/search.html</a></li>
+<li>传参方式：查询字符串（q&#x3D;iPhone）</li>
+</ul>
+</li>
+</ul>
+<h4 id="post请求参数-data"><a href="#post请求参数-data" class="headerlink" title="post请求参数-data"></a>post请求参数-data</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/933f37a867be4e4d87f636b35df1fb13" alt="image-20231211141651831"></p>
+<h4 id="post请求参数案例"><a href="#post请求参数案例" class="headerlink" title="post请求参数案例"></a>post请求参数案例</h4><ul>
+<li>接口URL</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://ceshi13.dishait.cn/admin/login">http://ceshi13.dishait.cn/admin/login</a></p>
+</blockquote>
+<ul>
+<li>请求方式</li>
+</ul>
+<blockquote>
+<p>POST</p>
+</blockquote>
+<ul>
+<li>Content-Type</li>
+</ul>
+<blockquote>
+<p>application&#x2F;x-www-form-urlencoded</p>
+</blockquote>
+<ul>
+<li>请求Body参数</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">参数名</th>
+<th align="left">示例值</th>
+<th align="left">参数类型</th>
+<th align="left">是否必填</th>
+<th align="left">参数描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">username</td>
+<td align="left">admin</td>
+<td align="left">Text</td>
+<td align="left">是</td>
+<td align="left">用户名</td>
+</tr>
+<tr>
+<td align="left">password</td>
+<td align="left">admin</td>
+<td align="left">Text</td>
+<td align="left">是</td>
+<td align="left">密码</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导入requests库</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 获取响应结果</span></span><br><span class="line">resp = requests.post(url=<span class="string">&#x27;http://ceshi13.dishait.cn/admin/login&#x27;</span>,headers=&#123;<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>&#125;,data=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;password&quot;</span>:<span class="string">&quot;admin&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 输出响应结果</span></span><br><span class="line"><span class="built_in">print</span>(resp.status_code)</span><br><span class="line"><span class="built_in">print</span>(resp.json())</span><br></pre></td></tr></table></figure>
+
+<h4 id="post请求参数-json"><a href="#post请求参数-json" class="headerlink" title="post请求参数-json"></a>post请求参数-json</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/71e7a6ce75474e40872f249fc98b24a3" alt="image-20231211141843860"></p>
+<h4 id="post请求参数案例-1"><a href="#post请求参数案例-1" class="headerlink" title="post请求参数案例"></a>post请求参数案例</h4><ul>
+<li>需求：<ul>
+<li>请求IHRM项目的登录接口，请求数据为json格式</li>
+</ul>
+</li>
+<li>分析：<ul>
+<li>请求方式：POST</li>
+<li>请求路径：<a target="_blank" rel="noopener" href="http://ihrm-test.itheima.net/api/sys/login">http://ihrm-test.itheima.net/api/sys/login</a></li>
+<li>请求数据：请求体-JSON数据（{“mobile”:”13800000002”, “password”:”123456”})</li>
+</ul>
+</li>
+</ul>
+<h4 id="发送其他-HTTP-请求"><a href="#发送其他-HTTP-请求" class="headerlink" title="发送其他 HTTP 请求"></a>发送其他 HTTP 请求</h4><ul>
+<li>如何使用requests库发送其他 HTTP 请求类型？<ul>
+<li>requests.put(url, **kwargs)</li>
+<li>requests.delete(url, **kwargs)</li>
+</ul>
+</li>
+</ul>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><ol>
+<li>如何使用requests发送GET&#x2F;POST&#x2F;PUT&#x2F;DELETE请求？</li>
+<li>如何使用requests提交表单数据？</li>
+<li>如何使用requests提交JSON数据？</li>
+</ol>
+<h3 id="请求头和cookie设置"><a href="#请求头和cookie设置" class="headerlink" title="请求头和cookie设置"></a>请求头和cookie设置</h3><h4 id="Cookie简介"><a href="#Cookie简介" class="headerlink" title="Cookie简介"></a>Cookie简介</h4><ul>
+<li>简介：工程师 针对 http协议是无连接、无状态特性，设计的 一种技术。 可以在浏览器端 存储用户的信息。</li>
+<li>特性：<ul>
+<li>cookie 用于存储 用户临时的不敏感信息。</li>
+<li>cookie 位于浏览器（客户端）端。默认大小 4k（可以调整）</li>
+<li>cookie 中的数据，可以随意被访问，没有安全性可言。</li>
+<li>cookie 中存储的数据类型，受浏览器限制。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Cookie-Session认证"><a href="#Cookie-Session认证" class="headerlink" title="Cookie+Session认证"></a>Cookie+Session认证</h4><ul>
+<li>在计算机中，认证用户身份的方式有多种！课程中接触 2种：<ul>
+<li>ihrm项目：token认证。</li>
+<li>tpshop项目：cookie+Session认证。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/28/c01c7f92a86948559242e2f182bd3e12" alt="image-20231228154910512"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送 获取验证码请求</span></span><br><span class="line">resp_v = requests.get(url=<span class="string">&quot;http://tpshop-test.itheima.net/index.php?</span></span><br><span class="line"><span class="string">m=Home&amp;c=User&amp;a=verify&amp;r=0.21519623710645064&quot;</span>)</span><br><span class="line">                      </span><br><span class="line"><span class="comment"># 从 获取验证码 的响应结果，提取 cookie</span></span><br><span class="line">my_cookie = resp_v.cookies</span><br><span class="line">                      </span><br><span class="line"><span class="comment"># 发送 登录请求 url、请求头、请求体。 携带 cookie。 得响应结果</span></span><br><span class="line">resp = requests.post(url=<span class="string">&quot;http://tpshop-test.itheima.net/index.php?</span></span><br><span class="line"><span class="string">m=Home&amp;c=User&amp;a=do_login&amp;t=0.7094195931397276&quot;</span>,</span><br><span class="line"><span class="comment"># headers=&#123;&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;&#125;,</span></span><br><span class="line">data=&#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;13012345678&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;12345678&quot;</span>, <span class="string">&quot;verify_code&quot;</span>:</span><br><span class="line"><span class="string">&quot;8888&quot;</span>&#125;,</span><br><span class="line">cookies=my_cookie)</span><br><span class="line">                      </span><br><span class="line"><span class="comment"># 打印响应结果</span></span><br><span class="line"><span class="built_in">print</span>(resp.json())</span><br><span class="line">                      </span><br><span class="line"><span class="comment"># 发送 查看我的订单 请求</span></span><br><span class="line">resp_o = requests.get(url=<span class="string">&quot;http://tpshop-test.itheima.net/Home/Order/order_list.html&quot;</span>,</span><br><span class="line">cookies=my_cookie)</span><br><span class="line"><span class="built_in">print</span>(resp_o.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置请求头"><a href="#设置请求头" class="headerlink" title="设置请求头"></a>设置请求头</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/3e23a17aff254bb29ed00c5b6b060226" alt="image-20231211142118843"></p>
+<h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><ul>
+<li>需求：<ul>
+<li>请求IHRM项目的查询接口—查询存在的员工信息</li>
+<li>请求头Authorization: token值</li>
+</ul>
+</li>
+<li>分析：<ul>
+<li>如何设置请求头数据？</li>
+<li>相关接口：<a target="_blank" rel="noopener" href="http://ihrm-test.itheima.net/api/sys/user/1419624408460304384">http://ihrm-test.itheima.net/api/sys/user/1419624408460304384</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><ul>
+<li>需求：<ul>
+<li>使用requests库调用TPshop登录功能的相关接口，完成登录操作</li>
+<li>登录成功后获取‘我的订单’页面的数据</li>
+</ul>
+</li>
+<li>相关接口：<ul>
+<li>获取验证码：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/index.php?m=Home&c=User&a=verify">http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=verify</a></li>
+<li>登录：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/index.php?m=Home&c=User&a=do_login">http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=do_login</a></li>
+<li>我的订单：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/Home/Order/order_list.html">http://tpshop-test.itheima.net/Home/Order/order_list.html</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="设置-cookie"><a href="#设置-cookie" class="headerlink" title="设置 cookie"></a>设置 cookie</h4><ul>
+<li>设置cookie<ul>
+<li> 获取cookies：cookies &#x3D; response.cookies</li>
+<li> requests.get(url, cookies&#x3D;{“c1”: “v1”})</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">res_v = requests.get(<span class="string">&quot;http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=verify&quot;</span>)</span><br><span class="line">cookies_data = res_v.cookies</span><br><span class="line">form_data = &#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;13012345678&quot;</span>,<span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,<span class="string">&quot;verify_code&quot;</span>: <span class="string">&quot;8888&quot;</span>&#125;</span><br><span class="line">res_l = requests.post(<span class="string">&quot;http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=do_login&quot;</span>,</span><br><span class="line">data=form_data, cookies=cookies_data)</span><br><span class="line">res_o = requests.get(<span class="string">&quot;http://tpshop-test.itheima.net/Home/Order/order_list.html&quot;</span>,</span><br><span class="line">cookies=cookies_data)</span><br><span class="line"><span class="built_in">print</span>(res_o.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Session简介"><a href="#Session简介" class="headerlink" title="Session简介"></a>Session简介</h4><ul>
+<li><p>简介：也叫 会话。通常出现在网络通信中，从客户端借助访问终端登录上服务器，直到 退出登录 所产生的通信数据，保存在 会话中。</p>
+</li>
+<li><p>特性：</p>
+<ul>
+<li><p>Session 用于存储 用户的信息。</p>
+</li>
+<li><p>Session 位于服务端。大小直接使用服务器存储空间</p>
+</li>
+<li><p>Session 中的数据，不能随意被访问，安全性较高。</p>
+</li>
+<li><p>Session 中存储的数据类型，受服务器影响，几乎能支持所有的数据类型。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Session自动管理Cookie"><a href="#Session自动管理Cookie" class="headerlink" title="Session自动管理Cookie"></a>Session自动管理Cookie</h4><ul>
+<li>因为 Cookie 中的 数据，都是 Session 传递的。因此，Session 可以直接 自动管理 cookie</li>
+</ul>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><ul>
+<li>借助session重新实现 上述 TPshop商城登录，并获取 “我的订单” 页面数据。</li>
+<li>实现步骤：<ul>
+<li>创建一个 Session 实例。</li>
+<li>使用 Session 实例，调 get方法，发送 获取验证码请求。（不需要获取cookie）</li>
+<li>使用 同一个 Session 实例，调用 post方法，发送 登录请求。(不需要携带 cookie)</li>
+<li>使用 同一个 Session 实例，调用 get方法，发送 查看我的订单请求。(不需要携带 cookie)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 创建一个 Session 实例。</span></span><br><span class="line">session = requests.Session()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 使用 Session 实例，调 get方法，发送 获取验证码请求。（不需要获取cookie）</span></span><br><span class="line">resp_v = session.get(url=<span class="string">&quot;http://tpshop-test.itheima.net/index.php?</span></span><br><span class="line"><span class="string">m=Home&amp;c=User&amp;a=verify&amp;r=0.21519623710645064&quot;</span>)</span><br><span class="line">                     </span><br><span class="line"><span class="comment"># 3. 使用 同一个 Session 实例，调用 post方法，发送 登录请求。(不需要携带 cookie)</span></span><br><span class="line">resp = session.post(url=<span class="string">&quot;http://tpshop-test.itheima.net/index.php?</span></span><br><span class="line"><span class="string">m=Home&amp;c=User&amp;a=do_login&amp;t=0.7094195931397276&quot;</span>,</span><br><span class="line">data=&#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;13012345678&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;12345678&quot;</span>, <span class="string">&quot;verify_code&quot;</span>:<span class="string">&quot;8888&quot;</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(resp.json())</span><br><span class="line">                     </span><br><span class="line"><span class="comment"># 4. 使用 同一个 Session 实例，调用 get 方法，发送 查看我的订单请求。(不需要携带 cookie)</span></span><br><span class="line">resp_o = session.get(url=<span class="string">&quot;http://tpshop-test.itheima.net/Home/Order/order_list.html&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(resp_o.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Session对象发送请求"><a href="#Session对象发送请求" class="headerlink" title="Session对象发送请求"></a>Session对象发送请求</h4><ul>
+<li>创建session对象：session &#x3D; requests.Session()</li>
+<li>说明：<ul>
+<li> Session对象代表一次用户会话：从客户端浏览器连接服务器开始，到客户端浏览器与服务器断开</li>
+<li> 会话能让我们在跨请求时候保持某些参数，比如在同一个 session 实例发出的所有请求之间保持 cookie</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="comment"># 获取验证码</span></span><br><span class="line">session = requests.Session()</span><br><span class="line">response = session.get(<span class="string">&quot;http://tpshoptest.</span></span><br><span class="line"><span class="string">itheima.net/index.php?m=Home&amp;c=User&amp;a=verify&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.cookies)</span><br><span class="line">                       </span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line">login_data = &#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;13012345678&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>, <span class="string">&quot;verify_code&quot;</span>: <span class="string">&quot;8888&quot;</span>&#125;</span><br><span class="line">response = session.post(<span class="string">&quot;http://tpshoptest.</span></span><br><span class="line"><span class="string">itheima.net/index.php?m=Home&amp;c=User&amp;a=do_login&quot;</span>, data=login_data)</span><br><span class="line"><span class="built_in">print</span>(response.cookies)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;login response data=&quot;</span>, response.json())</span><br><span class="line">                        </span><br><span class="line"><span class="comment"># 我的订单</span></span><br><span class="line">response = session.get(<span class="string">&quot;http://tpshop-test.itheima.net/Home/Order/order_list.html&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h4><ol>
+<li>设置请求头的参数是哪个？</li>
+<li>设置cookie的参数是哪个？</li>
+<li>session对象作用？</li>
+<li>Cookie 和 Session 区别<ol>
+<li>数据存储位置：<ul>
+<li>cookie存储在浏览器；session存储在服务器。</li>
+</ul>
+</li>
+<li>安全性：</li>
+</ol>
+<ul>
+<li>cookie中的数据可以随意获取，没有安全性可言。Session的数据多为加密存储，安全较高！</li>
+</ul>
+<ol start="3">
+<li>数据类型：</li>
+</ol>
+<ul>
+<li>cookie支持的数据类型受浏览器限制，较少；Session直接使用服务器存储，支持所有数据类型</li>
+</ul>
+<ol start="4">
+<li>大小：</li>
+</ol>
+<ul>
+<li>cookie大小默认 4k； Session 大小约为服务器存储空间大小</li>
+</ul>
+</li>
+</ol>
+<h3 id="response响应对象"><a href="#response响应对象" class="headerlink" title="response响应对象"></a>response响应对象</h3><h4 id="获取响应内容方法"><a href="#获取响应内容方法" class="headerlink" title="获取响应内容方法"></a>获取响应内容方法</h4><ul>
+<li>获取 URL：resp.url</li>
+<li>获取 响应状态码：resp.status_code</li>
+<li>获取 Cookie：resp.cookies</li>
+<li>获取 响应头：resp.headers</li>
+<li>获取 响应体：<ul>
+<li>文本格式：resp.text</li>
+<li>json格式：resp.json()</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/b7d2b6ce7c264410ad6bee46984163e1" alt="image-20231211142628860"></p>
+<h4 id="案例一-1"><a href="#案例一-1" class="headerlink" title="案例一"></a>案例一</h4><ul>
+<li>需求：<ul>
+<li>访问百度接口<code>http://www.baidu.com</code>，获取以下响应数据<ul>
+<li>获取响应状态码</li>
+<li>获取请求URL</li>
+<li>获取响应字符编码</li>
+<li>获取响应头数据</li>
+<li>获取文本形式的响应内容</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">resp = requests.get(url=<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - 获取 URL：resp.url</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;url =&quot;</span>, resp.url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - 获取 响应状态码：resp.status_code</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;status_code =&quot;</span>, resp.status_code)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - 获取 Cookie：resp.cookies</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;cookies =&quot;</span>, resp.cookies)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - 获取 响应头：resp.headers</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;headers =&quot;</span>, resp.headers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - 获取 响应体：</span></span><br><span class="line"><span class="comment"># - 文本格式：resp.text</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;body_text =&quot;</span>, resp.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># - json格式：resp.json() 当显示 JSONDecodeError 错误时，说明 resp 不能转换为 json格式数据。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;body_json =&quot;</span>, resp.json())</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取响应内容-JSON"><a href="#获取响应内容-JSON" class="headerlink" title="获取响应内容-JSON"></a>获取响应内容-JSON</h4><ul>
+<li><code>json_data = response.json()</code><ul>
+<li>提示：如果 JSON 解码失败，response.json() 会抛出异常</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h4><ul>
+<li>案例需求 : <ul>
+<li>返回json数据：<ul>
+<li>1). 访问查询天气信息的接口，并获取JSON响应数据</li>
+<li>2). 接口地址：<a target="_blank" rel="noopener" href="http://www.weather.com.cn/data/sk/101010100.html">http://www.weather.com.cn/data/sk/101010100.html</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h4><ol>
+<li>Response对象常见方法有哪些？</li>
+<li>response.json()获取的是什么格式的数据？</li>
+</ol>
+<h2 id="UnitTest框架"><a href="#UnitTest框架" class="headerlink" title="UnitTest框架"></a>UnitTest框架</h2><h3 id="学习目标-1"><a href="#学习目标-1" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>理解使用UnitTest的目的</li>
+<li>能够使用UnitTest管理测试用例</li>
+</ol>
+<h3 id="Unittest框架"><a href="#Unittest框架" class="headerlink" title="Unittest框架"></a>Unittest框架</h3><ul>
+<li>UnitTest 是开发人员用来实现 “单元测试” 的框架。测试工程师，可以在自动化 “测试执行” 时使用。</li>
+<li>使用 UnitTest 的好处：<ol>
+<li>方便管理、维护测试用例。</li>
+<li>提供丰富的断言方法。</li>
+<li>生成测试报告。（需要插件 HTMLTestReport）</li>
+</ol>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/da091152b779451e9e97671d3439c9f9" alt="image-20231211143615809"></p>
+<h4 id="TestCase"><a href="#TestCase" class="headerlink" title="TestCase"></a>TestCase</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1 导包：import unittest</span></span><br><span class="line"><span class="comment"># 2 定义测试类从 TestCase 类继承</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestXXX</span>(unittest.TestCase):</span><br><span class="line"><span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 3 测试方法定义必须以 test 开头。 建议添加 编号！</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestXXX</span>(unittest.TestCase):</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test01_xxx</span>(<span class="params">self</span>):</span><br><span class="line"><span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Fixture"><a href="#Fixture" class="headerlink" title="Fixture"></a>Fixture</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、方法级别的 setUp(self) tearDown(self) 每个普通方法执行 之前/之后 自动运行。</span><br><span class="line"><span class="number">2</span>、类级别的 setUpClass(cls) tearDownClass(cls) 在类内所有方法直 之前/之后 运行一次。</span><br></pre></td></tr></table></figure>
+
+<h4 id="TestSuite"><a href="#TestSuite" class="headerlink" title="TestSuite"></a>TestSuite</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、实例化测试集对象 suite = unittest.TestSuite()</span><br><span class="line"><span class="number">2</span>、添加指定类的全部测试方法。</span><br><span class="line">suite.addTest(unittest.makeSuite(类名))</span><br><span class="line">Testsuite 通过搜索创建测试集</span><br><span class="line">suite = unittest.TestLoader().discover(搜索目录, 搜索文件名)</span><br><span class="line">suite = unittest.TestLoader().discover(<span class="string">&quot;./&quot;</span>, <span class="string">&quot;test*.py&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="TestRunner"><a href="#TestRunner" class="headerlink" title="TestRunner"></a>TestRunner</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runner = HTMLTestReport(<span class="string">&quot;./report1.html&quot;</span>, description=<span class="string">&quot;描述信息&quot;</span>, title=<span class="string">&quot;报告标题&quot;</span>)</span><br><span class="line">runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+<h4 id="示例-测试类"><a href="#示例-测试类" class="headerlink" title="示例_测试类"></a>示例_测试类</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">unittest 测试框架代码所处文件要求： 遵守 标识符命名规范：</span></span><br><span class="line"><span class="string">1. 只能使用 字母、数字、下划线</span></span><br><span class="line"><span class="string">2. 数字不能开头</span></span><br><span class="line"><span class="string">3. 避免使用 关键字、已知函数名</span></span><br><span class="line"><span class="string">类：首字母必须大写。建议以 Test 开头</span></span><br><span class="line"><span class="string">方法：必须 test 开头，建议 编号</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待测试方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 封装 测试类，从 unittest.TestCase 类继承</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestAdd</span>(unittest.TestCase):</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">setUp</span>(<span class="params">self</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-----setUp------&quot;</span>)</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">tearDown</span>(<span class="params">self</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-----tearDown------&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="meta">  @classmethod</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;====setUpClass=====&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="meta">  @classmethod</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">tearDownClass</span>(<span class="params">cls</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;====tearDownClass=====&quot;</span>)</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># 自定义的测试方法</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">test01_add</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;测试方法1&quot;</span>)</span><br><span class="line">    ret = add(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">    <span class="comment"># 断言响应结果</span></span><br><span class="line">    self.assertEqual(<span class="number">30</span>, ret)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">test02_add</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;测试方法2&quot;</span>)</span><br><span class="line">    ret = add(<span class="number">100</span>, <span class="number">200</span>)</span><br><span class="line">    <span class="comment"># 断言</span></span><br><span class="line">    self.assertEqual(<span class="number">300</span>, ret)</span><br></pre></td></tr></table></figure>
+
+<h4 id="示例：生成测试报告"><a href="#示例：生成测试报告" class="headerlink" title="示例：生成测试报告"></a>示例：生成测试报告</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> htmltestreport <span class="keyword">import</span> HTMLTestReport</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 suite 实例</span></span><br><span class="line"><span class="keyword">from</span> py10_unittest_demo <span class="keyword">import</span> TestAdd</span><br><span class="line">suite = unittest.TestSuite()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定测试类，添加 测试方法</span></span><br><span class="line">suite.addTest(unittest.makeSuite(TestAdd))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 HTMLTestReport 实例</span></span><br><span class="line">runner = HTMLTestReport(<span class="string">&quot;测试报告.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用 run() 传入 suite</span></span><br><span class="line">runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例一-2"><a href="#案例一-2" class="headerlink" title="案例一"></a>案例一</h3><ul>
+<li>练习 : UnitTest框架管理ihrm登录接口脚本</li>
+<li>实现要求：<ol>
+<li>按照功能模块组织测试类，一条测试用例对应一个测试方法</li>
+<li>添加断言：响应状态码&#x2F;success&#x2F;code&#x2F;message</li>
+<li>封装测试套件批量执行用例</li>
+<li>生成测试报告</li>
+</ol>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/e7b8b64dd23542c2a5172cfcd07bf6b5" alt="image-20231211143704907"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestLogin</span>(unittest.TestCase):</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test01_login_success</span>(<span class="params">self</span>):</span><br><span class="line">  </span><br><span class="line"><span class="comment"># 测试数据</span></span><br><span class="line">mobile = <span class="string">&quot;13800000002&quot;</span></span><br><span class="line">password = <span class="string">&quot;123456&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送请求</span></span><br><span class="line">url = <span class="string">&quot;http://www.test.com//login&quot;</span></span><br><span class="line">data = &#123;<span class="string">&quot;mobile&quot;</span>: mobile, <span class="string">&quot;password&quot;</span>: password&#125;</span><br><span class="line">response = requests.post(url, json=data)</span><br><span class="line">json_data = response.json()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 断言</span></span><br><span class="line">self.assertEqual(<span class="number">200</span>, response.status_code)</span><br><span class="line">self.assertEqual(<span class="literal">True</span>, json_data.get(<span class="string">&quot;success&quot;</span>))</span><br><span class="line">self.assertEqual(<span class="number">10000</span>, json_data.get(<span class="string">&quot;code&quot;</span>))</span><br><span class="line">self.assertIn(<span class="string">&quot;操作成功&quot;</span>, json_data.get(<span class="string">&quot;message&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例二-1"><a href="#案例二-1" class="headerlink" title="案例二"></a>案例二</h3><ul>
+<li>练习 : UnitTest框架管理tpshop登录接口脚本</li>
+<li>需求说明：<ol>
+<li>获取验证码： <a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/index.php?m=Home&c=User&a=verify">http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=verify</a></li>
+<li>登录： <a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/index.php?m=Home&c=User&a=do_login">http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=do_login</a></li>
+<li>断言：status_code, status, msg</li>
+</ol>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/6a8656a822354248b90c6b7fb513bcd2" alt="image-20231211143812846"></p>
+<h3 id="思考-3"><a href="#思考-3" class="headerlink" title="思考"></a>思考</h3><ol>
+<li>使用UnitTest框架的目的？</li>
+<li>TestFixture、TestCase、TestSuite、TestRunner使用</li>
+</ol>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h3 id="学习目标-2"><a href="#学习目标-2" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>知道数据库操作的应用场景</li>
+<li>掌握使用PyMySQL对数据库的增、删、改、查</li>
+<li>数据库工具类封装</li>
+</ol>
+<h3 id="数据库操作应用场景"><a href="#数据库操作应用场景" class="headerlink" title="数据库操作应用场景"></a>数据库操作应用场景</h3><ul>
+<li>接口自动化测试数据库主要应用场景？<ul>
+<li>测试数据校验<ul>
+<li>接口发送请求后明确会对数据库中的某个字段进行修改，但，响应结果中无该字段数据时。<ul>
+<li>如：ihrm 删除员工接口。 is_delete 字段，没有 在响应结果中出现！ 需要 借助数据库 校验！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>测试数据构造<ul>
+<li>测试数据使用一次就失效。<ul>
+<li>如：ihrm 添加员工接口，使用的手机号！</li>
+</ul>
+</li>
+<li>测试前，无法保证测试数据是否存在。<ul>
+<li>如：ihrm 查询员工接口，使用的 员工id</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接口自动化测试与数据库交互场景有哪些？</li>
+<li>数据库操作的应用场景有哪些？</li>
+</ul>
+<h3 id="数据库操作实现"><a href="#数据库操作实现" class="headerlink" title="数据库操作实现"></a>数据库操作实现</h3><h4 id="学习目标-3"><a href="#学习目标-3" class="headerlink" title="学习目标"></a>学习目标</h4><ol>
+<li>掌握操作数据库的基本流程</li>
+<li>掌握使用PyMySQL对数据库的增、删、改、查</li>
+</ol>
+<h4 id="安装-PyMySQL"><a href="#安装-PyMySQL" class="headerlink" title="安装 PyMySQL"></a>安装 PyMySQL</h4><ul>
+<li>PyMySQL：Python3.x 版本中连接 MySQL 服务器的一个库</li>
+<li>安装PyMySQL：<code>pip install PyMySQL</code></li>
+</ul>
+<h4 id="操作数据库的基本流程"><a href="#操作数据库的基本流程" class="headerlink" title="操作数据库的基本流程"></a>操作数据库的基本流程</h4><ul>
+<li>代码实现步骤：<ul>
+<li>导包 import pymysql</li>
+</ul>
+<ol start="2">
+<li>创建连接。 conn &#x3D; pymysql.connect(host，port, user, password, database, charset)</li>
+<li>获取游标。 cursor &#x3D; conn.cursor()</li>
+</ol>
+<ul>
+<li>执行 SQL。 cursor.execute( ”sql语句“)<ul>
+<li>查询语句（select）</li>
+<li>处理结果集（提取数据 fetch*）</li>
+<li>增删改语句（insert、update、delete）</li>
+<li>成功：提交事务 conn.commit()</li>
+<li>失败：回滚事务 conn.rollback()</li>
+</ul>
+</li>
+<li>关闭游标。cursor.close()</li>
+<li>关闭连接。conn.close()</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/40cc2e249ebe4885841e0e62389bbb8f" alt="image-20231211144427947"></p>
+<ul>
+<li>测试数据 : <ul>
+<li> host: 211.103.136.244</li>
+<li> port: 7061</li>
+<li> user: student</li>
+<li> password: iHRM_student_2021</li>
+<li> database: test_db</li>
+</ul>
+</li>
+</ul>
+<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><ul>
+<li><p>建立连接方法 : </p>
+<ul>
+<li><code>conn = pymysql.connect(host=None, user=None, password=&quot;&quot;,database=None, port=0, charset=&quot;&quot;)</code></li>
+</ul>
+</li>
+<li><p>参数说明：</p>
+<ul>
+<li>host：数据库所在主机 IP地址 - string</li>
+<li>port：数据库使用的 端口号 - int</li>
+<li>user：连接数据库使用的 用户名 - string</li>
+<li>password：连接数据库使用的 密码 - string</li>
+<li>database：要连接的那个数据库的名字 - string</li>
+<li>charset：字符集。常用 utf8 - string</li>
+<li>conn：连接数据库的对象。</li>
+</ul>
+</li>
+</ul>
+<h4 id="获取游标对象"><a href="#获取游标对象" class="headerlink" title="获取游标对象"></a>获取游标对象</h4><ul>
+<li><p><code>cursor = conn.cursor()</code></p>
+</li>
+<li><p>说明：</p>
+<ul>
+<li> 调用数据库连接对象的cursor()方法获取游标对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="执行SQL语句"><a href="#执行SQL语句" class="headerlink" title="执行SQL语句"></a>执行SQL语句</h4><ul>
+<li><p><code>cursor.execute(sql)</code></p>
+</li>
+<li><p>说明：</p>
+<ul>
+<li> 调用游标对象的execute()方法来执行SQL语句</li>
+<li> sql: 要执行的sql语句</li>
+</ul>
+</li>
+</ul>
+<h4 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭游标对象</span></span><br><span class="line">cursor.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭数据库连接</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>说明：<ul>
+<li> 调用数据库连接对象、游标对象的close()方法来释放资源</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例一-3"><a href="#案例一-3" class="headerlink" title="案例一"></a>案例一</h4><ul>
+<li>需求 : 查询数据库，获取MySQL服务器 版本信息</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导包</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 建立连接</span></span><br><span class="line">conn = pymysql.connect(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">3306</span>, user=<span class="string">&quot;root&quot;</span>,password=<span class="string">&quot;123456&quot;</span>, database=<span class="string">&quot;it666&quot;</span>, charset=<span class="string">&quot;utf8&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 获取游标</span></span><br><span class="line">cursor = conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 执行 sql 语句（查询）</span></span><br><span class="line">cursor.execute(<span class="string">&quot;select version()&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 获取结果</span></span><br><span class="line">res = cursor.fetchone()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;res =&quot;</span>, res[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 关闭游标</span></span><br><span class="line">cursor.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 关闭连接</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="案例一-4"><a href="#案例一-4" class="headerlink" title="案例一"></a>案例一</h4><ul>
+<li>需求：<ul>
+<li>连接到数据库（host:211.103.136.244 port：7061 user:student password:iHRM_student_2021database:test_db）</li>
+<li>获取数据库服务器版本信息</li>
+</ul>
+</li>
+<li>分析：<ul>
+<li>如何获取数据库的连接？</li>
+<li>获取数据库服务器版本信息的SQL语句是什么？<ul>
+<li>sql语句：select version()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如何执行SQL语句？<ul>
+<li>cursor.execute(“select version()”)</li>
+<li>获取查询结果：cursor.fetchone()</li>
+</ul>
+</li>
+<li>如何释放资源？</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导包</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="comment"># 创建数据库连接</span></span><br><span class="line">conn = pymysql.connect(host=<span class="string">&quot;localhost&quot;</span>, user=<span class="string">&quot;root&quot;</span>, password=<span class="string">&quot;root&quot;</span>, database=<span class="string">&quot;books&quot;</span>)</span><br><span class="line"><span class="comment"># 创建游标对象</span></span><br><span class="line">cursor = conn.cursor()</span><br><span class="line"><span class="comment"># 执行操作：查询数据库版本信息</span></span><br><span class="line">cursor.execute(<span class="string">&quot;select version()&quot;</span>)</span><br><span class="line"><span class="comment"># 获取查询结果</span></span><br><span class="line">result = cursor.fetchone()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;result=&quot;</span>, result)</span><br><span class="line"><span class="comment"># 关闭游标对象</span></span><br><span class="line">cursor.close()</span><br><span class="line"><span class="comment"># 关闭数据库连接</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库查询"><a href="#数据库查询" class="headerlink" title="数据库查询"></a>数据库查询</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/303177eced324c8d84c0ebd89eff7364" alt="image-20231211145008342"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导包</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 建立连接</span></span><br><span class="line">conn = pymysql.connect(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">3306</span>, user=<span class="string">&quot;root&quot;</span>, password=<span class="string">&quot;123456&quot;</span>, database=<span class="string">&quot;it666&quot;</span>, charset=<span class="string">&quot;utf8&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 获取游标</span></span><br><span class="line">cursor = conn.cursor()  <span class="comment"># 指向 0 号位置。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 执行 sql 语句（查询）--- t_book</span></span><br><span class="line">cursor.execute(<span class="string">&quot;select * from users;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 获取结果 - 提取第一条</span></span><br><span class="line">res1 = cursor.fetchone()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;res1 =&quot;</span>, res1)</span><br><span class="line"><span class="comment"># 修改游标位置：回零</span></span><br><span class="line">cursor.rownumber = <span class="number">0</span></span><br><span class="line"><span class="comment"># 获取结果 - 提取前 2 条</span></span><br><span class="line">res2 = cursor.fetchmany(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;res2 =&quot;</span>, res2)</span><br><span class="line"><span class="comment"># 修改游标位置：回零</span></span><br><span class="line">cursor.rownumber = <span class="number">0</span></span><br><span class="line">res3 = cursor.fetchall()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;res3 =&quot;</span>, res3)</span><br><span class="line"><span class="comment"># 修改游标位置：指向第 2 条记录</span></span><br><span class="line">cursor.rownumber = <span class="number">2</span></span><br><span class="line">res4 = cursor.fetchmany(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;res4 =&quot;</span>, res4)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 关闭游标</span></span><br><span class="line">cursor.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 关闭连接</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="异常捕获"><a href="#异常捕获" class="headerlink" title="异常捕获"></a>异常捕获</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 导包</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义全局变量，初值为 None</span></span><br><span class="line">conn = <span class="literal">None</span></span><br><span class="line">cursor = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 2. 建立连接</span></span><br><span class="line">    conn = pymysql.connect(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">3306</span>, user=<span class="string">&quot;root&quot;</span>, password=<span class="string">&quot;123456&quot;</span>, database=<span class="string">&quot;it666&quot;</span>,</span><br><span class="line">                           charset=<span class="string">&quot;utf8&quot;</span>)</span><br><span class="line">    <span class="comment"># 3. 获取游标</span></span><br><span class="line">    cursor = conn.cursor()  <span class="comment"># 指向 0 号位置。</span></span><br><span class="line">    <span class="comment"># 4. 执行 sql 语句（查询）--- t_book</span></span><br><span class="line">    cursor.execute(<span class="string">&quot;select * from users;&quot;</span>)</span><br><span class="line">    <span class="comment"># 5. 获取结果 - 提取第一条</span></span><br><span class="line">    res1 = cursor.fetchone()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;res1 =&quot;</span>, res1)</span><br><span class="line">    <span class="comment"># 修改游标位置：回零</span></span><br><span class="line">    cursor.rownumber = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 5. 获取结果 - 提取前 2 条</span></span><br><span class="line">    res2 = cursor.fetchmany(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;res2 =&quot;</span>, res2)</span><br><span class="line">    <span class="comment"># 修改游标位置：回零</span></span><br><span class="line">    cursor.rownumber = <span class="number">0</span></span><br><span class="line">    res3 = cursor.fetchall()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;res3 =&quot;</span>, res3)</span><br><span class="line">    <span class="comment"># 修改游标位置：指向第 2 条记录</span></span><br><span class="line">    cursor.rownumber = <span class="number">2</span></span><br><span class="line">    res4 = cursor.fetchmany(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;res4 =&quot;</span>, res4)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> err:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;查询语句执行 出错:&quot;</span>, <span class="built_in">str</span>(err))</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="comment"># 6. 关闭游标</span></span><br><span class="line">    cursor.close()</span><br><span class="line">    <span class="comment"># 7. 关闭连接</span></span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="execute方法"><a href="#execute方法" class="headerlink" title="execute方法"></a>execute方法</h4><ul>
+<li>cursor 对象的 execute方法：执行sql并返回结果到客户端</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/b033f439c46d47de9cc5c8a792e939bd" alt="image-20231211145138574"></p>
+<h4 id="fetch-方法"><a href="#fetch-方法" class="headerlink" title="fetch*()方法"></a>fetch*()方法</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/4fd6676eb8b541d885fb2ed662338462" alt="image-20231211145239831"></p>
+<h4 id="案例二-2"><a href="#案例二-2" class="headerlink" title="案例二"></a>案例二</h4><ul>
+<li>案例 : 查询books表的指定信息</li>
+<li>数据库地址：<ul>
+<li>host: 211.103.136.244, port: 7061,</li>
+<li>user: student, password: iHRM_student_2021, database: test_db</li>
+</ul>
+</li>
+<li>要求： <ul>
+<li>①：查询t_book表第一条数据</li>
+<li>②：获取t_book前两条数据</li>
+<li>③：查询t_book表的全部数据</li>
+</ul>
+</li>
+<li>分析：<ul>
+<li>cursor.fetchone()</li>
+<li>cursor.fetchmany(2)</li>
+<li>cursor.fetall()</li>
+</ul>
+</li>
+</ul>
+<h4 id="fetch-方法原理"><a href="#fetch-方法原理" class="headerlink" title="fetch*()方法原理"></a>fetch*()方法原理</h4><ul>
+<li>rownumber属性：标识游标的当前位置（默认初始位置从0开始）</li>
+<li>fetch*()方法是基于游标当前位置逐行向下获取数据</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/d9fd573e67c846cc916a9bf204c9b5b6" alt="image-20231211145759835"></p>
+<h4 id="案例三-1"><a href="#案例三-1" class="headerlink" title="案例三"></a>案例三</h4><ul>
+<li><p>练习 : 查询books表的指定信息</p>
+</li>
+<li><p>要求：</p>
+<ul>
+<li>①：查询t_book表的全部字段数据</li>
+<li>②：获取查询结果集的第一条数据</li>
+<li>③：获取查询结果集的第3条和第4条数据</li>
+<li>④：获取全部的查询结果集及总记录数</li>
+</ul>
+</li>
+<li><p>分析：</p>
+<ul>
+<li><p>select * from t_book</p>
+</li>
+<li><p>cursor.rownumber&#x3D; 0  cursor.fetchone()</p>
+</li>
+<li><p>cursor.rownumber&#x3D; 2  cursor.fetchmany(2)</p>
+</li>
+<li><p>cursor.rownumber&#x3D; 0  cursor.fetchall()</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="数据库更新"><a href="#数据库更新" class="headerlink" title="数据库更新"></a>数据库更新</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/38cb967fcc074ccaa0bf95ffcc14282c" alt="image-20231211150036647"></p>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><ul>
+<li>练习 : 更新t_book表的指定信息</li>
+<li>数据库地址：<ul>
+<li>host: 211.103.136.244, port: 7061,</li>
+<li>user: student, password: iHRM_student_2021, database: test_db</li>
+</ul>
+</li>
+<li>要求单独实现：<ul>
+<li>①：新增一条图书数据（id:5 title:西游记 pub_date:1986-01-01 ）</li>
+<li>②：把图书名称为‘西游记’的阅读量加一</li>
+<li>③：删除名称为‘西游记’的图书</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">新增一条图书数据（id:5 title:西游记 pub_date:1986-01-01 ）</span></span><br><span class="line"><span class="string">insert into t_book(id, title, pub_date) values(5, &#x27;西游记&#x27;, &#x27;1986-01-01&#x27;);</span></span><br><span class="line"><span class="string">1. 导包</span></span><br><span class="line"><span class="string">2. 创建连接</span></span><br><span class="line"><span class="string">3. 获取游标</span></span><br><span class="line"><span class="string">4. 执行 insert 语句</span></span><br><span class="line"><span class="string">5. 提交/回滚事务</span></span><br><span class="line"><span class="string">6. 关闭游标</span></span><br><span class="line"><span class="string">7. 关闭连接</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 1. 导包</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义全局变量</span></span><br><span class="line">conn = <span class="literal">None</span></span><br><span class="line">cursor = <span class="literal">None</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 2. 创建连接</span></span><br><span class="line">    conn = pymysql.connect(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">3306</span>, user=<span class="string">&quot;root&quot;</span>,</span><br><span class="line">                           password=<span class="string">&quot;123456&quot;</span>,</span><br><span class="line">                           database=<span class="string">&quot;it666&quot;</span>, charset=<span class="string">&quot;utf8&quot;</span>)</span><br><span class="line">    <span class="comment"># 3. 获取游标</span></span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    <span class="comment"># 4. 执行 insert 语句</span></span><br><span class="line">    cursor.execute(<span class="string">&quot;insert into person(id, name, city,score) values(175, &#x27;西游记&#x27;, &#x27;深圳&#x27;,&#x27;66&#x27;);&quot;</span>)</span><br><span class="line">    <span class="comment"># 查看 sql执行，影响多少行</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;影响的行数：&quot;</span>, conn.affected_rows())</span><br><span class="line">    <span class="comment"># 5. 提交事务</span></span><br><span class="line">    conn.commit()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> err:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;插入数据错误：&quot;</span>, <span class="built_in">str</span>(err))</span><br><span class="line">    <span class="comment"># 回滚事务</span></span><br><span class="line">    conn.rollback()</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="comment"># 6. 关闭游标</span></span><br><span class="line">    cursor.close()</span><br><span class="line">    <span class="comment"># 7. 关闭连接</span></span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改数据</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除数据</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库工具类封装"><a href="#数据库工具类封装" class="headerlink" title="数据库工具类封装"></a>数据库工具类封装</h3><h4 id="学习目标-4"><a href="#学习目标-4" class="headerlink" title="学习目标"></a>学习目标</h4><ul>
+<li>掌握数据库工具类封装</li>
+</ul>
+<h4 id="封装的目的"><a href="#封装的目的" class="headerlink" title="封装的目的"></a>封装的目的</h4><ul>
+<li>将 常用的数据库操作，封装到 一个方法。 后续再操作数据库时，通过调用该方法来实现。</li>
+<li>提高代码的 复用性！</li>
+</ul>
+<h4 id="数据库工具类封装-1"><a href="#数据库工具类封装-1" class="headerlink" title="数据库工具类封装"></a>数据库工具类封装</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/23a9abdf5c3042f285df405d3be77f2b" alt="image-20231211150253753"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>操作数据库的应用场景有哪些？</li>
+<li>能否使用PyMySQL对数据库的增、删、改、查？</li>
+<li>数据库工具类封装</li>
+</ol>
+<h2 id="日志收集"><a href="#日志收集" class="headerlink" title="日志收集"></a>日志收集</h2><h3 id="学习目标-5"><a href="#学习目标-5" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>掌握如何使用logging实现日志收集</li>
+</ul>
+<h3 id="认识日志收集"><a href="#认识日志收集" class="headerlink" title="认识日志收集"></a>认识日志收集</h3><h4 id="学习目标-6"><a href="#学习目标-6" class="headerlink" title="学习目标"></a>学习目标</h4><ul>
+<li> 理解在项目中为什么要收集日志</li>
+<li> 知道如何区分日志信息的重要级别</li>
+</ul>
+<h4 id="什么是日志"><a href="#什么是日志" class="headerlink" title="什么是日志"></a>什么是日志</h4><ul>
+<li>日志就是用于记录系统运行时的信息，对一个事件的记录；也称为Log</li>
+<li>有哪些信息需要记录？<ul>
+<li>脚本运行过程中某个重要变量的值</li>
+<li>方法的输入参数和返回结果</li>
+<li>异常信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="什么要收集日志"><a href="#什么要收集日志" class="headerlink" title="什么要收集日志"></a>什么要收集日志</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/f2d36f517d664d9fb710001f34dc6ea1" alt="image-20231211150617828"></p>
+<h4 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h4><ul>
+<li>日志级别 : 是指日志信息的优先级、重要性或者严重程度</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/3c8cc7eb094143d7ba51ded27502f5eb" alt="image-20231211150822827"></p>
+<ul>
+<li>提示 : <ul>
+<li> 当为程序指定一个日志级别后，程序会记录所有日志级别大于或等于指定日志级别的日志信息，而不是仅仅记录指定级别的日志信息；</li>
+<li> 一般建议只使用DEBUG、INFO、WARNING、ERROR这四个级别</li>
+</ul>
+</li>
+</ul>
+<h4 id="日志收集-1"><a href="#日志收集-1" class="headerlink" title="日志收集"></a>日志收集</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/51ba9212f05a4237b73eb476b9f9dfe3" alt="image-20231211150926589"></p>
+<h4 id="思考-4"><a href="#思考-4" class="headerlink" title="思考"></a>思考</h4><ol>
+<li>收集日志有什么作用？</li>
+<li>常见的日志级别有哪些？</li>
+</ol>
+<h3 id="Logging日志模块用法"><a href="#Logging日志模块用法" class="headerlink" title="Logging日志模块用法"></a>Logging日志模块用法</h3><h4 id="学习目标-7"><a href="#学习目标-7" class="headerlink" title="学习目标"></a>学习目标</h4><ul>
+<li>能够把日志输出到控制台和日志文件中</li>
+</ul>
+<h4 id="收集日志达成的效果"><a href="#收集日志达成的效果" class="headerlink" title="收集日志达成的效果"></a>收集日志达成的效果</h4><ul>
+<li> 可以把日志输出到不同位置<ul>
+<li> 控制台</li>
+<li> 日志文件（防止日志文件过大，每日生成一个日志文件）</li>
+</ul>
+</li>
+<li> 记录更加详细的日志信息<ul>
+<li> 打印日志的时间</li>
+<li> 日志的级别</li>
+<li> 打印日志的位置</li>
+<li> 日志内容</li>
+</ul>
+</li>
+<li> 可以打印不同级别的日志<ul>
+<li> INFO</li>
+<li> ERROR</li>
+</ul>
+</li>
+</ul>
+<h4 id="日志收集的实现"><a href="#日志收集的实现" class="headerlink" title="日志收集的实现"></a>日志收集的实现</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/3845bef92e7c40018884806f955b0610" alt="image-20231211151141059"></p>
+<h4 id="日志器介绍"><a href="#日志器介绍" class="headerlink" title="日志器介绍"></a>日志器介绍</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/bd72076ef8ed4a41a7072ca88e53c7f8" alt="image-20231211151245927"></p>
+<h4 id="Handler处理器介绍"><a href="#Handler处理器介绍" class="headerlink" title="Handler处理器介绍"></a>Handler处理器介绍</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/03728d369abc4119ba44d2894c76e771" alt="image-20231211151331105"></p>
+<h4 id="Formatter格式化器介绍"><a href="#Formatter格式化器介绍" class="headerlink" title="Formatter格式化器介绍"></a>Formatter格式化器介绍</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/186c5b05229e47e490c9b2cc328dac90" alt="image-20231211151412958"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/71d2451a1f1a47dea28eda6e9bf50e4f" alt="image-20231211151439679"></p>
+<h4 id="打印日志"><a href="#打印日志" class="headerlink" title="打印日志"></a>打印日志</h4><ul>
+<li>调用 logging 中的不同方法可以打印不同级别的日志</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/11/2a99997825b241f7a92ceefcaf203ee0" alt="image-20231211151515344"></p>
+<ul>
+<li>注意 : 打印日志使用的是小写的字母</li>
+</ul>
+<h4 id="思考-5"><a href="#思考-5" class="headerlink" title="思考"></a>思考</h4><ol>
+<li>如何把日志输出到控制台？</li>
+<li>如何把日志输出到日志文件？</li>
+<li>如何设置日志的格式？</li>
+<li>如何打印不同级别的日志？</li>
+</ol>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>为什么要收集日志？</li>
+<li>如何使用Logging日志模块实现日志的收集？</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">接口对象封装</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/08_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Postman%E7%9A%84%E4%BD%BF%E7%94%A8/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">接口测试-Postman的使用</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Requests%E5%BA%93"><span class="toc-text">Requests库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1%E6%9E%84%E5%BB%BA"><span class="toc-text">requests请求对象构建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E7%A4%BA%E4%BE%8B"><span class="toc-text">入门示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%8E%A5%E5%8F%A3%E8%AF%B7%E6%B1%82"><span class="toc-text">发送接口请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E8%AF%B7%E6%B1%82%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0"><span class="toc-text">get请求的查询参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E8%AF%B7%E6%B1%82%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0%E6%A1%88%E4%BE%8B"><span class="toc-text">get请求的查询参数案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0-data"><span class="toc-text">post请求参数-data</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E6%A1%88%E4%BE%8B"><span class="toc-text">post请求参数案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0-json"><span class="toc-text">post请求参数-json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E6%A1%88%E4%BE%8B-1"><span class="toc-text">post请求参数案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E5%85%B6%E4%BB%96-HTTP-%E8%AF%B7%E6%B1%82"><span class="toc-text">发送其他 HTTP 请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%80%83"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8Ccookie%E8%AE%BE%E7%BD%AE"><span class="toc-text">请求头和cookie设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie%E7%AE%80%E4%BB%8B"><span class="toc-text">Cookie简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie-Session%E8%AE%A4%E8%AF%81"><span class="toc-text">Cookie+Session认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%AF%B7%E6%B1%82%E5%A4%B4"><span class="toc-text">设置请求头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-cookie"><span class="toc-text">设置 cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session%E7%AE%80%E4%BB%8B"><span class="toc-text">Session简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session%E8%87%AA%E5%8A%A8%E7%AE%A1%E7%90%86Cookie"><span class="toc-text">Session自动管理Cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82"><span class="toc-text">Session对象发送请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%89"><span class="toc-text">案例三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%80%83-1"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#response%E5%93%8D%E5%BA%94%E5%AF%B9%E8%B1%A1"><span class="toc-text">response响应对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%93%8D%E5%BA%94%E5%86%85%E5%AE%B9%E6%96%B9%E6%B3%95"><span class="toc-text">获取响应内容方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-1"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%93%8D%E5%BA%94%E5%86%85%E5%AE%B9-JSON"><span class="toc-text">获取响应内容-JSON</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%80%83-2"><span class="toc-text">思考</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UnitTest%E6%A1%86%E6%9E%B6"><span class="toc-text">UnitTest框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-1"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unittest%E6%A1%86%E6%9E%B6"><span class="toc-text">Unittest框架</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TestCase"><span class="toc-text">TestCase</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fixture"><span class="toc-text">Fixture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TestSuite"><span class="toc-text">TestSuite</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TestRunner"><span class="toc-text">TestRunner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-text">示例_测试类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">示例：生成测试报告</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-2"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C-1"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83-3"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">数据库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-2"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">数据库操作应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E5%AE%9E%E7%8E%B0"><span class="toc-text">数据库操作实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-3"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-PyMySQL"><span class="toc-text">安装 PyMySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-text">操作数据库的基本流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">连接数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%B8%B8%E6%A0%87%E5%AF%B9%E8%B1%A1"><span class="toc-text">获取游标对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8CSQL%E8%AF%AD%E5%8F%A5"><span class="toc-text">执行SQL语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90"><span class="toc-text">释放资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-3"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-4"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2"><span class="toc-text">数据库查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7"><span class="toc-text">异常捕获</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#execute%E6%96%B9%E6%B3%95"><span class="toc-text">execute方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fetch-%E6%96%B9%E6%B3%95"><span class="toc-text">fetch*()方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C-2"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fetch-%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86"><span class="toc-text">fetch*()方法原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%89-1"><span class="toc-text">案例三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9B%B4%E6%96%B0"><span class="toc-text">数据库更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%9B%9B"><span class="toc-text">案例四</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B0%81%E8%A3%85"><span class="toc-text">数据库工具类封装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-4"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-text">封装的目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B0%81%E8%A3%85-1"><span class="toc-text">数据库工具类封装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86"><span class="toc-text">日志收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-5"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86"><span class="toc-text">认识日志收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-6"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A5%E5%BF%97"><span class="toc-text">什么是日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E8%A6%81%E6%94%B6%E9%9B%86%E6%97%A5%E5%BF%97"><span class="toc-text">什么要收集日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><span class="toc-text">日志级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86-1"><span class="toc-text">日志收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%80%83-4"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logging%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E7%94%A8%E6%B3%95"><span class="toc-text">Logging日志模块用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-7"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%97%A5%E5%BF%97%E8%BE%BE%E6%88%90%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-text">收集日志达成的效果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">日志收集的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">日志器介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Handler%E5%A4%84%E7%90%86%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">Handler处理器介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Formatter%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">Formatter格式化器介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97"><span class="toc-text">打印日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%80%83-5"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试"><img alt="UI自动化测试" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.FjupsUlF0U4eTb-7NSK7VQHaEK?w=324&amp;h=182&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试">UI自动化测试</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02"><img alt="性能测试基础02" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02">性能测试基础02</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01"><img alt="性能测试基础01" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01">性能测试基础01</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装"><img alt="接口对象封装" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.28wuGV9jWB2_sq1WCmD7HAHaEK?w=304&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装">接口对象封装</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集"><img alt="接口测试_Requests库_UnitTest框架_数据库操作_日志收集" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.9CeGYs4RfVcivCbpKRmJKwHaEK?w=328&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/26/软件测试/007_UI自动化测试/001_UI自动化测试/","2024/01/26/软件测试/006_性能测试/11_性能测试-02/","2024/01/26/软件测试/006_性能测试/11_性能测试-01/","2024/01/26/软件测试/005_接口测试/10_接口测试_接口对象封装_接口自动化测试框架_全量字段校验_持续集成/","2024/01/26/软件测试/005_接口测试/09_接口测试_Requests库_UnitTest框架_数据库操作_日志收集/","2024/01/26/软件测试/005_接口测试/08_接口测试_Postman的使用/","2024/01/26/软件测试/005_接口测试/07_接口测试_接口测试基础/","2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

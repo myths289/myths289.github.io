@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>接口测试-Postman的使用 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# Postman的使用 相关工具的安装 安装 newman : npm install -g newman 安装 newman-reporter-htmlextra : npm install -g newman-reporter-htmlextra Postman的介绍Postman的介绍"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">55</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">接口测试-Postman的使用</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse4-mm.cn.bing.net/th/id/OIP-C.U5wQIPRsRqDCt5aB1Q2YhgHaEK?w=330&amp;h=187&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="接口测试-Postman的使用"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">接口测试-Postman的使用</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-26 02:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-25T18:00:00.000Z">2024-01-25T18:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 22:36:57"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T14:36:57.157Z">2024-01-28T14:36:57.157Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">3.5k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>14 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/08_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Postman%E7%9A%84%E4%BD%BF%E7%94%A8/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# Postman的使用
+
+<h2 id="相关工具的安装"><a href="#相关工具的安装" class="headerlink" title="相关工具的安装"></a>相关工具的安装</h2><ul>
+<li>安装 newman : <code>npm install -g newman</code></li>
+<li>安装 newman-reporter-htmlextra : <code>npm install -g newman-reporter-htmlextra</code></li>
+</ul>
+<h2 id="Postman的介绍"><a href="#Postman的介绍" class="headerlink" title="Postman的介绍"></a>Postman的介绍</h2><h3 id="Postman的介绍-1"><a href="#Postman的介绍-1" class="headerlink" title="Postman的介绍"></a>Postman的介绍</h3><ul>
+<li>Postman 一款支持调试和测试的工具，开发、测试工程师都可以使用</li>
+<li>特点：支持MAC、Windows和Linux </li>
+<li>官网地址：<a target="_blank" rel="noopener" href="https://www.getpostman.com/">https://www.getpostman.com/</a></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/c77fe5f403594f4f9ec577a2527d396a" alt="image-20231209130121253"></p>
+<h3 id="Postman示例"><a href="#Postman示例" class="headerlink" title="Postman示例"></a>Postman示例</h3><ul>
+<li><p>需求：使用 Postman 访问百度 <a target="_blank" rel="noopener" href="http://www.baidu.com,并查看响应结果/">http://www.baidu.com，并查看响应结果</a></p>
+</li>
+<li><p>实现步骤：</p>
+<ul>
+<li><p>设置请求方式</p>
+</li>
+<li><p>输入接口地址</p>
+</li>
+<li><p>点击发送请求</p>
+</li>
+<li><p>查看响应结果</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/b3082bb36a5d461bab2a4e71b819eb71" alt="image-20231209130258155"></p>
+<h2 id="发送-get-请求"><a href="#发送-get-请求" class="headerlink" title="发送 get 请求"></a>发送 get 请求</h2><h3 id="发送get请求"><a href="#发送get请求" class="headerlink" title="发送get请求"></a>发送get请求</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/bb285ff56c5d4e119e7b2c4760844337" alt="image-20231209130326066"></p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>需求：<ul>
+<li>访问TPshop搜索商品的接口，搜索关键字iPhone，并查看响应数据</li>
+<li>分析：<ul>
+<li>• 请求方式：GET</li>
+<li>• 请求路径：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/Home/Goods/search.html">http://tpshop-test.itheima.net/Home/Goods/search.html</a></li>
+<li>• 传参方式：查询字符串（q&#x3D;iPhone）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/f523ebfffe034fe1ae0dd60a726e6e42" alt="image-20231209130441713"></p>
+<h2 id="发送-Post-请求"><a href="#发送-Post-请求" class="headerlink" title="发送 Post 请求"></a>发送 Post 请求</h2><h3 id="发送-Post-请求-1"><a href="#发送-Post-请求-1" class="headerlink" title="发送 Post 请求"></a>发送 Post 请求</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/a2abfab9d330451db4bc8a5d735aeb76" alt="image-20231209130506240"></p>
+<h3 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h3><ul>
+<li>需求：发送TPshop的登录接口请求</li>
+<li>分析：<ul>
+<li>• 请求方式：POST</li>
+<li>• 请求路径：<a target="_blank" rel="noopener" href="http://tpshop-test.itheima.net/index.php?m=Home&c=User&a=do_login">http://tpshop-test.itheima.net/index.php?m=Home&amp;c=User&amp;a=do_login</a></li>
+<li>• 请求数据：请求体-表单数据<ul>
+<li>username: 13012345678</li>
+<li>password: 123456</li>
+<li>verify_code: 1234</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/bb4a11a3cd584061928386cf7ed65817" alt="image-20231209130553741"></p>
+<h3 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h3><ul>
+<li>需求：发送IHRM项目的登录接口请求并查看响应结果</li>
+<li>分析：<ul>
+<li>• 请求方式：POST</li>
+<li>• 请求URL：<a target="_blank" rel="noopener" href="http://ihrm-test.itheima.net/api/sys/login">http://ihrm-test.itheima.net/api/sys/login</a></li>
+<li>• 请求数据：<ul>
+<li>• 请求头：<code>Content-Type: application/json</code></li>
+<li>• 请求体：<code>&#123;&quot;mobile&quot;:&quot;13800000002&quot;, &quot;password&quot;:&quot;123456&quot;&#125;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ol>
+<li>Postman中get请求查询参数如何设置？</li>
+<li>Postman中如何发送表单数据格式的post请求？</li>
+<li>Postman中如何发送JSON数据格式的post请求？</li>
+</ol>
+<h2 id="发送其他请求"><a href="#发送其他请求" class="headerlink" title="发送其他请求"></a>发送其他请求</h2><h3 id="发送其他请求-1"><a href="#发送其他请求-1" class="headerlink" title="发送其他请求"></a>发送其他请求</h3><ul>
+<li>思考：如何发送put请求和delete请求？<ul>
+<li>答：修改请求方法，其他设置均与get&#x2F;post请求类似</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>案例：<ul>
+<li>发送ihrm修改员工接口请求并查看响应结果</li>
+<li>发送ihrm删除员工接口请求并查看响应结果</li>
+</ul>
+</li>
+</ul>
+<h2 id="Postman断言"><a href="#Postman断言" class="headerlink" title="Postman断言"></a>Postman断言</h2><h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>能够使用Postman对响应结果自动断言</li>
+</ul>
+<h3 id="断言介绍"><a href="#断言介绍" class="headerlink" title="断言介绍"></a>断言介绍</h3><ul>
+<li><p>Postman断言：<strong>让Postman工具代替人工自动判断预期结果和实际结果是否一致</strong></p>
+</li>
+<li><p>用法：</p>
+<ul>
+<li>‘Tests’后置脚本标签页编写JavaScript断言代码</li>
+<li>断言结果（PASS&#x2F;FAIL）在‘Test Results’标签页中展示</li>
+</ul>
+</li>
+<li><p>在 Tests 输入框的右侧配置了一些常用的断言代码片段，点击后自动填写到 Tests 输入框中，然后再进行修改</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/f6d3df927c904bbeb847449e5b5550b2" alt="image-20231209132502530"></p>
+<h3 id="响应状态码断言"><a href="#响应状态码断言" class="headerlink" title="响应状态码断言"></a>响应状态码断言</h3><ul>
+<li><p>模板名称：Status code: Code is 200</p>
+</li>
+<li><p>模板内容：</p>
+</li>
+<li><p>参数一 : 这个参数可以任意修改，不影响断言</p>
+<ul>
+<li>作用：在断言结束后，显示给用户，断言结果的提示文字</li>
+</ul>
+</li>
+<li><p>参数二 : 一个匿名函数的调用</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/f0f050adfff84f60899ca3816cc84a38" alt="image-20231209132542533"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应状态码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言响应状态码为:200&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="property">response</span>.<span class="property">to</span>.<span class="property">have</span>.<span class="title function_">status</span>(<span class="number">200</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="包含指定字符串断言"><a href="#包含指定字符串断言" class="headerlink" title="包含指定字符串断言"></a>包含指定字符串断言</h3><ul>
+<li>模板名称：Response body: Contains string</li>
+<li>模板内容：</li>
+<li>参数一 : 这个参数可以任意修改，不影响断言<ul>
+<li>作用：在断言结束后，显示给用户，断言结果的提示文字</li>
+</ul>
+</li>
+<li>参数二 : 一个匿名函数的调用</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/6a87889e725b4551914f1efaed7698df" alt="image-20231209132612781"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定字符串</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言包含指定字符串: ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="title function_">expect</span>(pm.<span class="property">response</span>.<span class="title function_">text</span>()).<span class="property">to</span>.<span class="title function_">include</span>(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="JSON数据断言"><a href="#JSON数据断言" class="headerlink" title="JSON数据断言"></a>JSON数据断言</h3><ul>
+<li>模板名称：Response body: JSON value check</li>
+<li>模板内容：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/1c739c8b0d484a64a1c8938da4dab05c" alt="image-20231209132639586"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应的数据 json 格式</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;响应 json 格式数据的 msg 属性值为 ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">msg</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="string">&quot;ok&quot;</span>); <span class="comment">// 期望响应数据的 msg 属性的值为指定的 &quot;ok&quot; 数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例-2"><a href="#案例-2" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>针对 <a target="_blank" rel="noopener" href="http://dishaxy.dishait.cn/shopadminapi/#3e725f4d-7bcb-4b50-9cd1-bca5c13f1b75">帝莎商城后台管理系统</a> 的登录成功接口用例完成断言设置<ul>
+<li>响应状态码断言</li>
+<li>JSON数据断言</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应体</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ok&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;175988c4fdac35cfe1b4f5e4b252d6ae2a3050ec&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;观看完整课程地址：https://study.163.com/course/courseMain.htm?courseId=1212775807&amp;share=2&amp;shareId=480000001892585&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 断言响应状态码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言响应状态码为:200&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="property">response</span>.<span class="property">to</span>.<span class="property">have</span>.<span class="title function_">status</span>(<span class="number">200</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 断言指定字符串</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言包含指定字符串: ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="title function_">expect</span>(pm.<span class="property">response</span>.<span class="title function_">text</span>()).<span class="property">to</span>.<span class="title function_">include</span>(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 断言响应的数据 json 格式</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;响应 json 格式数据的 msg 属性值为 ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">msg</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="string">&quot;ok&quot;</span>); <span class="comment">// 期望响应数据的 msg 属性的值为指定的 &quot;ok&quot; 数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/66ebd63e31e940c685e07a3243f94d22" alt="image-20231227115345740"></p>
+<h3 id="断言的工作原理"><a href="#断言的工作原理" class="headerlink" title="断言的工作原理"></a>断言的工作原理</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/cca530414e59497188fb74f3b50aff8f" alt="image-20231225220328116"></p>
+<h3 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h3><ul>
+<li>断言的作用是什么？</li>
+<li>常见断言有哪些方式<ul>
+<li>★ 响应状态码断言</li>
+<li>★ 包含字符串断言</li>
+<li>★ JSON数据断言</li>
+</ul>
+</li>
+</ul>
+<h2 id="Postman自动关联"><a href="#Postman自动关联" class="headerlink" title="Postman自动关联"></a>Postman自动关联</h2><h3 id="学习目标-1"><a href="#学习目标-1" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>能够使用Postman进行自动关联数据处理</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>当接口和接口之间，有依赖关系时，需要借助postman关联技术，来实现。</li>
+<li>如：<ul>
+<li>登录接口返回的令牌数据，被添加员工接口依赖。</li>
+<li>添加员工接口返回员工id，被查询员工接口依赖。</li>
+</ul>
+</li>
+</ul>
+<h3 id="自动关联解决思路"><a href="#自动关联解决思路" class="headerlink" title="自动关联解决思路"></a>自动关联解决思路</h3><ul>
+<li>假定：接口B产生的数据，被接口A依赖。<ul>
+<li>1.发送接口B请求，获取响应数据。</li>
+<li>2.将响应数据，放入公共容器器（全局变量、环境变量）中</li>
+<li>3.接口A从公共容器中，提取数据，发送请求。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/c2aac05c0bc7495e88c0889a694597be" alt="image-20231209133200903"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 获取 响应数据，转为 json格式，保存到变量 jsonData中。</span></span><br><span class="line"><span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.1 使用 全局变量做容器。</span></span><br><span class="line">pm.<span class="property">globals</span>.<span class="title function_">set</span>(<span class="string">&quot;全局变量名&quot;</span>, 全局变量值)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.2 使用 环境变量做容器。</span></span><br><span class="line">pm.<span class="property">environment</span>.<span class="title function_">set</span>(<span class="string">&quot;环境变量名&quot;</span>, 环境变量值)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 在 postman 界面中（URL、请求头headers、请求体body） 提取 全局、环境变量 数据。</span></span><br><span class="line">&#123;&#123;全局变量名&#125;&#125;/&#123;&#123;环境变量名&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例一-全局变量"><a href="#案例一-全局变量" class="headerlink" title="案例一_全局变量"></a>案例一_全局变量</h3><ul>
+<li><p>需求 : </p>
+<ul>
+<li>使用 postman 关联，实现下面案例</li>
+<li>从获取天气接口，get请求 ,无参数 :  <a target="_blank" rel="noopener" href="http://www.weather.com.cn/data/sk/101010100.html">http://www.weather.com.cn/data/sk/101010100.html</a></li>
+<li>获取返回结果中的城市名称</li>
+<li>调用百度搜索接口： <a target="_blank" rel="noopener" href="http://www.baidu.com/S?wd=%E5%8C%97%E4%BA%AC">http://www.baidu.com/S?wd=北京</a> ，把获取到的城市名称，如：北京，作为请求参数</li>
+</ul>
+</li>
+<li><p>思路：</p>
+<ol>
+<li>发送 获取天气请求，获取响应结果</li>
+<li>从响应结果中，拿到城市名，存入 全局变量</li>
+<li>百度搜索接口从全局变量中，取城市名，发送搜索请求。</li>
+</ol>
+</li>
+<li><p>创建环境 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/349c781ae3d74e82ae60d0077e9b0bb6" alt="image-20231227122103762"></p>
+<ul>
+<li>发起请求设置全局变量 :</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 获取响应结果</span></span><br><span class="line"><span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 从响应结果中，提取 城市名</span></span><br><span class="line"><span class="keyword">var</span> city = jsonData.<span class="property">weatherinfo</span>.<span class="property">city</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 将城市名保存到 全局变量</span></span><br><span class="line">pm.<span class="property">globals</span>.<span class="title function_">set</span>(<span class="string">&quot;globals_city&quot;</span>, city)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/fdd2fc645b6f456a875fe48cbd399c79" alt="image-20231227122436149"></p>
+<ul>
+<li>读取全局属性发起请求</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/7bbd7097958543d5afb21924d9847a32" alt="image-20231227125105769"></p>
+<h3 id="案例二-环境变量"><a href="#案例二-环境变量" class="headerlink" title="案例二_环境变量"></a>案例二_环境变量</h3><ul>
+<li><p>使用 postman 关联技术，实现 添加员工 接口。</p>
+</li>
+<li><p>登录成功，返回的 “令牌” 被 添加员工 接口依赖。</p>
+</li>
+<li><p>思路：</p>
+<ol>
+<li>发送登录请求（必须登录成功），获取响应结果</li>
+<li>从 json 响应结果中，提取 data 值。拼接上 “Bearer ” 前缀。</li>
+</ol>
+<p>  注意：Bearer单词不能拼错，首字母必须大写，只有一个空格<br>3. 将拼接无误的 令牌，存入 环境变量。 从 “眼睛” 图标查看。<br>4. 添加员工 接口，从 环境变量 中，提取 令牌。设置到请求头中，作为 Authorization 的 值。<br>5. 填写 添加管理员 接口 其他信息（post、URL、请求体），发送请求。</p>
+</li>
+<li><p>登录请求获取 token , 写入环境变量 :</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.获取响应结果</span></span><br><span class="line"><span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.提取data的值，拼接“Bearer空格”前缀。形成完整的令牌</span></span><br><span class="line"><span class="comment">// var token =&quot;Bearer &quot;+jsonData.data.token // 是否需要拼接 &quot;Bearer &quot; 字符串,看实际情况决定 </span></span><br><span class="line"><span class="keyword">var</span> token =jsonData.<span class="property">data</span>.<span class="property">token</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//3.将完整的令牌存入环境变量</span></span><br><span class="line">pm.<span class="property">environment</span>.<span class="title function_">set</span>(<span class="string">&quot;env_token&quot;</span>,token)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/3490a52c43f0455399f8b01827fe9661" alt="image-20231227130443575"></p>
+<ul>
+<li>读取环境变量,发起请求</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/009ddb1e76db4e6890bad6350f39e0c7" alt="image-20231227132131450"></p>
+<h3 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/956ee00402b24962b4e1ad0ba646c851" alt="image-20231209133404020"></p>
+<h2 id="Postman参数化"><a href="#Postman参数化" class="headerlink" title="Postman参数化"></a>Postman参数化</h2><h3 id="学习目标-2"><a href="#学习目标-2" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>能够使用Postman进行接口参数化处理</li>
+</ul>
+<h3 id="参数化简介"><a href="#参数化简介" class="headerlink" title="参数化简介"></a>参数化简介</h3><ul>
+<li>什么是参数化：将测试数据，组织到数据文件中，通过脚本的反复迭代，使用不同的数据，达到测试不同用例的目标。</li>
+<li>应用场景：一般在测试同一个接口的不同测试点时，只有测试数据不同。考虑使用参数化。</li>
+</ul>
+<h3 id="数据文件"><a href="#数据文件" class="headerlink" title="数据文件"></a>数据文件</h3><h4 id="数据文件简介"><a href="#数据文件简介" class="headerlink" title="数据文件简介"></a>数据文件简介</h4><ul>
+<li>CSV：<ul>
+<li>优点：数据组织格式简单</li>
+<li>缺点：<ul>
+<li>不能测试 bool 类型。因为 postman 读取 csv后，将所有非数值类型数据，自动添加 ”“ 变为字符串</li>
+<li>不能存储复杂数据类型（元组、列表、字典）。</li>
+<li>不能实现 参数测试。</li>
+</ul>
+</li>
+<li>应用场景：数据量较大，数据组织格式简单。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// xxxx.csv</span></span><br><span class="line"></span><br><span class="line">mobile,sp</span><br><span class="line"><span class="number">13012345678</span>,联通</span><br><span class="line"><span class="number">13712345678</span>,移动</span><br><span class="line"><span class="number">13838383388</span>,移动</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JSON：<ul>
+<li>优点：<ul>
+<li>可以测试 bool 类型</li>
+<li>能使用 复杂数据类型</li>
+<li>可以实现 参数测试。</li>
+</ul>
+</li>
+<li>缺点：相同数据量，json文件要远大于 csv 文件。</li>
+<li>应用场景：数据量较少，数据组织格式复杂。需要进行参数测试！</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// xxxx.json</span></span><br><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;13012345678&quot;</span><span class="punctuation">,</span><span class="attr">&quot;password&quot;</span><span class="punctuation">:</span><span class="string">&quot;123456&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;13500001111&quot;</span><span class="punctuation">,</span><span class="attr">&quot;password&quot;</span><span class="punctuation">:</span><span class="string">&quot;222444&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;18922220000&quot;</span><span class="punctuation">,</span><span class="attr">&quot;password&quot;</span><span class="punctuation">:</span><span class="string">&quot;777888&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="读取数据文件"><a href="#读取数据文件" class="headerlink" title="读取数据文件"></a>读取数据文件</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/5c8b319805374cfba1d5cbc36d216821" alt="image-20231227135818045"></p>
+<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><ul>
+<li>根据 使用位置 不同，有两种方法。<ul>
+<li>第一种：请求参数（请求行、请求头、请求体）中，使用 数据文件中 的数据<ul>
+<li>csv文件：；</li>
+<li>json文件：</li>
+</ul>
+</li>
+<li>第二种：代码（Tests）中，使用 数据文件中 的数据<ul>
+<li>使用 postman 内置的 关键字 data，索引 字段名 或 键名</li>
+<li>csv文件：data.字段名； </li>
+<li>json文件：data.键名</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="CSV案例-查询手机运营商"><a href="#CSV案例-查询手机运营商" class="headerlink" title="CSV案例_查询手机运营商"></a>CSV案例_查询手机运营商</h4><ul>
+<li><p>需求：批量查询 手机号 所属运营商，校验运营商数据正确性</p>
+</li>
+<li><p>接口： <a target="_blank" rel="noopener" href="http://cx.shouji.360.cn/phonearea.php?number=13012345678">http://cx.shouji.360.cn/phonearea.php?number=13012345678</a></p>
+</li>
+<li><p>测试数据：</p>
+<ul>
+<li>手机号: 13012345678 运营商: 联通 </li>
+<li>手机号: 13800001111 运营商: 移动 </li>
+<li>手机号: 18966778899 运营商: 电信</li>
+</ul>
+</li>
+<li><p>编写断言与数据文件</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/be1d117e556c4e61a2ee6f33c4638021" alt="image-20231227141735086"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// xxxx.csv</span></span><br><span class="line"></span><br><span class="line">mobile,sp</span><br><span class="line"><span class="number">13012345678</span>,联通</span><br><span class="line"><span class="number">13712345678</span>,移动</span><br><span class="line"><span class="number">13838383388</span>,移动</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>读取数据获得结果</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/3a02f485449840e1b0b7d345daae9347" alt="image-20231227142156698"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/0c20e17940944aa5861dd94970c514ec" alt="image-20231227142204774"></p>
+<h4 id="JSON案例-查询手机运营商"><a href="#JSON案例-查询手机运营商" class="headerlink" title="JSON案例_查询手机运营商"></a>JSON案例_查询手机运营商</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;phone&quot;</span><span class="punctuation">:</span><span class="string">&quot;13012345678&quot;</span><span class="punctuation">,</span><span class="attr">&quot;abc&quot;</span><span class="punctuation">:</span><span class="string">&quot;联通&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;phone&quot;</span><span class="punctuation">:</span><span class="string">&quot;13912345678&quot;</span><span class="punctuation">,</span><span class="attr">&quot;abc&quot;</span><span class="punctuation">:</span><span class="string">&quot;移动&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;phone&quot;</span><span class="punctuation">:</span><span class="string">&quot;18912345678&quot;</span><span class="punctuation">,</span><span class="attr">&quot;abc&quot;</span><span class="punctuation">:</span><span class="string">&quot;电信&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/b90eebb29ba2448f837bf5c18af49d31" alt="image-20231227144505963"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/482d372c3b874ac58ccd80fb0c77ec3d" alt="image-20231227144500115"></p>
+<h3 id="思考-3"><a href="#思考-3" class="headerlink" title="思考"></a>思考</h3><ol>
+<li>参数化解决的问题是什么？</li>
+<li>如何引用数据文件批量执行测试用例？</li>
+</ol>
+<h2 id="Postman测试报告"><a href="#Postman测试报告" class="headerlink" title="Postman测试报告"></a>Postman测试报告</h2><h3 id="学习目标-3"><a href="#学习目标-3" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>掌握使用Newman生成测试报告</li>
+</ul>
+<h3 id="测试报告"><a href="#测试报告" class="headerlink" title="测试报告"></a>测试报告</h3><ul>
+<li>测试统计分析 + 测试结果确认</li>
+<li>Newman生成测试报告</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/09/8bfb354533364d80a8da4a80c9a2851a" alt="image-20231209134422927"></p>
+<h3 id="Newman"><a href="#Newman" class="headerlink" title="Newman"></a>Newman</h3><h4 id="Newman安装"><a href="#Newman安装" class="headerlink" title="Newman安装"></a>Newman安装</h4><ul>
+<li>Newman：基于nodejs，在命令行执行Postman脚本的插件</li>
+<li>安装nodejs<ul>
+<li>校验：<code>node -v</code></li>
+</ul>
+</li>
+<li>安装newman插件<ul>
+<li>安装n ewman</li>
+<li><code>npm install -g newman</code></li>
+<li>校验 <code>newman -v</code></li>
+<li>安装 newman-reporter-htmlextra</li>
+<li><code>npm install -g newman-reporter-htmlextra</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="生成测试报告命令"><a href="#生成测试报告命令" class="headerlink" title="生成测试报告命令"></a>生成测试报告命令</h4><ul>
+<li><p>命令 : </p>
+<ul>
+<li><p><code>newman run 测试集文件 -e 环境变量文件 -d 测试数据文件 -r htmlextra --reporter-htmlexport-export report.html</code></p>
+</li>
+<li><p><code>newman run 测试集文件.json -e 环境变量文件.json -d 测试数据文件.json -r htmlextra --reporter-htmlexport-export 测试报告.html</code></p>
+</li>
+</ul>
+</li>
+<li><p>命令说明：</p>
+<ul>
+<li>run xxx.json：执行测试集文件</li>
+<li>-e source：环境变量文件 , 非必须参数</li>
+<li>-d source：测试数据文件, 非必须参数</li>
+<li>-r htmlextra：生成测试报告类型</li>
+<li>–reporter-htmlexport-export source：存放报告的路径</li>
+</ul>
+</li>
+</ul>
+<h3 id="用例集的导入导出"><a href="#用例集的导入导出" class="headerlink" title="用例集的导入导出"></a>用例集的导入导出</h3><h4 id="用例集导出"><a href="#用例集导出" class="headerlink" title="用例集导出"></a>用例集导出</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/1dee7ed6aa9b4b108f6043efe873b970" alt="image-20231227154033698"></p>
+<h4 id="用例集导入"><a href="#用例集导入" class="headerlink" title="用例集导入"></a>用例集导入</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/534d523266e34f0599148b7668f07dfa" alt="image-20231227154229824"></p>
+<h3 id="环境文件的导出"><a href="#环境文件的导出" class="headerlink" title="环境文件的导出"></a>环境文件的导出</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/b33a9c06ab3548aeb561ce50c4bc4ab1" alt="image-20231227154922796"></p>
+<h3 id="案例-3"><a href="#案例-3" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>针对ihrm系统的登录接口进行参数化，并批量运行产出测试报告</p>
+</li>
+<li><p>分析测试报告：</p>
+<ul>
+<li><p>总共运行了多少条测试用例？</p>
+</li>
+<li><p>成功了多少条case？失败了多少条case？</p>
+</li>
+<li><p>查看每一天case的请求数据是否正确引用了数据文件</p>
+</li>
+<li><p>查看断言响应是否正确</p>
+</li>
+<li><p>分析失败的case是什么原因造成的？</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="思考-4"><a href="#思考-4" class="headerlink" title="思考"></a>思考</h3><ol>
+<li>请描述生成测试报告的步骤？</li>
+<li><code>newman run 用例集名称.json -e 环境文件名称.json -d 数据文件名称.json -r html --reporter-htmlexport-report.html</code></li>
+<li>分析测试报告：查看用例的具体数据，分析失败原因</li>
+</ol>
+<h2 id="帝莎商城接口实战"><a href="#帝莎商城接口实战" class="headerlink" title="帝莎商城接口实战"></a>帝莎商城接口实战</h2><h3 id="登录接口"><a href="#登录接口" class="headerlink" title="登录接口"></a>登录接口</h3><h4 id="登录成功"><a href="#登录成功" class="headerlink" title="登录成功"></a>登录成功</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应状态码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言响应状态码为:200&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="property">response</span>.<span class="property">to</span>.<span class="property">have</span>.<span class="title function_">status</span>(<span class="number">200</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定字符串</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言包含指定字符串: ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="title function_">expect</span>(pm.<span class="property">response</span>.<span class="title function_">text</span>()).<span class="property">to</span>.<span class="title function_">include</span>(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应的数据 json 格式</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;响应 json 格式数据的 msg 属性值为 ok &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">msg</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="string">&quot;ok&quot;</span>); <span class="comment">// 期望响应数据的 msg 属性的值为指定的 &quot;ok&quot; 数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/f76c1b2ca70d450abae61f689d4eca57" alt="image-20231227173523264"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/f53abc981af941b5ab88ae367ba5418c" alt="image-20231227173544561"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/355fe3f0dd464e1ea4b47b8cbf5cc41f" alt="image-20231227173611368"></p>
+<h4 id="用户不存在"><a href="#用户不存在" class="headerlink" title="用户不存在"></a>用户不存在</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应状态码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言响应状态码为:400&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="property">response</span>.<span class="property">to</span>.<span class="property">have</span>.<span class="title function_">status</span>(<span class="number">400</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定字符串</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言包含指定字符串: 用户名错误&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="title function_">expect</span>(pm.<span class="property">response</span>.<span class="title function_">text</span>()).<span class="property">to</span>.<span class="title function_">include</span>(<span class="string">&quot;用户名错误&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言错误码为 20000 &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">errorCode</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="number">20000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应的数据 json 格式</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;响应 json 格式数据的 msg 属性值为 用户名错误 &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">msg</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="string">&quot;用户名错误&quot;</span>); <span class="comment">// 期望响应数据的 msg 属性的值为指定的 &quot;ok&quot; 数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/42b8ab936e0b4900ab391c635d577ccb" alt="image-20231227175530318"></p>
+<h4 id="密码错误"><a href="#密码错误" class="headerlink" title="密码错误"></a>密码错误</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 响应状态码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言响应状态码为:400&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="property">response</span>.<span class="property">to</span>.<span class="property">have</span>.<span class="title function_">status</span>(<span class="number">400</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定字符串</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言包含指定字符串: 密码错误&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    pm.<span class="title function_">expect</span>(pm.<span class="property">response</span>.<span class="title function_">text</span>()).<span class="property">to</span>.<span class="title function_">include</span>(<span class="string">&quot;密码错误&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误码</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;断言错误码为 20000 &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">errorCode</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="number">20000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应的数据 json 格式</span></span><br><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;响应 json 格式数据的 msg 属性值为 密码错误 &quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">msg</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="string">&quot;密码错误&quot;</span>); <span class="comment">// 期望响应数据的 msg 属性的值为指定的 &quot;ok&quot; 数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/27/68a245ae14aa4120996f4407ed211069" alt="image-20231227175632941"></p>
+<h4 id="用例的批量执行"><a href="#用例的批量执行" class="headerlink" title="用例的批量执行"></a>用例的批量执行</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/28/6c51fb6bbe2e438fa67cdcc9c6e0d71a" alt="image-20231228092354525"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/07_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">接口测试基础</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">相关工具的安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Postman%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-text">Postman的介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Postman%E7%9A%84%E4%BB%8B%E7%BB%8D-1"><span class="toc-text">Postman的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Postman%E7%A4%BA%E4%BE%8B"><span class="toc-text">Postman示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81-get-%E8%AF%B7%E6%B1%82"><span class="toc-text">发送 get 请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81get%E8%AF%B7%E6%B1%82"><span class="toc-text">发送get请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-text">案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81-Post-%E8%AF%B7%E6%B1%82"><span class="toc-text">发送 Post 请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81-Post-%E8%AF%B7%E6%B1%82-1"><span class="toc-text">发送 Post 请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E5%85%B6%E4%BB%96%E8%AF%B7%E6%B1%82"><span class="toc-text">发送其他请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E5%85%B6%E4%BB%96%E8%AF%B7%E6%B1%82-1"><span class="toc-text">发送其他请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="toc-text">案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Postman%E6%96%AD%E8%A8%80"><span class="toc-text">Postman断言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E4%BB%8B%E7%BB%8D"><span class="toc-text">断言介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%8A%B6%E6%80%81%E7%A0%81%E6%96%AD%E8%A8%80"><span class="toc-text">响应状态码断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%85%E5%90%AB%E6%8C%87%E5%AE%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%96%AD%E8%A8%80"><span class="toc-text">包含指定字符串断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON%E6%95%B0%E6%8D%AE%E6%96%AD%E8%A8%80"><span class="toc-text">JSON数据断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-2"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">断言的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83-1"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Postman%E8%87%AA%E5%8A%A8%E5%85%B3%E8%81%94"><span class="toc-text">Postman自动关联</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-1"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%85%B3%E8%81%94%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-text">自动关联解决思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">案例一_全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">案例二_环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83-2"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Postman%E5%8F%82%E6%95%B0%E5%8C%96"><span class="toc-text">Postman参数化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-2"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%8C%96%E7%AE%80%E4%BB%8B"><span class="toc-text">参数化简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="toc-text">数据文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E7%AE%80%E4%BB%8B"><span class="toc-text">数据文件简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="toc-text">读取数据文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-text">读取数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSV%E6%A1%88%E4%BE%8B-%E6%9F%A5%E8%AF%A2%E6%89%8B%E6%9C%BA%E8%BF%90%E8%90%A5%E5%95%86"><span class="toc-text">CSV案例_查询手机运营商</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON%E6%A1%88%E4%BE%8B-%E6%9F%A5%E8%AF%A2%E6%89%8B%E6%9C%BA%E8%BF%90%E8%90%A5%E5%95%86"><span class="toc-text">JSON案例_查询手机运营商</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83-3"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Postman%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">Postman测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-3"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">测试报告</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Newman"><span class="toc-text">Newman</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Newman%E5%AE%89%E8%A3%85"><span class="toc-text">Newman安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E5%91%BD%E4%BB%A4"><span class="toc-text">生成测试报告命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E9%9B%86%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA"><span class="toc-text">用例集的导入导出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E9%9B%86%E5%AF%BC%E5%87%BA"><span class="toc-text">用例集导出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E9%9B%86%E5%AF%BC%E5%85%A5"><span class="toc-text">用例集导入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%96%87%E4%BB%B6%E7%9A%84%E5%AF%BC%E5%87%BA"><span class="toc-text">环境文件的导出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-3"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83-4"><span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%9D%E8%8E%8E%E5%95%86%E5%9F%8E%E6%8E%A5%E5%8F%A3%E5%AE%9E%E6%88%98"><span class="toc-text">帝莎商城接口实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3"><span class="toc-text">登录接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F"><span class="toc-text">登录成功</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8D%E5%AD%98%E5%9C%A8"><span class="toc-text">用户不存在</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E9%94%99%E8%AF%AF"><span class="toc-text">密码错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E7%9A%84%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C"><span class="toc-text">用例的批量执行</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试"><img alt="UI自动化测试" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.FjupsUlF0U4eTb-7NSK7VQHaEK?w=324&amp;h=182&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试">UI自动化测试</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02"><img alt="性能测试基础02" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02">性能测试基础02</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01"><img alt="性能测试基础01" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01">性能测试基础01</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装"><img alt="接口对象封装" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.28wuGV9jWB2_sq1WCmD7HAHaEK?w=304&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装">接口对象封装</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集"><img alt="接口测试_Requests库_UnitTest框架_数据库操作_日志收集" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.9CeGYs4RfVcivCbpKRmJKwHaEK?w=328&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/26/软件测试/007_UI自动化测试/001_UI自动化测试/","2024/01/26/软件测试/006_性能测试/11_性能测试-02/","2024/01/26/软件测试/006_性能测试/11_性能测试-01/","2024/01/26/软件测试/005_接口测试/10_接口测试_接口对象封装_接口自动化测试框架_全量字段校验_持续集成/","2024/01/26/软件测试/005_接口测试/09_接口测试_Requests库_UnitTest框架_数据库操作_日志收集/","2024/01/26/软件测试/005_接口测试/08_接口测试_Postman的使用/","2024/01/26/软件测试/005_接口测试/07_接口测试_接口测试基础/","2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

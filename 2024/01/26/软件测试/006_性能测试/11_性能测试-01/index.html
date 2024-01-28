@@ -1,0 +1,2394 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>性能测试基础01 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="性能测试阶段大纲 第 1 章 性能测试理论 性能测试概述 性能测试策略 性能测试指标 性能测试流程 第 2 章 性能测试工具JMeter 常用性能测试工具 JMeter环境搭建 JMeter基本使用 JMeter参数化、断言、关联 JMeter录制脚本 JMeter直连数据库 J"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">55</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">性能测试基础01</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="性能测试基础01"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">性能测试基础01</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-26 05:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-25T21:00:00.000Z">2024-01-25T21:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 22:37:28"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T14:37:28.517Z">2024-01-28T14:37:28.517Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">15.4k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>55 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+
+<h1 id="性能测试阶段大纲"><a href="#性能测试阶段大纲" class="headerlink" title="性能测试阶段大纲"></a>性能测试阶段大纲</h1><ul>
+<li><p>第 1 章 性能测试理论</p>
+<ul>
+<li>性能测试概述</li>
+<li>性能测试策略</li>
+<li>性能测试指标</li>
+</ul>
+<ol start="4">
+<li>性能测试流程</li>
+</ol>
+</li>
+<li><p>第 2 章 性能测试工具JMeter</p>
+<ul>
+<li>常用性能测试工具</li>
+</ul>
+<ol start="2">
+<li>JMeter环境搭建</li>
+<li>JMeter基本使用</li>
+<li>JMeter参数化、断言、关联</li>
+<li>JMeter录制脚本</li>
+<li>JMeter直连数据库</li>
+<li>JMeter分布式</li>
+<li>JMeter测试报告</li>
+</ol>
+</li>
+<li><p>第 3 章 项目实战</p>
+<ul>
+<li>项目介绍和部署</li>
+</ul>
+<ol start="2">
+<li>性能测试需求分析</li>
+<li>性能测试计划</li>
+<li>测试用例设计</li>
+<li>测试脚本开发</li>
+<li>建立测试环境</li>
+<li>执行测试脚本</li>
+<li>性能测试监控</li>
+<li>性能分析和调优</li>
+<li>编写测试报告</li>
+</ol>
+</li>
+<li><p>第 4 章 Locust框架</p>
+<ul>
+<li>Locust介绍和安装</li>
+<li>Locust使用</li>
+</ul>
+</li>
+</ul>
+<h1 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h1><ol>
+<li>掌握性能测试理论中常见的性能测试场景、性能测试指标和性能测试流程；</li>
+<li>掌握使用JMeter工具发送http接口请求，并掌握断言、关联、参数化等功能；</li>
+<li>熟悉性能测试的流程；</li>
+</ol>
+<h1 id="性能测试理论"><a href="#性能测试理论" class="headerlink" title="性能测试理论"></a>性能测试理论</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ol>
+<li>理解什么是性能测试</li>
+<li>掌握性能测试常用分类</li>
+<li>熟悉性能测试常用指标</li>
+<li>熟悉性能测试流程</li>
+<li>知道进行性能测试的原因</li>
+<li>理解性能测试的概念</li>
+<li>理解性能测试和功能测试的区别与联系</li>
+</ol>
+<h2 id="为什么要进行性能测试"><a href="#为什么要进行性能测试" class="headerlink" title="为什么要进行性能测试"></a>为什么要进行性能测试</h2><h3 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h3><ul>
+<li><p>进行性能测试：满足真实的业务场景（活动场景）、支持大量的用户。满足商用要求</p>
+<ul>
+<li><p>电商双11活动&#x2F;微信春晚抢红包&#x2F;12306春运订票</p>
+</li>
+<li><p>当前服务器配置是否支持20000人同时使用</p>
+</li>
+<li><p>技术选型，如编程语言选择Java？Python？PHP？</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/9ea295c3d2f54824852bf4625fa6ffa1" alt="image-20240111171458436"></p>
+<h3 id="招聘需求"><a href="#招聘需求" class="headerlink" title="招聘需求"></a>招聘需求</h3><ul>
+<li>要求会使用性能测试工具JMeter、LoadRunner</li>
+</ul>
+<h2 id="性能测试的概念"><a href="#性能测试的概念" class="headerlink" title="性能测试的概念"></a>性能测试的概念</h2><h3 id="什么是性能"><a href="#什么是性能" class="headerlink" title="什么是性能"></a>什么是性能</h3><ul>
+<li>性能：<strong>就是软件质量属性中的“效率”特性</strong></li>
+<li>效率特性：<ul>
+<li>时间特性：指系统处理用户请求的响应时间</li>
+<li>资源特性：指系统在运行过程中，系统资源的消耗情况<ul>
+<li>CPU</li>
+<li>内存</li>
+<li>磁盘IO（磁盘的写入Input和读取Output，简称IO）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="什么是性能测试"><a href="#什么是性能测试" class="headerlink" title="什么是性能测试"></a>什么是性能测试</h3><ul>
+<li>概念：<strong>使用自动化工具，模拟不同的场景，对软件各项性能指标进行测试和评估的过程就是性能测试。</strong><ul>
+<li>测试后台处理程序的性能（代码性能）</li>
+<li>测试应用服务器、中间件、数据库、架构设计等是否存在瓶颈<ul>
+<li>中间件：是提供系统软件和应用软件之间连接的软件。如：Tomcat、Apache…</li>
+</ul>
+</li>
+<li>服务器资源消耗（CPU、内存、磁盘、网络）</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能测试目的"><a href="#性能测试目的" class="headerlink" title="性能测试目的"></a>性能测试目的</h3><ul>
+<li><p>评估当前系统能力</p>
+<ul>
+<li><p>例如：验收第三方提供的软件</p>
+</li>
+<li><p>例如：获取关键的性能指标，与其他类似产品进行比较</p>
+</li>
+</ul>
+</li>
+<li><p>寻找性能瓶颈，优化性能</p>
+</li>
+<li><p>评估软件是否能够满足未来的需要</p>
+</li>
+</ul>
+<h2 id="性能测试与功能测试"><a href="#性能测试与功能测试" class="headerlink" title="性能测试与功能测试"></a>性能测试与功能测试</h2><h3 id="焦点不一样"><a href="#焦点不一样" class="headerlink" title="焦点不一样"></a>焦点不一样</h3><ul>
+<li><p>功能测试：验证软件系统操作功能是否符合产品功能需求规格，主要焦点在功能（正向、逆向）；</p>
+<ul>
+<li>正向(功能)）例如：输入正确的用户名密码，登录成功</li>
+<li>逆向(功能)  例如：输入错误的用户名密码,登录失败给出提示</li>
+</ul>
+</li>
+<li><p>性能测试：验证软件系统是否满足业务需求场景，主要焦点是业务场景的满足(时间、资源)；</p>
+<ul>
+<li>例如：100W人使用正确的用户名密码登录，1s内能登录成功 (时间)</li>
+<li>同时服务器的CPU使用率低于70%，内存使用率低于60%等 (资源)</li>
+</ul>
+</li>
+</ul>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><ul>
+<li>功能测试和性能测试是相辅相成的，对于一款优秀的软件产品来讲，它们是不可减少的2个重要测试环节；</li>
+<li>注意：一般新项目中，先功能测试通过后，再进行性能测试。功能测试和性能测试不能同时进行,因为代码的修改,会影响软件的性能</li>
+</ul>
+<h2 id="性能测试策略"><a href="#性能测试策略" class="headerlink" title="性能测试策略"></a>性能测试策略</h2><h3 id="学习目标-1"><a href="#学习目标-1" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>理解性能测试中常见测试策略</li>
+</ul>
+<h3 id="性能测试策略-1"><a href="#性能测试策略-1" class="headerlink" title="性能测试策略"></a>性能测试策略</h3><ol>
+<li>基准测试</li>
+<li><strong>负载测试</strong></li>
+<li><strong>稳定性测试</strong></li>
+<li>其他：并发测试、压力测试、容量测试等</li>
+</ol>
+<h3 id="基准测试"><a href="#基准测试" class="headerlink" title="基准测试"></a>基准测试</h3><ul>
+<li><p>基准测试：</p>
+<ul>
+<li>狭义上讲：也是单用户测试，测试环境确定以后，对业务模型中的重要业务做单独的测试，获取单用户运行时的各项性能指标。（进行基础的数据采集）</li>
+<li>广义上讲：是一种测量和评估软件性能指标的活动。你可以在某个时刻通过基准测试建立一个已知的性能水平（称为基准线），当系统的软硬件环境发生变化之后再进行一次基准测试以确定那些变化对性能的影响。</li>
+</ul>
+</li>
+<li><p>基准测试数据的用途：</p>
+<ul>
+<li>为多用户并发测试和综合场景测试等性能分析提供参考依据</li>
+<li>识别系统或环境的配置变更对性能响应带来的影响</li>
+<li>为系统优化前后的性能提升&#x2F;下降提供参考指标</li>
+</ul>
+</li>
+</ul>
+<h3 id="负载测试"><a href="#负载测试" class="headerlink" title="负载测试"></a>负载测试</h3><ul>
+<li>说明：<strong>通过逐步增加系统负载，测试系统性能的变化，并最终确定在满足系统的性能指标情况下，系统所能够承受的最大负载量的测试。</strong></li>
+<li>负载：指向服务器发送的请求数量，请求越多，负载越高</li>
+<li>注意：负载测试关注的重点是逐步增加压力 , 系统最大负载量达到用户要求时 , 系统才能正式上线使用</li>
+</ul>
+<h3 id="稳定性测试"><a href="#稳定性测试" class="headerlink" title="稳定性测试"></a>稳定性测试</h3><ul>
+<li>说明：<strong>稳定性测试是指，在服务器稳定运行（用户正常的业务负载下）的情况下进行长时间测试，并最终保证服务器能满足线上业务需求</strong>。<ul>
+<li>时长一般为1天或者一周等。</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他测试策略"><a href="#其他测试策略" class="headerlink" title="其他测试策略"></a>其他测试策略</h3><ul>
+<li>性能测试中，测试策略其实有很多种，但是掌握基础的用法后，其他不同名称的测试策略只是基础用法的一个变形用法。<ul>
+<li><p>并发测试：</p>
+<ul>
+<li>并发测试是指在极短的时间内，发送多个请求，来验证服务器对并发的处理能力。</li>
+<li>如：抢红包、抢购、秒杀活动等。</li>
+</ul>
+</li>
+<li><p>压力测试：</p>
+<ul>
+<li>压力测试是在强负载（大数据量、大量并发用户等）下的测试，查看应用系统在峰值使用情况下操作行为，从而有效地发现系统的某项功能隐患、系统是否具有良好的容错能力和可恢复能力。</li>
+<li>压力测试分为高负载下的长时间（如24小时以上）的稳定性压力测试和极限负载情况下导致系统崩溃的破坏性压力测试。</li>
+</ul>
+</li>
+<li><p>容量测试：</p>
+<ul>
+<li>关注软件的极限压力下的各个极限参数值</li>
+<li>例如：最大 TPS，最大连接数，最大并发数，最多数据条数等。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能测试指标"><a href="#性能测试指标" class="headerlink" title="性能测试指标"></a>性能测试指标</h2><h3 id="学习目标-2"><a href="#学习目标-2" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>掌握常用的性能测试指标</li>
+<li>理解性能测试指标中每种指标的含义</li>
+</ul>
+<h3 id="什么是指标"><a href="#什么是指标" class="headerlink" title="什么是指标"></a>什么是指标</h3><ul>
+<li>说明：一些经过运算得出的结果，来衡量某种操作性能统称；比如：错误率 0.5%</li>
+<li>测试指标的作用 : 对性能测试结果进行量化衡量</li>
+</ul>
+<h3 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h3><ol>
+<li>响应时间</li>
+<li>并发数</li>
+<li>吞吐量</li>
+<li>点击数</li>
+<li>错误率</li>
+<li>资源利用率</li>
+<li>PV和UV</li>
+</ol>
+<h3 id="常用性能指标"><a href="#常用性能指标" class="headerlink" title="常用性能指标"></a>常用性能指标</h3><h4 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h4><ul>
+<li>说明：<strong>响应时间指用户从客户端发起一个请求开始，到客户端接收到从服务器端返回的结果，整个过程所耗费的时间</strong>。</li>
+<li>组成：响应时间 &#x3D; 网络时间 + 应用程序处理时间<ul>
+<li>通过HTTP接口请求消息来测试 , 不包括发消息时前端页面的处理时间和收到消息后前端页面的渲染显示时间</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/0bc706985c56498ab91fbb38e20594df" alt="image-20240111180755212"></p>
+<h4 id="并发数"><a href="#并发数" class="headerlink" title="并发数"></a>并发数</h4><ul>
+<li>说明：同一时间往服务器发送请求的用户数 ,即<strong>并发测试的用户数</strong></li>
+<li>扩展：<ul>
+<li>系统用户数：系统注册的总用户数据</li>
+<li>在线用户数：某段时间内访问系统的用户数，这些用户并不一定同时向系统提交请求</li>
+<li>并发用户数：某一物理时刻同时向系统提交请求的用户数</li>
+</ul>
+</li>
+</ul>
+<h4 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h4><ul>
+<li><p>说明：吞吐量（Throughput）指的是单位时间内处理的客户端请求数量，直接体现软件系统的性能承载能力</p>
+</li>
+<li><p>注意：</p>
+<ul>
+<li>从业务角度来看，吞吐量也可以用“业务数&#x2F;小时”、“业务数&#x2F;天”、“访问人数&#x2F;天”、“页面访问量&#x2F;天”来衡量</li>
+<li>从网络角度来看，还可以用“字节数&#x2F;小时”、“字节数&#x2F;天”等来衡量网络的流量</li>
+<li>从技术指标来看，可以用每秒事务数（TPS）和每秒查询数（QPS）来衡量服务器具体性能处理能力<ul>
+<li><strong>TPS</strong> : <ul>
+<li>说明：Transactions Per Second，每秒事务数 (单位时间内系统处理的客户端请求的事务次数) , TPS归属吞吐量</li>
+<li>计算：TPS &#x3D; 并发数&#x2F;平均响应时间</li>
+<li>事务：就是业务请求，对应一个或者多个操作。<ul>
+<li>如支付请求，包括服务器查询用户余额，支付安全校验等多个操作。 </li>
+<li>一个业务请求发送给服务器后，最终会定位到服务器对应的业务请求的代码，既有可能是一段代码也有可能是多段代码。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>QPS</strong> : <ul>
+<li>说明：QPS(Query Per Second)每秒查询数<ul>
+<li>衡量web服务器处理能力一个重要指标</li>
+</ul>
+</li>
+<li>应用：控制服务器每秒处理指定请求数（如：控制服务器达到每秒60QPS，服务器的性能各项性能指标是否正常）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/32b6d87291204347996feba588c3f89e" alt="image-20240111181554157"> </p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/937df10153d54c1499ad930c6be87cea" alt="image-20240111181255838"></p>
+<h4 id="点击数"><a href="#点击数" class="headerlink" title="点击数"></a>点击数</h4><ul>
+<li>说明：<strong>点击数是衡量Web服务器处理能力的一个重要指标。</strong></li>
+<li>提示：<ul>
+<li>点击数不是通常一般人认为的访问一个页面就是１次点击数，点击数是该页面包含的元素（图片、链接、框架等）向Web服务器发出的请求数量。</li>
+<li>通常我们也用每秒点击次数（Hits per Second）指标来衡量Web服务器的处理能力。</li>
+</ul>
+</li>
+<li>注意：只有web项目才有此指标。</li>
+</ul>
+<h4 id="错误率"><a href="#错误率" class="headerlink" title="错误率"></a>错误率</h4><ul>
+<li>说明：*<em>错误率指系统在负载情况下，失败业务的概率。错误率＝(失败业务数&#x2F;业务总数)<em>100%。</em></em></li>
+<li>提示：<ul>
+<li>不同系统对错误率要求不同，但一般不超过千分之五；</li>
+<li>稳定性较好的系统，其错误率应该由超时引起，即为超时率。</li>
+</ul>
+</li>
+<li>注意：<ul>
+<li>大多系统都会要求错误率无限接近于0</li>
+<li>错误率是一个性能指标不是功能上的随机bug</li>
+</ul>
+</li>
+</ul>
+<h4 id="资源利用率"><a href="#资源利用率" class="headerlink" title="资源利用率"></a>资源利用率</h4><ul>
+<li>说明：<strong>是指系统各种资源的使用情况，一般用“资源的使用量&#x2F;总的资源可用量×100%”形成资源利用率的数据。</strong></li>
+<li>提示：通常，没有特殊需求的话<ul>
+<li>1). 建议CPU不高于80%(±5)</li>
+<li>2). 内存不高于80%</li>
+<li>3). 磁盘不高于90%</li>
+<li>4). 网络不高于80%</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能测试流程"><a href="#性能测试流程" class="headerlink" title="性能测试流程"></a>性能测试流程</h2><h3 id="学习目标-3"><a href="#学习目标-3" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>掌握性能测试流程</li>
+</ul>
+<h3 id="进行性能测试的原因"><a href="#进行性能测试的原因" class="headerlink" title="进行性能测试的原因"></a>进行性能测试的原因</h3><ul>
+<li>1.功能测试需要按照流程来推进，性能测试也同样，一套完整的测试流程是一次成功性能测试的基石</li>
+<li>2.[面试]简述下性能测试过程…</li>
+</ul>
+<h3 id="性能测试流程-1"><a href="#性能测试流程-1" class="headerlink" title="性能测试流程"></a>性能测试流程</h3><ol>
+<li>性能测试需求分析</li>
+<li>性能测试计划及方案</li>
+<li>性能测试用例</li>
+<li>测试脚本编写&#x2F;录制</li>
+<li>建立测试环境</li>
+<li>执行测试脚本</li>
+<li>性能测试监控</li>
+<li>性能分析和调优</li>
+<li>性能测试报告总结</li>
+</ol>
+<ul>
+<li>提示：使用不同的性能测试工具时，主要流程是不变的。</li>
+</ul>
+<h3 id="性能需求分析"><a href="#性能需求分析" class="headerlink" title="性能需求分析"></a>性能需求分析</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/6d2f7d1d91c24927b001c97b7aa6e487" alt="image-20240111203644210"></p>
+<ul>
+<li>说明：性能需求分析是整个性能测试工作开展的基础，性能需求分析做的好不好直接影响到性能测试的结果。</li>
+<li>性能需求分析的目标：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/12/619c0b75a7464135a212a7ac809ae49c" alt="image-20231212132708620"></p>
+<ul>
+<li>熟悉被测系统<ul>
+<li>熟悉被测系统的业务功能</li>
+<li>熟悉被测系统的技术架构</li>
+</ul>
+</li>
+<li>明确性能测试内容<ul>
+<li>从业务角度明确测试内容<ul>
+<li>确定关键业务。即：用户使用频率较高的业务功能</li>
+</ul>
+</li>
+<li>从技术角度明确测试内容<ul>
+<li>如：通常逻辑复杂度较高的业务也是CPU密集运算较大的地方，考量服务器CPU在预定性能指标下是否达标</li>
+<li>如：通常数据量较大的业务很占用系统内存，考量服务器内存在预定性能指标下是否达标</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>明确性能测试策略<ul>
+<li>负载测试</li>
+<li>稳定性测试</li>
+<li>并发测试</li>
+</ul>
+</li>
+<li>明确性能测试的指标<ul>
+<li>无明确需求指标<ul>
+<li>通过查找相关资料，和类似的系统对比，以及对未来流量的预估，确定性能测试需求的指标</li>
+</ul>
+</li>
+<li>有明确需求指标<ul>
+<li>例如，类似如下指标<ul>
+<li>下订单业务并发20个用户</li>
+<li>平均响应时间要小于等于3s</li>
+<li>事务成功率为100%</li>
+<li>CPU使用率小于等于85%</li>
+</ul>
+</li>
+<li>只需要根据执行分析结果与预期指标做对比，如果有不满足的，就需要分析问题所在</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能测试计划及方案"><a href="#性能测试计划及方案" class="headerlink" title="性能测试计划及方案"></a>性能测试计划及方案</h3><ul>
+<li>说明：性能测试实施第一份文档，也是最重要的一份文档。</li>
+<li>主要内容：<ul>
+<li>项目背景</li>
+<li>测试目的</li>
+<li>测试范围</li>
+<li>测试策略</li>
+<li>风险控制</li>
+<li>交付清单</li>
+<li>进度与分工</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能测试用例"><a href="#性能测试用例" class="headerlink" title="性能测试用例"></a>性能测试用例</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/12/cacfbb781fb24af589af700fee336f5d" alt="image-20231212133138460"></p>
+<h3 id="性能测试执行"><a href="#性能测试执行" class="headerlink" title="性能测试执行"></a>性能测试执行</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/09f3f525657c4ba895f6c9187ac5f557" alt="image-20240111204611970"></p>
+<h3 id="测试脚本编写-录制"><a href="#测试脚本编写-录制" class="headerlink" title="测试脚本编写&#x2F;录制"></a>测试脚本编写&#x2F;录制</h3><ul>
+<li>说明：性能测试用例编写完成以后，接下来就需要结合用例的需要，进行测试脚本的编写工作。</li>
+<li>提示：录制或编写，根据不同的工具要注意代码冗余。</li>
+</ul>
+<h3 id="建立测试环境"><a href="#建立测试环境" class="headerlink" title="建立测试环境"></a>建立测试环境</h3><ul>
+<li>说明：在进行性能则试之前，需要先完成性能测试环境的搭建工作，测试环境一般包括硬件环境、软件环境及网络环境</li>
+<li>提示：一般情况下可以要求运维和开发工程师协助完成</li>
+</ul>
+<h3 id="执行测试脚本"><a href="#执行测试脚本" class="headerlink" title="执行测试脚本"></a>执行测试脚本</h3><ul>
+<li>说明：先保证脚本调试通过之后，才能进入正式压测阶段</li>
+<li>执行测试脚本时，要先进行性能运行场景的设置，再运行脚本</li>
+</ul>
+<h3 id="性能测试监控"><a href="#性能测试监控" class="headerlink" title="性能测试监控"></a>性能测试监控</h3><ul>
+<li>性能监控就是监控服务器的各项性能指标。<ul>
+<li>例如：监控CPU、内存、网络、TPS、磁盘IO等</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能分析和调优"><a href="#性能分析和调优" class="headerlink" title="性能分析和调优"></a>性能分析和调优</h3><ul>
+<li>说明：性能测试分析人员经过对结果的分析以后，如果不符合性能需求则会提出性能bug，然后由开发人员进行后续的调优</li>
+<li>提示：<ul>
+<li>调优－由开发人员为主导，数据库管理员、系统管理员、网络管理员、性能测试分析人员配合进行</li>
+<li>验证－由性能测试人员继续进行第二轮、第三轮…的测试，与以前的测试结果进行对比，从而确定经过调整以后系统的性能是否有提升</li>
+</ul>
+</li>
+<li>注意:<ul>
+<li>系统调优由易到难的先后顺序如下：<ul>
+<li>硬件问题</li>
+<li>网络问题</li>
+<li>应用服务器、数据库等配置问题</li>
+<li>源代码、数据库脚本问题</li>
+<li>系统构架问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能测试报告总结"><a href="#性能测试报告总结" class="headerlink" title="性能测试报告总结"></a>性能测试报告总结</h3><ul>
+<li>性能测试总结要包含以下内容：<ul>
+<li>性能测试需求覆盖情况，测试过程回顾，及测试中出现的问题（如何去分析、调优、解决的）—基本要求</li>
+<li>性能测试过程中遇到各类风险是如何控制的; 目前是否还有其他的性能风险存在</li>
+<li>经过该项目性能测试后，有那些经验和教训等内容</li>
+</ul>
+</li>
+</ul>
+<h1 id="性能测试工具JMeter"><a href="#性能测试工具JMeter" class="headerlink" title="性能测试工具JMeter"></a>性能测试工具JMeter</h1><h2 id="学习目标-4"><a href="#学习目标-4" class="headerlink" title="学习目标"></a>学习目标</h2><ol>
+<li>了解市面主流测试工具</li>
+<li>掌握Jmeter进行HTTP接口测试时的技术要点：断言、关联、参数化、引入外部数据文件</li>
+<li>掌握Jmeter更深入的高级用法：Jmeter函数、Jmeter属性、Jmeter的BeanShell、Jmeter录制脚本</li>
+<li>掌握使用Jmeter进行性能测试的核心技巧</li>
+</ol>
+<h2 id="常用性能测试工具"><a href="#常用性能测试工具" class="headerlink" title="常用性能测试工具"></a>常用性能测试工具</h2><h3 id="学习目标-5"><a href="#学习目标-5" class="headerlink" title="学习目标"></a>学习目标</h3><ol>
+<li>了解市面主流测试工具</li>
+<li>掌握JMeter工具的优缺点</li>
+</ol>
+<h3 id="主流性能测试工具"><a href="#主流性能测试工具" class="headerlink" title="主流性能测试工具"></a>主流性能测试工具</h3><ul>
+<li>LoadRunner<ul>
+<li>HP LoadRunner是一种工业级标准性能测试负载工具，可以模拟上万用户实施测试，并在测试时可实时检测应用服务器及服务器硬件各种数据，来确认和查找存在的瓶颈 , 支持多协议：Web(HTTP&#x2F;HTML)、Windows Sockets、FTP、ODBC、MS SQL Server等协议 , 最初是Mercury公司采用C语言编写,现被HP公司收购</li>
+<li>优点 : <ul>
+<li>多用户（支持数量单位万）</li>
+<li>详细分析报表</li>
+<li>支持ip欺骗</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>收费</li>
+<li>体积庞大（单位GB）</li>
+<li>无法定制功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>JMeter [本阶段学习]<ul>
+<li>JMeter是Apache组织开发的基于Java的开源软件，用于对系统做功能测试和性能测试。</li>
+<li>它最初被设计用于Web应用测试，但后来扩展到其他测试领域，例如静态文件、Java 程序、shell 脚本、数据库、FTP、Mail等。</li>
+<li>优点：<ul>
+<li>免费</li>
+<li>开源</li>
+<li>小巧（最新版-50MB左右）</li>
+<li>丰富学习资料及扩展组件</li>
+<li>应用广泛</li>
+<li>易上手</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>不支持ip欺骗</li>
+<li>分析和报表能力相对于lr欠缺精度</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="两种测试工具的对比"><a href="#两种测试工具的对比" class="headerlink" title="两种测试工具的对比"></a>两种测试工具的对比</h3><ul>
+<li>相同点:<ul>
+<li>都能模拟大量用户</li>
+<li>都能支持多协议（常见的协议都支持，如：HTTP)</li>
+<li>都有监控及分析报表功能</li>
+</ul>
+</li>
+<li>不同点:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/3640895533ea4215b398582285c12634" alt="image-20240113113635566"></p>
+<ul>
+<li>结论 : <ul>
+<li>项目日常性能测试 Jmeter 足够使用,出商业报告优先 Loadrunner</li>
+</ul>
+</li>
+</ul>
+<h2 id="JMeter环境搭建"><a href="#JMeter环境搭建" class="headerlink" title="JMeter环境搭建"></a>JMeter环境搭建</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>掌握如何搭建Jmeter环境</li>
+<li>掌握JMeter基本使用流程</li>
+</ol>
+<h3 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h3><ul>
+<li>JDK(Java Development Kit) 是 Java 语言的软件开发工具包</li>
+</ul>
+<h4 id="JDK下载"><a href="#JDK下载" class="headerlink" title="JDK下载"></a>JDK下载</h4><ul>
+<li>官网：<a target="_blank" rel="noopener" href="http://www.oracle.com/">http://www.oracle.com/</a></li>
+<li>JDK8下载地址：<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></li>
+<li>提示：下载时注意电脑系统是32位或64位</li>
+</ul>
+<h4 id="安装JDK-1"><a href="#安装JDK-1" class="headerlink" title="安装JDK"></a>安装JDK</h4><ul>
+<li>双击安装包进行安装，所有步骤选择默认选项即可</li>
+</ul>
+<h4 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h4><ul>
+<li><code>JAVA_HOME=C:\Program Files\Java\jdk1.8.0_151</code></li>
+<li>在Path中添加: <code>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;</code></li>
+</ul>
+<h4 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h4><ul>
+<li>打开命令行窗口，输入 <code>java -version</code> ，校验命令能否正常执行以及版本信息是否一致</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/99acfee500d742dfa2551e721a513349" alt="image-20240111201016833"></p>
+<h3 id="安装JMeter"><a href="#安装JMeter" class="headerlink" title="安装JMeter"></a>安装JMeter</h3><h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><ul>
+<li>官网下载地址: <a target="_blank" rel="noopener" href="http://jmeter.apache.org/download_jmeter.cgi">http://jmeter.apache.org/download_jmeter.cgi</a></li>
+</ul>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ul>
+<li>把下载的安装包，解压到某一目录即可</li>
+<li>提示：安装目录中不要出现空格，这将导致远程测试出现问题</li>
+</ul>
+<h4 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h4><ul>
+<li>Jmeter环境</li>
+</ul>
+<ol>
+<li>新建<code>JMETER_HOME</code>变量，并添加 jmeter 所在目录 <ul>
+<li>如：-&gt; <code>F:\Jmeter\apache-jmeter-5.1.1</code></li>
+</ul>
+</li>
+<li>PATH-&gt; <code>%JMETER_HOME%\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;</code></li>
+</ol>
+<h4 id="启动验证"><a href="#启动验证" class="headerlink" title="启动验证"></a>启动验证</h4><ul>
+<li>JMeter启动有多种方式，进入JMeter安装目录下的bin目录</li>
+<li>双击 jmeter.bat 即可打开</li>
+<li>或者 双击 ApacheJMeter.jar 选择使用java程序打开</li>
+<li>或者 命令行输入： <code>java -jar ApacheJMeter.jar</code></li>
+</ul>
+<h2 id="JMeter功能概要"><a href="#JMeter功能概要" class="headerlink" title="JMeter功能概要"></a>JMeter功能概要</h2><h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>了解Jmeter文件目录的内容</li>
+<li>了解Jmeter汉化方法</li>
+<li>了解Jmeter主题颜色修改方法</li>
+</ol>
+<h3 id="JMeter文件目录介绍"><a href="#JMeter文件目录介绍" class="headerlink" title="JMeter文件目录介绍"></a>JMeter文件目录介绍</h3><h4 id="bin目录"><a href="#bin目录" class="headerlink" title="bin目录"></a>bin目录</h4><ul>
+<li><p>存放可执行文件和配置文件</p>
+<ul>
+<li><p>jmeter.bat：windows的启动文件</p>
+</li>
+<li><p>jmeter.log：日志文件</p>
+</li>
+<li><p>jmeter.sh：linux的启动文件</p>
+</li>
+<li><p>jmeter.properties：系统配置文件</p>
+</li>
+<li><p>jmeter-server.bat：windows分布式测试要用到的服务器配置</p>
+</li>
+<li><p>jmeter-serve：linux分布式测试要用到的服务器配置</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="docs目录"><a href="#docs目录" class="headerlink" title="docs目录"></a>docs目录</h4><ul>
+<li>docs：是JMeter的api文档，可打开 <code>api/index.html</code>页面来查看</li>
+</ul>
+<h4 id="printable-docs目录"><a href="#printable-docs目录" class="headerlink" title="printable_docs目录"></a>printable_docs目录</h4><ul>
+<li>printable_docs的usermanual子目录下的内容是JMeter的用户手册文档</li>
+<li>usermanual下component_reference.html是最常用到的核心元件帮助文档。</li>
+<li>提示：printable_docs的demos子目录下有一些常用的JMeter脚本案例，可以作为参考</li>
+</ul>
+<h4 id="lib目录"><a href="#lib目录" class="headerlink" title="lib目录"></a>lib目录</h4><ul>
+<li>该目录用来存放JMeter依赖的jar包和用户扩展所依赖的jar包</li>
+</ul>
+<h3 id="修改默认配置"><a href="#修改默认配置" class="headerlink" title="修改默认配置"></a>修改默认配置</h3><h4 id="汉化配置"><a href="#汉化配置" class="headerlink" title="汉化配置"></a>汉化配置</h4><ul>
+<li><p>实现JMeter界面的汉化包含两种方式：</p>
+<ul>
+<li><p>临时性： 启动JMeter-&gt;选择菜单‘Options’-&gt;Choose Language-&gt;Chinese (Simplified)</p>
+</li>
+<li><p>永久性：</p>
+<ul>
+<li><p>找到jmeter安装目录下的bin目录，</p>
+</li>
+<li><p>打开jmeter.properties文件，把第37行修改为“language&#x3D;zh_CN”，</p>
+</li>
+<li><p>重启JMeter即可</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/5bd3b33473c242c89eaff75e780139b3" alt="image-20240113120336655"></p>
+<h4 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h4><ul>
+<li>JMeter默认主题是黑色的，可以通过以下步骤修改：<ul>
+<li>启动JMeter -&gt; 选择菜单‘选项’ -&gt; 外观 -&gt; Windows(选择自己喜欢的主题即可)</li>
+</ul>
+</li>
+</ul>
+<h2 id="元件作用域和执行顺序"><a href="#元件作用域和执行顺序" class="headerlink" title="元件作用域和执行顺序"></a>元件作用域和执行顺序</h2><h3 id="目标-2"><a href="#目标-2" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>熟悉元件的类型与各自的功能</li>
+<li>熟悉元件之间彼此作用域</li>
+<li>掌握元件执行顺序</li>
+</ol>
+<h3 id="元件的基本介绍"><a href="#元件的基本介绍" class="headerlink" title="元件的基本介绍"></a>元件的基本介绍</h3><ul>
+<li><p>元件：多个类似功能组件的容器（类似于类）。</p>
+</li>
+<li><p>常见的元件类型有：</p>
+<ul>
+<li><p>取样器</p>
+</li>
+<li><p>逻辑控制器</p>
+</li>
+<li><p>前置处理器</p>
+</li>
+<li><p>后置处理器</p>
+</li>
+<li><p>断言</p>
+</li>
+<li><p>定时器</p>
+</li>
+<li><p>测试片段</p>
+</li>
+<li><p>配置元件</p>
+</li>
+<li><p>监听器</p>
+</li>
+</ul>
+</li>
+<li><p>组件：实现独立的某个功能（类似于方法）</p>
+</li>
+</ul>
+<h3 id="元件作用域"><a href="#元件作用域" class="headerlink" title="元件作用域"></a>元件作用域</h3><ul>
+<li><p><strong>在JMeter中，元件的作用域是靠测试计划的树形结构中元件的父子关系来确定的</strong>。</p>
+</li>
+<li><p>提示: 核心是取样器，其他组件都是以取样器为核心运行的，组件添加的位置不同，生效的取样器也不同。</p>
+</li>
+<li><p>作用域的原则</p>
+<ul>
+<li>取样器：元件不和其他元件相互作用，因此不存在作用域的问题;</li>
+<li>逻辑控制器：元件只对其子节点中的取样器和逻辑控制器作用;</li>
+<li>其他六大元件：除取样器和逻辑控制器元件外，如果是某个取样器的子节点，则该元件对其父子节点起作用；</li>
+<li>如果其父节点不是取样器，则其作用域是该元件父节点下的其他所有后代节点（包括子节点，子节点的子节点等）;</li>
+</ul>
+</li>
+<li><p>提示：以上元件中还没开始学习，暂时理解jmeter这种树形结构结构影响作用域即可。</p>
+</li>
+</ul>
+<h3 id="元件执行顺序"><a href="#元件执行顺序" class="headerlink" title="元件执行顺序"></a>元件执行顺序</h3><ul>
+<li><p>同一个作用域下不同类型元件 :</p>
+<ul>
+<li><p>配置元件(config elements)</p>
+</li>
+<li><p>前置处理程序(Per-processors)</p>
+</li>
+<li><p>定时器(timers)</p>
+</li>
+<li><p>取样器(Sampler)</p>
+</li>
+<li><p>后置处理程序(Post-processors)</p>
+</li>
+<li><p>断言(Assertions)</p>
+</li>
+<li><p>监听器(Listeners)</p>
+</li>
+</ul>
+</li>
+<li><p>提示:</p>
+<ul>
+<li><p>前置处理器、后置处理器、断言等元件功能对取样器起作用（如果在它们的作用域内没有任何取样器，则不会被执行）</p>
+</li>
+<li><p>如果在同一作用域范围内有多个同一类型的元件，则这些元件按照它们在测试计划中的上下顺序依次执行</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JMeter使用示例"><a href="#JMeter使用示例" class="headerlink" title="JMeter使用示例"></a>JMeter使用示例</h2><h3 id="目标-3"><a href="#目标-3" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>了解jmeter使用方式</li>
+<li>掌握如何使用线程组</li>
+<li>掌握HTTP请求使用</li>
+<li>掌握察看结果树使用</li>
+</ol>
+<h3 id="JMeter第一个案例"><a href="#JMeter第一个案例" class="headerlink" title="JMeter第一个案例"></a>JMeter第一个案例</h3><ul>
+<li><p>需求：使用JMeter访问百度首页接口，并查看请求和响应信息</p>
+</li>
+<li><p>操作步骤 :</p>
+<ul>
+<li>启动JMeter</li>
+</ul>
+<ol start="2">
+<li>在‘测试计划’下添加‘线程组’</li>
+<li>在‘线程组’下添加‘HTTP请求’取样器</li>
+<li>填写‘HTTP请求’的相关请求数据</li>
+<li>在‘线程组’下添加‘察看结果树’监听器</li>
+<li>点击‘启动’按钮运行，并查看结果</li>
+</ol>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/984ebad822254b908e450036152b1aaf" alt="image-20240111225013727" style="zoom:150%;" />
+
+<h3 id="重点组件"><a href="#重点组件" class="headerlink" title="重点组件"></a>重点组件</h3><ul>
+<li>线程组</li>
+<li>HTTP取样器</li>
+<li>查看结果树</li>
+<li>提示：无论哪个案例基本都需要以上三个组件，在这里先讲解以上组件。</li>
+</ul>
+<h4 id="线程组"><a href="#线程组" class="headerlink" title="线程组"></a>线程组</h4><ul>
+<li><p>说明：线程组是控制JMeter将用于执行测试的线程数，也可以把一个线程理解为一个测试用户。</p>
+</li>
+<li><p>添加线程组</p>
+<ul>
+<li>位置：右键点击‘测试计划’ –&gt; 添加 –&gt; 线程（用户） –&gt; 线程组</li>
+</ul>
+</li>
+<li><p>线程组的特点</p>
+<ul>
+<li>模拟多人操作</li>
+<li>线程组可以添加多个，多个线程组可以并行或串行</li>
+<li>取样器（请求）和逻辑控制器必须依赖线程组才能使用</li>
+<li>线程组下可以添加其他元件下组件</li>
+</ul>
+</li>
+<li><p>线程组分类</p>
+<ul>
+<li>线程组<ul>
+<li>普通的、常用的线程组，可以看做一个虚拟用户组，线程组中的每一个线程都可以理解为一个虚拟用户</li>
+</ul>
+</li>
+<li>setUp线程组<ul>
+<li>一种特殊类型的线程组，可用于执行预测试操作</li>
+</ul>
+</li>
+<li>tearDown线程组<ul>
+<li>一种特殊类型的线程组，可用于执行测试后工作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>线程组参数详解</p>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/92a1e6a9195c4be4941e993472766cb0" alt="image-20240111225430676" style="zoom:150%;" />
+
+<ul>
+<li><p>取样器错误后要执行的动作</p>
+<ul>
+<li>继续：如果取样器里的执行出现错误失败的时候，请求不会停止，继续执行。</li>
+<li>启动下一进程循环: 忽略错误，线程当前循环错误，执行下一个循环。</li>
+<li>停止线程： 只限当前线程停止，不影响其他线程执行</li>
+<li>停止测试： 当前执行的线程全部执行完毕后结束</li>
+<li>立即停止测试： 立刻停止</li>
+</ul>
+</li>
+<li><p>线程属性</p>
+<ul>
+<li>线程数：虚拟用户数</li>
+<li>Ramp-Up时间(秒)：启动全部虚拟用户数所需要的时间</li>
+<li>循环次数：指定次数或勾选永远</li>
+<li>延迟创建线程直到需要：测试开始的时候，所有线程就被创建完。勾选了此选项，那么线程只会在合适的需要用到的时候创建.</li>
+<li>调度器：勾选后，调度器配置才能使用；</li>
+</ul>
+</li>
+<li><p>调度器配置</p>
+<ul>
+<li>持续时间（秒）：设置脚本压测持续时间</li>
+<li>启动延迟（秒）：启动延迟时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h3><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/ac35bf45e2714f95a2350649f93ad03b" alt="image-20240111225551402" style="zoom:150%;" />
+
+<ul>
+<li>位置： 选中线程组-&gt;右键-&gt;添加-&gt;取样器-&gt;HTTP请求 作用： 向服务器发送http及https请求</li>
+<li>协议：向目标服务器发送HTTP请求时的协议，可以是http或者是https ，默认值为http 。</li>
+<li>服务器名称或IP ：HTTP请求发送的目标服务器名称或IP地址。</li>
+<li>端口号：目标服务器的端口号，默认值为80 。</li>
+<li>方法：发送HTTP请求的方法，可用方法包括GET、POST、HEAD、PUT、OPTIONS、TRACE、DELETE等。</li>
+<li>路径：目标URL路径（不包括服务器地址和端口）</li>
+<li>Content encoding ：内容的编码方式，默认值为iso8859</li>
+<li>同请求一起发送参数：GET请求时url中附带参数可以通过此方式添加消息体数据：POST&#x2F;PUT请求JSON数据存放地</li>
+</ul>
+<h3 id="查看结果树"><a href="#查看结果树" class="headerlink" title="查看结果树"></a>查看结果树</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/89377e2b42d548b6bcc6095f112839b6" alt="image-20240111225703417"></p>
+<ul>
+<li>位置： 选中测试计划&#x2F;线程组-&gt;右键-&gt;添加-&gt;监听器-&gt;察看结果树 作用： 查看请求请求和响应结果</li>
+<li>取样结果：查看响应信息头信息、响应状态码</li>
+<li>请求：查看请求相关信息（url、方法、参数）</li>
+<li>响应：查看响应信息</li>
+</ul>
+<h3 id="JMeter案例-访问百度"><a href="#JMeter案例-访问百度" class="headerlink" title="JMeter案例-访问百度"></a>JMeter案例-访问百度</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/d0b65c4ada034637b107dee5dfa78d20" alt="image-20240113151729761"></p>
+<ul>
+<li>要求:模拟10个用户并行执行：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/fa2f3dfdab6f462b8109a83f17ec87aa" alt="image-20240113151757088"></p>
+<ul>
+<li>要求:模拟10个用户5s内启动完成：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/95080f087d664800b185251685cccd3d" alt="image-20240113151920096"></p>
+<ul>
+<li>要求:模拟2个用户各循环3次：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/5a8ba9b382c6462eaeafd65156a7b6f5" alt="image-20240113152014535"></p>
+<ul>
+<li>要求:模拟2个用户运行30s：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/da40987c8d7f428797741a760da26815" alt="image-20240113152237311"></p>
+<ul>
+<li>要求:模拟2个用户等待10s后开始执行</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/25392a129a0f43b2bcc3938c344b4935" alt="image-20240113152341703"></p>
+<h3 id="HTTP请求携带参数案例"><a href="#HTTP请求携带参数案例" class="headerlink" title="HTTP请求携带参数案例"></a>HTTP请求携带参数案例</h3><ul>
+<li>案例—: GET请求， URL为 <code>http:/ /www.baidu.com/S?wd=test</code>要求：使用HTTP请求－路径来传递get请求参数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/a8cb196b76c44d409a281b6c799621a1" alt="image-20240113153440064"></p>
+<ul>
+<li>案例二: GET请求, URL为<code>https:/ /www.baidu.com/S?wd=test</code>要求：使用HTTP请求-参数列表来传递get请求的参数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/7d8ab63b798340f984c97dc9a383ef1b" alt="image-20240113153814394"></p>
+<ul>
+<li>案例三：POsT请求，URL为<code>https://www.baidu.com/S</code>，请求体为:wd&#x3D;test（form表单)要求：使用HTTP请求－参数列表来传递POST请求的form格式参数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/d8ef8e18d97142f2a137d7d4c234f873" alt="image-20240113153959902"></p>
+<ul>
+<li>案例四：POsT请求，URL为<code>http://www.baidu.com/S</code>，请求体为:wd&#x3D;test（form表单)要求：使用HTTP请求－消息体数据来传递POST请求的form格式参数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/c47b799488134c84a4b783a02666e876" alt="image-20240113154144983"></p>
+<h1 id="JMeter参数化"><a href="#JMeter参数化" class="headerlink" title="JMeter参数化"></a>JMeter参数化</h1><h2 id="目标-4"><a href="#目标-4" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>掌握JMeter中常用的参数化方式<ul>
+<li>思考：如果循环访问某一请求10次，要求每次请求发送不同的参数值，该怎么做？</li>
+</ul>
+</li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
+<li>参数化测试：把测试数据组织起来，用不同的测试数据调用相同的测试方法。</li>
+<li>本质：实现测试数据与测试方法的分离</li>
+</ul>
+<h2 id="JMeter参数化常用方式"><a href="#JMeter参数化常用方式" class="headerlink" title="JMeter参数化常用方式"></a>JMeter参数化常用方式</h2><ul>
+<li>用户定义的变量</li>
+<li>用户参数</li>
+<li>CSV Data Set Config</li>
+<li>函数</li>
+</ul>
+<h2 id="用户定义的变量"><a href="#用户定义的变量" class="headerlink" title="用户定义的变量"></a>用户定义的变量</h2><ul>
+<li>添加方式：测试计划 –&gt; 线程组–&gt; 配置元件 –&gt; 用户定义的变量</li>
+</ul>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><ul>
+<li>请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com:443</a></li>
+<li>要求：使用用户定义的变量配置被测系统的协议、域名和端口</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/2559662603c1419e9a0d464860a3aa2f" alt="image-20240113155241345"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/49a4ece0843f4db390e71bc2b4f2d846" alt="image-20240113155301090"></p>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><ul>
+<li><p>1.添加线程组</p>
+</li>
+<li><p>2.添加用户定义的变量</p>
+</li>
+<li><p>3.添加HTTP请求</p>
+</li>
+<li><p>4.添加查看结果树</p>
+</li>
+<li><p>用户定义的变量</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/3715e63902e343eea53573eaad8a5261" alt="image-20240111231814816"></p>
+<h3 id="HTTP请求设置"><a href="#HTTP请求设置" class="headerlink" title="HTTP请求设置"></a>HTTP请求设置</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/60609f92dfa042a4b4aaf8890dbce7d9" alt="image-20240111231842098"></p>
+<h2 id="用户参数"><a href="#用户参数" class="headerlink" title="用户参数"></a>用户参数</h2><ul>
+<li><p>作用：针对同一组参数，当不同的用户来访问时，可以获取到不同的值</p>
+</li>
+<li><p>添加方式：测试计划 –&gt; 线程组–&gt; 前置处理器 –&gt; 用户参数</p>
+</li>
+</ul>
+<h3 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h3><ul>
+<li>请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></li>
+<li>要求：第一次请求附带参数：<code>name=&quot;张三&quot;&amp;age=28</code>;第二次请求附带参数：<code>name=&quot;李四&quot;&amp;age=30</code></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/67ac5083823d4768a59d3368b2e8d3f8" alt="image-20240113160006555"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/e0792d11a68c46228a44c43f212e36ba" alt="image-20240113160025694"></p>
+<h3 id="操作步骤-1"><a href="#操作步骤-1" class="headerlink" title="操作步骤"></a>操作步骤</h3><ul>
+<li><p>1.添加线程组</p>
+</li>
+<li><p>2.添加用户参数</p>
+</li>
+<li><p>3.添加HTTP请求</p>
+</li>
+<li><p>4.添加查看结果树</p>
+</li>
+<li><p>线程组设置 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/46ecda5c3e8e4b839aa5d5c81d35e274" alt="image-20240111231947230"></p>
+<ul>
+<li>用户参数设置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/bb319ae7450e409ca102cbd9a99983e0" alt="image-20240111232018465"></p>
+<ul>
+<li>HTTP请求设置<ul>
+<li>参数化格式：<code>$&#123;参数名&#125;</code></li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/196b7c1716ff4e79b06eb849bd951eec" alt="image-20240111232045453"></p>
+<ul>
+<li>运行结果</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/46ff212f7bd64c308cc50dc50bd10381" alt="image-20240111232059004"></p>
+<h2 id="CSV-数据文件设置"><a href="#CSV-数据文件设置" class="headerlink" title="CSV 数据文件设置"></a>CSV 数据文件设置</h2><ul>
+<li><p>作用：让不同用户在多次循环时，可以取到不同的值</p>
+</li>
+<li><p>添加方式：测试计划 –&gt; 线程组–&gt; 配置元件 –&gt; CSV 数据文件设置</p>
+</li>
+</ul>
+<h3 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h3><ul>
+<li>请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></li>
+<li>要求：循环3次,每次请求时附带参数username,password,code的值不相同</li>
+</ul>
+<h3 id="操作步骤-2"><a href="#操作步骤-2" class="headerlink" title="操作步骤"></a>操作步骤</h3><ul>
+<li><p>1.定义CSV数据文件</p>
+</li>
+<li><p>2.添加线程组</p>
+</li>
+<li><p>3.添加CSV 数据文件设置</p>
+</li>
+<li><p>4.添加HTTP请求</p>
+</li>
+<li><p>5.添加查看结果树</p>
+</li>
+<li><p>定义CSV数据文件 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/13/321f3056286c4b8aaa9c55f8e33ce9f3" alt="image-20240113161223600"></p>
+<ul>
+<li>线程组设置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/c70cf8a3378c41a98d5950e755456b05" alt="image-20240111232218408"></p>
+<ul>
+<li>CSV 数据文件设置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/da38b48f69c044c3b89e3685a41e0d4d" alt="image-20240111232233167"></p>
+<ul>
+<li>HTTP请求设置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/d3d43ac3cd8349c4927e8a33a7aac34c" alt="image-20240111232247737"></p>
+<h3 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h3><ul>
+<li>文件名：CSV文件路径</li>
+<li>文件编码：文件编译字符编码，一般设置UTF-8</li>
+<li>变量名称：多个变量时，使用英文逗号分隔</li>
+<li>忽略首行：True为忽略，False为不忽略，默认值：False</li>
+<li>分隔符：如文件中使用的是逗号分隔，则填写逗号；如使用的是制表符，则填写\t;</li>
+<li>是否允许带引号: CSV文件中的内容是否允许带引号</li>
+<li>遇到文件结束符再次循环：当读取文件到结尾时，是否再从头读取文件，False&#x3D;当读取文件到结尾时，停止读取文件</li>
+<li>遇到文件结束符停止线程：当“遇到文件结束符再次循环”一项为False时起效；True:当读取文件到结尾时，停止进程</li>
+<li>线程共享模式：共享模式一般默认即可<ul>
+<li>所有线程：该文件在所有线程之间共享，所有线程循环取值，线程一取第一行，线程二取下一行</li>
+<li>当前线程组：各个线程组分别循环取值</li>
+<li>当前线程：每个文件分别为每个线程打开</li>
+</ul>
+</li>
+</ul>
+<h2 id="函数-counter"><a href="#函数-counter" class="headerlink" title="函数(__counter)"></a>函数(__counter)</h2><ul>
+<li>作用 : 计数函数，一般做执行次数统计使用;</li>
+<li>位置：在菜单中选择–&gt; 选项 –&gt; 函数助手对话框</li>
+</ul>
+<h3 id="函数助手"><a href="#函数助手" class="headerlink" title="函数助手"></a>函数助手</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/f759c66fba1748e4b0aa8b54185fda1a" alt="image-20240111232427709"></p>
+<ul>
+<li>参数设置<ul>
+<li>TRUE，每个用户有自己的计数器；FALSE，使用全局计数器</li>
+<li>Name of variable in which to store the result (optional):用于存储结果的变量名(可选)</li>
+<li>生成-复制</li>
+</ul>
+</li>
+</ul>
+<h3 id="参数化调用"><a href="#参数化调用" class="headerlink" title="参数化调用"></a>参数化调用</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/7014b658d7a94497ab6711fdcde1af1c" alt="image-20240111232452163"></p>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/11/4363247490724d198b87c4e549cc3fbd" alt="image-20240111232505034"></p>
+<h3 id="变量作用域问题"><a href="#变量作用域问题" class="headerlink" title="变量作用域问题"></a>变量作用域问题</h3><ul>
+<li>CSV的作用域是针对线程的，只有两种情况：</li>
+<li>对所有线程组中的线程生效</li>
+<li>父节点是测试计划，并且线程共享模式是“所有线程”时，对所有线程组中的线程生效</li>
+<li>对当前线程组中的线程生效</li>
+<li>父节点是某个线程组时，只会对当前线程组生效</li>
+<li>用户定义的变量作用域针对的是测试计划</li>
+<li>无论用户定义的变量组件放在哪里，他都会针对整个测试计划生效</li>
+</ul>
+<h1 id="JMeter断言"><a href="#JMeter断言" class="headerlink" title="JMeter断言"></a>JMeter断言</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><ul>
+<li><p>断言：让程序自动判断预期结果和实际结果是否一致。</p>
+</li>
+<li><p>提示：</p>
+<ul>
+<li><p>JMeter在请求的返回层面有个自动判断机制（响应状态码）</p>
+</li>
+<li><p>但是请求成功了，并不代表结果一定正确，因此需要检测机制提高测试准确性。</p>
+</li>
+</ul>
+</li>
+<li><p>JMeter中常用断言：</p>
+<ul>
+<li><p>响应断言</p>
+</li>
+<li><p>JSON断言</p>
+</li>
+<li><p>持续时间断言(Duration Assertion)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="响应断言"><a href="#响应断言" class="headerlink" title="响应断言"></a>响应断言</h2><h3 id="响应断言-1"><a href="#响应断言-1" class="headerlink" title="响应断言"></a>响应断言</h3><ul>
+<li>作用：对HTTP请求的任意格式的响应结果进行断言</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 断言 –&gt; 响应断言</li>
+<li>参数：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/102e0e306f864872a0a2486fc3781808" alt="image-20240114114348173"></p>
+<h3 id="参数配置介绍"><a href="#参数配置介绍" class="headerlink" title="参数配置介绍"></a>参数配置介绍</h3><ul>
+<li><p>测试字段：要检查的项（实际结果）</p>
+<ul>
+<li><p>响应文本: 来自服务器的响应文本，即主体</p>
+</li>
+<li><p>响应代码: 响应的状态码，例如：200</p>
+</li>
+<li><p>响应信息: 响应的信息，例如：OK</p>
+</li>
+<li><p>Response Headers: 响应头部</p>
+</li>
+<li><p>Request Headers: 请求头部</p>
+</li>
+<li><p>Request Data: 请求数据</p>
+</li>
+<li><p>URL样本: 请求URL</p>
+</li>
+<li><p>Document(text): 响应的整个文档</p>
+</li>
+<li><p>忽略状态：忽略返回的响应状态码</p>
+</li>
+</ul>
+</li>
+<li><p>模式匹配规则：比较方式</p>
+<ul>
+<li><p>包括：文本包含指定的正则表达式</p>
+</li>
+<li><p>匹配：整个文本匹配指定的正则表达式</p>
+</li>
+<li><p>Equals：整个返回结果的文本等于指定的字符串(区分大小写)</p>
+</li>
+<li><p>Substring：返回结果的文本包含指定字符串(区分大小写)</p>
+</li>
+<li><p>否：取反</p>
+</li>
+<li><p>或者：如果存在多个测试模式，勾选代表逻辑或（只要有一个模式匹配，则断言就是OK），不勾选代表逻辑与（所有都必须匹配，断言才是OK）</p>
+</li>
+<li><p>注意：Equals和Substring模式是普通字符串，而包括和匹配模式是正则表达式</p>
+</li>
+</ul>
+</li>
+<li><p>测试模式：预期结果</p>
+<ul>
+<li>即填写你指定的结果（可填写多个）,按钮【添加】、【删除】是进行指定内容的管理</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例练习"><a href="#案例练习" class="headerlink" title="案例练习"></a>案例练习</h3><ul>
+<li><p>请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></p>
+</li>
+<li><p>检查：让程序检查响应数据中是否包含“百度一下，你就知道”</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求</li>
+<li>添加响应断言</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/102e0e306f864872a0a2486fc3781808" alt="image-20240114114625111"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）什么时候可以使用响应断言？</p>
+<ul>
+<li>任意HTTP请求的响应结果，都可以使用响应断言</li>
+</ul>
+</li>
+<li><p>（2）使用“响应断言”的操作步骤？</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加响应断言</p>
+<ul>
+<li>测试字段：要检查的项（实际结果）</li>
+<li>模式匹配规则：比较方式</li>
+<li>测试模式：预期结果</li>
+</ul>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON断言"><a href="#JSON断言" class="headerlink" title="JSON断言"></a>JSON断言</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：对HTTP请求的JSON格式的响应结果进行断言</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 断言 –&gt; JSON断言</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/376aed6294a54a5dbd264095941a2ba2" alt="image-20240114114833339"></p>
+<ul>
+<li>参数介绍：<ul>
+<li><p>Assert JSON Path exists：用于断言的JSON元素的路径（实际结果）</p>
+</li>
+<li><p>Additionally assert value：如果您想要用某个值生成断言，请选择复选框</p>
+</li>
+<li><p>Match as regular expression：使用正则表达式断言</p>
+</li>
+<li><p>Expected Value：期望值（期望结果）</p>
+</li>
+<li><p>Expect null：如果希望为空，请选择复选框</p>
+</li>
+<li><p>Invert assertion (will fail if above conditions met)：反转断言(如果满足以上条件则失败)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例练习-1"><a href="#案例练习-1" class="headerlink" title="案例练习"></a>案例练习</h3><ul>
+<li><p>请求： <a target="_blank" rel="noopener" href="http://www.weather.com.cn/data/sk/101010100.html">http://www.weather.com.cn/data/sk/101010100.html</a></p>
+</li>
+<li><p>检查：让程序检查响应的JSON数据中，city对应的内容是否为“北京”</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加JSON断言</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/376aed6294a54a5dbd264095941a2ba2" alt="image-20240114114940921"></p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）什么时候可以使用JSON断言？<ul>
+<li>对HTTP请求的响应结果为JSON格式时，可以使用JSON断言</li>
+</ul>
+</li>
+<li>（2）使用“JSON断言”的操作步骤？<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求</li>
+<li>添加JSON断言<ul>
+<li>填写Assert JSON Path exists（实际结果-json路径）</li>
+<li>勾选Additionally assert value</li>
+<li>填写Expected Value（期望结果）</li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h2 id="断言持续时间"><a href="#断言持续时间" class="headerlink" title="断言持续时间"></a>断言持续时间</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：检查HTTP请求的响应时间是否超出要求范围</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 断言 –&gt; 断言持续时间</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/871b79fad6634033a416d09b15bf457c" alt="image-20240114115103058"></p>
+<ul>
+<li>参数介绍：<ul>
+<li>持续时间（毫秒）：HTTP请求允许的最大响应时间（单位：毫秒）。 超过则认为失败</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>请求： <a target="_blank" rel="noopener" href="https://www.jd.com/">https://www.jd.com</a></p>
+</li>
+<li><p>检查：让程序检查响应时间是否大于100毫秒</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加断言持续时间</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/871b79fad6634033a416d09b15bf457c" alt="image-20240114125003115"></p>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）什么时候可以使用断言持续时间？</p>
+<ul>
+<li>测试HTTP请求的响应时间是否满足要求时，可以使用断言持续时间</li>
+</ul>
+</li>
+<li><p>（2）使用“断言持续时间”的操作步骤？</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加断言持续时间</p>
+<ul>
+<li>填写持续时间（允许的最大响应时间，单位：ms）</li>
+</ul>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>（1）什么是断言？</p>
+<ul>
+<li>让程序自动判断预期结果和实际结果是否一致。</li>
+</ul>
+</li>
+<li><p>（2）3种断言方式有何不同？如何选择适当的方式？</p>
+<ul>
+<li><p>响应断言：</p>
+<ul>
+<li>场景：可以针对任意格式的响应数据进行断言</li>
+</ul>
+</li>
+<li><p>JSON断言：</p>
+<ul>
+<li>场景：当响应数据为JSON格式时，优先使用JSON断言</li>
+</ul>
+</li>
+<li><p>断言持续时间：</p>
+<ul>
+<li>场景：检查HTTP请求的响应时间是否满足要求时，使用断言持续时间</li>
+</ul>
+</li>
+<li><p>提示：</p>
+<ul>
+<li>Jmeter会自动判断响应状态码（如果状态码为4xx&#x2F;5xx，判定为失败）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="JMeter关联"><a href="#JMeter关联" class="headerlink" title="JMeter关联"></a>JMeter关联</h1><h2 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li><p>关联：当请求之间有依赖关系，比如一个请求的入参是另一个请求返回的数据，这时候就需要用到关联处理。</p>
+</li>
+<li><p>JMeter中常用的关联方法：</p>
+<ul>
+<li><p>正则表达式提取器</p>
+</li>
+<li><p>XPath提取器</p>
+</li>
+<li><p>JSON提取器</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="正则表达式提取器"><a href="#正则表达式提取器" class="headerlink" title="正则表达式提取器"></a>正则表达式提取器</h2><h3 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：针对任意格式的响应数据进行提取</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 后置处理器 –&gt; 正则表达式提取器</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/59fabf2594984e8aa98db737b34c7c19" alt="image-20240114125300194"></p>
+<ul>
+<li>参数介绍：<ul>
+<li>引用名称：存放提取出的值的参数名称，供下一个请求引用，如填写title，则可用${title}引用它</li>
+<li>正则表达式: <ul>
+<li>左边界<code>(.*?)</code>右边界</li>
+<li><code>()</code>：括起来的部分就是要提取的。</li>
+<li><code>.</code>：匹配任何字符串。</li>
+<li><code>*</code>：0次或多次。</li>
+<li><code>?</code>：不要太贪婪，在找到第一个匹配项后停止。</li>
+</ul>
+</li>
+<li>模板：用<code>$$</code>引用起来，如果在正则表达式中有多个提取值，则可以是<code>$2$$3$</code>等等，表示解析到的第几个值给title。<ul>
+<li>如：<code>$1$</code>表示解析到的第1个值</li>
+</ul>
+</li>
+<li>匹配数字：0代表随机取值，-1代表全部取值，1代表取第一个值</li>
+<li>缺省值：如果参数没有取得到值，那默认给一个值让它取。</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>1、请求：<a target="_blank" rel="noopener" href="http://www.itcast.cn/">http://www.itcast.cn/</a> ，获取网页的title值</p>
+</li>
+<li><p>2、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com/</a> ，把获取到的title作为请求参数</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求-传智播客</p>
+</li>
+<li><p>添加正则表达式提取器</p>
+</li>
+<li><p>添加HTTP请求-百度</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/59fabf2594984e8aa98db737b34c7c19" alt="image-20240114125532357"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/57f3e46cc6af4cdbb821e07c5233c5d3" alt="image-20240114125537596"></p>
+<h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）什么时候可以使用正则表达式提取器？</p>
+<ul>
+<li>任意格式的响应数据，都可以使用正则表达式提取器进行提取</li>
+</ul>
+</li>
+<li><p>（2）使用“正则表达式提取器”的操作步骤？</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求-传智播客</p>
+</li>
+<li><p>添加正则表达式提取器</p>
+<ul>
+<li>引用名称：存放提取出的值的参数名称，如填写title</li>
+<li>正则表达式：左边界<code>(.*?)</code>右边界</li>
+<li>模板：用$$引用起来，表示解析出第几个()的值</li>
+<li>匹配数字：1表示第1个值，-1表示所有取值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>添加HTTP请求-百度</p>
+<ul>
+<li>引用正则表达式中的引用名称。如：用${title}引用它</li>
+</ul>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+<h2 id="XPath提取器"><a href="#XPath提取器" class="headerlink" title="XPath提取器"></a>XPath提取器</h2><h3 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>作用：针对HTML格式的响应结果数据进行提取</p>
+</li>
+<li><p>位置：添加方式：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 后置处理器 –&gt; XPath提取器</p>
+</li>
+<li><p>参数介绍：</p>
+<ul>
+<li>Use Tidy (tolerant parser)：<ul>
+<li>当需要处理的页面是HTML格式时，必须选中该选项</li>
+<li>当需要处理的页面是XML或XHTML格式时，取消选中该选项。</li>
+</ul>
+</li>
+<li>引用名称：存放提取出的值的参数名称</li>
+<li>XPath Query：用于提取值的XPath表达式</li>
+<li>匹配数字：如果XPath路径查询出许多结果，则可以选择提取哪个。<ul>
+<li>0：表示随机，-1：表示提取所有结果，1表示第一个值</li>
+</ul>
+</li>
+<li>缺省值：参数的默认值</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e758b504d79645aea6f58280453cc7fe" alt="image-20240114130150080"></p>
+<h3 id="案例-2"><a href="#案例-2" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>1、请求：<a target="_blank" rel="noopener" href="http://www.itcast.cn/">http://www.itcast.cn/</a> ，获取网页的title值</p>
+</li>
+<li><p>2、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com/</a> ，把获取到的title作为请求参数</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求-传智播客</li>
+<li>添加XPath提取器</li>
+<li>添加HTTP请求-百度</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e758b504d79645aea6f58280453cc7fe" alt="image-20240114130258901"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e758b504d79645aea6f58280453cc7fe"></p>
+<h3 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）什么时候可以使用XPATH提取器？<ul>
+<li>针对HTML格式的响应数据，可以使用XPATH提取器进行提取</li>
+</ul>
+</li>
+<li>（2）使用“Xpath提取器”的操作步骤？<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求-传智播客</li>
+<li>添加XPATH提取器<ul>
+<li>勾选Use Tidy (tolerant parser)</li>
+<li>引用名称：存放提取出的值的参数名称。如：填写title</li>
+<li>XPath Query：用于提取值的XPath表达式</li>
+<li>匹配数字：0：表示随机，-1：表示提取所有结果，1表示第一个值</li>
+</ul>
+</li>
+<li>添加HTTP请求-百度<ul>
+<li>引用正则表达式中的引用名称。如：用${title}引用它</li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON提取器"><a href="#JSON提取器" class="headerlink" title="JSON提取器"></a>JSON提取器</h2><h3 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>作用：针对JSON格式的响应结果数据进行提取</p>
+</li>
+<li><p>位置：添加方式：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 后置处理器 –&gt; JSON提取器</p>
+</li>
+<li><p>参数介绍：</p>
+<ul>
+<li><p>Names of created variables：存放提取出的值的参数名称</p>
+</li>
+<li><p>JSON Path Expressions：JSON路径表达式</p>
+</li>
+<li><p>Match No：如果JSON路径匹配出许多结果，则可以选择提取哪个。</p>
+<ul>
+<li>0：表示随机，-1：表示提取所有结果，1表示第一个值</li>
+</ul>
+</li>
+<li><p>Default Values：参数的默认值</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/5851d29d19a1442aa18167be14bf496b" alt="image-20240114130501596"></p>
+<h3 id="案例-3"><a href="#案例-3" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>1、请求获取天气的接口，<a target="_blank" rel="noopener" href="http://www.weather.com.cn/data/sk/101010100.html%EF%BC%8C%E8%8E%B7%E5%8F%96%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E4%B8%AD%E7%9A%84%E5%9F%8E%E5%B8%82%E5%90%8D%E7%A7%B0%E2%80%9C%E5%8C%97%E4%BA%AC%E2%80%9D">http://www.weather.com.cn/data/sk/101010100.html，获取返回结果中的城市名称“北京”</a></p>
+</li>
+<li><p>2、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC">https://www.baidu.com/s?wd=北京</a> ，把获取到的城市名称作为请求参数</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求-天气</li>
+<li>添加JSON提取器</li>
+<li>添加HTTP请求-百度</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/5851d29d19a1442aa18167be14bf496b" alt="image-20240114130550588"></p>
+<h3 id="小结-5"><a href="#小结-5" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）什么时候可以使用JSON提取器？<ul>
+<li>• 针对JSON格式的响应数据，可以使用JSON提取器进行提取</li>
+</ul>
+</li>
+<li>（2）使用“JSON提取器”的操作步骤？<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求-天气</li>
+<li>添加JSON提取器<ul>
+<li>Names of created variables：存放提取出的值的参数名称。如：city</li>
+<li>JSON Path Expressions：用于提取值的JSON路径表达式</li>
+<li>Match No： 0：表示随机，-1：表示提取所有结果，1表示第一个值</li>
+</ul>
+</li>
+<li>添加HTTP请求-百度<ul>
+<li>引用正则表达式中的引用名称。如：用${city}引用它</li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h2 id="JMeter属性"><a href="#JMeter属性" class="headerlink" title="JMeter属性"></a>JMeter属性</h2><h3 id="配置函数"><a href="#配置函数" class="headerlink" title="配置函数"></a>配置函数</h3><ul>
+<li><code>__setProperty函数</code>：将值保存成JMeter属</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/12f608bdafa341028bb52453613846f1" alt="image-20240114130741527"></p>
+<ul>
+<li><code>__property函数</code>：在其他线程组中使用property函数读取属性</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/dd6708cc11974e1ea17dc966ab57b2c0" alt="image-20240114130802405"></p>
+<h3 id="函数执行"><a href="#函数执行" class="headerlink" title="函数执行"></a>函数执行</h3><ul>
+<li><code>__setProperty</code>函数执行(保存JMeter属性):<ul>
+<li>需要通过BeanShell取样器来执行</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/eae2dcf922184701bdf369c900cf0c51" alt="image-20240114130842129"></p>
+<ul>
+<li><code>__property</code>函数（读取属性）<ul>
+<li>在其他线程组中使用property函数</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/8952ed0b55514c6c8d81f29f5a36c701" alt="image-20240114130902808"></p>
+<h3 id="案例-4"><a href="#案例-4" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>1、线程组1：请求获取天气的接口，<a target="_blank" rel="noopener" href="http://www.weather.com.cn/data/sk/101010100.html%EF%BC%8C%E8%8E%B7%E5%8F%96%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E4%B8%AD%E7%9A%84%E5%9F%8E%E5%B8%82%E5%90%8D%E7%A7%B0%E2%80%9C%E5%8C%97%E4%BA%AC%E2%80%9D">http://www.weather.com.cn/data/sk/101010100.html，获取返回结果中的城市名称“北京”</a></p>
+</li>
+<li><p>2、线程组2：请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC">https://www.baidu.com/s?wd=北京</a> ，把获取到的城市名称作为请求参数</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组1</li>
+<li>添加HTTP请求-天气</li>
+<li>添加JSON提取器</li>
+<li>添加BeanShell取样器（将JSON提取器提取的值保存为JMeter属性）</li>
+<li>添加线程组2</li>
+<li>添加HTTP请求-百度（读取JMeter属性）</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/eae2dcf922184701bdf369c900cf0c51" alt="image-20240114130955481"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/eae2dcf922184701bdf369c900cf0c51"></p>
+<h3 id="小结-6"><a href="#小结-6" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）什么时候需要使用JMeter属性？<ul>
+<li>需要实现跨线程组的数据传递时，可以使用JMeter属性</li>
+</ul>
+</li>
+<li>（2）使用“JMeter属性”的操作步骤？<ul>
+<li>添加线程组1</li>
+<li>添加HTTP请求-天气</li>
+<li>添加JSON提取器</li>
+<li>添加BeanShell取样器（将JSON提取器提取的值保存为JMeter属性）<ul>
+<li>保存JMeter属性：<code>$&#123;__setProperty(pro_city,$&#123;city&#125;,)&#125;</code></li>
+</ul>
+</li>
+<li>添加线程组2</li>
+<li>添加HTTP请求-百度（读取JMeter属性）<ul>
+<li>读取JMeter属性：<code>$&#123;__property(pro_city,,)&#125;</code></li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/5851d29d19a1442aa18167be14bf496b" alt="image-20240114131038623"></p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>（1）什么是关联？</p>
+<ul>
+<li>当请求之间有依赖关系，比如一个请求的入参是另一个请求返回的数据，这时候就需要用到关联处理。</li>
+</ul>
+</li>
+<li><p>（2）几种关联方式有何不同？如何选择适当的方式？</p>
+<ul>
+<li><p>同一个线程组内，多个请求之间的关联：</p>
+<ul>
+<li><p>如果响应数据为JSON格式，优先使用JSON提取器进行关联</p>
+</li>
+<li><p>如果响应数据为HTML格式，优先使用XPath提取器进行关联</p>
+</li>
+<li><p>如果JSON提取器和XPath提取器都无法实现关联，使用正则表达式提取器进行补充 —— 针对任意格式的响应数据</p>
+</li>
+</ul>
+</li>
+<li><p>不同线程组之间，多个请求之间的关联：</p>
+<ul>
+<li><p>JSON提取器 + JMeter属性</p>
+</li>
+<li><p>XPath提取器 + JMeter属性</p>
+</li>
+<li><p>正则表达式提取器 + JMeter属性</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="JMeter录制脚本"><a href="#JMeter录制脚本" class="headerlink" title="JMeter录制脚本"></a>JMeter录制脚本</h1><h2 id="录制原理"><a href="#录制原理" class="headerlink" title="录制原理"></a>录制原理</h2><ul>
+<li><p>JMeter录制脚本：在没有接口文档的旧项目当中，快速录制web页面产生的http接口请求，帮助编写接口测试脚本。</p>
+</li>
+<li><p>JMeter录制脚本原理：</p>
+<ul>
+<li>正常请求过程</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/332c2edac5fa4750a0a30e7ad94023a6" alt="image-20240114171450388"></p>
+<ul>
+<li>录制时，JMeter作为代理服务器来拦截和转发请求与响应数据<ul>
+<li>JMeter录制过程</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/451dad7be1524369ac0823a513ae134f" alt="image-20240114171523678"></p>
+<h2 id="录制脚本操作步骤"><a href="#录制脚本操作步骤" class="headerlink" title="录制脚本操作步骤"></a>录制脚本操作步骤</h2><ul>
+<li>01 添加HTTP代理服务器，并进行配置<ul>
+<li>加HTTP代理服务器：<ul>
+<li>测试计划(右键)-&gt;非测试元件-&gt;HTTP代理服务器</li>
+<li>配置代理服务器的参数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>02 开启windows操作系统的浏览器代理</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/d64f909dea444a7ea6161adae2257bc9" alt="image-20240114171648706"></p>
+<ul>
+<li>window 10 代理设置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/3e7a857353f147a9be296455949e3bad" alt="image-20240114171706376"></p>
+<ul>
+<li>03 启动代理服务器，开始录制</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/980d9e0661384a9abc3865cb31ba2857" alt="image-20240114171758272"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/ed4ac0a8ac804d97a7d4d6eb3743cd16" alt="image-20240114171805662"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/ffa62b983e4a4b518e8c89c9694a8327" alt="image-20240114171810536"></p>
+<ul>
+<li>04 在浏览器页面中进行操作，成功后，就能在JMeter当中看到抓取到的接口请求了。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/d0840caaf0294172b476609657733a23" alt="image-20240114171847030"></p>
+<h2 id="小结-7"><a href="#小结-7" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）什么时候需要使用JMeter录制脚本？</li>
+<li>• 在没有接口文档的旧项目当中，通过录制http接口请求的方式，来快速编写接口测试脚本。</li>
+<li>（2）JMeter录制脚本的操作步骤？<ul>
+<li>添加HTTP代理服务器，并进行配置<ul>
+<li>• 设置端口：代理服务器的端口号</li>
+<li>• 目标控制器：录制的脚本放到哪个容器（线程组）中</li>
+<li>• Requests Filtering（过滤条件 – url匹配正则表达式）:<ul>
+<li>• 包含模式：包含此项。如：<code>.*localhost.* </code>；</li>
+<li>• 排除模式：不包含此项 如：<code>.*.jpg</code> <code>.*.png</code> <code>.*.js</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>开启windows操作系统的浏览器代理<ul>
+<li>• 配置浏览器代理：JMeter代理服务器的IP、端口号</li>
+</ul>
+</li>
+<li>启动代理服务器，开始录制</li>
+<li>在浏览器页面中进行操作，成功后，就能在JMeter当中看到抓取到的接口请求了</li>
+</ul>
+<h1 id="JMeter直连数据库"><a href="#JMeter直连数据库" class="headerlink" title="JMeter直连数据库"></a>JMeter直连数据库</h1><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/afbb4d1dd8a3453ca2e64cb784f9e684" alt="image-20240114172132376"></p>
+<h2 id="关键配置"><a href="#关键配置" class="headerlink" title="关键配置"></a>关键配置</h2><ul>
+<li>直连数据库的关键配置：<ul>
+<li>添加MySQL驱动jar包</li>
+<li>方式一：在测试计划面板点击“浏览…“按钮，将你的JDBC驱动添加进来</li>
+<li>方式二：将MySQL驱动jar包放入到lib&#x2F;ext目录下，重启JMeter</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/73be769ccd0e4d2d8637f0542b00997f" alt="image-20240114172217667"></p>
+<ul>
+<li><p>配置数据库连接信息</p>
+<ul>
+<li>添加方式：测试计划 –&gt; 线程组–&gt; (右键添加) 配置元件 –&gt; JDBC Connection Configuration</li>
+</ul>
+</li>
+<li><p>参数介绍：</p>
+<ul>
+<li><p>Variable Name: mysql数据库连接池名称（JDBC请求时要引用）</p>
+</li>
+<li><p>Database URL: jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;tpshop2.0</p>
+</li>
+<li><p>组成：协议 + 数据库IP + 数据库端口 + 连接的数据库名称</p>
+</li>
+<li><p>JDBC DRIVER class: com.mysql.jdbc.Driver（MySQL驱动包位置固定格式 —— 下拉框选择）</p>
+</li>
+<li><p>Username: root(连接数据库用户名，如实填写)</p>
+</li>
+<li><p>Password：（MySQL数据库密码，如实填写，如果密码为空不写）</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c4e3b9dac45d49feb7b0eb4b461dc958" alt="image-20240114172247651"></p>
+<ul>
+<li><p>添加JDBC请求</p>
+<ul>
+<li>添加方式：测试计划 –&gt; 线程组–&gt; 取样器 –&gt; JDBC Request</li>
+</ul>
+</li>
+<li><p>参数介绍：</p>
+<ul>
+<li><p>Variable Name：数据库连接池的名字，需要与JDBC Connection Configuration的Variable Name Bound Pool名字保持一致</p>
+</li>
+<li><p>Query Type：</p>
+<ul>
+<li><p>查询操作：选择“Select Statement”</p>
+</li>
+<li><p>增加、删除、修改操作：选择“Update Statement”</p>
+</li>
+</ul>
+</li>
+<li><p>Query：填写的SQL语句，未尾不要加“;”</p>
+</li>
+<li><p>Variable names：保存SQL语句返回结果的变量名</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/103982bf6d6740a2b3a78f343c0895ae" alt="image-20240114172333394"></p>
+<h2 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h2><ul>
+<li><p>连接tpshop商城数据库获取商品名包含：小米手机5 的商品id</p>
+</li>
+<li><p>准备工作：</p>
+<ul>
+<li>1、启动tpshop数据库服务器</li>
+<li>2、添加MySQL驱动jar包</li>
+</ul>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加 JDBC Connection Configuration</li>
+<li>添加 JDBC request</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h2><ul>
+<li><p>1、连接tpshop商城数据库获取商品名包含：小米手机5 的商品id（假设上一个案例的查询结果ID为65）</p>
+</li>
+<li><p>2、在tpshop首页中搜索商品名”小米手机5”,请求URL：<a target="_blank" rel="noopener" href="http://127.0.0.1/Home/Goods/search.html">http://127.0.0.1/Home/Goods/search.html</a> 请求方法：GET, 请求参数：q&#x3D;小米手机5</p>
+</li>
+<li><p>3、在搜索的响应数据中检查是否有该商品对应的商品链接：&#x2F;Home&#x2F;Goods&#x2F;goodsInfo&#x2F;id&#x2F;65.html</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加 JDBC Connection Configuration</li>
+<li>添加 JDBC request</li>
+<li>添加 HTTP请求 - 搜索商品</li>
+<li>在搜索HTTP请求下，添加响应断言，检查响应结果中的字符 是否包含 商品URL（URL中含ID）</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-8"><a href="#小结-8" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）什么时候需要使用JMeter直连数据库？<ul>
+<li>• 用作请求的参数化</li>
+<li>• 用作结果的断言</li>
+<li>• 清理测试数据</li>
+<li>• 准备测试数据</li>
+</ul>
+</li>
+<li>（2）JMeter直连数据库？<ul>
+<li>添加MySQL驱动jar包<ul>
+<li>在测试计划面板点击“浏览…“按钮，将你的JDBC驱动添加 —— 本脚本可用</li>
+<li>将MySQL驱动jar包放入到lib&#x2F;ext目录下，重启JMeter —— 所有脚本可用</li>
+</ul>
+</li>
+<li>配置数据库连接信息<ul>
+<li>数据库连接池名称、数据库URL（协议 + 数据库IP + 数据库端口 + 连接的数据库名称）、数据库驱动包（下拉框选择）、数据库用户名密码</li>
+</ul>
+</li>
+<li>添加JDBC请求<ul>
+<li>数据库连接池名称、 Query Type、SQL语句、查询结果保存的变量名</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="JMeter逻辑控制器"><a href="#JMeter逻辑控制器" class="headerlink" title="JMeter逻辑控制器"></a>JMeter逻辑控制器</h1><h2 id="介绍-6"><a href="#介绍-6" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li><p>逻辑控制器： 可以按照设定的逻辑控制取样器的执行顺序</p>
+</li>
+<li><p>JMeter中常用的逻辑控制器：</p>
+<ul>
+<li><p>如果（If）控制器</p>
+</li>
+<li><p>循环控制器</p>
+</li>
+<li><p>ForEach控制器</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="如果（If）控制器"><a href="#如果（If）控制器" class="headerlink" title="如果（If）控制器"></a>如果（If）控制器</h2><h3 id="介绍-7"><a href="#介绍-7" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>作用：If控制器用来控制它下面的测试元素是否运行</p>
+</li>
+<li><p>位置：测试计划 –&gt; 线程组–&gt; (右键添加) 逻辑控制器 –&gt; 如果（If）控制器</p>
+</li>
+<li><p>JS语法形式 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/e3dbbfa6292b49fdb8aafb919ff0af30" alt="image-20240114172759578"></p>
+<ul>
+<li>函数形式</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/28b73365721349ec8509b3e365dbca45" alt="image-20240114172808931"></p>
+<h3 id="案例-5"><a href="#案例-5" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>1、使用‘用户定义的变量’定义一个变量name，name的值可以是‘baidu’或‘itcast’</p>
+</li>
+<li><p>2、根据name的变量值实现对应网站的访问</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>用户定义的变量</p>
+</li>
+<li><p>添加If控制器，判断name是否等于baidu</p>
+</li>
+<li><p>添加HTTP请求，用来访问百度</p>
+</li>
+<li><p>添加If控制器，判断name是否等于itcast</p>
+</li>
+<li><p>添加HTTP请求，用来访问传智播客</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="小结-9"><a href="#小结-9" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）IF控制器的作用是什么？</p>
+<ul>
+<li>用来控制它下面的测试元素是否运行</li>
+</ul>
+</li>
+<li><p>（2）使用“IF控制器”的操作步骤？</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>用户定义的变量</p>
+</li>
+<li><p>添加If控制器，判断name是否等于baidu</p>
+<ul>
+<li>不勾选 Interpret Condition，<code>&#39;$&#123;name&#125;&#39; == &#39;baidu‘</code></li>
+<li>勾选，<code>$&#123;__jexl3(&#39;$&#123;name&#125;&#39; == &#39;baidu&#39;,)&#125;</code></li>
+</ul>
+</li>
+<li><p>添加HTTP请求，用来访问百度</p>
+</li>
+<li><p>添加If控制器，判断name是否等于itcast</p>
+</li>
+<li><p>添加HTTP请求，用来访问传智播客</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="循环控制器"><a href="#循环控制器" class="headerlink" title="循环控制器"></a>循环控制器</h2><h3 id="介绍-8"><a href="#介绍-8" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：通过设置循环次数，来实现循环发送请求</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; (右键添加) 逻辑控制器 –&gt; 循环控制器</li>
+<li>参数介绍：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c0195fa4c4314fcfa853c05c285bf795" alt="image-20240114173027411"></p>
+<h3 id="案例-6"><a href="#案例-6" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>循环访问百度10次</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加循环控制器</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="小结-10"><a href="#小结-10" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）循环控制器的作用是什么？</p>
+<ul>
+<li>• 通过设置循环次数，来实现循环发送请求</li>
+</ul>
+</li>
+<li><p>（2）使用“循环控制器”的操作步骤？</p>
+<ul>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加循环控制器 —— 设置循环次数</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+<li><p>思考：线程组属性可以控制循环次数，那么循环控制器有什么用？</p>
+</li>
+</ul>
+<h2 id="ForEach控制器"><a href="#ForEach控制器" class="headerlink" title="ForEach控制器"></a>ForEach控制器</h2><h3 id="介绍-9"><a href="#介绍-9" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：<ul>
+<li>一般和用户自定义变量或者正则表达式提取器一起使用，读取返回结果中一系列相关的变量值。</li>
+<li>该控制器下的取样器都会被执行一次或多次，每次读取不同的变量值。</li>
+</ul>
+</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; (右键添加) 逻辑控制器 –&gt; ForEach控制器</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/aaf0ba0e10ae4753be571cb0f33f52d7" alt="image-20240114173230526"></p>
+<ul>
+<li>参数介绍：<ul>
+<li><p>输入变量前缀：要读取的输入变量的固定前缀</p>
+</li>
+<li><p>开始循环字段：要读取的输入变量后缀数字的最小值-1</p>
+</li>
+<li><p>结束循环字段：要读取的输入变量后缀数字的最大值</p>
+</li>
+<li><p>输出变量名称：读取输入变量的值后保存的新变量名，用于后续HTTP请求来引用</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/21125bed65114f36b94d9423387a0420" alt="image-20240114173249562"></p>
+<h3 id="案例一-1"><a href="#案例一-1" class="headerlink" title="案例一"></a>案例一</h3><ul>
+<li><p>1、有一组关键字 [hello,python,测试]，使用用户定义的变量存储</p>
+</li>
+<li><p>2、要依次取出关键字，并在百度搜索，例如：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=hello">https://www.baidu.com/s?wd=hello</a></p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加用户定义的变量</li>
+<li>添加ForEach控制器</li>
+<li>添加HTTP请求-百度</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/21125bed65114f36b94d9423387a0420" alt="image-20240114173417648"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/21125bed65114f36b94d9423387a0420"></p>
+<h3 id="案例二-1"><a href="#案例二-1" class="headerlink" title="案例二"></a>案例二</h3><ul>
+<li><p>1、访问传智播客首页<a target="_blank" rel="noopener" href="http://www.itcast.cn,获取首页中的地址信息,并全部保存下来/">http://www.itcast.cn，获取首页中的地址信息，并全部保存下来</a></p>
+</li>
+<li><p>2、要依次取出地址关键字，并在百度搜索，例如：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E5%9C%B0%E5%9D%80">https://www.baidu.com/s?wd=地址</a></p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li>添加线程组</li>
+<li>添加HTTP请求1 – itcast</li>
+<li>在HTTP请求1下面，添加正则表达式提取器，提取出所有的地址信息</li>
+<li>添加ForEach控制器</li>
+<li>添加HTTP请求2-百度</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c054f81c55544e22b4b2da617a2480d4" alt="image-20240114173502920"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/c054f81c55544e22b4b2da617a2480d4"></p>
+<h3 id="小结-11"><a href="#小结-11" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）ForEach控制器的作用是什么？<ul>
+<li>• 一般和用户自定义变量或者正则表达式提取器一起使用，读取返回结果中一系列相关的变量值</li>
+</ul>
+</li>
+<li>（2）使用“ForEach控制器”的操作步骤？<ul>
+<li>添加线程组</li>
+<li>添加用户定义的变量&#x2F;正则表达式提取器<ul>
+<li>• 返回一组变量: 相同的变量名+连续的数字后缀，如：name_1..name_3</li>
+</ul>
+</li>
+<li>添加ForEach控制器<ul>
+<li>• 输入变量前缀：要读取的输入变量的固定前缀,如：name</li>
+<li>• 开始循环字段：要读取的输入变量后缀数字的最小值-1，如：0</li>
+<li>• 结束循环字段：要读取的输入变量后缀数字的最大值，如：3</li>
+<li>• 输出变量名称：读取输入变量的值后保存的新变量名，如word</li>
+</ul>
+</li>
+<li>添加HTTP请求-百度<ul>
+<li>• 引用ForEach控制器中保存的新变量名，如：${word}</li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+</ul>
+</li>
+</ul>
+<h1 id="JMeter定时器"><a href="#JMeter定时器" class="headerlink" title="JMeter定时器"></a>JMeter定时器</h1><h2 id="同步定时器"><a href="#同步定时器" class="headerlink" title="同步定时器"></a>同步定时器</h2><h3 id="介绍-10"><a href="#介绍-10" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>同步定时器：阻塞线程（累积一定的请求），当在规定的时间内达到一定的线程数量，这些线程会在同一个时间点一起释放，瞬间产生很大的压力。</p>
+</li>
+<li><p>提示：在JMeter中叫做同步定时器，在Loadrunner中又叫集合点</p>
+</li>
+</ul>
+<h3 id="参数设置"><a href="#参数设置" class="headerlink" title="参数设置"></a>参数设置</h3><ul>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 定时器 –&gt; Synchronizing Timer</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/35e7fdbe0d684a5888975a84c45b3182" alt="image-20240114173818302"></p>
+<ul>
+<li>参数介绍：<ul>
+<li><p>Number of Simulated Users to Group by：模拟用户的数量，即指定同时释放的线程数数量。</p>
+</li>
+<li><p>若设置为0，等于设置为线程组中的线程数量</p>
+</li>
+<li><p>Timeout in milliseconds：超时时间，即超时多少毫秒后同时释放指定的线程数；</p>
+</li>
+<li><p>如果设置为0，该定时器将会等待线程数达到了设置的线程数才释放，若没有达到设置的线程数会一直死等。</p>
+</li>
+<li><p>如果大于0，那么如果超过Timeout in milliseconds中设置的最大等待时间后还没达到设置的线程数，Timer将不再等待，释放已到达的线程。默认为0</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-7"><a href="#案例-7" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>模拟100个用户同时访问百度首页，统计各种高并发情况下运行情况</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组，设置线程数&#x3D;100</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加同步定时器，并发数可分别设置20&#x2F;30人</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+<li><p>添加监听器-聚合报告</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/a477a4199bd248ca8f897b7f550933c0" alt="image-20240114173906207"></p>
+<h3 id="小结-12"><a href="#小结-12" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>（1）什么时候需要使用同步定时器？<ul>
+<li>测试抢购、秒杀或者抢红包等高并发的场景时使用</li>
+</ul>
+</li>
+<li>（2）使用同步定时器的操作步骤？<ul>
+<li>添加线程组，设置线程数为n</li>
+<li>添加HTTP请求</li>
+<li>添加同步定时器<ul>
+<li>设置并发线程数：同时发送请求的虚拟用户数</li>
+<li>设置超时时间：<ul>
+<li>建议设置：不设置的话，若没有达到设置的线程数会一直死等</li>
+<li>不能设置太小：等待时间后还没达到设置的线程数，会释放已到达的线程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>添加查看结果树</li>
+<li>添加监听器-聚合报告</li>
+</ul>
+</li>
+</ul>
+<h2 id="常数吞吐量定时器"><a href="#常数吞吐量定时器" class="headerlink" title="常数吞吐量定时器"></a>常数吞吐量定时器</h2><h3 id="介绍-11"><a href="#介绍-11" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>作用：让JMeter按指定的吞吐量执行，以每分钟为单位。</li>
+<li>位置：测试计划 –&gt; 线程组–&gt; HTTP请求 –&gt; (右键添加) 定时器 –&gt; Constant Throughput Timer</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/ef753c87897b46f18eba6c9a0d999412" alt="image-20240114174129839"></p>
+<ul>
+<li><p>参数介绍：</p>
+<ul>
+<li>Target throughput（in samples per minute）：目标吞吐量。注意这里是每个用户每分钟发送的请求数</li>
+</ul>
+</li>
+<li><p>案例要求：</p>
+<ul>
+<li><p>模拟用户真实的业务场景要求：20 QPS</p>
+</li>
+<li><p>如果线程数设置为1，则目标吞吐量设置为 20 * 60 &#x3D; 1200</p>
+</li>
+<li><p>如果线程数设置为2，则目标吞吐量设置为 20 * 60 &#x2F; 2 &#x3D; 600</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-8"><a href="#案例-8" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>用户以 20QPS (20 次&#x2F;s) 的频率访问百度首页，持续一段时间，统计运行情况</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>添加线程组，循环次数设置成永远</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加常数吞吐定时器</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+<li><p>添加监听器-聚合报告</p>
+<ul>
+<li>• 查看聚合报告的 Throughput 字段，实际值围绕设置的QPS值上下波动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/8a71808c77d8469d9679bb643f28e232" alt="image-20240114174242230"></p>
+<h3 id="小结-13"><a href="#小结-13" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>（1）什么时候需要使用常数吞吐量定时器？</p>
+<ul>
+<li>• 需要按指定的吞吐量发送请求时，可以使用常数吞吐量定时器</li>
+</ul>
+</li>
+<li><p>（2）使用常数吞吐量定时器的操作步骤？</p>
+<ul>
+<li><p>添加线程组，循环次数设置成永远</p>
+</li>
+<li><p>添加HTTP请求</p>
+</li>
+<li><p>添加常数吞吐定时器</p>
+<ul>
+<li>设置目标吞吐量：每个用户每分钟发送的请求数</li>
+<li>计算方法：要求<code>QPS * 60 / 线程数</code></li>
+</ul>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+<li><p>添加监听器-聚合报告</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="JMeter分布式"><a href="#JMeter分布式" class="headerlink" title="JMeter分布式"></a>JMeter分布式</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><ul>
+<li>在使用JMeter进行性能测试时如果项目需要支持 10000 用户并发但是单台电脑只能支持 10O0 个用户并发该怎么处理？<ul>
+<li>Jmeter分布式测试</li>
+</ul>
+</li>
+</ul>
+<h2 id="分布式执行原理"><a href="#分布式执行原理" class="headerlink" title="分布式执行原理"></a>分布式执行原理</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/0eb8c5b8212e4c069b1b0480fba7fdcc" alt="image-20240114174517989"></p>
+<ul>
+<li>JMeter分布式测试时，选择其中一台作为控制机(Controller)，其它机器做为代理机(Agent)。<ul>
+<li><p>执行时，控制机会把脚本发送到每台代理机上</p>
+</li>
+<li><p>代理机拿到脚本后就开始执行，代理机执行时不需要启动JMeter界面，可以理解它是通过命令行模式执行的。</p>
+</li>
+<li><p>执行完成后，代理机会把结果回传给控制机，控制机会收集所有代理机的信息并汇总。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="分布式配置"><a href="#分布式配置" class="headerlink" title="分布式配置"></a>分布式配置</h2><ul>
+<li><p>配置 —— 修改 <code>bin/jmeter.properties</code> 文件：</p>
+</li>
+<li><p>代理机：</p>
+<ul>
+<li>修改服务端口： 保证每个代理机都能正常启动。如果是在同一台机器上演示需要使用不同的端口，多台机器可以不修改。例如：server_port&#x3D;2999</li>
+<li>将RMI SSL设置为禁用。例如：<code>server.rmi.ssl.disable=true</code></li>
+</ul>
+</li>
+<li><p>控制机：</p>
+<ul>
+<li>配置代理机远程地址：配置每个代理机的IP+port，多个代理机之间用‘,’连接<ul>
+<li>例如： <code>remote_hosts=192.168.182.100:1099, 192.168.182.101:2999</code></li>
+</ul>
+</li>
+<li>将 RMI SSL设置为禁用。例如：<code>server.rmi.ssl.disable=true</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="分布式执行"><a href="#分布式执行" class="headerlink" title="分布式执行"></a>分布式执行</h2><ul>
+<li>执行<ul>
+<li><p>代理机（命令行方式启动）：</p>
+</li>
+<li><p>进入bin目录，运行jmeter-server.bat文件，启动 JMeter</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/43c93ae553144be58439ca1577a6a2fc" alt="image-20240114174802928"></p>
+<ul>
+<li>控制机（界面方式启动）：<ul>
+<li>进入bin目录，运行jmeter.bat文件，启动JMeter</li>
+<li>选择菜单：运行–&gt;远程启动&#x2F;远程全部启动</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/14/813a5e204f244dcc8cf6b2000f7214a3" alt="image-20240114174820403"></p>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><ul>
+<li><p>1、请求：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></p>
+</li>
+<li><p>2、一台控制机和两台执行机，做分布式；要求控制机启动，两台执行机执行，反馈结果</p>
+</li>
+<li><p>操作步骤：</p>
+<ul>
+<li><p>配置代理机一，并启动</p>
+</li>
+<li><p>配置代理机二，并启动</p>
+</li>
+<li><p>配置控制机，并启动</p>
+</li>
+<li><p>添加线程组</p>
+</li>
+<li><p>添加HTTP请求 – 百度</p>
+</li>
+<li><p>添加查看结果树</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-14"><a href="#小结-14" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>（1）什么时候需要使用分布式？<ul>
+<li>单台测试机无法满足用户要求的负载量时，使用多台机器来模拟</li>
+</ul>
+</li>
+<li>（2）JMeter分布式测试的原理？<ul>
+<li>执行时，控制机会把脚本发送到每台代理机上</li>
+<li>代理机拿到脚本后就开始执行，接收服务器返回的响应</li>
+<li>执行完成后，代理机会把结果回传给控制机</li>
+</ul>
+</li>
+<li>（3）JMeter分布式的配置和使用？<ul>
+<li>配置：<ul>
+<li>代理机：修改服务端口server_port，禁用RMI SSL开关</li>
+<li>控制机：配置代理机远程地址remote_hosts，禁用RMI SSL开关</li>
+</ul>
+</li>
+<li>使用：<ul>
+<li>代理机：命令行方式启动，运行jmeter-server.bat文件</li>
+<li>控制机：运行jmeter.bat文件，启动JMeter，运行–&gt;远程启动&#x2F;远程全部启动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">性能测试基础02</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">接口对象封装</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E9%98%B6%E6%AE%B5%E5%A4%A7%E7%BA%B2"><span class="toc-text">性能测试阶段大纲</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8B%E7%9B%AE%E6%A0%87"><span class="toc-text">课程目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA"><span class="toc-text">性能测试理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">为什么要进行性能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82"><span class="toc-text">业务需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%9B%E8%81%98%E9%9C%80%E6%B1%82"><span class="toc-text">招聘需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">性能测试的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%80%A7%E8%83%BD"><span class="toc-text">什么是性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">什么是性能测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84"><span class="toc-text">性能测试目的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">性能测试与功能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%84%A6%E7%82%B9%E4%B8%8D%E4%B8%80%E6%A0%B7"><span class="toc-text">焦点不一样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-text">关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5"><span class="toc-text">性能测试策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-1"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5-1"><span class="toc-text">性能测试策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="toc-text">基准测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">负载测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-text">稳定性测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5"><span class="toc-text">其他测试策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%8C%87%E6%A0%87"><span class="toc-text">性能测试指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-2"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8C%87%E6%A0%87"><span class="toc-text">什么是指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">常用性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4"><span class="toc-text">响应时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%95%B0"><span class="toc-text">并发数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%9E%E5%90%90%E9%87%8F"><span class="toc-text">吞吐量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E6%95%B0"><span class="toc-text">点击数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%8E%87"><span class="toc-text">错误率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%88%A9%E7%94%A8%E7%8E%87"><span class="toc-text">资源利用率</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="toc-text">性能测试流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-3"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">进行性能测试的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B-1"><span class="toc-text">性能测试流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-text">性能需求分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E5%8F%8A%E6%96%B9%E6%A1%88"><span class="toc-text">性能测试计划及方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">性能测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C"><span class="toc-text">性能测试执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99-%E5%BD%95%E5%88%B6"><span class="toc-text">测试脚本编写&#x2F;录制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-text">建立测试环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-text">执行测试脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9B%91%E6%8E%A7"><span class="toc-text">性能测试监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%92%8C%E8%B0%83%E4%BC%98"><span class="toc-text">性能分析和调优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E6%80%BB%E7%BB%93"><span class="toc-text">性能测试报告总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7JMeter"><span class="toc-text">性能测试工具JMeter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-4"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-text">常用性能测试工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-5"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-text">主流性能测试工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">两种测试工具的对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">JMeter环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85JDK"><span class="toc-text">安装JDK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JDK%E4%B8%8B%E8%BD%BD"><span class="toc-text">JDK下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85JDK-1"><span class="toc-text">安装JDK</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">配置环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C"><span class="toc-text">校验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85JMeter"><span class="toc-text">安装JMeter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD"><span class="toc-text">下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%AA%8C%E8%AF%81"><span class="toc-text">启动验证</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter%E5%8A%9F%E8%83%BD%E6%A6%82%E8%A6%81"><span class="toc-text">JMeter功能概要</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-1"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeter%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D"><span class="toc-text">JMeter文件目录介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bin%E7%9B%AE%E5%BD%95"><span class="toc-text">bin目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docs%E7%9B%AE%E5%BD%95"><span class="toc-text">docs目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printable-docs%E7%9B%AE%E5%BD%95"><span class="toc-text">printable_docs目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lib%E7%9B%AE%E5%BD%95"><span class="toc-text">lib目录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-text">修改默认配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%89%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="toc-text">汉化配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">修改主题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%83%E4%BB%B6%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">元件作用域和执行顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-2"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E4%BB%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-text">元件的基本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E4%BB%B6%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">元件作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E4%BB%B6%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">元件执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-text">JMeter使用示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-3"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeter%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%A1%88%E4%BE%8B"><span class="toc-text">JMeter第一个案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%E7%BB%84%E4%BB%B6"><span class="toc-text">重点组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%BB%84"><span class="toc-text">线程组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82"><span class="toc-text">HTTP请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C%E6%A0%91"><span class="toc-text">查看结果树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeter%E6%A1%88%E4%BE%8B-%E8%AE%BF%E9%97%AE%E7%99%BE%E5%BA%A6"><span class="toc-text">JMeter案例-访问百度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%E6%90%BA%E5%B8%A6%E5%8F%82%E6%95%B0%E6%A1%88%E4%BE%8B"><span class="toc-text">HTTP请求携带参数案例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E5%8F%82%E6%95%B0%E5%8C%96"><span class="toc-text">JMeter参数化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-4"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter%E5%8F%82%E6%95%B0%E5%8C%96%E5%B8%B8%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">JMeter参数化常用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-text">用户定义的变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-text">操作步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%E8%AE%BE%E7%BD%AE"><span class="toc-text">HTTP请求设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%8F%82%E6%95%B0"><span class="toc-text">用户参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF-1"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4-1"><span class="toc-text">操作步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSV-%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E8%AE%BE%E7%BD%AE"><span class="toc-text">CSV 数据文件设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF-2"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4-2"><span class="toc-text">操作步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">参数详解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0-counter"><span class="toc-text">函数(__counter)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8A%A9%E6%89%8B"><span class="toc-text">函数助手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%8C%96%E8%B0%83%E7%94%A8"><span class="toc-text">参数化调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">运行结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">变量作用域问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E6%96%AD%E8%A8%80"><span class="toc-text">JMeter断言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%96%AD%E8%A8%80"><span class="toc-text">响应断言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%96%AD%E8%A8%80-1"><span class="toc-text">响应断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">参数配置介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0"><span class="toc-text">案例练习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON%E6%96%AD%E8%A8%80"><span class="toc-text">JSON断言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0-1"><span class="toc-text">案例练习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E6%8C%81%E7%BB%AD%E6%97%B6%E9%97%B4"><span class="toc-text">断言持续时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E5%85%B3%E8%81%94"><span class="toc-text">JMeter关联</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8F%90%E5%8F%96%E5%99%A8"><span class="toc-text">正则表达式提取器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-3"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XPath%E6%8F%90%E5%8F%96%E5%99%A8"><span class="toc-text">XPath提取器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-4"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-2"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-4"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON%E6%8F%90%E5%8F%96%E5%99%A8"><span class="toc-text">JSON提取器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-5"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-3"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-5"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter%E5%B1%9E%E6%80%A7"><span class="toc-text">JMeter属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-text">配置函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C"><span class="toc-text">函数执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-4"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-6"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E5%BD%95%E5%88%B6%E8%84%9A%E6%9C%AC"><span class="toc-text">JMeter录制脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E5%8E%9F%E7%90%86"><span class="toc-text">录制原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%95%E5%88%B6%E8%84%9A%E6%9C%AC%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-text">录制脚本操作步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-7"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E7%9B%B4%E8%BF%9E%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">JMeter直连数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE"><span class="toc-text">关键配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-8"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">JMeter逻辑控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-6"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%EF%BC%88If%EF%BC%89%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">如果（If）控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-7"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-5"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-9"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">循环控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-8"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-6"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-10"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ForEach%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">ForEach控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-9"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-1"><span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C-1"><span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-11"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-text">JMeter定时器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-text">同步定时器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-10"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="toc-text">参数设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-7"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-12"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E6%95%B0%E5%90%9E%E5%90%90%E9%87%8F%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-text">常数吞吐量定时器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-11"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-8"><span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-13"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-text">JMeter分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-text">分布式执行原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-text">分布式配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%89%A7%E8%A1%8C"><span class="toc-text">分布式执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0"><span class="toc-text">练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-14"><span class="toc-text">小结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试"><img alt="UI自动化测试" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.FjupsUlF0U4eTb-7NSK7VQHaEK?w=324&amp;h=182&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试">UI自动化测试</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02"><img alt="性能测试基础02" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02">性能测试基础02</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01"><img alt="性能测试基础01" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01">性能测试基础01</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装"><img alt="接口对象封装" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.28wuGV9jWB2_sq1WCmD7HAHaEK?w=304&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装">接口对象封装</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集"><img alt="接口测试_Requests库_UnitTest框架_数据库操作_日志收集" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.9CeGYs4RfVcivCbpKRmJKwHaEK?w=328&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/" title="接口测试_Requests库_UnitTest框架_数据库操作_日志收集">接口测试_Requests库_UnitTest框架_数据库操作_日志收集</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/09_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_Requests%E5%BA%93_UnitTest%E6%A1%86%E6%9E%B6_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C_%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/26/软件测试/007_UI自动化测试/001_UI自动化测试/","2024/01/26/软件测试/006_性能测试/11_性能测试-02/","2024/01/26/软件测试/006_性能测试/11_性能测试-01/","2024/01/26/软件测试/005_接口测试/10_接口测试_接口对象封装_接口自动化测试框架_全量字段校验_持续集成/","2024/01/26/软件测试/005_接口测试/09_接口测试_Requests库_UnitTest框架_数据库操作_日志收集/","2024/01/26/软件测试/005_接口测试/08_接口测试_Postman的使用/","2024/01/26/软件测试/005_接口测试/07_接口测试_接口测试基础/","2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
