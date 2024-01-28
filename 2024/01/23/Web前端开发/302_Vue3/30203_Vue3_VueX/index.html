@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Vue3_VueX | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# VueX VueX什么是状态管理 在开发中，我们的应用程序需要处理各种各样的数据，这些数据需要保存在我们应用程序中的某一个位置，对于这些数据的管理我们就称之为是状态管理。 在前面我们是如何管理自己的状态呢？ 在 Vue 开发中，我们使用组件化的开发方式； 而在组件中我们定义 data 或者在"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">43</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">Vue3_VueX</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://img0.baidu.com/it/u=3019689614,3305223884&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=889&amp;h=500" alt="Vue3_VueX"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Web前端开发/">Web前端开发</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">Vue3_VueX</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-23 06:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-22T22:00:00.000Z">2024-01-22T22:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 13:53:36"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T05:53:36.909Z">2024-01-28T05:53:36.909Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">3.1k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>13 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/302_Vue3/30203_Vue3_VueX/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# VueX
+
+<h2 id="VueX"><a href="#VueX" class="headerlink" title="VueX"></a>VueX</h2><h3 id="什么是状态管理"><a href="#什么是状态管理" class="headerlink" title="什么是状态管理"></a>什么是状态管理</h3><ul>
+<li>在开发中，我们的应用程序需要处理各种各样的数据，这些数据需要保存在我们应用程序中的某一个位置，<strong>对于这些数据的管理我们就称之为是状态管理。</strong></li>
+<li>在前面我们是如何管理自己的状态呢？<ul>
+<li>在 Vue 开发中，我们使用组件化的开发方式；</li>
+<li>而在组件中我们定义 data 或者在 setup 中返回使用的数据，这些数据我们称之为 state；</li>
+<li>在模块 template 中我们可以使用这些数据，模块最终会被渲染成 DOM，我们称之为 View；</li>
+<li>在模块中我们会产生一些行为事件，处理这些行为事件时，有可能会修改 state，这些行为事件我们称之为 actions；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/137bb108780a437e84fe0c1eefddc943" alt="1661580513072"></p>
+<h3 id="复杂的状态管理"><a href="#复杂的状态管理" class="headerlink" title="复杂的状态管理"></a>复杂的状态管理</h3><ul>
+<li>JavaScript 开发的应用程序，已经变得越来越复杂了：<ul>
+<li>JavaScript 需要管理的状态越来越多，越来越复杂；</li>
+<li>这些状态包括服务器返回的数据、缓存数据、用户操作产生的数据等等；</li>
+<li>也包括一些 UI 的状态，比如某些元素是否被选中，是否显示加载动效，当前分页；</li>
+</ul>
+</li>
+<li>当我们的应用遇到多个组件共享状态时，单向数据流的简洁性很容易被破坏：<ul>
+<li>多个视图依赖于同一状态；</li>
+<li>来自不同视图的行为需要变更同一状态；</li>
+</ul>
+</li>
+<li>我们是否可以通过组件数据的传递来完成呢？<ul>
+<li>对于一些简单的状态，确实可以通过 props 的传递或者 Provide 的方式来共享状态；</li>
+<li>但是对于复杂的状态管理来说，显然单纯通过传递和共享的方式是不足以解决问题的，比如兄弟组件如何共享数据呢？</li>
+</ul>
+</li>
+</ul>
+<h3 id="Vuex的状态管理"><a href="#Vuex的状态管理" class="headerlink" title="Vuex的状态管理"></a>Vuex的状态管理</h3><ul>
+<li>管理不断变化的 state 本身是非常困难的：<ul>
+<li>状态之间相互会存在依赖，一个状态的变化会引起另一个状态的变化，View 页面也有可能会引起状态的变化；</li>
+<li>当应用程序复杂时，state 在什么时候，因为什么原因而发生了变化，发生了怎么样的变化，会变得非常难以控制和追踪；</li>
+</ul>
+</li>
+<li>因此，我们是否可以考虑将组件的内部状态抽离出来，以一个全局单例的方式来管理呢？<ul>
+<li>在这种模式下，我们的组件树构成了一个巨大的 “试图 View”；</li>
+<li>不管在树的哪个位置，任何组件都能获取状态或者触发行为；</li>
+<li>通过定义和隔离状态管理中的各个概念，并通过强制性的规则来维护视图和状态间的独立性，我们的代码会变得更加结构化和易于维护、跟踪；</li>
+</ul>
+</li>
+<li>这就是 Vuex 背后的基本思想，它借鉴了 Flux、Redux、Elm（纯函数语言，redux 有借鉴它的思想）；</li>
+<li>当然，目前 Vue 官方也在推荐使用 Pinia 进行状态管理，我们后续也会进行学习。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/018711c721954124becd08dcb3086b34" alt="1661581530689"></p>
+<h3 id="Vuex的安装"><a href="#Vuex的安装" class="headerlink" title="Vuex的安装"></a>Vuex的安装</h3><ul>
+<li>依然我们要使用 vuex，首先第一步需要安装 vuex：<ul>
+<li>命令 : <strong>npm install vuex</strong></li>
+<li>我们这里使用的是 vuex4.x；</li>
+</ul>
+</li>
+</ul>
+<h3 id="创建Store"><a href="#创建Store" class="headerlink" title="创建Store"></a>创建Store</h3><ul>
+<li>每一个 Vuex 应用的核心就是 store（仓库）：<ul>
+<li>store 本质上是一个容器，它包含着你的应用中大部分的状态（state）；</li>
+</ul>
+</li>
+<li>Vuex 和单纯的全局对象有什么区别呢？<ul>
+<li>第一：<strong>Vuex 的状态存储是响应式的</strong><ul>
+<li>当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会被更新；</li>
+</ul>
+</li>
+<li>第二：你<strong>不能直接改变 store 中的状态</strong><ul>
+<li><strong>改变 store 中的状态的唯一途径就显示提交 (commit) mutation</strong>；</li>
+<li>这样使得我们可以方便的跟踪每一个状态的变化，从而让我们能够通过一些工具帮助我们更好的管理应用的状态；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用步骤：<ul>
+<li>创建 Store 对象；</li>
+<li>在 app 中通过插件安装；</li>
+</ul>
+</li>
+</ul>
+<h3 id="组件中使用store"><a href="#组件中使用store" class="headerlink" title="组件中使用store"></a>组件中使用store</h3><ul>
+<li>在组件中使用 store，我们按照如下的方式：<ul>
+<li>在模板中使用；</li>
+<li>在 options api 中使用，比如 computed；</li>
+<li>在 setup 中使用；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/238be1518d8a45f0840d5c8e8e339472" alt="1661587179195"></p>
+<h3 id="单一状态树"><a href="#单一状态树" class="headerlink" title="单一状态树"></a>单一状态树</h3><ul>
+<li>Vuex 使用单一状态树：<ul>
+<li>用一个对象就包含了全部的应用层级的状态；</li>
+<li>采用的是 SSOT，Single Source of Truth，也可以翻译成<strong>单一数据源</strong>；</li>
+</ul>
+</li>
+<li>这也意味着，每个应用将仅仅包含一个 store 实例；<ul>
+<li>单状态树和模块化并不冲突，后面我们会讲到 module 的概念；</li>
+</ul>
+</li>
+<li>单一状态树的优势：<ul>
+<li>如果你的状态信息是保存到多个 Store 对象中的，那么之后的管理和维护等等都会变得特别困难；</li>
+<li>所以 <strong>Vuex 也使用了单一状态树来管理应用层级的全部状态</strong>；</li>
+<li>单一状态树能够让我们最直接的方式找到某个状态的片段；</li>
+<li>而且在之后的维护和调试过程中，也可以非常方便的管理和维护；</li>
+</ul>
+</li>
+</ul>
+<h3 id="组件中获取状态"><a href="#组件中获取状态" class="headerlink" title="组件中获取状态"></a>组件中获取状态</h3><ul>
+<li>在前面我们已经学习过如何在组件中获取状态了。</li>
+<li>当然，如果觉得那种方式有点繁琐（表达式过长），我们可以使用计算属性：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/92ebd08f3f9a4700895e3ec2d6634a1d" alt="1661584386156"></p>
+<ul>
+<li><p>但是，如果我们有很多个状态都需要获取话，可以使用 mapState 的辅助函数：</p>
+<ul>
+<li>mapState 的方式一：对象类型；</li>
+<li>mapState 的方式二：数组类型；</li>
+</ul>
+</li>
+<li><p>也可以使用展开运算符和来原有的 computed 混合在一起</p>
+</li>
+</ul>
+<h3 id="mapState"><a href="#mapState" class="headerlink" title="mapState"></a>mapState</h3><h4 id="在-Option-中使用"><a href="#在-Option-中使用" class="headerlink" title="在 Option 中使用"></a>在 Option 中使用</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/eb3a2ad395434d728f1d70eb61e9194a" alt="1661587992371"></p>
+<h4 id="在-Setup-中使用"><a href="#在-Setup-中使用" class="headerlink" title="在 Setup 中使用"></a>在 Setup 中使用</h4><ul>
+<li>在 setup 中如果我们单个获取装是非常简单的：<ul>
+<li>通过 useStore 拿到 store 后去获取某个状态即可；</li>
+<li>但是如果我们需要使用 mapState 的功能呢？</li>
+</ul>
+</li>
+<li>默认情况下，Vuex 并没有提供非常方便的使用 mapState 的方式,(也可以自定义一个 hook 实现)</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/ac0b893ffa02415ea226b39999d8426c" alt="1661589147380"></p>
+<ul>
+<li>方式一: (麻烦,不推荐)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;姓名:&#123;&#123; cName &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄:&#123;&#123; cAge &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; computed &#125; from &quot;vue&quot;;</span><br><span class="line">import &#123; mapState, useStore &#125; from &quot;vuex&quot;;</span><br><span class="line"></span><br><span class="line">const &#123; name, age &#125; = mapState([&quot;name&quot;, &quot;age&quot;]);</span><br><span class="line"></span><br><span class="line">const store = useStore();</span><br><span class="line">const cName = computed(name.bind(&#123; $store: store &#125;));</span><br><span class="line">const cAge = computed(age.bind(&#123; $store: store &#125;));</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方式二: (推荐)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;姓名:&#123;&#123; name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄:&#123;&#123; age &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeAge&quot;&gt;+1&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; toRefs &#125; from &quot;vue&quot;;</span><br><span class="line">import &#123; useStore &#125; from &quot;vuex&quot;;</span><br><span class="line"></span><br><span class="line">const store = useStore();</span><br><span class="line">// 对 store.state 直接解构,但需要加 toRefs 才是响应式的</span><br><span class="line">const &#123; name, age &#125; = toRefs(store.state);</span><br><span class="line"></span><br><span class="line">function changeAge() &#123;</span><br><span class="line">  store.state.age++;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="getters的使用"><a href="#getters的使用" class="headerlink" title="getters的使用"></a>getters的使用</h3><p><strong>App.vue :</strong> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;friendsTotalAge: &#123;&#123; $store.getters.totalAge &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;message: &#123;&#123; $store.getters.message &#125;&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 根据id获取某一个朋友的信息 --&gt;</span><br><span class="line">    &lt;h2&gt;id-111的朋友信息: &#123;&#123; $store.getters.getFriendById(111) &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;id-112的朋友信息: &#123;&#123; $store.getters.getFriendById(112) &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>.&#x2F;src&#x2F;store&#x2F;index.js :</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.1 导入方法</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">&quot;vuex&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.2 创建 Store</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&quot;coderwhy&quot;</span>,</span><br><span class="line">      <span class="attr">level</span>: <span class="number">100</span>,</span><br><span class="line">      <span class="attr">friends</span>: [</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">111</span>, <span class="attr">name</span>: <span class="string">&quot;why&quot;</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">112</span>, <span class="attr">name</span>: <span class="string">&quot;kobe&quot;</span>, <span class="attr">age</span>: <span class="number">30</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">113</span>, <span class="attr">name</span>: <span class="string">&quot;james&quot;</span>, <span class="attr">age</span>: <span class="number">25</span> &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">getters</span>: &#123;</span><br><span class="line">    <span class="comment">// 1.基本使用</span></span><br><span class="line">    <span class="title function_">totalAge</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> state.<span class="property">friends</span>.<span class="title function_">reduce</span>(<span class="function">(<span class="params">preValue, item</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> preValue + item.<span class="property">age</span>;</span><br><span class="line">      &#125;, <span class="number">0</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 2.在该 getters 属性中, 获取其他的 getters</span></span><br><span class="line">    <span class="title function_">message</span>(<span class="params">state, getters</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`name:<span class="subst">$&#123;state.name&#125;</span> level:<span class="subst">$&#123;state.level&#125;</span> friendTotalAge:<span class="subst">$&#123;getters.totalAge&#125;</span>`</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 3.getters是可以返回一个函数的, 调用这个函数可以传入参数(了解)</span></span><br><span class="line">    <span class="title function_">getFriendById</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">id</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> friend = state.<span class="property">friends</span>.<span class="title function_">find</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">id</span> === id);</span><br><span class="line">        <span class="keyword">return</span> friend;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.3 导出 Store</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store;</span><br></pre></td></tr></table></figure>
+
+<h3 id="mapGetters"><a href="#mapGetters" class="headerlink" title="mapGetters"></a>mapGetters</h3><h4 id="在-Option-中使用-1"><a href="#在-Option-中使用-1" class="headerlink" title="在 Option 中使用"></a>在 Option 中使用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;friendsTotalAge: &#123;&#123; totalAge &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;message: &#123;&#123; message &#125;&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 根据id获取某一个朋友的信息 --&gt;</span><br><span class="line">    &lt;h2&gt;id-111的朋友信息: &#123;&#123; getFriendById(111) &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;id-112的朋友信息: &#123;&#123; getFriendById(112) &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; mapGetters &#125; from &quot;vuex&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([&quot;totalAge&quot;, &quot;message&quot;, &quot;getFriendById&quot;]),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="在-Setup-中使用-1"><a href="#在-Setup-中使用-1" class="headerlink" title="在 Setup 中使用"></a>在 Setup 中使用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;message: &#123;&#123; message &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;totalAge:&#123;&#123; totalAge &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeName&quot;&gt;按钮&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; computed, toRefs &#125; from &quot;vue&quot;;</span><br><span class="line">import &#123; useStore &#125; from &quot;vuex&quot;;</span><br><span class="line">const store = useStore();</span><br><span class="line">// 直接怼 getters 进行解构,需要加 toRefs 才是响应式,  推荐使用</span><br><span class="line">const &#123; message &#125; = toRefs(store.getters);</span><br><span class="line"></span><br><span class="line">// 针对某一个 getters 使用计算属性</span><br><span class="line">const totalAge = computed(() =&gt; store.getters.totalAge);</span><br><span class="line"></span><br><span class="line">function changeName() &#123;</span><br><span class="line">  store.state.name = &quot;李银河&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><ul>
+<li>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/d65794c5ac654c358ea82225e7169009" alt="1661593392998"></p>
+<h3 id="mapMutation"><a href="#mapMutation" class="headerlink" title="mapMutation"></a>mapMutation</h3><h4 id="在-Option-中使用-2"><a href="#在-Option-中使用-2" class="headerlink" title="在 Option 中使用"></a>在 Option 中使用</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/92f6db266ca743afab61b518c2ad2b5c" alt="1661593836701"></p>
+<h4 id="在-setup-中使用"><a href="#在-setup-中使用" class="headerlink" title="在 setup 中使用"></a>在 setup 中使用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;name: &#123;&#123; $store.state.name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;button @click=&quot;changeName(&#x27;李银河&#x27;)&quot;&gt;按钮&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; mapMutations, useStore &#125; from &quot;vuex&quot;;</span><br><span class="line"></span><br><span class="line">const store = useStore();</span><br><span class="line"></span><br><span class="line">// 1.手动的映射和绑定</span><br><span class="line">const mutations = mapMutations([&quot;changeName&quot;]);</span><br><span class="line">const newMutations = &#123;&#125;;</span><br><span class="line">Object.keys(mutations).forEach((key) =&gt; &#123;</span><br><span class="line">  newMutations[key] = mutations[key].bind(&#123; $store: store &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">const &#123; changeName &#125; = newMutations;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="mutation重要原则"><a href="#mutation重要原则" class="headerlink" title="mutation重要原则"></a>mutation重要原则</h3><ul>
+<li>一条重要的原则就是要记住 mutation 必须是同步函数<ul>
+<li>这是因为 devtool 工具会记录 mutation 的日记；</li>
+<li>每一条 mutation 被记录，devtools 都需要捕捉到前一状态和后一状态的快照；</li>
+<li>但是在 mutation 中执行异步操作，就无法追踪到数据的变化；</li>
+</ul>
+</li>
+<li>所以 <strong>Vuex 的重要原则中要求 mutation 必须是同步函数；</strong><ul>
+<li>但是如果我们希望在 Vuex 中发送网络请求的话需要如何操作呢？</li>
+</ul>
+</li>
+</ul>
+<h3 id="Actions的基本操作"><a href="#Actions的基本操作" class="headerlink" title="Actions的基本操作"></a>Actions的基本操作</h3><ul>
+<li><p>Action 类似于 mutation，不同在于：</p>
+<ul>
+<li>Action 提交的是 mutation，而不是直接变更状态；</li>
+<li>Action 可以包含任意异步操作；</li>
+</ul>
+</li>
+<li><p>这里有一个非常重要的参数 context：</p>
+<ul>
+<li><strong>context 是一个和 store 实例均有相同方法和属性的 context 对象</strong>；</li>
+<li>所以我们可以从其中获取到 commit 方法来提交一个 mutation，或者通过 context.state 和 context.getters 来获取 state 和 getters；</li>
+</ul>
+</li>
+<li><p>但是为什么它不是 store 对象呢？这个等到我们讲 Modules 时再具体来说；</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/69c0d87de0a143578f6c069f8378a198" alt="1661655886681"></p>
+<h3 id="mapActions"><a href="#mapActions" class="headerlink" title="mapActions"></a>mapActions</h3><h4 id="在-Options-中使用"><a href="#在-Options-中使用" class="headerlink" title="在 Options 中使用"></a>在 Options 中使用</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/06ad7c86b96e49f2b64cceaf4e5a9ef7" alt="1661656766142"></p>
+<h4 id="在-Setup-中使用-2"><a href="#在-Setup-中使用-2" class="headerlink" title="在 Setup 中使用"></a>在 Setup 中使用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup&gt;</span><br><span class="line">  import &#123; useStore, mapActions &#125; from &#x27;vuex&#x27;</span><br><span class="line">  </span><br><span class="line">  const store = useStore()</span><br><span class="line"></span><br><span class="line">  // 1.在setup中使用mapActions辅助函数</span><br><span class="line">  const actions = mapActions([&quot;incrementAction&quot;, &quot;changeNameAction&quot;])</span><br><span class="line">  const newActions = &#123;&#125;</span><br><span class="line">  Object.keys(actions).forEach(key =&gt; &#123;</span><br><span class="line">    newActions[key] = actions[key].bind(&#123; $store: store &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  const &#123; incrementAction, changeNameAction &#125; = newActions</span><br><span class="line"></span><br><span class="line">  // 2.使用默认的做法(推荐)</span><br><span class="line">  function increment() &#123;</span><br><span class="line">    store.dispatch(&quot;incrementAction&quot;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="actions的异步操作"><a href="#actions的异步操作" class="headerlink" title="actions的异步操作"></a>actions的异步操作</h3><ul>
+<li>Action 通常是异步的，那么如何知道 action 什么时候结束呢？<ul>
+<li>我们可以通过让 action 返回 Promise，在 Promise 的 then 中来处理完成后的操作；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/190a1d019feb40bdb619c339a82e0ba5" alt="1661658134650"></p>
+<h3 id="module的基本使用"><a href="#module的基本使用" class="headerlink" title="module的基本使用"></a>module的基本使用</h3><ul>
+<li>什么是 Module？<ul>
+<li>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象，当应用变得非常复杂时，store 对象就有可能变得相当臃肿；</li>
+<li>为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）；</li>
+<li>每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块；</li>
+</ul>
+</li>
+<li>不开启命名空间,派发事件时, 默认也是不需要跟模块名称</li>
+<li>不开启命名空间,提交 mutation 时, 默认也是不需要跟模块名称</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/9a6c0b2689b34d94a450c10a1574d788" alt="1661659186192"></p>
+<h3 id="module的命名空间"><a href="#module的命名空间" class="headerlink" title="module的命名空间"></a>module的命名空间</h3><ul>
+<li>默认情况下，模块内部的 action 和 mutation 仍然是注册在全局的命名空间中的：<ul>
+<li>这样使得多个模块能够对同一个 action 或 mutation 作出响应；</li>
+<li>Getter 同样也默认注册在全局命名空间；</li>
+</ul>
+</li>
+<li>如果我们希望模块具有更高的封装度和复用性，可以添加<code>namespaced: true</code>的方式使其成为带命名空间的模块：<ul>
+<li>当模块被注册后，它的所有 getter、action 及 mutation 都会自动根据模块注册的路径调整命名；</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/03/12/4d99e55beff149f4acd2161d10cdd7b0" alt="1661659409820"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/302_Vue3/30204_Vue3_Pinia/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Vue3_Pinia</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/302_Vue3/30202_Vue3_Router/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue3_Router</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#VueX"><span class="toc-text">VueX</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-text">什么是状态管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-text">复杂的状态管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-text">Vuex的状态管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">Vuex的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAStore"><span class="toc-text">创建Store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8store"><span class="toc-text">组件中使用store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%B8%80%E7%8A%B6%E6%80%81%E6%A0%91"><span class="toc-text">单一状态树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E4%B8%AD%E8%8E%B7%E5%8F%96%E7%8A%B6%E6%80%81"><span class="toc-text">组件中获取状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapState"><span class="toc-text">mapState</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Option-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-text">在 Option 中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Setup-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-text">在 Setup 中使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getters%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">getters的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapGetters"><span class="toc-text">mapGetters</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Option-%E4%B8%AD%E4%BD%BF%E7%94%A8-1"><span class="toc-text">在 Option 中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Setup-%E4%B8%AD%E4%BD%BF%E7%94%A8-1"><span class="toc-text">在 Setup 中使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mutation"><span class="toc-text">Mutation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapMutation"><span class="toc-text">mapMutation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Option-%E4%B8%AD%E4%BD%BF%E7%94%A8-2"><span class="toc-text">在 Option 中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-setup-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-text">在 setup 中使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutation%E9%87%8D%E8%A6%81%E5%8E%9F%E5%88%99"><span class="toc-text">mutation重要原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Actions%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">Actions的基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapActions"><span class="toc-text">mapActions</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Options-%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-text">在 Options 中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Setup-%E4%B8%AD%E4%BD%BF%E7%94%A8-2"><span class="toc-text">在 Setup 中使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#actions%E7%9A%84%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C"><span class="toc-text">actions的异步操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">module的基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module%E7%9A%84%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-text">module的命名空间</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/402_Webpack/40201_Webpack/" title="Webpack"><img alt="Webpack" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.Qb6YcFvpvLuZXJ44H6Nb3gAAAA?w=280&amp;h=187&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/402_Webpack/40201_Webpack/" title="Webpack">Webpack</a><a class="article-recent_post_categories" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/402_Webpack/40201_Webpack/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/401_TypeScript/40101_TypeScript/" title="TypeScript"><img alt="TypeScript" src= "/img/loading.gif" data-lazy-src="https://tse4-mm.cn.bing.net/th/id/OIP-C.EI3avnVaz4qhmuwwpADISQHaEK?w=322&amp;h=181&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/401_TypeScript/40101_TypeScript/" title="TypeScript">TypeScript</a><a class="article-recent_post_categories" href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/401_TypeScript/40101_TypeScript/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30305_React_Hooks%E8%A7%A3%E6%9E%90/" title="React Hooks"><img alt="React Hooks" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=2126133000,279682015&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=800&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30305_React_Hooks%E8%A7%A3%E6%9E%90/" title="React Hooks">React Hooks</a><a class="article-recent_post_categories" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30305_React_Hooks%E8%A7%A3%E6%9E%90/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30304_React_Router/" title="React_Router"><img alt="React_Router" src= "/img/loading.gif" data-lazy-src="https://img0.baidu.com/it/u=1968277298,413771727&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=499&amp;h=281"></a><div class="content"><a class="title" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30304_React_Router/" title="React_Router">React_Router</a><a class="article-recent_post_categories" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30304_React_Router/">Web前端开发</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30303_Redux/" title="Redux"><img alt="Redux" src= "/img/loading.gif" data-lazy-src="https://img2.baidu.com/it/u=2805819978,1711130178&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=890&amp;h=500"></a><div class="content"><a class="title" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30303_Redux/" title="Redux">Redux</a><a class="article-recent_post_categories" href="/2024/01/23/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/303_React/30303_Redux/">Web前端开发</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/软件测试/软件测试test/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
