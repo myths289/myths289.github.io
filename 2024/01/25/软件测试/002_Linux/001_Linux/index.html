@@ -1,0 +1,1457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Linux | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="Linux入门篇Linux概述Linux是什么 Linux 是一个操作系统(OS) Linux的诞生 作者 : 李纳斯·托瓦兹(Linus Torvalds) 上大学期间，对 Unix 产生了浓厚兴趣 1991年初，开始基于 Minix(Unix的变种) 进行开发 1991年6月，确定开发"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">48</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">Linux</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse1-mm.cn.bing.net/th/id/OIP-C.XXu034JxuR9rZCV5_40S-wAAAA?w=267&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="Linux"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">Linux</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-25 01:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-24T17:00:00.000Z">2024-01-24T17:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 21:15:35"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T13:15:35.341Z">2024-01-28T13:15:35.341Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">9.4k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>36 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+
+<h1 id="Linux入门篇"><a href="#Linux入门篇" class="headerlink" title="Linux入门篇"></a>Linux入门篇</h1><h2 id="Linux概述"><a href="#Linux概述" class="headerlink" title="Linux概述"></a>Linux概述</h2><h3 id="Linux是什么"><a href="#Linux是什么" class="headerlink" title="Linux是什么"></a>Linux是什么</h3><ul>
+<li><strong>Linux 是一个操作系统(OS)</strong></li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/16/9bdbe8b2cacc47109644e50a0eac7ce6" alt="image-20231116195518357" style="zoom:50%;" />
+
+<h3 id="Linux的诞生"><a href="#Linux的诞生" class="headerlink" title="Linux的诞生"></a>Linux的诞生</h3><ul>
+<li>作者 : 李纳斯·托瓦兹(Linus Torvalds)<ul>
+<li>上大学期间，对 Unix 产生了浓厚兴趣</li>
+<li>1991年初，开始基于 Minix(Unix的变种) 进行开发</li>
+<li>1991年6月，确定开发一个类 Unix 操作系统内核</li>
+<li>1991年9月，将开发完成内核的 0.01 版本，命名为 Linux</li>
+</ul>
+</li>
+</ul>
+<h3 id="Linux与Unix的渊源"><a href="#Linux与Unix的渊源" class="headerlink" title="Linux与Unix的渊源"></a>Linux与Unix的渊源</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/16/25839b8048e1424594b216f805e4c37d" alt="image-20231116201339856"></p>
+<h3 id="GNU-Linux"><a href="#GNU-Linux" class="headerlink" title="GNU&#x2F;Linux"></a>GNU&#x2F;Linux</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/16/7c7b5490bde8409da46bb6700d365ffa" alt="image-20231116202734240"></p>
+<h3 id="Linux的发行版"><a href="#Linux的发行版" class="headerlink" title="Linux的发行版"></a>Linux的发行版</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/16/6b54a3419d8344fcaa56e6484851dd88" alt="image-20231116203500595"></p>
+<h3 id="Linux与Window"><a href="#Linux与Window" class="headerlink" title="Linux与Window"></a>Linux与Window</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/16/592fa7473fee4b6ebcda6fe9e42a188d" alt="image-20231116203840685"></p>
+<h2 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h2><h3 id="CentOS系统下载"><a href="#CentOS系统下载" class="headerlink" title="CentOS系统下载"></a>CentOS系统下载</h3><ul>
+<li><p>CentOS官方网站 : <a target="_blank" rel="noopener" href="https://centos.org/download/">https://centos.org/download/</a></p>
+</li>
+<li><p>阿里云提供的下载地址 : <a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/centos/7.9.2009/isos/x86_64/">https://mirrors.aliyun.com/centos/7.9.2009/isos/x86_64/</a></p>
+<ul>
+<li>下载标准版(DVD)即可 , 如果下载缓慢或者失败,可以选择先下载种子文件,再通过迅雷下载</li>
+</ul>
+</li>
+</ul>
+<h3 id="VMware虚拟机下载"><a href="#VMware虚拟机下载" class="headerlink" title="VMware虚拟机下载"></a>VMware虚拟机下载</h3><ul>
+<li>虚拟机VMware官方下载地址 : <a target="_blank" rel="noopener" href="https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html">https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html</a><ul>
+<li>要付费的 , 许可证密钥可以百度获取</li>
+</ul>
+</li>
+</ul>
+<h3 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h3><ul>
+<li>01 双击 VMware 虚拟机安装包,启动安装 VMware , 直接下一步直到完成即可 , 安装完成后打开 VMware 如下</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/8cfce979aa2f43f99e5f43f9471ea2eb" alt="image-20231117140920166"></p>
+<ul>
+<li>02 点击创建新的虚拟机, 选择自定义 , 下一步 , 直接下一步 , 选择稍后安装操作系统 , 下一步</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/36228188cce14037823b341cda7f97fd" alt="image-20231117141255632"></p>
+<ul>
+<li>03 选择客户机操作系统为 Linux , 版本选择为 CentOS 7 64 位 , 下一步</li>
+<li>04 输入虚拟机名称 , 并选择保存地址 , 下一步</li>
+<li>05 根据实际需要 , 选择处理器数量和内核数量(注意不能超过物理机的内核总数),下一步</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/14371c9bd4e445fb869fdc477fa35322" alt="image-20231117141703006"></p>
+<ul>
+<li>06 选择虚拟机内存 , 下一步</li>
+<li>07 选择网络类型为 “使用网络地址转换” , 下一步</li>
+<li>08 选择 I&#x2F;O 控制器类型为 “LSI Logic(L)” ,下一步</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/756810933ef741afb724cc97772afc41" alt="image-20231117142030334"></p>
+<ul>
+<li>09 选择磁盘为 “创建新虚拟磁盘” , 下一步</li>
+<li>10 根据实际需要 , 指定磁盘容量 , 下一步</li>
+<li>11 下一步</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/43dee4cd33d94e4fb44cbad874207611" alt="image-20231117142352800"></p>
+<ul>
+<li>12 点击完成即可完成创建</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/57a1313cf194483d86aeb8c2351fc088" alt="image-20231117142437165"></p>
+<ul>
+<li>13 确认物理机的虚拟化已启用<ul>
+<li>如何开启虚拟化 : 进入 BIOS 设置, 启动 CPU 虚拟化</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/b47787558d2e417ab8d8ddc926853e21" alt="image-20231117142734277"></p>
+<h3 id="安装CentOS系统"><a href="#安装CentOS系统" class="headerlink" title="安装CentOS系统"></a>安装CentOS系统</h3><ul>
+<li>01 打开 VMware , 双击 “CD&#x2F;DVD(IDE)” , 进行虚拟机设置 , 并选择 CentOS 镜像 , 点击确定后即可开启虚拟机进行 CentOS 的安装</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/ec577f0962de493c893c5ada3b473cbc" alt="image-20231117143507783"></p>
+<ul>
+<li>02 通过键盘选择第一个选项 “install CentOs 7” , 回车</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/f7466da3b9a448b09f5f0a113eed1da8" alt="image-20231117143843168"></p>
+<ul>
+<li>03 选择语言 , 点击继续</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/0b08269c040b47e28a2a35bfdbc321f4" alt="image-20231117144113962"></p>
+<ul>
+<li>04 选择软件为 “GNOME桌面”</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/a1442f91c28f4cf2a6887c19bbab1e6c" alt="image-20231117144753716"></p>
+<ul>
+<li>05 点击”安装位置”, 选择 “我要配置分区” , 点击完成</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/a949ff289d7645e785087dd723fdaa4e" alt="image-20231117150040762"></p>
+<ul>
+<li>06 添加以下三个挂载点 , 点击完成 , 点击接受更改</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/0f9485c70ee44c26a5e638dc02723f8d" alt="image-20231117150814295"></p>
+<ul>
+<li>07 禁用 KDUMP</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/e1360575fb0c48288f250095a27227d3" alt="image-20231117151041704"></p>
+<ul>
+<li>08 设置网络主机名</li>
+</ul>
+<p>![image-20231117151349272](<a target="_blank" rel="noopener" href="https://s1.vika.cn/space/2023/11/17/4343cc6a6b7c42858f6###">https://s1.vika.cn/space/2023/11/17/4343cc6a6b7c42858f6###</a> 2a5c3f3c6a)</p>
+<ul>
+<li><p>09 点击开始安装</p>
+</li>
+<li><p>10 设置密码 “root123456”</p>
+<ul>
+<li>在生成环境中,该密码必须要足够复杂</li>
+</ul>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/4964341a0538424caa79acc6d71eef8a" alt="image-20231117151634111" style="zoom:80%;" />
+
+<ul>
+<li>11 设置用户名 “atguigu”</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/77eee1fb86d74f0cba8923a46715a225" alt="image-20231117151838094" style="zoom:80%;" />
+
+<ul>
+<li>12 等待安装完成,重启,接受协议,点击完成配置即可</li>
+</ul>
+<h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/17/469a2efbcf074d588f42c8d882f7654c" alt="image-20231117204659091"></p>
+<h2 id="Vi-Vim编辑器"><a href="#Vi-Vim编辑器" class="headerlink" title="Vi &#x2F; Vim编辑器"></a>Vi &#x2F; Vim编辑器</h2><h3 id="Vi-Vim编辑器-1"><a href="#Vi-Vim编辑器-1" class="headerlink" title="Vi &#x2F; Vim编辑器"></a>Vi &#x2F; Vim编辑器</h3><ul>
+<li>VI 是Unix操作系统和类Unix 操作系统中最通用的文本编辑器</li>
+<li>VIM 编辑器是从VI发展出来的一个性能更强大的文本编辑器。可以主动的以字体颜色辨别语法的正确性，方便程序设计。VIM与V编辑器完全兼容。</li>
+</ul>
+<h3 id="Vi-Vim-编辑器的打开"><a href="#Vi-Vim-编辑器的打开" class="headerlink" title="Vi &#x2F; Vim 编辑器的打开"></a>Vi &#x2F; Vim 编辑器的打开</h3><ul>
+<li>01 默认不支持输入汉字,需要添加汉语输入法 : 应用程序 - 系统工具 - 设置<ul>
+<li>在 Linux 中 , 切换输入法 : “win + 空格”</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/18/f6e0aab3aa5243f4a147b8dfc3d0a1ce" alt="image-20231118103423634"></p>
+<ul>
+<li>02 桌面右击 - 打开终端</li>
+<li>03 进入到指定的目录下 , 输入命令 “vim xxxxx.xxx” 或者 “vi xxxxx.xxx”, 即可打开指定文件 , 默认是一般模式</li>
+</ul>
+<h3 id="模式间转换"><a href="#模式间转换" class="headerlink" title="模式间转换"></a>模式间转换</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/18/ef1347edcf404d3787bc2c36c62a83ee" alt="image-20231118103659988"></p>
+<h3 id="一般模式"><a href="#一般模式" class="headerlink" title="一般模式"></a>一般模式</h3><ul>
+<li>复制当前行命令 : “yy”</li>
+<li>复制从当前光标位置到行末 : 先按 “y” , 再按 “$”, (特殊字符通过配合 shift 键即可按出)</li>
+<li>复制从行首到光标位置 : 先按 “y” , 再按 “^”, (特殊字符通过配合 shift 键即可按出)</li>
+<li>复制光标当前位置的单词 : 先按 “y” , 再按 “w”</li>
+<li>粘贴命令 : “p”</li>
+<li>删除当前行 : “dd”</li>
+<li>删除指定行数 : “3dd” , (删除当前行以及后面的两行,一共删除三行)</li>
+<li>删除光标所在位置的单词 : 先按 “d” , 再按 “w”</li>
+<li>从右往左逐个删除 : “shift + x” , (相当于 win 的退格删除)</li>
+<li>撤销操作 : “u” , (相当于window系统的 ctrl + z)</li>
+<li>跳转到下一个单词开头 : “w”</li>
+<li>显示行号 : “:set nu”</li>
+<li>关闭行号 : “:set nonu”</li>
+</ul>
+<h3 id="编辑模式"><a href="#编辑模式" class="headerlink" title="编辑模式"></a>编辑模式</h3><ul>
+<li>按下 “i” , 即可进入编辑模式 , 按下 “ESC” , 退回到一般模式</li>
+</ul>
+<h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><ul>
+<li>按下冒号 “:” , 即可进入命令模式 , 命令 “:wq” 为保存并退出</li>
+</ul>
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><h3 id="网络连接测试"><a href="#网络连接测试" class="headerlink" title="网络连接测试"></a>网络连接测试</h3><ul>
+<li>查看虚拟机和物理机的 IP 地址 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/37237a99fbdd467a8e417e9f68ae78db" alt="image-20231220191004109"></p>
+<ul>
+<li>测试虚拟机连接物理机 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/58ee635568984d1490ff75ea33861f5e" alt="image-20231220191049647"></p>
+<ul>
+<li>测试物理机连接虚拟机 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/f1f68c53f5204188a34ea3f1b609be88" alt="image-20231220191133439"></p>
+<h3 id="网络连接模式"><a href="#网络连接模式" class="headerlink" title="网络连接模式"></a>网络连接模式</h3><ul>
+<li>桥接模式<ul>
+<li>虚拟机直接连接外部物理网络的模式，主机起到了网桥的作用。这种模式下，虚拟机可以直接访问外部网络，并且对外部网络是可见的。“</li>
+</ul>
+</li>
+<li>NAT 模式“<ul>
+<li>虚拟机和主机构建一个专用网络，并通过虚拟网络地址转换 (NAT)设备对 IP 进行转换。</li>
+<li>虚拟机通过共享主机IP 可以访问外部网络，但外部网络无法访问虚拟机。</li>
+</ul>
+</li>
+<li>仅主机模式<ul>
+<li>虚拟机只与主机共享一个专用网络，与外部网络无法通信。</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改静态IP"><a href="#修改静态IP" class="headerlink" title="修改静态IP"></a>修改静态IP</h3><ul>
+<li>使用自动获取 IP 即可</li>
+</ul>
+<h3 id="配置主机名"><a href="#配置主机名" class="headerlink" title="配置主机名"></a>配置主机名</h3><ul>
+<li>方法一 : 输入 : <code>vim /etc/hostname</code> , 修改配置文件,并重启虚拟机系统即可 </li>
+<li>方法二: 输入 : <code>hostnamectl set-hostname xxxxxxxxx</code> 即可直接修改主机名</li>
+</ul>
+<h2 id="远程登录"><a href="#远程登录" class="headerlink" title="远程登录"></a>远程登录</h2><ul>
+<li>在本地物理机终端输入 : <code>ssh root@192.168.1.9</code> , 再输入 <code>yes</code> , 再输入虚拟机的用户密码即可</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/5b16825206e34467b7c01c3e35f92de1" alt="image-20231220193133507"></p>
+<ul>
+<li>使用 Xshell 登录虚拟机 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/176eb2c050da4feba6d3fb75428de720" alt="image-20231220194339753"></p>
+<ul>
+<li>Xftp 连接虚拟机 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/aa6314419fce407398dedd674f0c3b5a" alt="image-20231220194924912"></p>
+<h2 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h2><h3 id="进程和服务"><a href="#进程和服务" class="headerlink" title="进程和服务"></a>进程和服务</h3><ul>
+<li>计算机中，一个正在执行的程序或命令，被叫做 “进程’ (process)</li>
+<li>启动之后一直存在、常驻内存的进程，一般被称作“服务 (service)</li>
+</ul>
+<h3 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h3><ul>
+<li>基本语法 : <ul>
+<li>终端输入 <code>systemctl start|stop|restart|status 服务名</code><ul>
+<li>这是 Centos 7 的写法</li>
+</ul>
+</li>
+<li>查看服务的方法 : <ul>
+<li>终端输入 <code>ls /usr/lib/systemd</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="系统运行级别"><a href="#系统运行级别" class="headerlink" title="系统运行级别"></a>系统运行级别</h3><ul>
+<li>系统运行过程:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/20/9af4edb6c7a0465d8385f3d5a75da53a" alt="image-20231220200937459"></p>
+<ul>
+<li><p>运行级别 :</p>
+<ul>
+<li>Linux系统有7种运行级别(runlevel): 常用的是级别3和5<ul>
+<li>运行级别0: 系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</li>
+<li>运行级别1: 单用户工作状态，root权限，用于系统维护，禁止远程登陆</li>
+<li>运行级别2: 多用户状态(没有NFS)，不支持网络</li>
+<li>运行级别3: 完全的多用户状态(有NFS)，登陆后进入控制台命令行模式</li>
+<li>运行级别4: 系统未使用，保留</li>
+<li>运行级别5: X11控制台，登陆后进入图形GUI模式</li>
+<li>运行级别6: 系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>CentOS7的运行级别简化为:</p>
+<ul>
+<li>multi-user.target : 等价于原运行级别3(多用户有网，无图形界面)</li>
+<li>graphical.target :  等价于原运行级别 5(多用户有网，有图形界面)</li>
+</ul>
+</li>
+<li><p>查看当前运行级别 :</p>
+<ul>
+<li>终端输入 : <code>systemctl get-default</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="关机与重启"><a href="#关机与重启" class="headerlink" title="关机与重启"></a>关机与重启</h3><ul>
+<li><p>(1) sync : (功能描述:将数据由内存同步到硬盘中)“</p>
+</li>
+<li><p>(2) halt : (功能描述:停机，关闭系统，但不断电)“</p>
+</li>
+<li><p>(3) poweroff : (功能描述:关机，断电)“</p>
+</li>
+<li><p>(4) reboot: (功能描述:就是重启，等同于 shutdown-r now)</p>
+</li>
+<li><p>(5) 关机 : </p>
+<ul>
+<li>延迟关机(默认) : 终端输入 <code>shutdown</code> , 回车,将会在 1min 后关机</li>
+<li>立即关机 : 终端输入 <code>shutdowm now</code> , 回车即可立即关机</li>
+<li>在指定时间关机 : <ul>
+<li>终端输入 : <code>shutdown 5</code> , 回车即可在 5min 后自动关机</li>
+<li>终端输入: <code>shutdown 15:30</code> , 回车即可在 15:30 自动关机</li>
+</ul>
+</li>
+<li>在未关机前,终端输入 <code>shutdown -c</code> , 即可取消关机</li>
+</ul>
+</li>
+</ul>
+<h1 id="实操篇-常用Shell基本命令"><a href="#实操篇-常用Shell基本命令" class="headerlink" title="实操篇_常用Shell基本命令"></a>实操篇_常用Shell基本命令</h1><h2 id="帮助命令类"><a href="#帮助命令类" class="headerlink" title="帮助命令类"></a>帮助命令类</h2><ul>
+<li>Shell可以看作是一个命令解释器，为我们提供了交互式的文本控制台界面。</li>
+<li>我们可以通过终端控制台来输入命令，由 shell进行解释并最终交给内核执行。</li>
+<li>本章就将分类介绍常用的基本 shell 命令。</li>
+</ul>
+<h3 id="man-帮助信息"><a href="#man-帮助信息" class="headerlink" title="man 帮助信息"></a>man 帮助信息</h3><ul>
+<li>终端输入 <code>man ls</code> : <ul>
+<li>查看 <code>ls</code> 命令的帮助信息</li>
+</ul>
+</li>
+</ul>
+<h3 id="help-内置帮助信息"><a href="#help-内置帮助信息" class="headerlink" title="help 内置帮助信息"></a>help 内置帮助信息</h3><ul>
+<li>一部分基础功能的系统命令是直接内嵌在shell 中的，系统加载启动之后会随着shell一起加载，常驻系统内存中。</li>
+<li>这部分命令被称为“内置（built-in）命令”；</li>
+<li>相应的其它命令被称为“外部命令”。</li>
+<li>基本语法 : <code>help 命令</code><ul>
+<li>例如 : 终端输入 <code>help cd</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="查看命令类型"><a href="#查看命令类型" class="headerlink" title="查看命令类型"></a>查看命令类型</h3><ul>
+<li>命令 : <code>type pwd</code><ul>
+<li>查看 <code>pwd</code> 命令的类型</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件目录类"><a href="#文件目录类" class="headerlink" title="文件目录类"></a>文件目录类</h2><h3 id="查看当前目录绝对路径"><a href="#查看当前目录绝对路径" class="headerlink" title="查看当前目录绝对路径"></a>查看当前目录绝对路径</h3><ul>
+<li>命令 : <code>pwd</code> <ul>
+<li>显示当前工作目录的绝对路径</li>
+<li>例如 : 终端输入 <code>pwd</code> , 即可显示当前工作目录的绝对路径</li>
+</ul>
+</li>
+</ul>
+<h3 id="列出当前目录内容"><a href="#列出当前目录内容" class="headerlink" title="列出当前目录内容"></a>列出当前目录内容</h3><ul>
+<li>命令 : <code>ls</code><ul>
+<li>列出当前目录内容</li>
+</ul>
+</li>
+</ul>
+<h3 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h3><ul>
+<li>命令 : <code>mkdir a</code><ul>
+<li>在当前目录下创建文件夹 a</li>
+</ul>
+</li>
+<li>命令 : <code>mkdir /a</code><ul>
+<li>在 <code>/</code> 目录下创建文件夹 a</li>
+</ul>
+</li>
+</ul>
+<h3 id="删除目录"><a href="#删除目录" class="headerlink" title="删除目录"></a>删除目录</h3><ul>
+<li>命令 : <code>rmdir a</code><ul>
+<li>删除当前目录下的 a 文件夹</li>
+</ul>
+</li>
+</ul>
+<h3 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h3><ul>
+<li>命令 : <code>touch hello</code><ul>
+<li>在当前目录创建 <code>hello.txt</code> 文件,创建时可以不带后缀,默认是 txt 文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="复制文件或目录"><a href="#复制文件或目录" class="headerlink" title="复制文件或目录"></a>复制文件或目录</h3><ul>
+<li>命令 : <code>cp hello.txt ./b</code><ul>
+<li>将当前目录下的 hello.txt 文件复制当前目录下的 b 文件夹中</li>
+</ul>
+</li>
+<li>命令 : <code>cp -r a/ /home</code><ul>
+<li>递归将 a 文件夹复制到 home 文件夹中</li>
+</ul>
+</li>
+</ul>
+<h3 id="删除文件或目录"><a href="#删除文件或目录" class="headerlink" title="删除文件或目录"></a>删除文件或目录</h3><ul>
+<li><p>命令 : <code>rm hello.txt</code> , 输入 <code>y</code></p>
+<ul>
+<li>即可删除当前目录下的 hello.txt 文件</li>
+</ul>
+</li>
+<li><p>命令 : <code>rm -r a</code> ,  输入 <code>y</code></p>
+<ul>
+<li>即可删除当前目录下的 a 文件夹</li>
+</ul>
+</li>
+<li><p>命令 : <code>rm -rf b</code></p>
+<ul>
+<li>加上<code>f</code>参数 , 即可直接删除指定 b 目录,不会再有确认提醒,慎用该指令</li>
+</ul>
+</li>
+</ul>
+<h3 id="文件重命名"><a href="#文件重命名" class="headerlink" title="文件重命名"></a>文件重命名</h3><ul>
+<li>命令 : <code>mv a.txt b.txt</code><ul>
+<li>将当前目录下的 a.txt 文件重命名为 b.txt</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h3><ul>
+<li>命令 : <code>cat -n b.txt</code><ul>
+<li>查看当前目录下 b.txt 文件的所有内容 </li>
+<li><code>-n</code> 参数决定行号的显示</li>
+</ul>
+</li>
+<li>命令 : <code>more b.txt</code><ul>
+<li>more 指令是一个基于VI编辑器的文本过滤器，它以全屏幕的方式按页显示文本文件的内容。</li>
+</ul>
+</li>
+<li>命令 : <code>less b.txt</code><ul>
+<li>less指令用来分屏查看文件内容，它的功能与more指令类似，但是比more指令更加强大，支持各种显示终端。</li>
+<li>less指令在显示文件内容时，并不是一次将整个文件加载之后才显示，而是根据显示需要加载内容，对于显示大型文件具有较高的效率。</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><ul>
+<li><p>命令 : <code>echo -e &#39;hello world&#39;</code></p>
+<ul>
+<li>直接在控制台输出 ‘hello world’</li>
+<li><code>-e</code> 参数支持反斜线控制的字符转换</li>
+</ul>
+</li>
+<li><p>命令 : <code>head -n 5 a.txt</code></p>
+<ul>
+<li>head用于显示文件的开头部分内容，默认情况下head指令显示文件的前10行内容。</li>
+<li><code>-n 5</code> 查看文件头5行内容，5 可以是任意行数</li>
+</ul>
+</li>
+<li><p>命令 : <code>tail -n 5 a.txt</code></p>
+<ul>
+<li>tail 用于输出文件中尾部的内容，默认情况下tail指令显示文件的后10行内容。</li>
+<li><code>-n 5</code> 查看文件尾部5行内容，5 可以是任意行数</li>
+</ul>
+</li>
+</ul>
+<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><ul>
+<li>命令 : <code>ln -s /root/info.txt myInfo</code><ul>
+<li>在当前目录下新建 myInfo 链接文件,指向 <code>/root/info.txt</code> 文件</li>
+</ul>
+</li>
+<li>命令 : <code>ln -s /root/info/ myInfo</code><ul>
+<li>在当前目录下新建 myInfo 链接文件,指向 <code>/root/info/</code> 文件夹</li>
+</ul>
+</li>
+</ul>
+<h3 id="历史命令"><a href="#历史命令" class="headerlink" title="历史命令"></a>历史命令</h3><ul>
+<li>命令 : <code>history 10</code><ul>
+<li>查看执行过的命令</li>
+<li>参数 : 10 , 查看最近输入的 10 条指令</li>
+</ul>
+</li>
+</ul>
+<h2 id="时间日期类"><a href="#时间日期类" class="headerlink" title="时间日期类"></a>时间日期类</h2><ul>
+<li><p>显示当前时间信息 : </p>
+<ul>
+<li>终端命令 : <code>date</code><ul>
+<li>Fri Dec 22 20:35:12 CST 2023</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显示当前年份 : </p>
+<ul>
+<li>终端命令 : <code>date +%Y</code><ul>
+<li>2023</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显示当前月份 :</p>
+<ul>
+<li>终端命令 : <code>date +%m</code><ul>
+<li>12</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显示当前日 : </p>
+<ul>
+<li>终端命令 : <code>date +%d</code><ul>
+<li>22</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显示当前日期与时分秒 : </p>
+<ul>
+<li>终端命令 : <code>date &quot;+%Y-%m-%d %H:%M:%S&quot;</code><ul>
+<li>2023-12-22 20:40:49</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显示指定多少时间前,多少时间后的时间 : </p>
+<ul>
+<li><p>终端命令 :<code>date -d &quot;1 days ago&quot;</code> , 显示一天前的时间</p>
+<ul>
+<li>Thu Dec 21 20:43:29 CST 2023</li>
+</ul>
+</li>
+<li><p>终端命令 :<code>date -d &quot;-1 days ago&quot;</code> , 显示一天后的时间</p>
+<ul>
+<li>Thu Dec 23 20:43:29 CST 2023</li>
+</ul>
+</li>
+<li><p>终端命令 :<code>date -d &quot;-1 hours ago&quot;&quot;</code> , 显示 1h 后的时间</p>
+<ul>
+<li>Thu Dec 23 21:43:29 CST 2023</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>将当前的系统时间设置为指定时间 : </p>
+<ul>
+<li>终端命令 : <code>date -s 2027-06-19 20:52:18</code></li>
+</ul>
+</li>
+<li><p>查看日历:</p>
+<ul>
+<li>终端命令 : <code>cal</code> 查看当前月的日历</li>
+<li>终端命令 : <code>cal -3</code> 同时查看 3 个月(上一个月,当前月,下一个月)的日历</li>
+<li>终端命令 : <code>cal 2022</code> 查看 2022 年所有的日历</li>
+</ul>
+</li>
+</ul>
+<h2 id="用户管理类"><a href="#用户管理类" class="headerlink" title="用户管理类"></a>用户管理类</h2><h3 id="查看用户"><a href="#查看用户" class="headerlink" title="查看用户"></a>查看用户</h3><ul>
+<li>查看当前的所有用户 : <ul>
+<li>终端输入 : <code>cd /home</code> , 再输入 <code>ls</code></li>
+</ul>
+</li>
+<li>查看某个用户是否存在 : <ul>
+<li>终端输入 : <code>id tony</code><ul>
+<li>查看 tony 用户是否存在</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查看当前的所有用户,包含系统默认创建的用户 : <ul>
+<li>终端输入 : <code>less /etc/passwd</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><ul>
+<li>添加用户 : <ul>
+<li>终端输入 : <code>useradd tony</code><ul>
+<li>添加一个叫 tony 的用户</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="添加用户密码"><a href="#添加用户密码" class="headerlink" title="添加用户密码"></a>添加用户密码</h3><ul>
+<li>添加用户密码 : <ul>
+<li>终端输入 : <code>passwd tony</code><ul>
+<li>给 tony 用户设置密码</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="切换用户"><a href="#切换用户" class="headerlink" title="切换用户"></a>切换用户</h3><ul>
+<li>切换用户:<ul>
+<li>终端输入 : <code>su tony</code><ul>
+<li>切换到 tony 用户</li>
+</ul>
+</li>
+<li>从 root 用户切换到普通用户,不需要输入密码 , 从普通用户切换到普通用户就需要输入用户密码 , 从普通用户切换到 root 用户也需要输入密码</li>
+</ul>
+</li>
+</ul>
+<h3 id="给普通用户增加权限"><a href="#给普通用户增加权限" class="headerlink" title="给普通用户增加权限"></a>给普通用户增加权限</h3><ul>
+<li>给普通用户增加 root 权限<ul>
+<li>终端输入命令 : <ul>
+<li>在 root 用户下 ,终端输入 <code>vim /etc/sudoers</code> , 新增一行 , 指定对应用户的权限</li>
+<li>再切换到普通用户(<code>su tony</code>) , 终端输入 <code>sudo ls</code> ,输入 tony 用户的密码即可</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/23/c12a6d62eb324ef9ad386b982cd9ea4a" alt="image-20231223113248639"></p>
+<h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h3><ul>
+<li><p>删除用户 : </p>
+<ul>
+<li><p>终端命令 : <code>userdel tony</code></p>
+<ul>
+<li><p>删除掉 tony 用户 , 但是 tony 用户的目录还是会被默认保留的, 可以通过 <code>rm -rf tony/</code> 命令删除用户对应的目录,但是不建议删除该用户目录</p>
+</li>
+<li><p>直接删除 : <code>userdel -r tony</code> , 直接连同用户目录一起删除</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="用户组管理"><a href="#用户组管理" class="headerlink" title="用户组管理"></a>用户组管理</h3><ul>
+<li>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。</li>
+<li>不同Linux系统对用户组的规定有所不同，如Linux下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。</li>
+<li>用户组的管理涉及用户组的添加、删除和修改。组的增加、删除和修改实际上就是对&#x2F;etc&#x2F;group文件的更新。</li>
+</ul>
+<h3 id="查看用户组信息"><a href="#查看用户组信息" class="headerlink" title="查看用户组信息"></a>查看用户组信息</h3><ul>
+<li>查看用户组信息 : <ul>
+<li>终端命令 : <code>cat /etc/group</code> , 非 root 用户要在命令前面添加 <code>sudo</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="新建用户组"><a href="#新建用户组" class="headerlink" title="新建用户组"></a>新建用户组</h3><ul>
+<li>终端命令 : <ul>
+<li>在 root 用户下输入 : <code>groupadd meifa </code> , 即可添加 meifa 用户组</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改用户的组"><a href="#修改用户的组" class="headerlink" title="修改用户的组"></a>修改用户的组</h3><ul>
+<li>终端命令 : <ul>
+<li>在 root 用户下输入 : <code>usermod -g meifa tony </code> , 即可将 tony 用户添加到 meifa 用户组</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改组名"><a href="#修改组名" class="headerlink" title="修改组名"></a>修改组名</h3><ul>
+<li>终端命令 : <ul>
+<li>在 root 用户下输入 : <code>groupmod -n haircut meifa</code> , 即可修改 meifa 的组名为 haircut</li>
+</ul>
+</li>
+</ul>
+<h3 id="删除用户组"><a href="#删除用户组" class="headerlink" title="删除用户组"></a>删除用户组</h3><ul>
+<li>终端命令 : <ul>
+<li>在 root 用户下输入 :<code>groupdel tony</code> , 即可删除指定用户组</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件权限类"><a href="#文件权限类" class="headerlink" title="文件权限类"></a>文件权限类</h2><h3 id="文件权限介绍"><a href="#文件权限介绍" class="headerlink" title="文件权限介绍"></a>文件权限介绍</h3><ul>
+<li>Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统的安至性，Linux系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</li>
+<li>在 Linux 中我们可以使用<code>ll</code>或者<code>ls -l</code>命令来显示一个文件的属性以及文件所属的用户和组。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/23/f6ca6a450c6b4c6da603f3012b2e356b" alt="image-20231223120442223"></p>
+<ul>
+<li>（1）0首位表示类型在Linux中第一个字符代表这个文件是目录、文件或链接文件等等-代表文件d代表目录1链接文档(linkfile);S</li>
+<li>（2）第1-3位确定属主（该文件的所有者）拥有该文件的权限。—Userar</li>
+<li>（3）第4-6位确定属组（所有者的同组用户）拥有该文件的权限，—Group</li>
+<li>（4）第7-9位确定其他用户拥有该文件的权限—Other</li>
+<li>rwx作用文件和目录的不同解释<ul>
+<li>（1）作用到文件：<ul>
+<li>[r]代表可读(read):可以读取，查看</li>
+<li>[w]代表可写(write):可以修改，但是不代表可以删除该文件，删除一个文件的前提条件是对该文件所在的目录有写权限，才能删除该文件.</li>
+<li>[x]代表可执行(execute):可以被系统执行</li>
+</ul>
+</li>
+<li>（2）作用到目录：<ul>
+<li>[r]代表可读(read):可以读取，ls查看目录内容</li>
+<li>[w］代表可写(write):可以修改，目录内创建+删除+重命名目录</li>
+<li>[x]代表可执行(execute):可以进入该目录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="更改文件权限"><a href="#更改文件权限" class="headerlink" title="更改文件权限"></a>更改文件权限</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/23/b5514601f45c419b9ea13dff622b1702" alt="image-20231223133850735"></p>
+<ul>
+<li>第一种变更权限方法 : <code>chmod [&#123;ugoa&#125;&#123;+-=&#125;&#123;rwx&#125;] 文件或目录</code> </li>
+<li>第二种变更权限方法 : <code>chmod [mode=421][文件或目录]</code><ul>
+<li>u:所有者 g:所有组 o:其他人 a:所有人(u、g、o 的总和)</li>
+<li>r&#x3D;4 w&#x3D;2 x&#x3D;1 rwx&#x3D;4+2+1&#x3D;7</li>
+</ul>
+</li>
+</ul>
+<h3 id="更改文件所有者"><a href="#更改文件所有者" class="headerlink" title="更改文件所有者"></a>更改文件所有者</h3><ul>
+<li>终端命令 : <code>chown auguigu houge.txt</code><ul>
+<li><code>ls -al</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="改变所属组"><a href="#改变所属组" class="headerlink" title="改变所属组"></a>改变所属组</h3><ul>
+<li>终端命令 : <code>chgrp root houge.txt</code><ul>
+<li><code>ls -al</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="文件查找类"><a href="#文件查找类" class="headerlink" title="文件查找类"></a>文件查找类</h2><h3 id="find文件查找"><a href="#find文件查找" class="headerlink" title="find文件查找"></a>find文件查找</h3><ul>
+<li>find指令将从指定目录向下递归地遍历其各个子目录，将满足条件的文件显示在终端。<ul>
+<li>终端命令 : <code>find -name info</code><ul>
+<li>查找当前目录下的所有叫 info 的文件</li>
+</ul>
+</li>
+<li>终端命令 : <code>find /root -name info</code><ul>
+<li>查找 <code>/root</code> 目录下的所有叫 info 的文件</li>
+</ul>
+</li>
+<li>终端命令 : <code>find /root -name &quot;*.cfg&quot;</code><ul>
+<li>查找 <code>/root</code> 目录下的所有后缀为 <code>.cfg</code> 的文件</li>
+</ul>
+</li>
+<li>终端命令 : <code>find /root -size +10M</code><ul>
+<li>查找 <code>/root</code> 目录下的所有大于 10M 的文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="locate定位文件路径"><a href="#locate定位文件路径" class="headerlink" title="locate定位文件路径"></a>locate定位文件路径</h3><ul>
+<li>locate指令利用事先建立的系统中所有文件名称及路径的locate数据库实现快速定位给定的文件。</li>
+<li>Locate指令无需遍历整个文件系统，查询速度较快。</li>
+<li>为了保证查询结果的准确度，管理员必须定期更新 locate 时刻。</li>
+<li>终端命令 : <code>locate tmp</code> <ul>
+<li>查找所有叫 tmp 的文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="grep过滤查找和管道符"><a href="#grep过滤查找和管道符" class="headerlink" title="grep过滤查找和管道符"></a>grep过滤查找和管道符</h3><ul>
+<li>管道符，“|”，表示将前一个命令的处理结果输出传递给后面的命令处理</li>
+<li>基本语法 : <ul>
+<li>grep -n 查找内容 源文件<ul>
+<li>参数 -n: 显示匹配行和行号</li>
+<li>终端命令 : <code>ls | grep -n boot initial-setup-ks.cfg</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件压缩类"><a href="#文件压缩类" class="headerlink" title="文件压缩类"></a>文件压缩类</h2><h3 id="gzip-gunzip压缩"><a href="#gzip-gunzip压缩" class="headerlink" title="gzip&#x2F;gunzip压缩"></a>gzip&#x2F;gunzip压缩</h3><ul>
+<li>1）基本语法<ul>
+<li><code>gzip 文件</code>（功能描述：压缩文件，只能将文件压缩为*.gz文件）<ul>
+<li>终端命令 : <code>gzip xzhdx.txt</code></li>
+</ul>
+</li>
+<li><code>gunzip 文件.gz</code>（功能描述：解压缩文件命令）<ul>
+<li>终端命令 : <code>gunzip xzhdx.txt.gz</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2）经验技巧<ul>
+<li>（1）只能压缩文件不能压缩目录</li>
+<li>（2）不保留原来的文件</li>
+<li>（3）同时多个文件会产生多个压缩包</li>
+</ul>
+</li>
+</ul>
+<h3 id="zip-unzip压缩"><a href="#zip-unzip压缩" class="headerlink" title="zip&#x2F;unzip压缩"></a>zip&#x2F;unzip压缩</h3><ul>
+<li>基本语法 : <ul>
+<li><code>zip [选项] XXX.zip</code> 将要压缩的内容(功能描述：压缩文件和目录的命令)<ul>
+<li>选项 <code>-r</code> : 压缩目录</li>
+</ul>
+</li>
+<li><code>unzip [选项] XXX.zip</code>（功能描述：解压缩文件）<ul>
+<li>选项 <code>-d</code> : 指定解压后文件的存放目录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="tar打包与解包"><a href="#tar打包与解包" class="headerlink" title="tar打包与解包"></a>tar打包与解包</h3><ul>
+<li>基本语法 : <ul>
+<li><code>tar [选项] xxxx.tar.gz</code> 将要打包进去的内容<ul>
+<li>选项 : <ul>
+<li><code>-c</code> : 产生 .tar 打包文件</li>
+<li><code>-V</code> 显示详细信息</li>
+<li><code>-f</code> 指定压缩后的文件名</li>
+<li><code>-z</code> 打包同时压缩</li>
+<li><code>-X</code> 解包.tar 文件</li>
+<li><code>-C</code> 解压到指定目录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>终端命令 :<ul>
+<li>打包 :  <code>tar -zcvf temp.tar.gz initial-setup-ks.cfg xzhdx.txt info 公共/</code></li>
+<li>解包 : <code>tar -zxvftemp.tar.gz -C/tmp</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="磁盘分区类"><a href="#磁盘分区类" class="headerlink" title="磁盘分区类"></a>磁盘分区类</h2><h3 id="查看文件或目录的大小"><a href="#查看文件或目录的大小" class="headerlink" title="查看文件或目录的大小"></a>查看文件或目录的大小</h3><ul>
+<li>终端命令 : <code>du 目录或文件</code><ul>
+<li>功能描述：显示目录下每个子目录的磁盘使用情况</li>
+<li>选项 : <ul>
+<li>-h 以人们较易阅读的 GBytes,MBytes,KBytes 等格式自行显示；</li>
+<li>-a 不仅查看子目录大小，还要包括文件</li>
+<li>-L 显示所有的文件和子目录大小后，显示总和’</li>
+<li>-C 只显示总和</li>
+<li>–max-depth&#x3D;n : 指定统计子目录的深度为第n层</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看磁盘使用情况"><a href="#查看磁盘使用情况" class="headerlink" title="查看磁盘使用情况"></a>查看磁盘使用情况</h3><ul>
+<li>1）基本语法<ul>
+<li><code>df 选项</code>（功能描述：列出文件系统的整体磁盘使用量，检查文件系统的磁盘空间占用情况）</li>
+</ul>
+</li>
+<li>2）选项说明<ul>
+<li><code>-h</code> 以人们较易阅读的 GBytes,MBytes,KBytes 等格式自行显示；</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看设备挂载情况"><a href="#查看设备挂载情况" class="headerlink" title="查看设备挂载情况"></a>查看设备挂载情况</h3><ul>
+<li>基本语法 : <code>lsblk</code> <ul>
+<li>功能描述：查看设备挂载情况</li>
+</ul>
+</li>
+<li>选项说明 :<ul>
+<li><code>-f</code> : 查看详细的设备挂载情况，显示文件系统信息</li>
+</ul>
+</li>
+</ul>
+<h3 id="mount-umount挂载-卸载"><a href="#mount-umount挂载-卸载" class="headerlink" title="mount&#x2F;umount挂载&#x2F;卸载"></a>mount&#x2F;umount挂载&#x2F;卸载</h3><ul>
+<li>对于Linux用户来讲，不论有几个分区，分别分给哪一个目录使用，它总归就是一个根目录、一个独立且唯一的文件结构。</li>
+<li>Linux中每个分区都是用来组成整个文件系统的一部分，它在用一种叫做“挂载”的处理方法，它整个文件系统中包含了一整套的文件和目录，并将一个分区和一个目录联系起来，要载入的那个分区将使它的存储空间在这个目录下获得。</li>
+</ul>
+<h3 id="fdisk分区"><a href="#fdisk分区" class="headerlink" title="fdisk分区"></a>fdisk分区</h3><ul>
+<li>基本语法 : <ul>
+<li><code>fdisk -l</code> : 查看磁盘分区详情<ul>
+<li><code>-l</code> : 显示所有硬盘的分区列表</li>
+</ul>
+</li>
+<li><code>fdisk 硬盘设备名</code> : 对新增硬盘进行分区操作</li>
+<li>fdisk 命令必须在 root 用户下使用</li>
+</ul>
+</li>
+</ul>
+<h2 id="进程线程类"><a href="#进程线程类" class="headerlink" title="进程线程类"></a>进程线程类</h2><h3 id="查看当前系统进程状态"><a href="#查看当前系统进程状态" class="headerlink" title="查看当前系统进程状态"></a>查看当前系统进程状态</h3><ul>
+<li>基本语法 : <ul>
+<li><code>ps aux | grep xxx</code> : 查看系统中所有进程</li>
+<li><code>ps -ef | grep xxx</code> : 可以查看子父进程之间的关系</li>
+</ul>
+</li>
+<li>选项 : <ul>
+<li>a 列出带有终端的所有用户的进程</li>
+<li>X 列出当前用户的所有进程，包括没有终端的进程</li>
+<li>u 面向用户友好的显示风格</li>
+<li>e 列出所有进程</li>
+<li>u 列出某个用户关联的所有进程</li>
+<li>f 显示完整格式的进程列表</li>
+</ul>
+</li>
+</ul>
+<h3 id="终止进程"><a href="#终止进程" class="headerlink" title="终止进程"></a>终止进程</h3><ul>
+<li>终止进程 : <code>kill -g 进程号</code><ul>
+<li>参数 : <code>-g</code> 表示进程立即停止</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看进程树"><a href="#查看进程树" class="headerlink" title="查看进程树"></a>查看进程树</h3><ul>
+<li>终端命令 : <code>pstree [选项]</code><ul>
+<li>选项 :<ul>
+<li><code>-p</code> : 显示进程的 PID</li>
+<li><code>-u</code> : 显示进程的所属用户</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="实时监控系统进程状态"><a href="#实时监控系统进程状态" class="headerlink" title="实时监控系统进程状态"></a>实时监控系统进程状态</h3><ul>
+<li>终端命令 : <code>top [选项]</code><ul>
+<li>选项 : <ul>
+<li><code>-d</code> 秒数指定 top 命令每隔几秒更新。默认是 3 秒在 top 命令的交互模式当中可以执行的命令：</li>
+<li><code>-i</code> 使 top 不显示任何闲置或者僵死进程。</li>
+<li><code>-p</code> 通过指定监控进程ID来仅仅监控某个进程的状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看网络状态与端口占用"><a href="#查看网络状态与端口占用" class="headerlink" title="查看网络状态与端口占用"></a>查看网络状态与端口占用</h3><ul>
+<li>基本语法 : <ul>
+<li><code>netstat -anp|grep 进程号</code>  (功能描述：查看该进程网络信息）</li>
+<li><code>netstat -nlp|grep 端口号</code>   (功能描述：查看网络端口号占用情况）</li>
+<li>选项 : <ul>
+<li><code>-a</code> 显示所有正在监听（listen）和未监听的套接字（socket）</li>
+<li><code>-n</code> 拒绝显示别名，能显示数字的全部转化成数字</li>
+<li><code>-l</code> 仅列出在监听的服务状态</li>
+<li><code>-p</code> 表示显示哪个进程在调用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="系统定时任务"><a href="#系统定时任务" class="headerlink" title="系统定时任务"></a>系统定时任务</h2><h3 id="crontab服务管理"><a href="#crontab服务管理" class="headerlink" title="crontab服务管理"></a>crontab服务管理</h3><ul>
+<li>重新启动 crond 服务 : <code>systemctl restart crond</code></li>
+</ul>
+<h3 id="crontab定时任务设置"><a href="#crontab定时任务设置" class="headerlink" title="crontab定时任务设置"></a>crontab定时任务设置</h3><ul>
+<li>终端命令 : <code>crond [选项]</code><ul>
+<li>选项 : <ul>
+<li><code>-e</code> 编辑 crontab 定时任务</li>
+<li><code>-l</code> 查询crontab 任务</li>
+<li><code>-r</code> 删除当前用户所有的crontab任务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="扩展篇"><a href="#扩展篇" class="headerlink" title="扩展篇"></a>扩展篇</h1><h2 id="软件包管理"><a href="#软件包管理" class="headerlink" title="软件包管理"></a>软件包管理</h2><h2 id="克隆虚拟机"><a href="#克隆虚拟机" class="headerlink" title="克隆虚拟机"></a>克隆虚拟机</h2><h2 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h2><h1 id="Docker部署"><a href="#Docker部署" class="headerlink" title="Docker部署"></a>Docker部署</h1><h2 id="镜像与容器"><a href="#镜像与容器" class="headerlink" title="镜像与容器"></a>镜像与容器</h2><ul>
+<li><p>当我们利用Docker安装应用时，Docker会自动搜索并下载应用<strong>镜像</strong>（<strong>image</strong>）<strong>。</strong></p>
+<ul>
+<li><strong>镜像不仅包含应用本身，还包含应用运行所需要的环境、配置、系统函数库。Docker会在运行镜像时创建一个隔离环境，称为</strong>容器（<strong>container</strong>）。</li>
+</ul>
+</li>
+<li><p><strong>镜像仓库</strong>：存储和管理镜像的平台，Docker官方维护了一个公共仓库：<a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a>。</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/23/4c7fdcbf40734f1b8722ff0379c3ff0a" alt="image-20231223220013246"></p>
+<h2 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h2><h3 id="卸载旧版"><a href="#卸载旧版" class="headerlink" title="卸载旧版"></a>卸载旧版</h3><p>首先如果系统中已经存在旧的Docker，则先卸载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \</span><br><span class="line">    docker-client \</span><br><span class="line">    docker-client-latest \</span><br><span class="line">    docker-common \</span><br><span class="line">    docker-latest \</span><br><span class="line">    docker-latest-logrotate \</span><br><span class="line">    docker-logrotate \</span><br><span class="line">    docker-engine</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置Docker的yum库"><a href="#配置Docker的yum库" class="headerlink" title="配置Docker的yum库"></a>配置Docker的yum库</h3><p>首先要安装一个yum工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后，执行命令，配置Docker的yum源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><p>最后，执行命令，安装Docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动和校验"><a href="#启动和校验" class="headerlink" title="启动和校验"></a>启动和校验</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看Docker版本</span></span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看是否能连接守护进程 , 如果不能连接,启动 Docker 即可</span></span><br><span class="line">docker images <span class="comment"># 查看本地镜像列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Docker</span></span><br><span class="line">systemctl start docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止Docker</span></span><br><span class="line">systemctl stop docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">systemctl restart docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开机自启</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行docker ps命令，如果不报错，说明安装启动成功</span></span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置镜像加速"><a href="#配置镜像加速" class="headerlink" title="配置镜像加速"></a>配置镜像加速</h3><p>这里以阿里云镜像加速为例。</p>
+<h3 id="注册阿里云账号"><a href="#注册阿里云账号" class="headerlink" title="注册阿里云账号"></a>注册阿里云账号</h3><p>首先访问阿里云网站:</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyun.com/">https://www.aliyun.com/</a></p>
+<p>注册一个账号。</p>
+<h3 id="开通镜像服务"><a href="#开通镜像服务" class="headerlink" title="开通镜像服务"></a>开通镜像服务</h3><p>在首页的产品中，找到阿里云的<strong>容器镜像服务</strong>：</p>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/e8f9c4241f8e4912bc742b04e2254248" alt="image-20231224140204745" style="zoom:150%;" />
+
+<p>点击后进入控制台：</p>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/0fd5a65b6ac64cde9732ce8ac4eea88c" alt="image-20231224140220554" style="zoom:150%;" />
+
+<p>首次可能需要选择立刻开通，然后进入控制台。</p>
+<h3 id="配置镜像加速-1"><a href="#配置镜像加速-1" class="headerlink" title="配置镜像加速"></a>配置镜像加速</h3><p>找到<strong>镜像工具</strong>下的<strong>镜像加速器</strong>：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/23/c6a21bd4ee054c76bab7b0d1edadc8be" alt="img"></p>
+<p>页面向下滚动，即可找到配置的文档说明：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/1428a4adbabd4360a0e06b404b5aafca" alt="image-20231224140622837"></p>
+<p>具体命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /etc/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制内容，注意把其中的镜像加速地址改成你自己的</span></span><br><span class="line"><span class="built_in">tee</span> /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://xxxxxx.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启Docker</span></span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="部署MySQL"><a href="#部署MySQL" class="headerlink" title="部署MySQL"></a>部署MySQL</h2><ul>
+<li><p>首先，我们利用Docker来安装一个MySQL软件，大家可以对比一下之前传统的安装方式，看看哪个效率更高一些。</p>
+</li>
+<li><p>如果是利用传统方式部署MySQL，大概的步骤有：</p>
+<ul>
+<li><p>搜索并下载MySQL安装包</p>
+</li>
+<li><p>上传至Linux环境</p>
+</li>
+<li><p>编译和配置环境</p>
+</li>
+<li><p>安装</p>
+</li>
+</ul>
+</li>
+<li><p>而使用Docker安装，仅仅需要一步即可，在命令行输入下面的命令（建议采用CV大法）：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name mysql \</span><br><span class="line">  -p 3306:3306 \</span><br><span class="line">  -e TZ=Asia/Shanghai \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=123 \</span><br><span class="line">  mysql</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/f1bda4b35e5240a28de906628a321751" alt="image-20231224144020860"></p>
+<ul>
+<li>如下图即为安装成功 : <ul>
+<li>Docker 安装成功,再次部署 MySQL , 也无需再次下载</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/21dc50e4264a46438147e7c7f0f7bbee" alt="image-20231224142313394"></p>
+<ul>
+<li><p>MySQL安装完毕！通过任意客户端工具即可连接到MySQL.</p>
+</li>
+<li><p>通过 Navicat 连接数据库:</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/24/aa24840139494650bf74f82b4d5c3670" alt="image-20231224142115691"></p>
+<h1 id="Docker基础"><a href="#Docker基础" class="headerlink" title="Docker基础"></a>Docker基础</h1><h2 id="Docker常见命令"><a href="#Docker常见命令" class="headerlink" title="Docker常见命令"></a>Docker常见命令</h2><h3 id="Docker常见命令-1"><a href="#Docker常见命令-1" class="headerlink" title="Docker常见命令"></a>Docker常见命令</h3><ul>
+<li>Docker最常见的命令就是操作镜像、容器的命令，详见官方文档：<a target="_blank" rel="noopener" href="https://docs.docker.com/">https://docs.docker.com/</a></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/51406da728134d19b09b9b0af59cff74" alt="image-20231225123858442"></p>
+<h3 id="案例-拉取Nginx镜像"><a href="#案例-拉取Nginx镜像" class="headerlink" title="案例-拉取Nginx镜像"></a>案例-拉取Nginx镜像</h3><ul>
+<li><p>案例 : 查看DockerHub，拉取Nginx镜像，创建并运行Nginx容器</p>
+</li>
+<li><p>需求：</p>
+<ul>
+<li><p>在DockerHub(<code>hub.docker.com</code>)中搜索Nginx镜像，查看镜像的名称</p>
+</li>
+<li><p>拉取Nginx镜像(<code>docker pull nginx</code>)</p>
+</li>
+<li><p>查看本地镜像列表(<code>docker images</code>)</p>
+<ul>
+<li>保存镜像 : (<code>docker save -o nginx.tar nginx:latest</code>)</li>
+<li>删除镜像 : <code>docker rmi nginx:latest</code></li>
+<li>加载镜像 : <code>docker load -i nginx.tar</code></li>
+</ul>
+</li>
+<li><p>创建并运行Nginx容器 : <code>docker run -d --name nginx -p 80:80 nginx</code></p>
+</li>
+<li><p>查看容器</p>
+<ul>
+<li><code>docker ps</code></li>
+<li><code>docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot; -a</code></li>
+</ul>
+</li>
+<li><p>停止容器 :  <code>docker stop nginx</code></p>
+</li>
+<li><p>再次启动容器 <code>docker start nginx</code></p>
+<ul>
+<li>即可通过浏览访问虚拟机的 IP (80端口) , 显示网页<ul>
+<li>访问不了,可以参考 : <a target="_blank" rel="noopener" href="https://blog.csdn.net/qqqahhh/article/details/124413116">https://blog.csdn.net/qqqahhh/article/details/124413116</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>查看容器运行日志 : <code>docker logs [-f] nginx</code></p>
+<ul>
+<li><code>-f</code> 参数 : 持续查看日志</li>
+</ul>
+</li>
+<li><p>进入Nginx容器 : <code>docker exec -it nginx bash</code></p>
+<ul>
+<li>进入 mysql 容器 : <ul>
+<li><code>docker exec -it mysql bash</code></li>
+<li><code>mysql -uroot -p</code></li>
+<li><code>show databases;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>退出Nginx容器 : <code>exit</code></p>
+</li>
+<li><p>删除容器 : <code>docker rm nginx [-f]</code></p>
+<ul>
+<li>无法删除正在运行的容器,需要先停止该容器</li>
+<li><code>-f</code> : 为强制删除</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令别名"><a href="#命令别名" class="headerlink" title="命令别名"></a>命令别名</h3><ul>
+<li>给常用Docker命令起别名，方便我们访问：</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改/root/.bashrc文件</span></span><br><span class="line">vi /root/.bashrc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">内容如下：</span><br><span class="line"><span class="comment"># .bashrc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># User specific aliases and functions</span></span><br><span class="line"></span><br><span class="line">alias <span class="built_in">rm</span>=<span class="string">&#x27;rm -i&#x27;</span></span><br><span class="line">alias <span class="built_in">cp</span>=<span class="string">&#x27;cp -i&#x27;</span></span><br><span class="line">alias <span class="built_in">mv</span>=<span class="string">&#x27;mv -i&#x27;</span></span><br><span class="line">alias dps=<span class="string">&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span></span><br><span class="line">alias dis=<span class="string">&#x27;docker images&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source global definitions</span></span><br><span class="line"><span class="keyword">if</span> [ -<span class="type">f</span> /<span class="type">etc</span>/<span class="type">bashrc</span> ]; then</span><br><span class="line">        . /etc/bashrc</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后，执行命令使别名生效</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /root/.bashrc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接下来，试试看新的命令吧。</li>
+</ul>
+<h2 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h2><ul>
+<li><p>容器是隔离环境，容器内程序的文件、配置、运行时产生的容器都在容器内部，我们要读写容器内的文件非常不方便。大家思考几个问题：</p>
+<ul>
+<li><p>如果要升级MySQL版本，需要销毁旧容器，那么数据岂不是跟着被销毁了？</p>
+</li>
+<li><p>MySQL、Nginx容器运行后，如果我要修改其中的某些配置该怎么办？</p>
+</li>
+<li><p>我想要让Nginx代理我的静态资源怎么办？</p>
+</li>
+</ul>
+</li>
+<li><p>因此，容器提供程序的运行环境，但是<strong>程序运行产生的数据、程序运行依赖的配置都应该与容器****解耦</strong>。</p>
+</li>
+</ul>
+<h3 id="什么是数据卷"><a href="#什么是数据卷" class="headerlink" title="什么是数据卷"></a>什么是数据卷</h3><ul>
+<li><p><strong>数据卷（volume）</strong>是一个虚拟目录，是<strong>容器内目录</strong>与<strong>宿主机****目录</strong>之间映射的桥梁。</p>
+</li>
+<li><p>以Nginx为例，我们知道Nginx中有两个关键的目录：</p>
+<ul>
+<li><p><code>html</code>：放置一些静态资源</p>
+</li>
+<li><p><code>conf</code>：放置配置文件</p>
+</li>
+</ul>
+</li>
+<li><p>如果我们要让Nginx代理我们的静态资源，最好是放到<code>html</code>目录；如果我们要修改Nginx的配置，最好是找到<code>conf</code>下的<code>nginx.conf</code>文件。</p>
+</li>
+<li><p>但遗憾的是，容器运行的Nginx所有的文件都在容器内部。所以我们必须利用数据卷将两个目录与宿主机目录关联，方便我们操作。如图：</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/a63c3b26ea9544d6bf31d3b37ac3568c" alt="image-20231225144202846"></p>
+<ul>
+<li><p>在上图中：</p>
+<ul>
+<li><p>我们创建了两个数据卷：<code>conf</code>、<code>html</code></p>
+</li>
+<li><p>Nginx容器内部的<code>conf</code>目录和<code>html</code>目录分别与两个数据卷关联。</p>
+</li>
+<li><p>而数据卷conf和html分别指向了宿主机的<code>/var/lib/docker/volumes/conf/_data</code>目录和<code>/var/lib/docker/volumes/html/_data</code>目录</p>
+</li>
+</ul>
+</li>
+<li><p>这样以来，容器内的<code>conf</code>和<code>html</code>目录就 与宿主机的<code>conf</code>和<code>html</code>目录关联起来，我们称为<strong>挂载</strong>。此时，我们操作宿主机的<code>/var/lib/docker/volumes/html/_data</code>就是在操作容器内的<code>/usr/share/nginx/html/_data</code>目录。只要我们将静态资源放入宿主机对应目录，就可以被Nginx代理了。</p>
+</li>
+</ul>
+<h3 id="数据卷命令"><a href="#数据卷命令" class="headerlink" title="数据卷命令"></a>数据卷命令</h3><table>
+<thead>
+<tr>
+<th align="left"><strong>命令</strong></th>
+<th align="left"><strong>说明</strong></th>
+<th align="left"><strong>文档地址</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">docker volume create</td>
+<td align="left">创建数据卷</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/volume_create/">docker volume create</a></td>
+</tr>
+<tr>
+<td align="left">docker volume ls</td>
+<td align="left">查看所有数据卷</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/volume_ls/">docs.docker.com</a></td>
+</tr>
+<tr>
+<td align="left">docker volume rm</td>
+<td align="left">删除指定数据卷</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/volume_prune/">docs.docker.com</a></td>
+</tr>
+<tr>
+<td align="left">docker volume inspect</td>
+<td align="left">查看某个数据卷的详情</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/volume_inspect/">docs.docker.com</a></td>
+</tr>
+<tr>
+<td align="left">docker volume prune</td>
+<td align="left">清除数据卷</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/volume_prune/">docker volume prune</a></td>
+</tr>
+</tbody></table>
+<ul>
+<li>注意：容器与数据卷的挂载要在创建容器时配置，对于创建好的容器，是不能设置数据卷的。而且<strong>创建容器的过程中，数据卷会自动创建</strong>。</li>
+<li>在执行 <code>docker run</code> 命令时，使用-v数据卷：容器内目录可以完成数据卷挂载</li>
+<li>当创建容器时，如果挂载了数据卷且数据卷不存在，会自动创建数据卷</li>
+</ul>
+<h3 id="案例-部署静态资源"><a href="#案例-部署静态资源" class="headerlink" title="案例-部署静态资源"></a>案例-部署静态资源</h3><ul>
+<li>案例1-利用Nginx容器部署静态资源<ul>
+<li>需求：<ul>
+<li>在root目录下 , 创建 Nginx 容器以及数据卷 : (<code>docker run -d --name nginx -p 80:80 -v html:/usr/share/nginx/html nginx</code>) <ul>
+<li>查看数据卷 : <code>docker volume ls</code></li>
+<li>查看数据卷详细信息 : <code>docker volume inspect html</code></li>
+<li>进入到映射目录 : <code>cd /var/lib/docker/volumes/html/_data</code></li>
+</ul>
+</li>
+<li>修改nginx容器内的html目录下的index.html文件，查看变化<ul>
+<li>进入Nginx容器 : <code>docker exec -it nginx bash</code></li>
+<li>进入指定目录 : <code>cd /usr/share/nginx/html</code></li>
+</ul>
+</li>
+<li>将静态资源部署到nginx的html目录<ul>
+<li>进入到虚拟机的指定目录 : <code>cd /var/lib/docker/volumes/html/_data</code>即可修改网页文件</li>
+<li>也可以通过 xftp 工具,将文件部署到上述目录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例-mysql容器的数据挂载"><a href="#案例-mysql容器的数据挂载" class="headerlink" title="案例-mysql容器的数据挂载"></a>案例-mysql容器的数据挂载</h3><ul>
+<li><p>需求：</p>
+<ul>
+<li>查看mysql容器，判断是否有数据卷挂载</li>
+<li>基于宿主机目录实现MySQL数据目录、配置文件、初始化脚本的挂载（查阅官方镜像文档）<ul>
+<li>挂载&#x2F;root&#x2F;mysql&#x2F;data到容器内的&#x2F;var&#x2F;lib&#x2F;mysql目录</li>
+<li>挂载&#x2F;root&#x2F;mysql&#x2F;init到容器内的&#x2F;docker-entrypoint-initdb.d目录，携带课前资料准备的sQL脚本</li>
+<li>挂载&#x2F;root&#x2F;mysql&#x2F;conf到容器内的&#x2F;etc&#x2F;mysql&#x2F;conf.d目录，携带课前资料准备的配置文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在执行 docker run命令时，使用-v本地目录：容器内目录可以完成本地目录挂载</p>
+</li>
+<li><p>本地目录必须以“7”或“.7”开头，如果直接以名称开头，会被识别为数据卷而非本地目录</p>
+<ul>
+<li>-v mysql:&#x2F;var&#x2F;lib&#x2F;mysql 会被识别为一个数据卷叫mysql</li>
+<li>-v .&#x2F;mysql:&#x2F;var&#x2F;lib&#x2F;mysql 会被识别为当前目录下的mysql目录</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.删除原来的MySQL容器</span></span><br><span class="line">docker <span class="built_in">rm</span> -f mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.进入root目录</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.创建并运行新mysql容器，挂载本地目录</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name mysql \</span><br><span class="line">  -p 3306:3306 \</span><br><span class="line">  -e TZ=Asia/Shanghai \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=123 \</span><br><span class="line">  -v ./mysql/data:/var/lib/mysql \</span><br><span class="line">  -v ./mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">  -v ./mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">  mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.查看root目录，可以发现~/mysql/data目录已经自动创建好了</span></span><br><span class="line"><span class="built_in">ls</span> -l mysql</span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line">总用量 4</span><br><span class="line">drwxr-xr-x. 2 root    root   20 5月  19 15:11 conf</span><br><span class="line">drwxr-xr-x. 7 polkitd root 4096 5月  19 15:11 data</span><br><span class="line">drwxr-xr-x. 2 root    root   23 5月  19 15:11 init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看data目录，会发现里面有大量数据库数据，说明数据库完成了初始化</span></span><br><span class="line"><span class="built_in">ls</span> -l data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.查看MySQL容器内数据</span></span><br><span class="line"><span class="comment"># 5.1.进入MySQL</span></span><br><span class="line">docker <span class="built_in">exec</span> -it mysql mysql -uroot -p123</span><br><span class="line"><span class="comment"># 5.2.查看编码表</span></span><br><span class="line">show variables like <span class="string">&quot;%char%&quot;</span>;</span><br><span class="line"><span class="comment"># 5.3.结果，发现编码是utf8mb4没有问题</span></span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| Variable_name            | Value                          |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">| character_set_client     | utf8mb4                        |</span><br><span class="line">| character_set_connection | utf8mb4                        |</span><br><span class="line">| character_set_database   | utf8mb4                        |</span><br><span class="line">| character_set_filesystem | binary                         |</span><br><span class="line">| character_set_results    | utf8mb4                        |</span><br><span class="line">| character_set_server     | utf8mb4                        |</span><br><span class="line">| character_set_system     | utf8mb3                        |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql-8.0/charsets/ |</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.查看数据</span></span><br><span class="line"><span class="comment"># 6.1.查看数据库</span></span><br><span class="line">show databases;</span><br><span class="line"><span class="comment"># 结果，hmall是黑马商城数据库</span></span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| hmall              |</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"><span class="comment"># 6.2.切换到hmall数据库</span></span><br><span class="line">use hmall;</span><br><span class="line"><span class="comment"># 6.3.查看表</span></span><br><span class="line">show tables;</span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line">+-----------------+</span><br><span class="line">| Tables_in_hmall |</span><br><span class="line">+-----------------+</span><br><span class="line">| address         |</span><br><span class="line">| cart            |</span><br><span class="line">| item            |</span><br><span class="line">| order           |</span><br><span class="line">| order_detail    |</span><br><span class="line">| order_logistics |</span><br><span class="line">| pay_order       |</span><br><span class="line">| user            |</span><br><span class="line">+-----------------+</span><br><span class="line"><span class="comment"># 6.4.查看address表数据</span></span><br><span class="line">+----+---------+----------+--------+----------+-------------+---------------+-----------+------------+-------+</span><br><span class="line">| <span class="built_in">id</span> | user_id | province | city   | town     | mobile      | street        | contact   | is_default | notes |</span><br><span class="line">+----+---------+----------+--------+----------+-------------+---------------+-----------+------------+-------+</span><br><span class="line">| 59 |       1 | 北京     | 北京   | 朝阳区    | 13900112222 | 金燕龙办公楼   | 李佳诚    | 0          | NULL  |</span><br><span class="line">| 60 |       1 | 北京     | 北京   | 朝阳区    | 13700221122 | 修正大厦       | 李佳红    | 0          | NULL  |</span><br><span class="line">| 61 |       1 | 上海     | 上海   | 浦东新区  | 13301212233 | 航头镇航头路   | 李佳星    | 1          | NULL  |</span><br><span class="line">| 63 |       1 | 广东     | 佛山   | 永春      | 13301212233 | 永春武馆       | 李晓龙    | 0          | NULL  |</span><br><span class="line">+----+---------+----------+--------+----------+-------------+---------------+-----------+------------+-------+</span><br><span class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义镜像"><a href="#自定义镜像" class="headerlink" title="自定义镜像"></a>自定义镜像</h2><h3 id="自定义镜像-1"><a href="#自定义镜像-1" class="headerlink" title="自定义镜像"></a>自定义镜像</h3><ul>
+<li>镜像就是包含了应用程序、程序运行的系统函数库、运行配置等文件的文件包。构建镜像的过程其实就是把上述文件打包的过程。</li>
+</ul>
+<h3 id="镜像结构"><a href="#镜像结构" class="headerlink" title="镜像结构"></a>镜像结构</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/4758b07584504bd0bec606064eaae480" alt="image-20231225174431619"></p>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
+<li>由于制作镜像的过程中，需要逐层处理和打包，比较复杂，所以Docker就提供了自动打包镜像的功能。我们只需要将打包的过程，每一层要做的事情用固定的语法写下来，交给Docker去执行即可。</li>
+<li>而这种记录镜像结构的文件就称为<strong>Dockerfile</strong>，其对应的语法可以参考官方文档：<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
+</ul>
+</li>
+<li>其中的语法比较多，比较常用的有：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>指令</strong></th>
+<th align="left"><strong>说明</strong></th>
+<th align="left"><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>FROM</strong></td>
+<td align="left">指定基础镜像</td>
+<td align="left"><code>FROM centos:6</code></td>
+</tr>
+<tr>
+<td align="left"><strong>ENV</strong></td>
+<td align="left">设置环境变量，可在后面指令使用</td>
+<td align="left"><code>ENV key value</code></td>
+</tr>
+<tr>
+<td align="left"><strong>COPY</strong></td>
+<td align="left">拷贝本地文件到镜像的指定目录</td>
+<td align="left"><code>COPY ./xx.jar /tmp/app.jar</code></td>
+</tr>
+<tr>
+<td align="left"><strong>RUN</strong></td>
+<td align="left">执行Linux的shell命令，一般是安装过程的命令</td>
+<td align="left"><code>RUN yum install gcc</code></td>
+</tr>
+<tr>
+<td align="left"><strong>EXPOSE</strong></td>
+<td align="left">指定容器运行时监听的端口，是给镜像使用者看的</td>
+<td align="left">EXPOSE 8080</td>
+</tr>
+<tr>
+<td align="left"><strong>ENTRYPOINT</strong></td>
+<td align="left">镜像中应用的启动命令，容器运行时调用</td>
+<td align="left">ENTRYPOINT java -jar xx.jar</td>
+</tr>
+</tbody></table>
+<ul>
+<li>例如，要基于Ubuntu镜像来构建一个Java应用，其Dockerfile内容如下：</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">16.04</span></span><br><span class="line"><span class="comment"># 配置环境变量，JDK的安装目录、容器内时区</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_DIR=/usr/local</span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="comment"># 拷贝jdk和java项目的包</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./jdk8.tar.gz <span class="variable">$JAVA_DIR</span>/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./docker-demo.jar /tmp/app.jar</span></span><br><span class="line"><span class="comment"># 设定时区</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">ln</span> -snf /usr/share/zoneinfo/<span class="variable">$TZ</span> /etc/localtime &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TZ</span> &gt; /etc/timezone</span></span><br><span class="line"><span class="comment"># 安装JDK</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> <span class="variable">$JAVA_DIR</span> \</span></span><br><span class="line"><span class="language-bash"> &amp;&amp; tar -xf ./jdk8.tar.gz \</span></span><br><span class="line"><span class="language-bash"> &amp;&amp; <span class="built_in">mv</span> ./jdk1.8.0_144 ./java8</span></span><br><span class="line"><span class="comment"># 配置环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=$JAVA_DIR/java8</span><br><span class="line"><span class="keyword">ENV</span> PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line"><span class="comment"># 指定项目监听的端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="comment"># 入口，java项目的启动命令</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>同学们思考一下：以后我们会有很多很多java项目需要打包为镜像，他们都需要Linux系统环境、JDK环境这两层，只有上面的3层不同（因为jar包不同）。如果每次制作java镜像都重复制作前两层镜像，是不是很麻烦。</p>
+</li>
+<li><p>所以，就有人提供了基础的系统加JDK环境，我们在此基础上制作java镜像，就可以省去JDK的配置了：</p>
+</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">11.0</span>-jre-buster</span><br><span class="line"><span class="comment"># 设定时区</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">ln</span> -snf /usr/share/zoneinfo/<span class="variable">$TZ</span> /etc/localtime &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TZ</span> &gt; /etc/timezone</span></span><br><span class="line"><span class="comment"># 拷贝jar包</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> docker-demo.jar /app.jar</span></span><br><span class="line"><span class="comment"># 入口</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>是不是简单多了。</li>
+</ul>
+<h2 id="自定义网络"><a href="#自定义网络" class="headerlink" title="自定义网络"></a>自定义网络</h2><ul>
+<li>加入自定义网络的容器才可以通过容器名互相访问，Docker的网络操作命令如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/9974369f273c4d15839149f14fc547a9" alt="image-20231225180533618"></p>
+<p>创建容器的同时加入自定义网络 : </p>
+<ul>
+<li><code>docker run -d --name dd -p 8080:8080 --network heima docker-demo</code></li>
+</ul>
+<h1 id="DockerCompose"><a href="#DockerCompose" class="headerlink" title="DockerCompose"></a>DockerCompose</h1><ul>
+<li>DockerCompose通过-一个单独的docker-compose.yml模板文件（YAML格式）来定义一组相关联的应用容器，帮助我们实现多个相互关联的Docker容器的快速部署。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/efcf9cdd2367455aa5fbb959e7cbdffa" alt="image-20231225182212511"></p>
+<ul>
+<li>dockercompose的命令格式如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/12/25/19a4f83fbfb04ad885e4de25e43d2ddd" alt="image-20231225183048729"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL基础篇</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/001_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/01_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80_%E5%88%86%E7%B1%BB_%E6%A8%A1%E5%9E%8B_%E6%B5%81%E7%A8%8B_%E7%94%A8%E4%BE%8B_bug%E7%AE%A1%E7%90%86/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软件测试基础</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E5%85%A5%E9%97%A8%E7%AF%87"><span class="toc-text">Linux入门篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux%E6%A6%82%E8%BF%B0"><span class="toc-text">Linux概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">Linux是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="toc-text">Linux的诞生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E4%B8%8EUnix%E7%9A%84%E6%B8%8A%E6%BA%90"><span class="toc-text">Linux与Unix的渊源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GNU-Linux"><span class="toc-text">GNU&#x2F;Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E7%9A%84%E5%8F%91%E8%A1%8C%E7%89%88"><span class="toc-text">Linux的发行版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E4%B8%8EWindow"><span class="toc-text">Linux与Window</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux%E5%AE%89%E8%A3%85"><span class="toc-text">Linux安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CentOS%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%BD%BD"><span class="toc-text">CentOS系统下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8B%E8%BD%BD"><span class="toc-text">VMware虚拟机下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">创建虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85CentOS%E7%B3%BB%E7%BB%9F"><span class="toc-text">安装CentOS系统</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="toc-text">基础篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vi-Vim%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-text">Vi &#x2F; Vim编辑器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vi-Vim%E7%BC%96%E8%BE%91%E5%99%A8-1"><span class="toc-text">Vi &#x2F; Vim编辑器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vi-Vim-%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E6%89%93%E5%BC%80"><span class="toc-text">Vi &#x2F; Vim 编辑器的打开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E9%97%B4%E8%BD%AC%E6%8D%A2"><span class="toc-text">模式间转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%A8%A1%E5%BC%8F"><span class="toc-text">一般模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F"><span class="toc-text">编辑模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="toc-text">命令模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">网络配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95"><span class="toc-text">网络连接测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E6%A8%A1%E5%BC%8F"><span class="toc-text">网络连接模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%9D%99%E6%80%81IP"><span class="toc-text">修改静态IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-text">配置主机名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-text">远程登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="toc-text">系统管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E6%9C%8D%E5%8A%A1"><span class="toc-text">进程和服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-text">服务管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB"><span class="toc-text">系统运行级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E6%9C%BA%E4%B8%8E%E9%87%8D%E5%90%AF"><span class="toc-text">关机与重启</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D%E7%AF%87-%E5%B8%B8%E7%94%A8Shell%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-text">实操篇_常用Shell基本命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4%E7%B1%BB"><span class="toc-text">帮助命令类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#man-%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="toc-text">man 帮助信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#help-%E5%86%85%E7%BD%AE%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="toc-text">help 内置帮助信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E7%B1%BB%E5%9E%8B"><span class="toc-text">查看命令类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%B1%BB"><span class="toc-text">文件目录类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-text">查看当前目录绝对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E5%87%BA%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9"><span class="toc-text">列出当前目录内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="toc-text">创建目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95"><span class="toc-text">删除目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="toc-text">创建文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95"><span class="toc-text">复制文件或目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95"><span class="toc-text">删除文件或目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-text">文件重命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">查看文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="toc-text">其他命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="toc-text">软链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4"><span class="toc-text">历史命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F%E7%B1%BB"><span class="toc-text">时间日期类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E7%B1%BB"><span class="toc-text">用户管理类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7"><span class="toc-text">查看用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="toc-text">添加用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-text">添加用户密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E7%94%A8%E6%88%B7"><span class="toc-text">切换用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E5%A2%9E%E5%8A%A0%E6%9D%83%E9%99%90"><span class="toc-text">给普通用户增加权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7"><span class="toc-text">删除用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86"><span class="toc-text">用户组管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E7%BB%84%E4%BF%A1%E6%81%AF"><span class="toc-text">查看用户组信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-text">新建用户组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E7%9A%84%E7%BB%84"><span class="toc-text">修改用户的组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%BB%84%E5%90%8D"><span class="toc-text">修改组名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-text">删除用户组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E7%B1%BB"><span class="toc-text">文件权限类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%BB%8B%E7%BB%8D"><span class="toc-text">文件权限介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="toc-text">更改文件权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E6%89%80%E6%9C%89%E8%80%85"><span class="toc-text">更改文件所有者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%89%80%E5%B1%9E%E7%BB%84"><span class="toc-text">改变所属组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE%E7%B1%BB"><span class="toc-text">文件查找类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#find%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE"><span class="toc-text">find文件查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locate%E5%AE%9A%E4%BD%8D%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-text">locate定位文件路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep%E8%BF%87%E6%BB%A4%E6%9F%A5%E6%89%BE%E5%92%8C%E7%AE%A1%E9%81%93%E7%AC%A6"><span class="toc-text">grep过滤查找和管道符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E7%B1%BB"><span class="toc-text">文件压缩类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gzip-gunzip%E5%8E%8B%E7%BC%A9"><span class="toc-text">gzip&#x2F;gunzip压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip-unzip%E5%8E%8B%E7%BC%A9"><span class="toc-text">zip&#x2F;unzip压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tar%E6%89%93%E5%8C%85%E4%B8%8E%E8%A7%A3%E5%8C%85"><span class="toc-text">tar打包与解包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E7%B1%BB"><span class="toc-text">磁盘分区类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-text">查看文件或目录的大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%A3%81%E7%9B%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">查看磁盘使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E6%8C%82%E8%BD%BD%E6%83%85%E5%86%B5"><span class="toc-text">查看设备挂载情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mount-umount%E6%8C%82%E8%BD%BD-%E5%8D%B8%E8%BD%BD"><span class="toc-text">mount&#x2F;umount挂载&#x2F;卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fdisk%E5%88%86%E5%8C%BA"><span class="toc-text">fdisk分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E7%B1%BB"><span class="toc-text">进程线程类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-text">查看当前系统进程状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%88%E6%AD%A2%E8%BF%9B%E7%A8%8B"><span class="toc-text">终止进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B%E6%A0%91"><span class="toc-text">查看进程树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-text">实时监控系统进程状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E7%8A%B6%E6%80%81%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8"><span class="toc-text">查看网络状态与端口占用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-text">系统定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#crontab%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-text">crontab服务管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#crontab%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E8%AE%BE%E7%BD%AE"><span class="toc-text">crontab定时任务设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%AF%87"><span class="toc-text">扩展篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86"><span class="toc-text">软件包管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8B%E9%9A%86%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">克隆虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell%E7%BC%96%E7%A8%8B"><span class="toc-text">Shell编程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker%E9%83%A8%E7%BD%B2"><span class="toc-text">Docker部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8"><span class="toc-text">镜像与容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">Docker的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD%E6%97%A7%E7%89%88"><span class="toc-text">卸载旧版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEDocker%E7%9A%84yum%E5%BA%93"><span class="toc-text">配置Docker的yum库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Docker"><span class="toc-text">安装Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%92%8C%E6%A0%A1%E9%AA%8C"><span class="toc-text">启动和校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F"><span class="toc-text">配置镜像加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E9%98%BF%E9%87%8C%E4%BA%91%E8%B4%A6%E5%8F%B7"><span class="toc-text">注册阿里云账号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E9%80%9A%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1"><span class="toc-text">开通镜像服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F-1"><span class="toc-text">配置镜像加速</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2MySQL"><span class="toc-text">部署MySQL</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker%E5%9F%BA%E7%A1%80"><span class="toc-text">Docker基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="toc-text">Docker常见命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4-1"><span class="toc-text">Docker常见命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E6%8B%89%E5%8F%96Nginx%E9%95%9C%E5%83%8F"><span class="toc-text">案例-拉取Nginx镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D"><span class="toc-text">命令别名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">数据卷</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">什么是数据卷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%91%BD%E4%BB%A4"><span class="toc-text">数据卷命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90"><span class="toc-text">案例-部署静态资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-mysql%E5%AE%B9%E5%99%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%82%E8%BD%BD"><span class="toc-text">案例-mysql容器的数据挂载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-text">自定义镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F-1"><span class="toc-text">自定义镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E7%BB%93%E6%9E%84"><span class="toc-text">镜像结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile"><span class="toc-text">Dockerfile</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C"><span class="toc-text">自定义网络</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerCompose"><span class="toc-text">DockerCompose</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇"><img alt="MySQL运维篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.LVnC_YS6D56g7magE9AD_gHaEK?w=189&amp;h=106&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇">MySQL运维篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.NHdSfyHemLa4eaycz7QR2AHaEK?w=333&amp;h=187&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.XiTVekPE9y_42SZHAbxTZAHaEK?w=318&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇"><img alt="MySQL基础篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.3km1icpIVZB3d4flVs-JRgHaEK?w=318&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇">MySQL基础篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux"><img alt="Linux" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.XXu034JxuR9rZCV5_40S-wAAAA?w=267&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux">Linux</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

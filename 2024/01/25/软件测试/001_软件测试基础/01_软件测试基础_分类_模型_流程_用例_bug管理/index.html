@@ -1,0 +1,2321 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>软件测试基础 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="课程前言测试是干啥 软件测试 : 软件质检工作(查找软件问题,保障软件质量) 从事的岗位 1、功能测试工程师 2、性能测试工程师 3、服务端测试工程师 4、自动化测试工程师 5、大数据测试工程师 6、移动端测试工程师 发展前景人才缺口 软件测试缺口是 JAVA 1.8倍，而 JAVA 现有岗"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">48</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">软件测试基础</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse2-mm.cn.bing.net/th/id/OIP-C.7PEJfc9lBxB9KSHnzNg7VAHaEo?w=287&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="软件测试基础"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">软件测试基础</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-25 00:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-24T16:00:00.000Z">2024-01-24T16:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 21:15:37"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T13:15:37.283Z">2024-01-28T13:15:37.283Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">20.5k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>71 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/001_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/01_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80_%E5%88%86%E7%B1%BB_%E6%A8%A1%E5%9E%8B_%E6%B5%81%E7%A8%8B_%E7%94%A8%E4%BE%8B_bug%E7%AE%A1%E7%90%86/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+
+<h1 id="课程前言"><a href="#课程前言" class="headerlink" title="课程前言"></a>课程前言</h1><h2 id="测试是干啥"><a href="#测试是干啥" class="headerlink" title="测试是干啥"></a>测试是干啥</h2><ul>
+<li>软件测试 : 软件质检工作(查找软件问题,保障软件质量)</li>
+</ul>
+<h2 id="从事的岗位"><a href="#从事的岗位" class="headerlink" title="从事的岗位"></a>从事的岗位</h2><ul>
+<li>1、功能测试工程师</li>
+<li>2、性能测试工程师</li>
+<li>3、服务端测试工程师</li>
+<li>4、自动化测试工程师</li>
+<li>5、大数据测试工程师</li>
+<li>6、移动端测试工程师</li>
+</ul>
+<h2 id="发展前景"><a href="#发展前景" class="headerlink" title="发展前景"></a>发展前景</h2><h3 id="人才缺口"><a href="#人才缺口" class="headerlink" title="人才缺口"></a>人才缺口</h3><ul>
+<li>软件测试缺口是 JAVA 1.8倍，而 JAVA 现有岗位人才是测试的 5 倍以上</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/4ce180216c9642c9aa1dfe9cc61cacdf" alt="image-20231101112559336"></p>
+<h3 id="发展路线"><a href="#发展路线" class="headerlink" title="发展路线"></a>发展路线</h3><ul>
+<li><p>软件测试工程师</p>
+</li>
+<li><p>自动化测试工程师</p>
+</li>
+<li><p>性能测试工程师</p>
+</li>
+<li><p>测试开发工程师</p>
+</li>
+<li><p>测试架构师</p>
+</li>
+<li><p>首席技术官</p>
+</li>
+<li><p>推荐的发展路线 : </p>
+<ul>
+<li>倾向于服务端的测试工程师<ul>
+<li>网站服务端</li>
+<li>大数据</li>
+<li>人工智能</li>
+<li>云计算</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>不推荐的发展路线 : </p>
+<ul>
+<li>倾向于移动端的测试工程师<ul>
+<li>安卓 , IOS , 小程序 , 鸿蒙</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="岗位薪资"><a href="#岗位薪资" class="headerlink" title="岗位薪资"></a>岗位薪资</h3><ul>
+<li>软件测试 1 线均薪 14K+，是金融行业 1.3 倍，其他行业 1.5 倍</li>
+<li>初级测试工程师 : <ul>
+<li>刚入行</li>
+<li>8k - 9k</li>
+</ul>
+</li>
+<li>中级测试工程师 :<ul>
+<li>1-3年</li>
+<li>9k - 15k</li>
+</ul>
+</li>
+<li>自动化&#x2F;性能测试 : <ul>
+<li>3-5年</li>
+<li>15k - 25k</li>
+</ul>
+</li>
+<li>资深测试&#x2F;测试开发 : <ul>
+<li>5-8年</li>
+<li>25k+</li>
+</ul>
+</li>
+<li>测试总监 : <ul>
+<li>8年+</li>
+<li>30k+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/401ab86979d549218ae1779a3e6c143d" alt="image-20231101112702125"></p>
+<h3 id="岗位提升"><a href="#岗位提升" class="headerlink" title="岗位提升"></a>岗位提升</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/90e090ca3ac54d39a5c778892a7aa407" alt="image-20231101112821356"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/e9516730671a4fea95d20bc375971852" alt="image-20240105181830383"></p>
+<h2 id="基础班学习目标"><a href="#基础班学习目标" class="headerlink" title="基础班学习目标"></a>基础班学习目标</h2><h3 id="基础班目标"><a href="#基础班目标" class="headerlink" title="基础班目标"></a>基础班目标</h3><ul>
+<li><p>能独立完成软件的功能测试工作</p>
+</li>
+<li><p>能复述软件测试的定义</p>
+</li>
+<li><p>能说出7种测试分类的区别</p>
+</li>
+<li><p>能说出质量模型的重点5项</p>
+</li>
+<li><p>能说出测试流程的6个步骤</p>
+</li>
+<li><p>能说出测试模板8个要素</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/d9d28569841c4942b5fb462039757927" alt="image-20231101123306449"></p>
+<h3 id="基础班学习路线"><a href="#基础班学习路线" class="headerlink" title="基础班学习路线"></a>基础班学习路线</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/b52f392487374900924122619e7f3781" alt="image-20240108122028798"></p>
+<h2 id="基础班具备的能力"><a href="#基础班具备的能力" class="headerlink" title="基础班具备的能力"></a>基础班具备的能力</h2><ul>
+<li>知道测试主要工作内容</li>
+<li>能够掌握常用用例设计方法及应用场景</li>
+<li>能够使用缺陷管理工具对缺陷进行管理</li>
+<li>能够对web项目功能进行实战</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/63bcb72fc9ff4fcc8432850f547bd59c" alt="image-20231101124040024"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/0c4803ca6e6d4a8fa2035b9fa75e9353" alt="image-20231101113057535"></p>
+<h2 id="怎么学"><a href="#怎么学" class="headerlink" title="怎么学"></a>怎么学</h2><h3 id="学习方式"><a href="#学习方式" class="headerlink" title="学习方式"></a>学习方式</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/6762db52301249df90c03e5e87835a7d" alt="image-20231101112936417"></p>
+<h3 id="复习方式"><a href="#复习方式" class="headerlink" title="复习方式"></a>复习方式</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/26422b5fe0804273a8ff710db7d122de" alt="image-20231101112957760"></p>
+<h2 id="软测测试学习路线"><a href="#软测测试学习路线" class="headerlink" title="软测测试学习路线"></a>软测测试学习路线</h2><ul>
+<li>阶段一：基础理论篇</li>
+<li>阶段二：Linux系统和 MySQL 数据库</li>
+<li>阶段三：功能测试项目实战</li>
+<li>阶段四：第一次的面试指导</li>
+<li>阶段五：Python编程</li>
+<li>阶段六：接口测试及接口自动化测试</li>
+<li>阶段七：Web自动化测试</li>
+<li>阶段八：JMeter性能测试</li>
+<li>阶段九：LoadRunner 性能测试</li>
+<li>阶段十：综合就业指导</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/74fb8de6b801488ab2b01e715801670f" alt="image-20240108131418674"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/39e207c7e5a3405180e19cba607fc2c3" alt="image-20240108131448108"></p>
+<h2 id="就业方向"><a href="#就业方向" class="headerlink" title="就业方向"></a>就业方向</h2><ul>
+<li>就业方向该如何选择？<ul>
+<li>方向（一）：功能测试+接口测试</li>
+<li>方向（二）：功能测试+性能测试</li>
+<li>方向（三）：功能测试+web自动化</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><p>测试是做什么</p>
+<ul>
+<li>查找软件问题，保障软件质量。</li>
+</ul>
+</li>
+<li><p>行业前景</p>
+<ul>
+<li>薪资可观(&gt;1W)</li>
+<li>岗位缺口大(比 java 岗位还多)</li>
+</ul>
+</li>
+<li><p>适合人群</p>
+<ul>
+<li><p>专科及以上、年龄19~35.</p>
+</li>
+<li><p>细心、耐心、逆向思维</p>
+</li>
+</ul>
+</li>
+<li><p>岗位发展</p>
+<ul>
+<li>技术方向、管理方向</li>
+</ul>
+</li>
+<li><p>学完能力</p>
+<ul>
+<li>具备对所有软件的功能进行测试能力</li>
+</ul>
+</li>
+</ul>
+<h1 id="软件及软件测试简介"><a href="#软件及软件测试简介" class="headerlink" title="软件及软件测试简介"></a>软件及软件测试简介</h1><h2 id="什么是软件"><a href="#什么是软件" class="headerlink" title="什么是软件"></a>什么是软件</h2><ul>
+<li><strong>软件是计算机程序、程序所用的数据以及有关文档资料的集合</strong>。<ul>
+<li>软件 &#x3D; 程序 + 数据 + 文档</li>
+</ul>
+</li>
+<li>软件是计算机的灵魂。软件又可以分为两大类:<strong>系统软件和应用软件</strong>。<ul>
+<li><strong>系统软件</strong> : 系统软件是生成、准备和执行其他程序所需要的一组文件和程序。<ul>
+<li>如操作系统 Windows ,数据库 SQL-Server , 驱动程序(网卡， 声卡)， java 语言系统编译环境等。</li>
+</ul>
+</li>
+<li>**应用软件 **: 计算机用户为了解决某些具体问题而购买、开发或研制的各种程序或软件包。<ul>
+<li>如 APP, QQ，微信等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>提问 : 应用软件测试的对象是什么呢<ul>
+<li><strong>程序 + 数据 + 文档</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/dad9748a4369422484d3134ccbdf238a" alt="image-20231101124209855"></p>
+<h2 id="软件应用架构"><a href="#软件应用架构" class="headerlink" title="软件应用架构"></a>软件应用架构</h2><h3 id="C-S架构"><a href="#C-S架构" class="headerlink" title="C&#x2F;S架构"></a>C&#x2F;S架构</h3><ul>
+<li><p>C&#x2F;S : (client-server) 这种就是我们一定要安装一个客户端才能够使用的软件,就叫 C&#x2F;S</p>
+<ul>
+<li>优点 : <strong>稳定，速度快</strong></li>
+<li>缺点 : <strong>每次更新，都需要更新服务端与客户端</strong>，比如说超市收银系统每次更新每台电脑都必须重装客户端，特别是有分店的情况，人力物力财力都很大。</li>
+</ul>
+</li>
+<li><p>提问 : 移动端 APP 是什么架构的呢?</p>
+<ul>
+<li>C&#x2F;S 架构</li>
+</ul>
+</li>
+</ul>
+<h3 id="B-S架构"><a href="#B-S架构" class="headerlink" title="B&#x2F;S架构"></a>B&#x2F;S架构</h3><ul>
+<li>B&#x2F;S : (browser-server) 只需要一个浏览器，就可以访问服务的，就是 B&#x2F;S。<ul>
+<li>优点 :<strong>只需要更新服务器就 OK ,不需要去更新浏览器</strong>。用户主动性比较高。比如说天猫、淘宝。<ul>
+<li>很多软件为了满足不同用户的需求,两种架构应用都存在</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>提问 : 小程序, h5 , 公众号是什么架构的呢?<ul>
+<li>既不属于 C&#x2F;S 架构,也不属于 B&#x2F;S 架构,属于一种新型架构</li>
+</ul>
+</li>
+</ul>
+<h3 id="简版架构"><a href="#简版架构" class="headerlink" title="简版架构"></a>简版架构</h3><ul>
+<li>用户层 : 我们能够直接看到和操作的部分</li>
+<li>服务层 : 我们看不到，但负责了软件的核心处理逻辑的部分</li>
+<li>存储层 : 我们看不到，但负责了存储一切数据的部分</li>
+</ul>
+<h2 id="软件的基本组成"><a href="#软件的基本组成" class="headerlink" title="软件的基本组成"></a>软件的基本组成</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/5bcdb14471054a59b35b36be61af4d70" alt="image-20231101124250623"></p>
+<h2 id="软件产生过程"><a href="#软件产生过程" class="headerlink" title="软件产生过程"></a>软件产生过程</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/22/d2793bac3fb7410cbf9e31aa5e4f6d58" alt="image-20240122195716643"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/423c156e895d424f995a90a2fcb8acf0" alt="image-20231101124339380"></p>
+<h2 id="软件的生命周期"><a href="#软件的生命周期" class="headerlink" title="软件的生命周期"></a>软件的生命周期</h2><ul>
+<li>软件生命周期(SDLC, Systems Development Life Cycle)是软件开始研制到最终被废弃不用所经历的各个阶段。</li>
+</ul>
+<h2 id="什么是软件测试"><a href="#什么是软件测试" class="headerlink" title="什么是软件测试"></a>什么是软件测试</h2><ul>
+<li><p>软件测试的定义:</p>
+<ul>
+<li><strong>使用人工和自动手段来运行或测试某个系统的过程，其目的在于检验它是否满足规定的需求或弄清预期结果与实际结果之间的差别。</strong><ul>
+<li>即 <strong>使用技术手段验证软件是否满足使用需求</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>软件测试的本质 : </p>
+<ul>
+<li>技术上要以任何方法和手段发现Bug</li>
+<li>思维上要以多视角的方式观察项目，预防Bug</li>
+</ul>
+</li>
+<li><p>问题 : 淘宝购买东西的过程，是软件测试么</p>
+<ul>
+<li>不是, 因为目的不是为了发现问题,只是单纯的购物</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/3eb27c3d422e4a60baccd31d8ff8fa47" alt="image-20231101125225174"></p>
+<h2 id="软件测试的目的"><a href="#软件测试的目的" class="headerlink" title="软件测试的目的"></a>软件测试的目的</h2><ul>
+<li><p>任何的产品生产出来都是有可能存在瑕症的</p>
+</li>
+<li><p>软件测试是保证软件产品质量最重要的一环</p>
+</li>
+<li><p>软件测试的目的:<strong>用最少得人力,物力,财力,找到软件中的问题并修复 , 提高软件测试质量 , 减少软件缺陷(bug)，保障软件质量！从而降低商业风险</strong></p>
+</li>
+<li><p>我们做软件测试的目的什么:</p>
+<ul>
+<li><strong>为了发现程序(软件)存在的代码或业务逻辑错误</strong><ul>
+<li>是最基础的需求,第一优先级发现错误, 属 P1 级<ul>
+<li>业务逻辑可以从 <code>&lt;&lt;需求规格说明书&gt;&gt;</code> 知道</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>为了检验产品是否符合用户需求</strong><ul>
+<li>跟用户要求实现方法一致, 以及满足<code>需求规格说明书</code>的需求 , 属 P1 级</li>
+</ul>
+</li>
+<li><strong>为了提高用户的体验</strong><ul>
+<li>比如输入用户名密码错误,有友好的提醒</li>
+<li>比如提高软件的性能,流畅性等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为什么开发不自己测试 : </p>
+<ul>
+<li><p>惯性思维</p>
+<ul>
+<li>比如 : 这个就是这么用的,是用户不会用</li>
+</ul>
+</li>
+<li><p>自我认同感</p>
+<ul>
+<li>比如 : 我开发的肯定没有bug</li>
+</ul>
+</li>
+<li><p>可能存在的需求理解偏差</p>
+<ul>
+<li>比如 : 产品 , 开发, 测试对同一需求的不同理解</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/83132727029447a58a6b4f45787e03ec" alt="image-20231101125432899" style="zoom:150%;" />
+
+<h2 id="项目的构成"><a href="#项目的构成" class="headerlink" title="项目的构成"></a>项目的构成</h2><ul>
+<li>需求阶段 : 产品经理负责需求调研、竞品分析、产品原型设计</li>
+<li>需求评审 : 项目组所有成员都参加，产品经理为大家讲解产品需求的逻辑</li>
+<li>设计阶段 : <ul>
+<li>UI&#x2F;UE : 网页、图片设计</li>
+<li>架构师 : 软件架构设计、选择技术栈</li>
+</ul>
+</li>
+<li>开发阶段 : <ul>
+<li>前端开发 : 负责实现网页业务逻辑部分的编码</li>
+<li>后端开发 : 负责实现服务端业务逻辑部分的编码</li>
+</ul>
+</li>
+<li>测试阶段 : <ul>
+<li>测试工程师 : 负责软件实现后的质量检查</li>
+</ul>
+</li>
+<li>运营维护 : <ul>
+<li>运维工程师 : 负责线上服务器的服务部署与维护</li>
+<li>数据库管理员 : 负责线上数据库的服务部署与维护</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>1、什么是软件<ul>
+<li>控制计算机硬件工作的工具。</li>
+</ul>
+</li>
+<li>2、什么是软件测试<ul>
+<li>使用技术手段验证软件是否满足使用需求</li>
+</ul>
+</li>
+<li>3、软件测试目的<ul>
+<li>减少软件缺陷(bug)，保障软件质量!</li>
+</ul>
+</li>
+</ul>
+<h1 id="测试主流技能"><a href="#测试主流技能" class="headerlink" title="测试主流技能"></a>测试主流技能</h1><h2 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h2><ul>
+<li>功能测试主要验证程序的功能是否满足需求</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/49b0af5a87614bfe96c2a866f7280f1c" alt="image-20231101150844631"></p>
+<h2 id="自动化测试"><a href="#自动化测试" class="headerlink" title="自动化测试"></a>自动化测试</h2><ul>
+<li>使用代码或工具代替手工，对项目进行测试。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/23/52a79e5d48e54775895adc728217050f" alt="image-20231123123312060"></p>
+<h2 id="接口测试"><a href="#接口测试" class="headerlink" title="接口测试"></a>接口测试</h2><ul>
+<li><strong>使用代码或工具对服务端提供的接口进行测试</strong>。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/a3f8fd9a414c499eb62205d782c2b69b" alt="image-20231101151002908"></p>
+<ul>
+<li>工具实现</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/8e50a094040a42aea511701aec26490f" alt="image-20231101151059547"></p>
+<ul>
+<li>代码实现</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/4f8926c7e62a45c284fa0b9ab4575045" alt="image-20231101151130663"></p>
+<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><ul>
+<li><strong>模拟多人使用软件，查找服务器缺陷</strong>。</li>
+<li>工具实现</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/a1c4327e6cba4f1eb38841a4f8570bed" alt="image-20231101151223693"></p>
+<ul>
+<li>代码实现</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/ecd8d41743b34d4d8beb066999d07405" alt="image-20231101151329106"></p>
+<h2 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>功能测试：<ul>
+<li>测试主要验证程序的功能是否满足需求</li>
+</ul>
+</li>
+<li>自动化测试：<ul>
+<li>使用代码或工具代替手工，对项目进行测试</li>
+</ul>
+</li>
+<li>接口测试：<ul>
+<li>使用代码或工具验证程序中的接口是否访问正常</li>
+</ul>
+</li>
+<li>性能测试：<ul>
+<li>模拟多人使用软件，查找服务器缺陷</li>
+</ul>
+</li>
+</ul>
+<h1 id="测试分类"><a href="#测试分类" class="headerlink" title="测试分类"></a>测试分类</h1><h2 id="按测试阶段划分"><a href="#按测试阶段划分" class="headerlink" title="按测试阶段划分"></a>按测试阶段划分</h2><ul>
+<li>按测试阶段划分<ul>
+<li><strong>单元测试、集成测试、系统测试、验收测试、α 测试，β 测试</strong><ul>
+<li>单元测试 : 针对单个功能模块的程序源代码进行测试 , 由开发自测</li>
+<li>集成测试 : 又称接口测试，主要针对模块与模块或系统与系统之间的接口进行验证 , 即多个功能模块的集合测试</li>
+<li>系统测试 : 所有需要测试的需求模块集体测试 ,通常是 2 到 4 轮</li>
+<li>验收测试 : 产品验收和客户(甲方)验收</li>
+<li>α 测试 : 公司内部人员进行测试 , 测试和开发不参与 , 允许有 3 , 4 , 5 级的bug , 不允许有 1 , 2 级的 bug</li>
+<li>β 测试 : 真实使用环境下的测试 , 测试和开发不参与 , 允许有 3 , 4 , 5 级的bug , 不允许有 1 , 2 级的 bug</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/8f2b52cec8e0467ba814d32cf9a78ada" alt="image-20231101152049871"></p>
+<h2 id="按代码可见度划分"><a href="#按代码可见度划分" class="headerlink" title="按代码可见度划分"></a>按代码可见度划分</h2><ul>
+<li><strong>黑盒测试、白盒测试、灰盒测试(接口测试)</strong><ul>
+<li>黑盒测试 : 看不见里面的实现，只能看见输入，以及输出的结果(实际结果)</li>
+<li>白盒测试 : 也叫单元测试 , 代玛走查，里面过程需要透明可见，一般由开发自查自测 , 对测试要求比较高</li>
+<li>灰盒测试 : 接口测试</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/eb5608cbaf9b4c188bfef74247453d7f" alt="image-20231101152110176"></p>
+<h2 id="按测试对象是否运行划分"><a href="#按测试对象是否运行划分" class="headerlink" title="按测试对象是否运行划分"></a>按测试对象是否运行划分</h2><ul>
+<li>被测试对象是否运行划分<ul>
+<li><strong>动态测试、静态测试</strong>(文档检查、代码走查)<ul>
+<li>动态测试 : 有数据的走向,需要发起网络请求,需要同后台进行数据交互</li>
+<li>静态测试 : 没有数据走向,不需要发起网络请求,不需要同后台进行数据交互</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="按测试手段划分"><a href="#按测试手段划分" class="headerlink" title="按测试手段划分"></a>按测试手段划分</h2><ul>
+<li>按不同的测试手段划分<ul>
+<li>手工测试(点工)、自动化测试(工具+代码)<ul>
+<li>自动化测试 : <ul>
+<li>接口自动化测试</li>
+<li>界面自动化测试</li>
+<li>基于 python 语言</li>
+<li>基于 JMeter 工具</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="按测试内容划分"><a href="#按测试内容划分" class="headerlink" title="按测试内容划分"></a>按测试内容划分</h2><ul>
+<li><p>按测试包含的内容划分六个方面 :</p>
+<ul>
+<li><p>测试任何一款软件都需要覆盖的内容 , 一个功能 + 5 个非功能</p>
+</li>
+<li><p><strong>功能测试(优先)、界面测试、兼容性测试、易用性测试、性能测试、安全测试</strong></p>
+<ul>
+<li>易用性测试 : 站在用户角度思考问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他测试分类"><a href="#其他测试分类" class="headerlink" title="其他测试分类"></a>其他测试分类</h2><ul>
+<li>其他测试<ul>
+<li><strong>回归测试、冒烟测试、探索性测试&#x2F;自由测试(测试思维)</strong><ul>
+<li>回归测试 : <ul>
+<li>提交 bug, 由开发修复后, 再由测试重新进行回归验证</li>
+<li>回归测试把之前测试过了的功能，进行第二次测试，属于回归测试</li>
+</ul>
+</li>
+<li>冒烟测试 : <ul>
+<li>主体功能(核心功能)没有通过测试，后续其他功能就不需要再去进行测试了</li>
+</ul>
+</li>
+<li>探索性测试 : <ul>
+<li>随意发挥，没有固定方法 , 可以学习别人的测试思维和测试角度</li>
+<li>依据文档，凭经验发散思维测试</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>1、按阶段划分<ul>
+<li>单元测试 : 针对程序源代码进行测试</li>
+<li>集成测试 : 针对程序接口进行测试</li>
+<li>系统测试 : 针对程序功能、非功能进行测试</li>
+<li>验收测试:使用不同用户(内测、公测) 进行测试</li>
+</ul>
+</li>
+<li>2、按代码可见度划分<ul>
+<li>黑盒测试:不关注源代码，针对程序UI功能进行测试。</li>
+<li>灰盒测试:针对程序部分代码进行测试(接口)</li>
+<li>白盒测试:针对程序源代码进行测试</li>
+</ul>
+</li>
+<li>3、其他<ul>
+<li>性能测试: 归属专项测试</li>
+<li>自动化测试: 归属功能测试</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/21/1b8aaf69fa3442acbbe487ca7d600f89" alt="image-20230921160504164"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/21/1b8aaf69fa3442acbbe487ca7d600f89"></p>
+<h2 id="常见面试题"><a href="#常见面试题" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li><p>什么是软件测试?软件测试的目的是什么?</p>
+</li>
+<li><p>软件测试分类都有哪些?</p>
+</li>
+<li><p>什么是黑盒测试?白盒测试?区别是什么?</p>
+</li>
+<li><p>什么是冒烟测试?</p>
+<ul>
+<li>大规模执行测试之前，针对程序主功能进行验证，保证程序具备可测性。</li>
+</ul>
+</li>
+<li><p>提测的标准是什么?</p>
+<ul>
+<li>冒烟测试通过</li>
+</ul>
+</li>
+<li><p>系统测试和黑盒测试重点核心是功能测试</p>
+</li>
+<li><p>集成测试和灰盒测试又称接口测试</p>
+</li>
+<li><p>单元测试和白盒测试是对代码进行测试</p>
+</li>
+<li><p>自动化测试归属功能测试</p>
+</li>
+<li><p>性能测试、安全测试归属专项测试</p>
+</li>
+</ul>
+<h1 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h1><h2 id="质量模型"><a href="#质量模型" class="headerlink" title="质量模型"></a>质量模型</h2><ul>
+<li>质量模型提供测试设计的不同角度视野和验证方向</li>
+<li>衡量一个优秀软件的维度<ul>
+<li>功能性 : 功能满足需求</li>
+<li>性能效率 : 性能满足实际需求</li>
+<li>兼容性 : 软件能与主流硬件和软件兼容</li>
+<li>易用性: 便于使用</li>
+<li>可靠性 : 性能和功能应用可靠</li>
+<li>信息安全 : 信息在传输或者存储过程的安全程度</li>
+<li>可维护性 : 便于维护</li>
+<li>可移植性 : 具备迁移和便捷性</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/2384a463366d41e7a25c8bd9f2aba470" alt="image-20231101152322431"></p>
+<h2 id="案例分析1"><a href="#案例分析1" class="headerlink" title="案例分析1"></a>案例分析1</h2><h3 id="案例需求"><a href="#案例需求" class="headerlink" title="案例需求"></a>案例需求</h3><ul>
+<li>1、开发一款网络游戏(要求: 10个主功能)</li>
+<li>2、游戏支持web (浏览器) 端、App端</li>
+<li>3、游戏上线后预计每日，20W用户玩家在线</li>
+</ul>
+<h3 id="功能性"><a href="#功能性" class="headerlink" title="功能性"></a>功能性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/a959ea116f724970a9789b5ca1ec4f2e" alt="image-20231101152524475"></p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/da55f8a787f64623a160ded0c2a3fdde" alt="image-20231101152608794"></p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/25f3aab165604b21803bd8e60d538eea" alt="image-20231101152635045"></p>
+<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/f88f78b78aac4a888c249a52d5cf03c0" alt="image-20231101152700715"></p>
+<h3 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/b64bd9ce14e44d289fca9d68a7734578" alt="image-20231101152728124"></p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/c639436bad23449db5dd25c1f824c6b2" alt="image-20231101152751936"></p>
+<h3 id="可移植性"><a href="#可移植性" class="headerlink" title="可移植性"></a>可移植性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/5f29e0e38c754d8f8867122fd6054688" alt="image-20231101152818831"></p>
+<h3 id="可维护性"><a href="#可维护性" class="headerlink" title="可维护性"></a>可维护性</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/01760b00f73e4e8fa844d3f279ce6a78" alt="image-20231101152852316"></p>
+<h2 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>在1970年人类整理了第一个软件生命周期，即瀑布型生命周期模型也叫瀑布模型。规定了它们自.上而下.、相互衔接的固定次序，如同瀑布流水，逐级下落，具有顺序性和依赖性。每个阶段规定文档并需进行评审。<ul>
+<li>包括以下 6 个阶段 : <ul>
+<li>软件计划</li>
+<li>需求分析</li>
+<li>软件设计</li>
+<li>程序编码</li>
+<li>软件测试</li>
+<li>运行维护</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/c3ce71b6f8644624829c30b9d6e60a8c" alt="image-20230922180638811"></p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点 : 严格的规定了每个阶段必须提交的文档，项目的推进必须按照一定的顺序来做</li>
+<li>缺点 : 严重依赖项目文档，脱离用户真实需求，在可运行的软件产品交付给用户之前，用户只能通过文档来了解产品是什么样的，很可能导致最终开发出的软件产品不能真正满足用户的需要。也不适合需求模糊的系统。</li>
+</ul>
+<h3 id="问题的定义及规划"><a href="#问题的定义及规划" class="headerlink" title="问题的定义及规划"></a>问题的定义及规划</h3><ul>
+<li>收集用户需求+初步需求文档+确定可行性(产品市场客户)<ul>
+<li>优秀的项目,取决于产品经理</li>
+</ul>
+</li>
+<li>主要确定软件的开发目的及其可行性。制定项目总体开发计划。并得出初步需求文档</li>
+<li>可行性:<ul>
+<li>市场营销的可行性</li>
+<li>研发是否能实现</li>
+</ul>
+</li>
+</ul>
+<h3 id="需求分析和评审"><a href="#需求分析和评审" class="headerlink" title="需求分析和评审"></a>需求分析和评审</h3><ul>
+<li>在确定软件开发可行的情况下，对软件需要实现的各个功能进行详细分析, 明确客户的需求(需求评审–产品，开发，测试)，输出需求规格说明书终版(原型图)。</li>
+<li>得出最终的需求文档<ul>
+<li>包含原型图 , 原型图由产品经理制作</li>
+</ul>
+</li>
+</ul>
+<h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><ul>
+<li>把需求分析得到的结果转换为软件结构和数据结构,形成系统架构。</li>
+<li><strong>概要设计</strong>:主要是架构的实现，指搭建架构、表述各模块功能、模块接口连接和数据传递的实现等项事务。</li>
+<li><strong>详细设计</strong>:对概要设计中表述的各模块进行深入分析等,其中需要包含数据库设计说明。<ul>
+<li>接口文档</li>
+<li>数据库字典</li>
+</ul>
+</li>
+</ul>
+<h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><ul>
+<li>按照详细设计好的模块功能表，编程人员编写出计算机可运行的程序代码</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/4426980ac8624c4e962715d163c8ea92" alt="image-20230922182701578"></p>
+<h3 id="软件测试"><a href="#软件测试" class="headerlink" title="软件测试"></a>软件测试</h3><ul>
+<li>软件设计完成后要经过严密的测试，以发现软件在整个设计过程中存在的问题并加以纠正.</li>
+<li>测试的方法主要有<strong>白盒测试</strong>跟**黑盒测试(灰盒测试)**两种。<ul>
+<li>建立详细的测试计划并严格按照计划进行。</li>
+</ul>
+</li>
+<li><strong>单元测试</strong>(Unit test) :主要是测试程序代码,为的是确保各单元模块被正确的编译,比如有具体到模块的测试，也有具体到类，函数、方法的测试等。<ul>
+<li>一般是由开发自测、和测试白盒测试</li>
+</ul>
+</li>
+<li><strong>集成测试</strong>:单元测试后,将各单元组合成完整的体系,测试软件单位之间的接口是否正确、数据能否正常传递。<ul>
+<li>接口测试，灰盒测试</li>
+</ul>
+</li>
+<li><strong>系统测试</strong>:把软件系统搭建起来,按照软件规格说明书中所要求，测试软件其功能、界面、兼容、易用、性能、安全等是否和用户需求相符合，在系统中运行是否存在漏洞等。</li>
+<li><strong>验收测试</strong>:主要就是用户在拿到软件的时候，在使用现场，会根据前边所提到的需求，以及规格说明书来做相应测试，以确定软件达到符合效果的。</li>
+</ul>
+<h3 id="运行维护"><a href="#运行维护" class="headerlink" title="运行维护"></a>运行维护</h3><ul>
+<li><strong>软件维护是软件生命周期中持续时间最长的阶段</strong>。在软件开发完成并投入使用后，由于多方面的原因，软件不能继续适应用户的需求。要延续软件的使用寿命，就必须对软件进行维护。<strong>软件的维护主要包括纠错性维护和改进性维护两个方面</strong>。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/acbcb36fbeed486a94b8505a716e92ca" alt="image-20230922184203187"></p>
+<h2 id="V模型"><a href="#V模型" class="headerlink" title="V模型"></a>V模型</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>RAD (Rap Application Development,快速应用开发)模型是软件开发过程中的一个重要模型,由于其模型构图形似字母V,所以又称软件开发的V模型。</li>
+<li>它通过<strong>开发和测试同时进行的方式</strong>来缩短开发周期，提高开发效率。<ul>
+<li>在拿到需求规格说明书之后,进行需求评审完毕,测试就需要开始编写测试用例</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/00ddd7a8b5bd4a4d9804ce5f74142bdf" alt="image-20230922180934883"></p>
+<ul>
+<li>系统测试用例根据需求说明编写出的。</li>
+<li>集成测试用例根据概要设计中模块功能接口等实现方法编写出来</li>
+<li>单元测试的测试用例是和详细设计实现的，在研发人员做详细设计的对应的测试人员也就把测试用例写了</li>
+</ul>
+<h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点 : 包含了从底层（单元测试）到顶层的测试（验收测试）更清楚的标识了开发和测试的各个阶段自上而下逐步求精，每个阶段分工明确，便于整体项目的把控。</li>
+<li>缺点 : 自上而下的顺序导致测试工作在编码后，不能及时的进行修改实际工作中，需求经常变化，导致V模型步骤反复执行，返工量很大，灵活度较低。</li>
+</ul>
+<h2 id="W模型"><a href="#W模型" class="headerlink" title="W模型"></a>W模型</h2><h3 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>也是一种传统软件开发模型，由两个V字型模型组成，分别代表测试与开发过程，测试的活动与软件开发同步进行测试的对象不仅仅是程序，还包括需求和设计相对与V模型可尽早发现软件缺陷可降低软件开发的成本</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/bda9ffffa4e346e189e536c75c66f998" alt="image-20240108135351752"></p>
+<ul>
+<li><p>优点 : </p>
+<ul>
+<li>测试伴随整个产品开发周期，测试对象不仅是程序还有需求、设计文档</li>
+<li>测试介入较早，及早发现问题，降低修复成本</li>
+<li>分阶段工作，方便项目整体管理</li>
+</ul>
+</li>
+<li><p>缺点: </p>
+<ul>
+<li>实施起来比较复杂，难度大，对于需求阶段和设计阶段的测试设计要求较高</li>
+<li>开发和测试依然是线性的关系，需求的变更和调整，依然不方便</li>
+<li>如果没有文档，无法执行W模型</li>
+<li>对于项目组成员的技术要求更高</li>
+</ul>
+</li>
+</ul>
+<h2 id="敏捷开发模型"><a href="#敏捷开发模型" class="headerlink" title="敏捷开发模型"></a>敏捷开发模型</h2><ul>
+<li><p>市场主流,非常重要</p>
+</li>
+<li><p>从 1990 年代开始逐渐引起广泛关注,是<strong>一种以用户需求为核心、切分多个子项目快速迭代、收集用户需求的开发方法</strong>。强调以人为本，专注于交付对客户有价值的软件。是一个用于开发和维持复杂产品的框架。就是把一个大项目分为多个相互联系,但也可独立运行的小项目，并分别完成，在此过程中软件一直处于可使用状态。</p>
+<ul>
+<li>以用户需求为核心 : <ul>
+<li>强化人与人之间的沟通，弱化文档(需求&#x2F;测试用例&#x2F;测试报告),提高沟通效率，降低成本</li>
+</ul>
+</li>
+<li>切分多个子项目快速迭代 : <ul>
+<li>先做某一指定功能,先发布上线抢占市场</li>
+<li>分多个子模块,分开做,快速迭代</li>
+</ul>
+</li>
+<li>收集用户需求 : <ul>
+<li>根据市场的反馈即时调整后续功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>质量模型：<ul>
+<li><strong>功能、性能、兼容、易用、安全、</strong>可靠性、移植性、维护性</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见面试题-1"><a href="#常见面试题-1" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>问题 : 项目发布上线后,测试是否还需要测试 ? <ul>
+<li>在线上环境&#x2F;生产环境,要经过冒烟测试(核心功能的测试)<ul>
+<li>若不通过,出问题立马修复,实在不行就版本打回</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>问题 : 项目已经在客户使用阶段，运行维护阶段出现问题，测试需不需要跟踪 ? <ul>
+<li>已经交付甲方, 看合同需要维护多久 , (由运维负责 , bug 由运维提交给产品经理)<ul>
+<li>纠错性维护 : 如果有 bug ,经由产品经理确认后才可以改</li>
+<li>改进型维护 : 产生新的需求, 得加钱</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="软件测试流程"><a href="#软件测试流程" class="headerlink" title="软件测试流程"></a>软件测试流程</h1><h2 id="软件测试工作流程"><a href="#软件测试工作流程" class="headerlink" title="软件测试工作流程"></a>软件测试工作流程</h2><h3 id="软件测试工作流程-1"><a href="#软件测试工作流程-1" class="headerlink" title="软件测试工作流程"></a>软件测试工作流程</h3><ul>
+<li>1、了解需求</li>
+<li>2、测试用例设计</li>
+<li>3、测试环境准备</li>
+<li>4、根据用例执行测试</li>
+<li>5、Bug记录与上报</li>
+<li>6、Bug修复</li>
+<li>7、Bug修复后的验证</li>
+<li>8、形成测试报告</li>
+<li>9、项目上线</li>
+<li>10、生产环境验证</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/278af514b4ec4f1185b2d8cf9a8fabc0" alt="image-20231101153016128"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/778dc332ca454db9bbae5a8ebf01ed2a" alt="image-20230922185644730"></p>
+<h3 id="测试各阶段分析"><a href="#测试各阶段分析" class="headerlink" title="测试各阶段分析"></a>测试各阶段分析</h3><ul>
+<li><p><strong>测试需求分析</strong> : </p>
+<ul>
+<li>阅读需求,理解需求,主要就是对业务的学习,分析需求点。</li>
+<li>参与需求评审会议,确定各部门对需求的理解一致, 站在不同角度对需求进行查漏补缺</li>
+</ul>
+</li>
+<li><p><strong>测试计划</strong> : </p>
+<ul>
+<li>编写测试计划，参考软件需求规格说明书、项目总体计划，内容包括测试范围(来自需求文档)、进度的安排，人力物力的分配，整体测试策略的制定，和风险的评估与规避措施有一个制定，一般由测试负责人编写，当然我们可能也会参与相关的评审工作。</li>
+<li>测试计划通常由测试负责人编写测试计划</li>
+</ul>
+</li>
+<li><p><strong>测试用例编写</strong> :</p>
+<ul>
+<li>主要任务是编写测试用例，会参考需求文档(原型图)、概要设计、详细设计等文档,有不明确的也会及时和开发、产品经理沟通。用例编写完成后会进行评审。</li>
+</ul>
+</li>
+<li><p><strong>执行测试用例</strong> : </p>
+<ul>
+<li>首先搭建测试环境，执行预测(冒烟)， 以判定当前版本可测与否,如果预测通过，正式进入系统测试(2-4轮) , 遇到问题提交Bug到缺陷管理平台，并</li>
+</ul>
+</li>
+<li><p><strong>bug缺陷管理</strong></p>
+<ul>
+<li>对 bug 进行跟踪，直到被测软件达到测试需求要求，没有重大bug,测试结束。<ul>
+<li>提出 bug , 验证 bug , 关闭 bug</li>
+<li>优化、完善测试用例</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>测试评估</strong> : </p>
+<ul>
+<li><code>生成测试报告</code>，对整个测试的过程和版本质量做一个详细的评估(剩余bug数量&#x2F;严重程度,测试用例的覆盖率)。确认是否可以上线。</li>
+<li>测试报告 : 一个项目由测试负责人出一份测试报告，不用每个测试人员都写。</li>
+</ul>
+</li>
+<li><p><strong>UAT 验收测试</strong> : </p>
+<ul>
+<li>部署到 UAT 测试环境，由产品或者领导来验证功能。</li>
+<li><strong>UAT : 验收测试</strong>(预发布环境)</li>
+<li>一般由负责人或者甲方进行测试</li>
+</ul>
+</li>
+</ul>
+<h3 id="系统测试"><a href="#系统测试" class="headerlink" title="系统测试"></a>系统测试</h3><ul>
+<li>第一轮 : 最初测试并提出 bug , 该轮问题最多 , 通常用时 1 天</li>
+<li>第二轮 : 对开发修改 bug 后提交的新版本,进行回归验证第一轮的 bug , 并继续测试没有测试完的功能 , 以及各功能的细测 , 通常用时 1 - 2 天</li>
+<li>第三轮 : 第二轮存在的问题以及更细致的测试,更多场景的验证,确保需求不遗漏,不漏测试 . 最后评估项目质量,提交测试报告,发布上线</li>
+<li>注意点:<ul>
+<li>测试轮数的多少,根据测试人员数量和需求的多少决定</li>
+<li>测试报告通常包含以下各项 :<ul>
+<li>测试用例覆盖率</li>
+<li>bug 验证程度</li>
+<li>bug 人员分配</li>
+<li>bug 总数</li>
+<li>bug 清单</li>
+<li>开发周期</li>
+<li>测试周期</li>
+<li>预估风险(提前预警)</li>
+<li>最终结论(决定此次版本是否可以上线)</li>
+<li>…</li>
+</ul>
+</li>
+<li>发布上线 : <ul>
+<li>冒烟测试<ul>
+<li>不通过<ul>
+<li>紧急修复</li>
+<li>版本回滚 ,  例如:  1.0 (线上)  — 1.1 (更新,但出错了) – 1.0 (回滚回 1.0)</li>
+<li>再次上线</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不要留下测试数据,不能动生产环境的数据,找开发删除,不能自己自行删除</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="冒烟测试"><a href="#冒烟测试" class="headerlink" title="冒烟测试"></a>冒烟测试</h3><ul>
+<li>冒烟先检测开发提交的版本有没有达到可以测试的标准</li>
+<li>验收阶段客户进行的冒烟测试</li>
+<li>线上环境&#x2F;生产环境进行冒烟测试(重点)</li>
+</ul>
+<h2 id="小结-5"><a href="#小结-5" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>如何开展软件的测试工作？<ul>
+<li>① 需求评审 </li>
+<li>② 编写测试计划</li>
+<li>③ 用例设计 </li>
+<li>④ 用例执行</li>
+<li>⑤ 缺陷管理 </li>
+<li>⑥ 测试报告</li>
+</ul>
+</li>
+</ul>
+<h1 id="测试需求分析"><a href="#测试需求分析" class="headerlink" title="测试需求分析"></a>测试需求分析</h1><h2 id="测试需求是什么"><a href="#测试需求是什么" class="headerlink" title="测试需求是什么"></a>测试需求是什么</h2><ul>
+<li><p>测试需求主要解决“测什么”的问题</p>
+<ul>
+<li>一般<strong>来自需求规格说明书</strong>中原始需求</li>
+<li>需求文档由产品收集整理,需求来自市场调研或者甲方客户</li>
+</ul>
+</li>
+<li><p><strong>测试需求应全部覆盖已定义的业务流程（逻辑)，以及功能和非功能方面的需求</strong></p>
+<ul>
+<li>测试分析需求文档<ul>
+<li>怎么测试?测试什么东西?测试点?</li>
+</ul>
+</li>
+<li>开发分析需求文档<ul>
+<li>分析需求文档决定怎么去开发?怎么代码编译实现功能?怎么达到需求要求的效果?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>示例:淘宝</p>
+<ul>
+<li><p>注册—登录–浏览商品—加入购物车&#x2F;立即购买—提交订单—支付–物流跟踪―(主流程&#x2F;核心业务)</p>
+<ul>
+<li>主流程&#x2F;核心业务—冒烟测试—正向流程</li>
+<li>其他分支&#x2F;异常场景—反向流程<ul>
+<li>注册失败(已注册&#x2F;不规范)—登录失败(用户名&#x2F;密码错误)—商品库存不足&#x2F;已下架—购物车(空&#x2F;有)–立即购买(页面跳转)–支付(超时&#x2F;余额不足)</li>
+<li>依据提示信息</li>
+<li>异常场景—站在用户的角度，提高用户体验</li>
+<li>业务流程尽可能多的去覆盖各个路径，多花时间去了解&#x2F;通透需求文档，梳理业务逻辑&#x2F;流程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>功能与非功能</p>
+<ul>
+<li><p>功能:<strong>第—优先级保证正确性</strong></p>
+<ul>
+<li>业务流程(功能+业务)—正常&#x2F;异常</li>
+</ul>
+</li>
+<li><p>非功能:<strong>界面、兼容、易用、安全、性能</strong></p>
+</li>
+<li><p>注意:作为测试，不要为了提 bug 而提 bug，<strong>一定先从功能业务发现问题，提高产品质量</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="为什么需要测试需求"><a href="#为什么需要测试需求" class="headerlink" title="为什么需要测试需求"></a>为什么需要测试需求</h2><ul>
+<li>简而言之︰只有明确了测试需求，才能知道测试什么内容，怎么去测试?什么时候开始测试?多少人?什么环境测试?测试范围?<ul>
+<li>怎么去测试? —测试方法(用例设计–四大金刚)和工具(接口&#x2F;性能&#x2F;数据库)</li>
+<li>什么时候开始测试?–测试时间评估</li>
+<li>多少人测试?—-人力分配</li>
+<li>什么环境下测试? <ul>
+<li>PC 客户端( windows8&#x2F;10 32&#x2F;64bit )、web端( chrome&#x2F;firefox&#x2F;lE )、app ( 安卓&#x2F;IOS )、小程序&#x2F;H5</li>
+</ul>
+</li>
+<li>统一的统筹安排工作—测试负责人(测试计划)—通过需求分析文档得到</li>
+<li>测试计划—会在组内评审—信息同步</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何开展测试工作"><a href="#如何开展测试工作" class="headerlink" title="如何开展测试工作"></a>如何开展测试工作</h2><ul>
+<li>拿到一个新项目后，如何开展测试工作?步骤?<ul>
+<li>第一步:先了解这是一个什么项目?什么架构?PC? App?web?涉及哪些端?<ul>
+<li>大概业务逻辑是怎么样的, 业务流程要做一个整体的把握<ul>
+<li>腾讯课堂:分不同角色来区分业务流<ul>
+<li>学生端:注册—登录–报名课程–点击进入课堂—上课体验—文字发言–举手发言</li>
+<li>教师端:注册—登录–我的排课–点击进行上课—分享屏幕(摄像头)—发声说话</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第二步:细化分析（分模块&#x2F;约束条件&#x2F;要点），具体测试点―—-正向+异常场景<ul>
+<li>注册:手机?邮箱?密码要求?验证码要求?</li>
+<li>登录:第三方?自己注册登录?授权?错误次数?记住密码?密码是否明文显示?<ul>
+<li>测试点需明确</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第三步:功能之间的模块交互测试(模块的关联测试)<ul>
+<li>注册＋登录<ul>
+<li>前端(用户视角)＋后端(后台视角)的交互测试</li>
+<li>新增–修改–详情–查询–删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第四步:非功能的测试(界面(设计图)、兼容(产品&#x2F;客户)、安全(产品)、性能(产品)、易用(用户角度))</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/23/3f047934398848e78e8a8dc3bccd960f" alt="image-20230923100907750"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/23/9ddb1cc88c5140c39309a00e0139b9c6" alt="image-20230923102609851"></p>
+<h2 id="常见面试题-2"><a href="#常见面试题-2" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li><p>遇到隐性需求怎么办?</p>
+<ul>
+<li>充分理解需求文档，参考成熟产品(同类产品&#x2F;竞品分析)，与产品沟通(先自己尝试解决)，知识储备经验</li>
+</ul>
+</li>
+<li><p>给你一个带有 logo(A4纸，盆栽，行李箱，电梯，N95I罩）的水杯，你会如何去测试?—经典面试题(选择1个&#x2F;多个)</p>
+<ul>
+<li><p>测试水杯</p>
+<ul>
+<li><p>遇到这种面试题，回答思路：</p>
+</li>
+<li><p>因为没有明确需求，所以根据我自己的理解，我认为主要可以从以下几个方面考虑：</p>
+<ul>
+<li><p>功能测试：装水、喝水、是否可以保温、容量多少？漏水</p>
+</li>
+<li><p>界面测试：外观、logo是否正确，大小、形状、颜色</p>
+</li>
+<li><p>易用性测试：方便拿？方便携带，喝水友好，盖子好不好拧</p>
+</li>
+<li><p>兼容性测试：冷水、冰水、开水、饮料、桌子稳定</p>
+</li>
+<li><p>性能测试：支持高温&#x2F;低温，耐摔、挤压</p>
+</li>
+<li><p>安全测试：材质是否安全，漏水</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>你会如何去测试朋友圈，购物车等熟知的软件产品? (支付，优惠券，购物车、微信聊天，朋等）</p>
+</li>
+</ul>
+<h1 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h1><h2 id="什么是用例"><a href="#什么是用例" class="headerlink" title="什么是用例"></a>什么是用例</h2><ul>
+<li>用例：用户使用的案例</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/35bbedf1c9de42afad8c6c567c301035" alt="image-20231101164409251"></p>
+<h2 id="什么是测试用例"><a href="#什么是测试用例" class="headerlink" title="什么是测试用例"></a>什么是测试用例</h2><ul>
+<li><strong>测试用例(TestCase) 是为项目需求而编制的一组测试输入、执行步骤以及预期结果，以便测试某个程序是否满足客户需求</strong>。<ul>
+<li>即为测试项目而设计的执行文档</li>
+</ul>
+</li>
+<li>可以总结为:每一个测试点的数据设计和步骤设计。<ul>
+<li>对测试点的细化</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/f5e66b797fdc4226bdc1cdb21dbb27d4" alt="image-20231101164518636"></p>
+<h2 id="测试用例的作用"><a href="#测试用例的作用" class="headerlink" title="测试用例的作用"></a>测试用例的作用</h2><ul>
+<li>0 , <strong>软件测试的核心是测试用例的设计和编写</strong>,是每个测试人员必须掌握的技能! ! !</li>
+<li>1、<strong>测试用例是软件测试的核心</strong>。<ul>
+<li>软件测试的重要性是毋庸置疑的,<code>测试用例是测试工作的指导，防止漏测,也是实施测试的标准, 质量评价依据 , 是软件测试质量稳定的根本保障</code>。</li>
+<li>测试执行(点点点)依据是测试用例文档</li>
+</ul>
+</li>
+<li>2、<strong>评估测试结果的基准</strong><ul>
+<li>测试用例的通过率以及错误率， 是测试结束的一个重要依据，用来判断该软件测试结果是否通过，能否达到上线的标准; –; 评估测试质量的标准</li>
+<li>测试用例数量&#x2F;质量作为测试绩效考核标准;</li>
+</ul>
+</li>
+<li>3、<strong>保证测试的时候不遗漏测试功能点,避免漏测和错误测试</strong><ul>
+<li>可以在测试人员疲累的时候起到一个牵引的作用。<ul>
+<li>大厂公司的用例，给一个实习生可以直接去执行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4、<strong>在编写测试用例的过程，可以熟悉需求，对系统架构或者业务流程有一个整体的，深入地了解</strong></li>
+<li>5、<strong>在执行完测试用例之后，补充完善用例</strong><ul>
+<li>测试用例的编写不是一次性能编写完的，不是一蹴而就的, 会经历很多的过程</li>
+</ul>
+</li>
+</ul>
+<h2 id="测试用例的八大要素"><a href="#测试用例的八大要素" class="headerlink" title="测试用例的八大要素"></a>测试用例的八大要素</h2><ul>
+<li><p>1、<strong>用例编号</strong>:产品名测试阶段(st 或 uat) </p>
+<ul>
+<li>st 系统测试，uat 验收测试</li>
+</ul>
+</li>
+<li><p>2、<strong>测试项目</strong>:对应一-个功能模块(细分功能)</p>
+</li>
+<li><p>3、<strong>测试标题</strong>:直接对测试点进行细化得出，输入内容+结果，同一功能模块标题不能重复(来自测试点)</p>
+</li>
+<li><p>4、<strong>重要级别</strong>:</p>
+<ul>
+<li>高(high) (核心功能) - P1</li>
+<li>中(medium) (次要–异常) - P2</li>
+<li>低(low) (界面， 不常用场景) - P3</li>
+</ul>
+</li>
+<li><p>5、<strong>预置条件</strong>:需要满足一些前提条件,否则用例无法执行, 不是必填项</p>
+</li>
+<li><p>6、<strong>测试输入</strong>(数据) :需要加工的输入信息，根据具体情况来设计(跟步骤结合起来-定要具有指导性意义)-数据构造</p>
+</li>
+<li><p>7、<strong>操作步骤</strong>:明确给出每个步骤的描述,执行人员可以根据该步骤完成执行工作-小白&#x2F;实习生</p>
+</li>
+<li><p>8、<strong>预期结果</strong>:根据预期输出比对实际结果，来判断被测对象是否符合需求。(预期结果唯一， 不能出现“是否或者”)</p>
+</li>
+<li><p>9、<strong>实际结果</strong>:执行后的最终结果</p>
+</li>
+<li><p>例如:</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/24/a37dfd052c734b69a6634e94bd05dd8b" alt="image-20230924153446749"></p>
+<h2 id="编写测试用例的步骤"><a href="#编写测试用例的步骤" class="headerlink" title="编写测试用例的步骤"></a>编写测试用例的步骤</h2><ul>
+<li>分析需求—提取测试点–细化测试用例</li>
+</ul>
+<h2 id="测试用例编写的原则"><a href="#测试用例编写的原则" class="headerlink" title="测试用例编写的原则"></a>测试用例编写的原则</h2><ul>
+<li>测试用例编写的原则: <ul>
+<li>1、正常冒烟: 详细到每一个步骤，进行预期结果的检查<ul>
+<li>第一 条用例比较多</li>
+</ul>
+</li>
+<li>2、后面用例:但凡跟第一条测试用例的点有重复的话 , 要去重 , 用到用例设计方法—细化(正常&#x2F;异常)</li>
+</ul>
+</li>
+<li>哪些内容可以放到预期结果里检查,不要单独写一条测试用例进行验证?<ul>
+<li>1、操作跟之前的用例操作步骤重复的，第一条写用例—后面缩写了</li>
+<li>2、查看想—查看同意协议，注册成功，弹框显示”欢迎加入蜂群”–查看性的功能–顺带做了</li>
+</ul>
+</li>
+</ul>
+<h2 id="测试用例的编写格式"><a href="#测试用例的编写格式" class="headerlink" title="测试用例的编写格式"></a>测试用例的编写格式</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/f0b247ceb7dd498dabe5a92a7b69d98a" alt="image-20231101165150885"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/09f59df0299347778c04c8bacc012553" alt="image-20240108143519671"></p>
+<h2 id="测试用例评审"><a href="#测试用例评审" class="headerlink" title="测试用例评审"></a>测试用例评审</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/24/f8b99445c2c2453793f652947e1a649b" alt="image-20230924151932658"></p>
+<ul>
+<li>测试用例评审流程：<ul>
+<li>1、组内评审(测试内部)：<ul>
+<li>编写用例的人发起评审–协商时间–组织一个会议—邮件(用例附件+时间+会议室&#x3D;&#x3D;&#x3D;人员)</li>
+<li>开会：用例讲解(测试点+思路+展示)–意见+建议–会议记录–修改用例—二次用例评审(没有太大的问题–评审通过)</li>
+</ul>
+</li>
+<li>2、组外评审(开发+产品+测试)<ul>
+<li>编写用例的人发起评审–协商时间–组织一个会议—邮件(用例附件+时间+会议室&#x3D;&#x3D;&#x3D;人员)</li>
+<li>开会：用例讲解(测试点+思路+展示)–意见+建议–会议记录–修改用例—二次用例评审(没有太大的问题–评审通过)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>真实公司场景：没有时间参与会议形式评审，发邮件(用例文档)&#x3D;&#x3D;&#x3D;开发+产品+测试&#x3D;&#x3D;&#x3D;回复(有问题)&#x3D;&#x3D;&#x3D;责任规避</li>
+<li>面试题：你们公司就算没有时间，也会做用例评审吗？<ul>
+<li>做,发邮件, 对方爱看就看 , 扯皮的时候有的说, 避免背锅</li>
+</ul>
+</li>
+</ul>
+<h2 id="测试用例的变更"><a href="#测试用例的变更" class="headerlink" title="测试用例的变更"></a>测试用例的变更</h2><ul>
+<li>由于需求变更、对于业务的不断深入了解和测试用例评审，测试用例是无法一次全部写好的， 所以，测试用例在完成之后是需要不断修正的。</li>
+<li>测试用例变更通常包括:<ul>
+<li>1、需求变动</li>
+<li>2、执行完成后的用例完善</li>
+<li>3、评审后的用例修改<ul>
+<li>一定要记得备份，避免重复的工作! ! !</li>
+<li>1、写完测试用例-需求变更-修改用例–快修改完了–需求又改回去-不要在原文档进行修改–通过 git 管理文档&#x2F;代码</li>
+<li>2、执行完后的测试用例，要进行不断的修正，为后期工作做总结</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例分析1-1"><a href="#案例分析1-1" class="headerlink" title="案例分析1"></a>案例分析1</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/a2f9cc899c1a456a9eb767a0d78a65ae" alt="image-20231101164950271"></p>
+<h3 id="案例需求-1"><a href="#案例需求-1" class="headerlink" title="案例需求"></a>案例需求</h3><ul>
+<li>需求: QQ登录（4 条）<ul>
+<li>1、账号为空</li>
+<li>2、账号未注册</li>
+<li>3、密码为空</li>
+<li>4、密码错误</li>
+</ul>
+</li>
+</ul>
+<h3 id="测试用例编写"><a href="#测试用例编写" class="headerlink" title="测试用例编写"></a>测试用例编写</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/f0b247ceb7dd498dabe5a92a7b69d98a" alt="image-20231101165150885"></p>
+<h2 id="常见面试题-3"><a href="#常见面试题-3" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>1:用例需要评审么?紧急情况用例也需要评审么?<ul>
+<li>需要,紧急可以不开会,但需要通过邮件发给相关人员</li>
+</ul>
+</li>
+<li>2:如果被测项目很紧急,来不及写用例，怎么办?<ul>
+<li>直接写测试点，项目结束后，完善测试用例，归档</li>
+</ul>
+</li>
+<li>3:用例有没有优先级?如果一定要有优先级，依据什么来确定呢?有什么作用呢?<ul>
+<li>指定执行策略依据</li>
+</ul>
+</li>
+<li>4:如何编写测试用例? (以项目为基础来讲一 个小模块 用例设计，手机号)结合项目<ul>
+<li>分析需求—提取测试点—细化测试用例(四大金刚)，实操测试用例(8大要素)</li>
+</ul>
+</li>
+</ul>
+<h1 id="测试用例设计方法"><a href="#测试用例设计方法" class="headerlink" title="测试用例设计方法"></a>测试用例设计方法</h1><h2 id="本节学习目标"><a href="#本节学习目标" class="headerlink" title="本节学习目标"></a>本节学习目标</h2><ul>
+<li>能对穷举场景设计测试点</li>
+<li>能对限定边界规则设计测试点</li>
+<li>能对多条件依赖关系进行设计测试点</li>
+<li>能对于项目业务进行设计测试点</li>
+</ul>
+<h2 id="等价类划分法"><a href="#等价类划分法" class="headerlink" title="等价类划分法"></a>等价类划分法</h2><h3 id="说明｜分类｜步骤"><a href="#说明｜分类｜步骤" class="headerlink" title="说明｜分类｜步骤"></a>说明｜分类｜步骤</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/994ea7e8e03d45ada7647a36afce34d0" alt="image-20231101220816088"></p>
+<h3 id="等价类划分法的概念"><a href="#等价类划分法的概念" class="headerlink" title="等价类划分法的概念"></a>等价类划分法的概念</h3><ul>
+<li><p><strong>等价类划分法是把所有程序的输入域划分成若干个子集合（等价类)，然后从每一个子集合（等价类)中选取少数具有代表性的数据作为测试的输入数据</strong>。</p>
+</li>
+<li><p>1)划分等价类(集合)</p>
+</li>
+<li><p>2)怎么选择代表数据</p>
+<ul>
+<li>在该子集合中，所有的输入数据对于揭露软件中的错误都是等效的。</li>
+<li>依据需求文档 , **将等价类划分有效等价类(正面-不会报错)和无效等价类(负面-抛出异常)**。<ul>
+<li>有效等价类 : 是指将程序的输入值的集合当中符合输入要求的数据就是有效等价类</li>
+<li>无效等价类 : 是指将程序的输入值的集合当中不符合输入要求的数据就是无效等价类</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>例如:</p>
+<ul>
+<li><p>发微信红包[0.01-200] : (每个数据都测试叫穷举法)</p>
+<ul>
+<li><p>有效等价类:</p>
+<ul>
+<li>(1) [0.01-200] (4)数字 (6) 非空(必填) (8)不能超过两位小数</li>
+</ul>
+</li>
+<li><p>无效等价类:</p>
+<ul>
+<li>(2) 小于0.01 (3)大于200 (5)非数字（7)为空 (9)超过两位小数（10)负数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="用例设计步骤和原则"><a href="#用例设计步骤和原则" class="headerlink" title="用例设计步骤和原则"></a>用例设计步骤和原则</h3><ul>
+<li>1, 分析需求，先确定其有效等价类，和无效等价类</li>
+<li>2, 在确立了等价类之后，建立等价类表，列出所有划分出的等价类;</li>
+<li>3, 再从划分出的等价类中选择测试用例。<ul>
+<li>设计一个新的测试用例数据,使其尽可能多地覆盖尚未被覆盖的有效等价类,重复这一步，直到所有的有效</li>
+<li>价类都被覆盖为止;–都会正常运行，提高效率</li>
+<li><strong>将多个等价类涵盖在一条测试用例里面</strong>(能正常运行&#x2F;省时省力&#x2F;提高效率)<ul>
+<li>为了去重测试</li>
+</ul>
+</li>
+<li><strong>设计一个新的测试用例数据,使其仅覆盖一个尚未被覆盖的无效等价类</strong>,重复这一步，直到所有的无效等价都被覆盖为止<ul>
+<li>唯一变量，一次只能覆盖;目的确保所有的异常都会软件处理</li>
+<li>1个无效的数据仅覆盖一条测试用例(容易定位问题)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>针对：需要有大量数据测试输入，但是没法穷举测试的地方。<ul>
+<li>输入框</li>
+<li>下拉列表</li>
+<li>单选复选框</li>
+</ul>
+</li>
+<li>典型代表：页面的输入框类测试。</li>
+<li>重点:<ul>
+<li>1、正向用例 : 一条尽可能覆盖多条</li>
+<li>2、逆向用例 : 每一条数据，都是一条单独用例。</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例需求1"><a href="#案例需求1" class="headerlink" title="案例需求1"></a>案例需求1</h3><ul>
+<li>需求：验证QQ账号的合法性</li>
+<li>要求: 6~10位自然数<ul>
+<li>分类:<ul>
+<li><p>有效等价：所有有效数据集合，取一个即可。</p>
+<ul>
+<li>(从6,7,8,9,10位中取一个即可)</li>
+</ul>
+</li>
+<li><p>无效等价：所有无效数据集合，取一个即可。</p>
+<ul>
+<li>(从小于6位,大于10位的集合中取一个即可)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/7725c7ca26e1402bb27a228ebebd9ad1" alt="image-20231102093006560"></p>
+<h3 id="案例需求2"><a href="#案例需求2" class="headerlink" title="案例需求2"></a>案例需求2</h3><ul>
+<li>需求：验证某城市电话号码正确性</li>
+<li>要求：<ul>
+<li>区号:空或者是三位数字</li>
+<li>前缀码:非“0”且非“1”开头的三位数字</li>
+<li>后缀码:四位数字</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/10f02bf0194848a9a2f5737594abf172" alt="image-20231102094844161"></p>
+<h2 id="边界值分析法"><a href="#边界值分析法" class="headerlink" title="边界值分析法"></a>边界值分析法</h2><h3 id="边界值分析法-1"><a href="#边界值分析法-1" class="headerlink" title="边界值分析法"></a>边界值分析法</h3><ul>
+<li>1, 定义:<strong>边界值分析法是对等价类划分法的一个补充，边界值一般都是从等价类的边缘值去寻找</strong>。有效等价类边界无效等价类边界</li>
+<li>2, 原则和步骤:确定边界:应当选取正好等于，刚刚大于或刚刚小于边界的值作为测试数据–-范围相关<ul>
+<li>[0.01-200]<ul>
+<li>两点法(正好等于) : 0.01、200</li>
+<li>四点法(正好等于+刚刚大于+刚刚小于) : 0.01、0.02、199.99、200</li>
+<li>三点法(正好等于+中间取值):0.01、100、200</li>
+<li>7点法 : 0、0.01、0.02、100、199.99、200、200.01<ul>
+<li>看项目、时间分配、模块的重要程度来测试</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>特殊边界值:—年(1-12)、月(1-30&#x2F;31&#x2F;28&#x2F;29)、星期(1-7)、小时(O-23)<ul>
+<li>0是一个特殊值、负数、空值、空格、特殊字符等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3, 边界值的作用 :<ul>
+<li>人们从长期的测试工作经验得知，<strong>大量的错误是发生在输入或输出范围的边界上，而不是在输入范围内部。因此针对各种边界情况设计测试用例，可以查出更多的错误!</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="案例分析1-2"><a href="#案例分析1-2" class="headerlink" title="案例分析1"></a>案例分析1</h3><ul>
+<li>如何验证两个两位数整数边界数据的求和？</li>
+<li>需求：判断输入的数据是否小于-99或者大于99，如果小于 -99 或大于 99 给出错误提示</li>
+</ul>
+<h3 id="边界范围节点"><a href="#边界范围节点" class="headerlink" title="边界范围节点"></a>边界范围节点</h3><ul>
+<li>选取正好等于、刚好大于、刚好小于边界的值作为测试数据<ul>
+<li><strong>上点</strong>：边界上的点(正好等于)</li>
+<li><strong>离点</strong>：距离上点最近的点(刚好大于、刚好小于)</li>
+<li><strong>内点</strong>：范围内的点(区间范围内的数据)</li>
+</ul>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/01/ad54e42bfb3248c89a0f77046aecce01" alt="image-20231101221346146" style="zoom:150%;" />
+
+<h3 id="设计用例步骤"><a href="#设计用例步骤" class="headerlink" title="设计用例步骤"></a>设计用例步骤</h3><ol>
+<li>明确需求</li>
+<li>确定有效和无效等价类</li>
+<li>确定边界范围值</li>
+<li>提取数据编写测试用例</li>
+</ol>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li><p>边界值的应用场景 : </p>
+<ul>
+<li><p>如果需求规定了取值范围，取值的个数时，可以利用边界值进行测试 , <strong>通常与等价类分析法一起使用</strong></p>
+</li>
+<li><p>在等价类的基础上针对有边界范围的测试数据输入的地方(重点关注边界)</p>
+</li>
+<li><p>常见词语描述:大小、尺寸、重量、最大、最小、至多、至少等修饰词语</p>
+</li>
+<li><p>典型代表:有边界范围的输入框类测试</p>
+</li>
+</ul>
+</li>
+<li><p>常见的应用场景 : </p>
+<ul>
+<li><p>常见词语描述：大小、尺寸、重量、最大、最小、至多、至少等修饰词语</p>
+</li>
+<li><p>典型代表：有边界范围的输入框类测试</p>
+</li>
+<li><p>1, 输入条件规定的取值范围或值的个数的情况(类似最小&lt;x&lt;最大、最小&lt;x、最大&gt;x);</p>
+<ul>
+<li>比如用户名长度、红包金额数值输入范围</li>
+</ul>
+</li>
+<li><p>2, 在下拉列表包含多个选项的情况;比如城市下拉选项(第一个、最后一个、中间一个)</p>
+</li>
+<li><p>3, 报表数据的第一行、最后一行、中间一行</p>
+</li>
+<li><p>4, 屏幕上光标在最左上、最右下位置–界面边界</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例分析2"><a href="#案例分析2" class="headerlink" title="案例分析2"></a>案例分析2</h3><ul>
+<li>需求：通过边界值法验证标题长度的合法性</li>
+<li>要求：标题长度大于0，小于等于30个字符</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/0cc3dc47ee5249329c8e8d74744d5a32" alt="image-20231102104103662"></p>
+<h3 id="案例分析3"><a href="#案例分析3" class="headerlink" title="案例分析3"></a>案例分析3</h3><ul>
+<li>需求：通过边界值法验证QQ号码的合法性</li>
+<li>要求：6~10位自然数</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/5cac31fbb35f4101abfe4c944890c213" alt="image-20231102104455625"></p>
+<h3 id="案例优化"><a href="#案例优化" class="headerlink" title="案例优化"></a>案例优化</h3><ul>
+<li>结论:7个优化为5个点</li>
+<li>上点:必选(不考虑区间开闭)</li>
+<li>内点:必选(建议选择中间范围)</li>
+<li>离点:开内闭外(考虑开闭区间，开区间选择内部离点，闭区间选择外部离点)<ul>
+<li>10 &lt; a &lt;&#x3D; 20</li>
+<li>使用开闭区间表达: (10,20]</li>
+<li>开区间:不包含</li>
+<li>闭区间:包含</li>
+</ul>
+</li>
+<li>开区间指的是区间边界的两个值不包括在内;(a,b)</li>
+<li>闭区间指的是区间边界的两个值包括在内。[a,b]</li>
+<li>半开半闭区间:开区间一边的边界值不包括在内，而闭区间一边的边界值包括在内。[a,b)、(a,b]</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/5cac31fbb35f4101abfe4c944890c213" alt="image-20231102104455625"></p>
+<h2 id="判定表法"><a href="#判定表法" class="headerlink" title="判定表法"></a>判定表法</h2><h3 id="判定表法的引用"><a href="#判定表法的引用" class="headerlink" title="判定表法的引用"></a>判定表法的引用</h3><ul>
+<li>案例:  验证“若用户欠费或者关机，则不允许主被叫”功能的测试</li>
+<li>说明：<ul>
+<li>等价类边界值分析法主要关注单个输入类条件的测试, 并未考虑输入条件之间的各种组合、输入条件与输出结果之间有相互制约关系的测试。</li>
+</ul>
+</li>
+</ul>
+<h3 id="判定表定义及组成"><a href="#判定表定义及组成" class="headerlink" title="判定表定义及组成"></a>判定表定义及组成</h3><ul>
+<li>定义：是一种以表格形式表达多条件逻辑判断的工具<ul>
+<li>组成：</li>
+<li>条件桩：列出问题中的所有条件，列出条件的次序无关紧要。</li>
+<li>动作桩：列出问题中可能采取的操作，操作的排列顺序没有约束。</li>
+<li>条件项：列出条件对应的取值，所有可能情况下的真假值。</li>
+<li>动作项：列出条件项的、各种取值情况下应该采取的动作结果。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/29/af7d794434c448daa286550fb891a889" alt="image-20231102090252247"></p>
+<ul>
+<li>规则:<ul>
+<li>判定表中贯穿条件项和动作项的一列就是一条规则</li>
+<li>假设有n个条件，每个条件的取值有两个(0,1)，全组合有2的n次方种规则</li>
+</ul>
+</li>
+</ul>
+<h3 id="判定表法设计用例步骤"><a href="#判定表法设计用例步骤" class="headerlink" title="判定表法设计用例步骤"></a>判定表法设计用例步骤</h3><ul>
+<li>1、明确需求</li>
+<li>2、画出判定表<ul>
+<li>1, 列出条件桩和动作桩</li>
+<li>2, 填写条件项，对条件进行全组合</li>
+<li>3, 根据条件项的组合确定动作项</li>
+<li>4, 简化、合并相似规则(有相同的动作)</li>
+</ul>
+</li>
+<li>3、根据规则编写测试用例</li>
+</ul>
+<h3 id="使用场景-2"><a href="#使用场景-2" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>有多个输入条件，多个输出结果，输入条件之间有组合关系，输入条件和输出结果之间有依赖(制约)关系</li>
+<li>判定表一般适用于条件组合数量较少的情况(比如4个条件以下)</li>
+<li>提示：如果碰到项目中多条件组合大于4个相互依赖，可以使用（正交表和因果图来实现）</li>
+</ul>
+<h3 id="案例分析1-3"><a href="#案例分析1-3" class="headerlink" title="案例分析1"></a>案例分析1</h3><ul>
+<li>订购单检查<ul>
+<li>规则<ul>
+<li>1）如果金额大于500元，又未过期，则发出批准单和提货单;</li>
+<li>2）如果金额大于500元，但过期了，则不发批准单与提货单;</li>
+<li>3）如果金额小于等于500元，则不论是否过期都发出批准单和提货单;</li>
+<li>4）在过期的情况下不论金额大小还需要发出通知单。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/c7cf910efab44f81990cad7121390261" alt="image-20231102111317081"></p>
+<h3 id="案例分析2-1"><a href="#案例分析2-1" class="headerlink" title="案例分析2"></a>案例分析2</h3><ul>
+<li>文件修改规则<ul>
+<li>规则<ul>
+<li>1）输入的第一列字符必须是A或B</li>
+<li>2）第二列字符必须是一个数字</li>
+<li>3）如果第一列字符不正确，则给出信息L</li>
+<li>4）如果第二列字符不正确，则给出信息M</li>
+<li>5）如果两列字符输入正确，则修改文件成功</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/f7237c5cdd8e48f0890678a8fb34f436" alt="image-20231102111344727"></p>
+<h2 id="场景法"><a href="#场景法" class="headerlink" title="场景法"></a>场景法</h2><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ul>
+<li>使用标准图形和箭头来表达程序或业务的走向</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/b1bd99cc436c489dae63a2f0ea6895ec" alt="image-20231102090815110"></p>
+<ul>
+<li><p>流程图对测试人员有什么作用？</p>
+<ul>
+<li>1、能够看懂流程图，设计业务用例</li>
+<li>2、当需求文档信息不全是，能够根据需求，梳理出流程</li>
+</ul>
+</li>
+<li><p>网页版工具：<a target="_blank" rel="noopener" href="https://processon.com/">https://processon.com/</a></p>
+</li>
+<li><p>Windows 工具: visio</p>
+</li>
+</ul>
+<h3 id="场景法-1"><a href="#场景法-1" class="headerlink" title="场景法"></a>场景法</h3><ul>
+<li>1、什么是场景法?<ul>
+<li>通过场景描述的业务流程(业务逻辑)，也包括代码实现逻辑， 设计用例来遍历场景(路径)，验证软件系统功能的正确性。</li>
+</ul>
+</li>
+<li>2、如何使用场景法<ul>
+<li>2.1画出流程图–产品需求文档，画好了;或者需要测试自己画，工具: wps, office -visio, processon<ul>
+<li>矩形:示步骤(操作、输入、输出结果)</li>
+<li>菱形:判断条件–是、否</li>
+<li>箭头:流向–输入文字</li>
+</ul>
+</li>
+<li>2.2遍历场景,提取测试用例。正常+异常<ul>
+<li>1)覆盖正常的路径-顺利取到钱</li>
+<li>2)走每一个分支–正常场景下没有覆的路径</li>
+<li>3)出错步骤重新回到主流程，建议多走一步 正确的步骤</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>注意:场景法的重点是测试流程，因此每个流程一个用例验证即可，流程测试没有问题并不能说明系统功能没有问题了，还需要针对单步的功能进行细化测试,只有单个功能点和流程测试，才算是充分的测试+等价类、边界值—细化测试</li>
+</ul>
+<h3 id="应用场景举例"><a href="#应用场景举例" class="headerlink" title="应用场景举例"></a>应用场景举例</h3><ul>
+<li>场景一:插入一张合法的银行卡，输入正确密码不取消，输入正确的金额，账户和ATM余额充足，取款成功;</li>
+<li>场景二:插入一张不合法的银行卡，提示错误退卡;</li>
+<li>场景三:插入一张合法的银行卡，取消了，退卡;</li>
+<li>场景四:插入一张合法的银行卡，输入不正确的密码，错误超过3次,吞卡;</li>
+<li>场景五:插入- -张合法的银行卡，输入不正确密码，错误次数不超过3次，提示重新输入，返回输入密码界面—建议多走一步,输入正确密码是否可以正常进行</li>
+<li>场景六:插入-张合法的银行卡，输入正确密码，输入不合法的金额, 提示重新输入–建议多走一步，输入合法的金额是否正常</li>
+<li>场景七:插入-张合法的银行卡，输入正确密码，输入合法的金额,账户余额不足，提示重新输入</li>
+<li>场景八:插入- -张合法的银行卡，输入正确密码，输入合法的金额,账户余额充足，ATM机里余额不足，提示重新输入–建议多走一步,输入法的ATM余额充足，金额是否正常</li>
+<li>场景法覆盖完之后，功能测试是否充分? &#x3D;&#x3D;密码输入，金额输入–细化–边界值等价类</li>
+</ul>
+<h3 id="案例分析1-4"><a href="#案例分析1-4" class="headerlink" title="案例分析1"></a>案例分析1</h3><ul>
+<li>流程图练习<ul>
+<li>1、用户名为 admin , 密码为：123456，输出：登录成功</li>
+<li>2、登录、搜索商品、添加购物车、去结算、支付，如果支付成功，则提示下单成功，否则提示支付失败</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/9e322299662b4fdf91c03fd0dab183b7" alt="image-20231102112413853"></p>
+<h3 id="场景法介绍"><a href="#场景法介绍" class="headerlink" title="场景法介绍"></a>场景法介绍</h3><ul>
+<li>说明：<ul>
+<li>场景法也可以叫流程图法，是用流程图描述用户的使用场景，然后通过覆盖流程路径来设计测试用例。</li>
+</ul>
+</li>
+<li>意义：<ul>
+<li>用户使用角度:用户平时使用的不是单个功能，而是多个功能组合起来进行使用</li>
+<li>测试人员角度:平时测试的都是单个功能点进行测试，容易忽略多个功能的组合测试</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用场景-3"><a href="#使用场景-3" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>根据实际的应用场景，来测试业务用例，可以使用场景法</li>
+</ul>
+<h3 id="案例分析2-2"><a href="#案例分析2-2" class="headerlink" title="案例分析2"></a>案例分析2</h3><ul>
+<li>ATM 取款流程</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/e28d8bdca202413db5469d318e57ed1c" alt="image-20231102091136078"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/73116237efa7410d9085fd045775d321" alt="image-20231102091200113"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/9d5dedf3bd28420dbeb7559d00e605a8" alt="image-20231102114043168"></p>
+<h3 id="案例分析3-1"><a href="#案例分析3-1" class="headerlink" title="案例分析3"></a>案例分析3</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/26/5d061cf9e4314d348700b0494e7e337f" alt="image-20230926130247572"></p>
+<ul>
+<li>场景一:员工请假超过3天，部门]经理，部门总监，HR都审批通过，请假成功</li>
+<li>场景二:员工请假超过3天，部门]经理不通过，重新提交申请</li>
+<li>场景三:员工请假超过3天，部门]经理通过,总监不通过，重新提交申请</li>
+<li>场景四:员工请假超过3天，部门]经理通过,总监通过，HR不通过重新提交申请</li>
+<li>场景五:员工请假不超过3天，部门]经理和HR通过，请假成功</li>
+<li>场景六:员工请假不超过3天,部门]经理不通过，重新提交申请</li>
+<li>场景七:员工请假不超过3天,工部门经理通过，HR不通过，重新提交申请</li>
+</ul>
+<h2 id="错误推荐法"><a href="#错误推荐法" class="headerlink" title="错误推荐法"></a>错误推荐法</h2><h3 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>基于经验和直觉推测程序中所有可能存在的各种错误,从而有针对性的设计测试用例的方法。</li>
+<li>它的要素共有三点，分别为:经验、知识、直觉。—探索性测试</li>
+<li>考虑程序可能触发错误场景，也就是导致程序不能正常运行的因素。— 不能单独使用，补充</li>
+<li>等价类-边界值-场景法-错误推测(由果及因)</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/bde87738ec40433bafbc8145f71bd026" alt="image-20231102091545185"></p>
+<h3 id="案例分析1-5"><a href="#案例分析1-5" class="headerlink" title="案例分析1"></a>案例分析1</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/5227917ba6f64582a3b434d56c9b34dc" alt="image-20231102091800936"></p>
+<ul>
+<li><p>单模块用例设计 : </p>
+<ul>
+<li><p>密码规则 : </p>
+<ul>
+<li><p>a)	不能纯数字</p>
+</li>
+<li><p>b)	不能纯字母</p>
+</li>
+<li><p>c)	字母+数字</p>
+</li>
+<li><p>d)	长度6-16位</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例分析2-3"><a href="#案例分析2-3" class="headerlink" title="案例分析2"></a>案例分析2</h3><ul>
+<li>业务用例设计</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/a8a3a4f963364b0c9bb65082608f4708" alt="image-20231102091928175"></p>
+<h3 id="错误推测法案例"><a href="#错误推测法案例" class="headerlink" title="错误推测法案例"></a>错误推测法案例</h3><ul>
+<li>案例:某平台登录页面<ul>
+<li>既然是用错误猜测法，那么我们首先列出可能导致结果出错的情况(登录失败)(功能+非功能)<ul>
+<li>1、网络问题—中断(断电&#x2F;断网)</li>
+<li>2、用户名&#x2F;密码错误—数据不对</li>
+<li>3、未注册用户登录</li>
+<li>4、单点登录(账号在一个设备登录,在其他设备下线)&#x2F;多点登录(同一个账号可以多端同时在线)–踢下线</li>
+<li>5、验证码错误</li>
+<li>6、外部因素:网站升级、系统崩溃、宕机</li>
+<li>7、页面超时</li>
+<li>8、账号为空&#x2F;密码为空</li>
+<li>9、账号冻结–黑名单–安全</li>
+<li>10、点击登录按钮无响应</li>
+<li>11、账号已注销</li>
+<li>12、密码多次输入错误，已超上线次数</li>
+<li>13、登录限制—IP受限—异地限制</li>
+<li>14、兼容性测试—不兼容当前浏览器</li>
+<li>15、访问人数过多-性能测试</li>
+<li>16、 未成年超过玩游戏时间限制登录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见面试题-4"><a href="#常见面试题-4" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li><p>1, 编写测试用例会用到什么方法? -四大金刚</p>
+<ul>
+<li>你觉得你在写用例的时候用到了吗?怎么用的? ?</li>
+</ul>
+</li>
+<li><p>2, 判断能否构成三角形:</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/24/adf6f6dc890a428abaac5f4f0c3f5db6" alt="image-20230924112149506"></p>
+<ul>
+<li>测试用例方法有哪些 : <ul>
+<li>等价类划分法</li>
+<li>边界值分析法</li>
+<li>错误推测法</li>
+<li>因果图法</li>
+<li>判定表驱动法</li>
+<li>正交试验法</li>
+<li>功能图法</li>
+<li>场景法</li>
+</ul>
+</li>
+</ul>
+<h1 id="bug缺陷管理"><a href="#bug缺陷管理" class="headerlink" title="bug缺陷管理"></a>bug缺陷管理</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ol>
+<li>   能够说出软件缺陷判定标准</li>
+<li>   能够说出项目中缺陷的管理流程</li>
+<li>   能够使用Excel对于缺陷进行管理</li>
+<li>   能使用工具管理缺陷</li>
+</ol>
+<h2 id="缺陷定义"><a href="#缺陷定义" class="headerlink" title="缺陷定义"></a>缺陷定义</h2><ul>
+<li><p><strong>软件在使用过程中存在的任何问题都叫软件的缺陷，简称bug</strong>。</p>
+</li>
+<li><p><strong>狭义概念是指软件程序的漏洞或缺陷</strong></p>
+</li>
+<li><p><strong>广义概念除此之外还包括测试工程师或用户所发现和提出的软件可改进的细节（增强性，建议性).或与需求文档存在差异的功能实现等。</strong></p>
+</li>
+<li><p>测试职责:发现这些bug，并提交给开发，让开发去修改</p>
+<ul>
+<li>发现bug—定位bug—提交bug(开发)—回归验证Bug—关闭Bug</li>
+</ul>
+</li>
+</ul>
+<h2 id="缺陷的判定标准"><a href="#缺陷的判定标准" class="headerlink" title="缺陷的判定标准"></a>缺陷的判定标准</h2><ul>
+<li>软件未实现需求(规格)说明书中明确要求的功能 –少功能</li>
+<li>软件出现了需求(规格)说明书中指明不应该出现的错误 -功能错误</li>
+<li>软件实现的功能超出需求(规格)说明书指明的范围 -多功能</li>
+<li>软件未实现需求(规格)说明书中虽未明确指明但应该实现的要求 –隐性功能错误</li>
+<li>软件难以理解，不易使用，运行缓慢，用户体验不好 - 不易使用</li>
+</ul>
+<h2 id="bug的分类"><a href="#bug的分类" class="headerlink" title="bug的分类"></a>bug的分类</h2><h3 id="功能型-Bug"><a href="#功能型-Bug" class="headerlink" title="功能型 Bug"></a>功能型 Bug</h3><ul>
+<li>功能型 Bug : 指产品实现过程中，具体逻辑的实现错误<ul>
+<li>比如 : 登录时，用户名要求使用邮箱登陆，但并未验证邮箱格式<ul>
+<li>类型 : 实现错误<ul>
+<li>前端未验证 : 频繁且大量的错误请求发到后端给服务器带来无意义的压力</li>
+<li>后端未验证 : 如果前端验证时有Bug则错误数据会直接进入到数据库中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>比如 : 用户浏览商品时，商品添加到购物车中失败<ul>
+<li>类型 : 未成功实现<ul>
+<li>前端未实现 : 点击添加购物车按钮无反应，或并没有发送添加请求到后端</li>
+<li>后端未实现 : 后端代码逻辑有问题，比如数据数据传输解析失败或数据存储失败</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="需求型-bug"><a href="#需求型-bug" class="headerlink" title="需求型 bug"></a>需求型 bug</h3><ul>
+<li>需求型 bug : 指在软件项目管理的过程中，需求阶段就埋下了隐患，如未按照需求实现需求理解错误或需求未描述清楚等情况<ul>
+<li>比如 : 系统中用户可使用微信手机号、邮箱注册并登陆<ul>
+<li>类型 : 需求未描述清楚<ul>
+<li>出现的问题 : 当一个用户分别使用了微信、手机号、由邮箱进行了系统的注册登陆</li>
+<li>带来的影响 : 在软件系统中会认为微信、手机号、邮箱分别是一个独立的用户 , 这明显是错误的</li>
+</ul>
+</li>
+<li>如何解决 : 在需求阶段就定义一个明确的唯一值，比如手机号，无论用什么方式注册，登陆成功后都必须绑定手机号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能型Bug"><a href="#性能型Bug" class="headerlink" title="性能型Bug"></a>性能型Bug</h3><ul>
+<li>性能型Bug : 指在软件在多人同时使用或长时间运行时出现了响应慢，甚至是崩溃的问题<ul>
+<li>比如 : 某明星官宣恋爱、结婚等或被曝出违法犯罪的行为，导致微博崩溃<ul>
+<li>类型 : 多人同时使用系统崩溃</li>
+<li>结论 : 微博这个问题，很难解决，是金钱与用户之前的一种平衡</li>
+<li>原因 : <ul>
+<li>多年运行的成熟软件，架构已然成熟，靠的就是增加服务器来提升性能 </li>
+<li>大多数时间没有那么多用户，增加太多服务器就是增加成本</li>
+<li>明星新闻爆出速度太快，并没有给服务器动态扩充多少准备的时间</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="常识型Bug"><a href="#常识型Bug" class="headerlink" title="常识型Bug"></a>常识型Bug</h3><ul>
+<li>常识型Bug : 在过去用户一直是这样认为的，已经形成一种默认的约定，但软件设计或开发人员就不按照约定俗成的规则来</li>
+</ul>
+<h2 id="bug的等级"><a href="#bug的等级" class="headerlink" title="bug的等级"></a>bug的等级</h2><ul>
+<li>要bug等级，这个划分有分三级或四级，也有分五级的。如果是等级越高（严重)，那么可能被修复的等级也会高一些，然后有些公司还会根据你提的bug数量和bug等级来考察你的绩效。很多情况下，我们提交bug大致的等级差不多即可，没有严格区分。</li>
+<li>影响到开发绩效&#x3D;&#x3D;等级设置谨慎</li>
+<li>如何来判断bug的等级（严重程度)，一般可以参照下面的判断条件。</li>
+</ul>
+<h3 id="致命错误P1级"><a href="#致命错误P1级" class="headerlink" title="致命错误P1级"></a>致命错误P1级</h3><ul>
+<li>(1) 致命错误:—- P1<ul>
+<li>1、常规操作引起的系统崩溃、死机、死循环、闪退—阻塞，冒烟测试都不通过</li>
+<li>2、造成数据泄漏的安全性问题，比如恶意攻击造成的账户私密信息泄露—安全漏洞</li>
+<li>3、涉及巨额的金钱计算和金钱损失—-巨额损失，银行&#x2F;信贷&#x2F;P2P&#x2F;电商—看用户的基数</li>
+<li>4、阻断性测试，所有测试工作进行不下去</li>
+<li>5、权限问题–用户越权，vip&#x2F;普通</li>
+</ul>
+</li>
+</ul>
+<h3 id="严重错误P2级"><a href="#严重错误P2级" class="headerlink" title="严重错误P2级"></a>严重错误P2级</h3><ul>
+<li>(2) 严重错误:—–P2<ul>
+<li>1、重要功能不能实现;</li>
+<li>2、次要功能错误的波及面广，影响到其它重要功能正常实现;</li>
+<li>3、非常规操作导致的程序崩溃、死机、死循环、闪退<ul>
+<li>网络异常情况导致&#x2F;连续点击4-5次才能出现的问题</li>
+</ul>
+</li>
+<li>4、外观(界面)难以接受的缺陷;</li>
+<li>5、密码明文显示;<ul>
+<li>前端密码标*处理，后端传输数据的时候密码是加密处理</li>
+<li>抓包工具去看数据</li>
+</ul>
+</li>
+<li>6、偶现的致命性bug</li>
+</ul>
+</li>
+</ul>
+<h3 id="一般错误P3级"><a href="#一般错误P3级" class="headerlink" title="一般错误P3级"></a>一般错误P3级</h3><ul>
+<li>(3) 一般错误:—P3<ul>
+<li>不影响产品的运行、不会成为故障起因，但对产品外观和下道工序影响较大的缺陷<ul>
+<li>1、次要功能不能正常实现;</li>
+<li>2、操作界面错误（包括数据窗口内列名定义、含义不一致);</li>
+<li>3、查询错误，数据错误显示</li>
+<li>4、简单的输入限制未放在前端进行控制;<ul>
+<li>减轻后端(开发+服务器)的压力，比如在前端校验手机号&#x2F;邮箱&#x2F;空&#x2F;长度&#x2F;类型 , 如果前端未校验,则可以提建议性 bug</li>
+</ul>
+</li>
+<li>5、删除操作未给出提示;—防止误操作，友好型</li>
+<li>6、偶现的严重性bug</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="细微错误P4级"><a href="#细微错误P4级" class="headerlink" title="细微错误P4级"></a>细微错误P4级</h3><ul>
+<li>(4) 细微错误:—P4<ul>
+<li>程序在一些显示上不美观，不符合用户习惯，或者是一些文字的错误<ul>
+<li>1、界面不规范;</li>
+<li>2、辅助说明描述不清楚;</li>
+<li>3、提示窗口文字未采用行业术语;—约定俗成4、界面存在文字错误;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="改进建议P5级"><a href="#改进建议P5级" class="headerlink" title="改进建议P5级"></a>改进建议P5级</h3><ul>
+<li><p>(5) 改进建议—-P5</p>
+<ul>
+<li>可以提高产品质量的建议，包括新需求和对需求的改进。可以参考借鉴同类产品&#x2F;竞品产品</li>
+</ul>
+</li>
+<li><p>问:提交 Bug，提交给谁?一定开发吗?(开发+产品)</p>
+<ul>
+<li>建议性的问题:我不确定要不要做,就提交给产品，我确定要做,就提交给开发</li>
+</ul>
+</li>
+<li><p>问:测试提交的 Bug，开发不认为是 bug，测试怎么办?</p>
+<ul>
+<li><p>测试要先确定下bug是不是存在的，排除外界因素导致(网络问题&#x2F;环境问题&#x2F;误操作…)找开发协商沟通，说服开发，测试是从哪些角度去考虑（用户的角度)</p>
+</li>
+<li><p>找产品&#x2F;项目负责人，进行确认，得到最终的答复(不认为是Bug—关闭–说明原因–自己记录下来)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例练习分析"><a href="#案例练习分析" class="headerlink" title="案例练习分析"></a>案例练习分析</h2><ul>
+<li>1, 用户输入正确的用户名和密码不能登录网站<ul>
+<li>结合产品去考虑<ul>
+<li>如果是类似QQ&#x2F;微信,则属于 P1级</li>
+<li>如果是类似爱奇艺&#x2F;优酷, 则属于 P2 级</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2, 客户需求要有充值功能，但是网站没有做<ul>
+<li>区分功能的重要性 , 核心?次要?可有可无?</li>
+</ul>
+</li>
+<li>3, 网站充值后，出现金额错误:<ul>
+<li>看金额的大小?用户基群?巨额?小钱?是哪个区域的业务(银行&#x2F;电商) , 用户群体越大,金额越大,则优先级越高</li>
+</ul>
+</li>
+<li>4, 在某购物APP上进行商品搜索时，闪退回到手机桌面<ul>
+<li>业务?重要功能?偶发性?</li>
+</ul>
+</li>
+<li>5, 在某购物APP上进行商品搜索时，手机卡死<ul>
+<li>业务?重要功能?偶发性?跟硬件有关?</li>
+</ul>
+</li>
+<li>6, 关闭按钮在弹窗左侧<ul>
+<li>操作定义违反用户习惯P3&#x2F;P4(也要根据公司业务场景来)</li>
+</ul>
+</li>
+<li>7, APP某个图标显示太小或者像素失真<ul>
+<li>结合业务去定义P2&#x2F;P3&#x2F;P4&#x2F;P5</li>
+</ul>
+</li>
+<li>8, 某个提示语需要改进一下，用户对专业术语不太懂<ul>
+<li>提示语描述不清楚P3&#x2F;P4</li>
+</ul>
+</li>
+<li>9.忘记密码，功能没有实现<ul>
+<li>依据业务来定义，看是重要?次要的?功能?</li>
+</ul>
+</li>
+</ul>
+<h2 id="缺陷产生原因"><a href="#缺陷产生原因" class="headerlink" title="缺陷产生原因"></a>缺陷产生原因</h2><ul>
+<li>程序在开发时考虑不周全导致</li>
+<li>程序在使用时不符合用户习惯</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/ae152ddee8f049548147fe1091e33b8f" alt="image-20231102203457825"></p>
+<h2 id="软件缺陷的生命周期"><a href="#软件缺陷的生命周期" class="headerlink" title="软件缺陷的生命周期"></a>软件缺陷的生命周期</h2><ul>
+<li>这个是面试&#x2F;笔试过程中经常会被问的问题。<ul>
+<li><strong>bug的生命周期，就是一个bug被发现到这个bug被关闭的过程</strong>。</li>
+</ul>
+</li>
+<li>你们觉得这个过程有哪些步骤?<ul>
+<li>生命周期中一般缺陷状态:发现–新建(提bug)-→&gt;指派-&gt;已解决-→&gt;待验-&gt;关闭。—正常</li>
+<li>如果待验的bug在验证时没有解决好，我们需要重新打开（重激活)-&gt;指派-&gt;已解决-&gt;待验，循环这个过程。</li>
+<li>中间其他状态:拒绝、延期等</li>
+</ul>
+</li>
+<li>我们来看一个bug的处理流程图（生命周期图)，让大家更深刻地理解周期中bug的状态及相应处理。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/6f9e60f3515843eba51485e4dfab50f5" alt="image-20231102203612038"></p>
+<h2 id="软件缺陷的核心内容"><a href="#软件缺陷的核心内容" class="headerlink" title="软件缺陷的核心内容"></a>软件缺陷的核心内容</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/04e35f2fb90243d8b9dba38489fe7f8a" alt="image-20231102203654720"></p>
+<h2 id="缺陷提交要素"><a href="#缺陷提交要素" class="headerlink" title="缺陷提交要素"></a>缺陷提交要素</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/eba05eb1be74406195dcc76db1920f62" alt="image-20231102203726857"></p>
+<h2 id="软件缺陷类型"><a href="#软件缺陷类型" class="headerlink" title="软件缺陷类型"></a>软件缺陷类型</h2><ul>
+<li>要确定一个bug的类型，需要对项目（纯产品）有比较深的理解。这个划分对于开发定位问题影响很小，但对于问题类型的统计就比较重要了。—测试报告bug分析</li>
+<li>常见的bug类型划分（禅道系统为例，可自定义)∶<ul>
+<li>1、代码(功能)错误—最重要，比重最多的</li>
+<li>2、界面优化— Ul</li>
+<li>3、设计缺陷–需求不合理，改进，建议性的bug</li>
+</ul>
+</li>
+<li>按照公司具体的规定来分类! !!</li>
+<li>如何区分前端bug还是后端bug？<ul>
+<li>1、如果是界面或兼容性的错误为前端bug</li>
+<li>2、如果是功能错误区分前端和后端bug，需要抓包查看请求和响应。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/e79da052d2ec48a6980843ba403e7e82" alt="image-20231102203809962"></p>
+<h2 id="缺陷报告示例"><a href="#缺陷报告示例" class="headerlink" title="缺陷报告示例"></a>缺陷报告示例</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/29/5e6bef9a0faf4ce0b396077d8c144c7f" alt="image-20231102205717485"></p>
+<h2 id="bug状态跟踪流程"><a href="#bug状态跟踪流程" class="headerlink" title="bug状态跟踪流程"></a>bug状态跟踪流程</h2><h3 id="bug的状态管理"><a href="#bug的状态管理" class="headerlink" title="bug的状态管理"></a>bug的状态管理</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/22/59525e4e3f5e42cb9e75834be5da108a" alt="image-20240122203103298"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/22/8ad8ba50a6c14399a9a3970b5069d8a0" alt="image-20240122203246101"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/9f7f079fb96b4ab0921af803d2678d5a" alt="image-20231102205947503"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/25/0a9f850d3c2a4496a0b1682b6a572f65" alt="image-20230925111213544"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/25/abfcde08e3394568909866eace677c0f" alt="image-20230925111623935"></p>
+<ul>
+<li>1、发现bug：不要着急提bug—-记录(截图)</li>
+<li>2、确认bug：确认bug(排除外界因素)—确定步骤是否必现？&#x3D;&#x3D;&#x3D;&#x3D;目的：Bug的有效性</li>
+<li>3、提交bug：必现&#x2F;偶现–提交到哪里？—提交给谁？—怎么提交？</li>
+<li>4、指派bug：开发计划(人员分配) , 可以直接提交给开发本人,或者提交开发负责人,由负责人分配<ul>
+<li>注意：一定要跟进bug，开发理了？催开发处理bug—- P1(半天)</li>
+</ul>
+</li>
+<li>5、研发确认bug： 从测试提交的bug描述中判断，是不是bug？</li>
+<li>6、重复bug：其他人提交过的bug，重复提了重复 bug<ul>
+<li>确认是重复了,则关闭bug，并说明原因  , 如果确认不是重复, 则重激活 bug 并指派给开发</li>
+<li>注意：开发一定要把重复 bugID标注(备注)</li>
+</ul>
+</li>
+<li>7、不是缺陷：无效bug , 先确认外部因素(误操作&#x2F;网络&#x2F;环境)， 不是bug—设计如此–先去确认需求–找产品确认<ul>
+<li>第一种：自己排查 , 如果是无效 bug ，备注并关闭，不是无效的, 备注并重激活指派对应开发</li>
+<li>第二种：开发坚持认为不是bug，说明原因—站在用户的角度–沟通不一致–找产品&#x2F;项目负责人–最后确认</li>
+<li>要改(重激活指派对应开发)</li>
+<li>不改(关闭bug+原因备注+记录)</li>
+</ul>
+</li>
+<li>8、无法重现：<ul>
+<li>第一种：偶现bug，要记录，在标题上标记偶现，后续版本持续的复现，尝试找到稳定复现的步骤+提供截图+日志(linux)；</li>
+<li>第二种：测试提出一个bug，开发人员在开发环境没有复现，尝试在自己的测试环境查看是否复现，让开发来测试环境看问题，修改测试的Bug（开发修改的代码同步到开发环境）</li>
+<li>第三种：测试环境无法复现—持续跟踪(5个版本)—一直持续关注，如果临近发布版本，依旧无法复现 , 则关闭加备注</li>
+</ul>
+</li>
+<li>9、不予解决：不修复bug , 可以要求开发给出不修复的理由</li>
+<li>10、延期bug：本次发布项目不修复，留到下个版本解决<ul>
+<li>建议性bug , 比如新功能以及动作大的需求,可以在下一个版本处理</li>
+<li>修复风险太大，可能会引入新的bug，会导致项目延期发布</li>
+<li>衡量 bug 对用户的影响 , 如不修复，对用户影响不大 , 则可以下次再修<ul>
+<li>如不修复，对用户影响面很广, 就需要重激活 bug (说明) , 并指派给产品</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>11、回归验证Bug：bug 步骤重新测试一遍 , 这个bug所涉及的功能点，均要测试<ul>
+<li>开发改动的代码所涉及到的点均要回归验证</li>
+<li>临近发布版本的时候，要把P1、P2的bug  要进行回归验证</li>
+</ul>
+</li>
+<li>12、解决Bug：回到了测试手上–开发把修复bug代码的版本提交测试&#x3D;&#x3D;注意版本&#x2F;环境</li>
+<li>13、关闭bug：确认此bug通过验证，即关闭bug</li>
+</ul>
+<h2 id="提交缺陷注意事项"><a href="#提交缺陷注意事项" class="headerlink" title="提交缺陷注意事项"></a>提交缺陷注意事项</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/b61301a161244f309ec1efaed49498e2" alt="image-20231102210427395"></p>
+<h2 id="bug提交规范"><a href="#bug提交规范" class="headerlink" title="bug提交规范"></a>bug提交规范</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/b4ab88983acb4a8bb48582f0b6749a6a" alt="image-20231102210824754"></p>
+<ul>
+<li>发现bug后，接下来你提交到bug管理平台，提交一个bug包含哪些内容?</li>
+<li>bug标题——标题要清晰简洁，写明bug描述;如果没有选择功能模块，最好在标题中标注功能模块。让查看bug的人员清楚知道你所表达的意思。bug的功能模块+bug的操作+bug的结果<ul>
+<li>例如 :</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/25/ed35a17f8e934e7f98138709e3486463" alt="image-20230925112448445"></p>
+<ul>
+<li>重现步骤——详细写下发现bug的测试过程。能指导开发重现这个bug。附上测试数据</li>
+<li>实际结果——出现bug的结果，粘贴bug截图、日志截图&#x3D;&#x3D;&#x3D;文字＋截图–Ul-web APP&#x3D;&#x3D;有图有真相，证据直观</li>
+<li>预期结果——记得写清楚预期&#x3D;&#x3D;测试用例预期结果–指引开发修复bug的依据bug类型和严重程度——便于后续测试结果分析，bug的统计</li>
+<li>bug测试环境——例如:什么系统，哪个版本等。兼容性问题、难以重现问题附件——日志文件，文件测试数据。图片、崩溃日志文件等</li>
+<li>所有以上，参考公司前辈写的bug，依葫芦画瓢，拓展测试思维</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/25/ff593bc93dca4a0580166ed8dd828d43" alt="image-20230925113412653"></p>
+<ul>
+<li>柠檬班禅道地址: <a target="_blank" rel="noopener" href="http://zbox.lemonban.com/zentao/my/">http://zbox.lemonban.com/zentao/my/</a></li>
+</ul>
+<h2 id="bug的管理工具"><a href="#bug的管理工具" class="headerlink" title="bug的管理工具"></a>bug的管理工具</h2><ul>
+<li>常见的缺陷管理平台:<ul>
+<li>禅道(zentao) —-国内中小型企业，免费开源bugzilla、 jira —外企&#x3D;&#x3D;安装比较麻烦</li>
+<li>bugfree:</li>
+<li>Readmine</li>
+<li>easybug:免费开源，在线网站类型的</li>
+<li>Mantis:这个还可以用</li>
+<li>QC(QualityCenter)TAPD–微信–TD</li>
+</ul>
+</li>
+<li>不管是开源还是商业的缺陷管理工具，它们本质都是一样的，用来管理bug的生命周期。掌握其中一款工具，自然就会用其他的，稍微有一点点区别的，别人加以指点，就可以明白了。</li>
+</ul>
+<h3 id="禅道的介绍"><a href="#禅道的介绍" class="headerlink" title="禅道的介绍"></a>禅道的介绍</h3><ul>
+<li>本地部署下载地址 : <a target="_blank" rel="noopener" href="https://www.zentao.net/page/download-new.html">https://www.zentao.net/page/download-new.html</a></li>
+<li>特点：<ul>
+<li>国产、免费、开源、简单、轻量级</li>
+<li>三管融合(产品管理、项目管理、质量管理)</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/a717e998198d4e3c934191a785523376" alt="image-20231102213314091"></p>
+<h3 id="禅道使用流程"><a href="#禅道使用流程" class="headerlink" title="禅道使用流程"></a>禅道使用流程</h3><ul>
+<li>测试 : <ul>
+<li>提交bug</li>
+<li>分派bug</li>
+</ul>
+</li>
+<li>开发 : <ul>
+<li>处理bug</li>
+</ul>
+</li>
+<li>测试 :<ul>
+<li>回归bug</li>
+<li>关闭bug</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/02/016f88b9fc2d4e29a47c4cfb65cd5e69" alt="image-20231102213743823"></p>
+<h3 id="缺陷描述"><a href="#缺陷描述" class="headerlink" title="缺陷描述"></a>缺陷描述</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/08/001821e5e7424b4fbae9bece9b212a5c" alt="image-20240108173304358"></p>
+<h2 id="常见面试题-5"><a href="#常见面试题-5" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>1:有没有你印象深刻的bug? bug的原因&#x2F;bug当时怎么解决?— 90%以上都会问，实战之后，自己再去梳理</li>
+<li>2: bug 的生命周期?(笔试)</li>
+<li>3:当你发现了一个bug，但是开发不认为是bug，如何处理?–90%以上会问<ul>
+<li>测试要先确定bug是不是存在，排除外界因素导致(网络问题&#x2F;环境问题&#x2F;误操作….)</li>
+<li>找开发协商沟通，说服开发，测试是从用户角度去考虑问题</li>
+<li>找产品&#x2F;项目负责人，进行确认，得到最终的答复(不认为是bug—关闭(说明原因)—自己记录下来)</li>
+</ul>
+</li>
+<li>4:你在发现bug并确认bug的过程中,对于复现率不高（偶现）的bug怎么处理?</li>
+</ul>
+<h1 id="测试计划与测试报告"><a href="#测试计划与测试报告" class="headerlink" title="测试计划与测试报告"></a>测试计划与测试报告</h1><h2 id="测试计划简介"><a href="#测试计划简介" class="headerlink" title="测试计划简介"></a>测试计划简介</h2><ul>
+<li>为什么要写软件测试计划?一般是主管来写，测试计划是在做完需求分析后，整个测试工作开始之前做的一些准备计划工作，“5W+1H”去记忆。一般包括以下内容:<ul>
+<li>目的(why)、测试范围(what)、测试进度安排(when)、测试人员(who)、测试环境（where)，测试方法+测试工具(how)，风险评估。<ul>
+<li>项目充分熟悉＋项目经验&#x3D;&#x3D;测试老大<ul>
+<li>1)以后你会做老大</li>
+<li>2）计划需要所有参与者的评审的—信息同步</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可能会有的同学问，为什么要提到测试工具?因为像一些访问量比较大的公司，可能要进行性能测试，那么就需要用到测试工具。<ul>
+<li>JMeter&#x2F;postman&#x2F;Fildder&#x2F;mysql….</li>
+</ul>
+</li>
+<li>公司一般会有自己的软件测试计划模板，下面我们来看下软件测试计划的模板，课后老师会分享给大家，大家请一定自己保存好，以后会用得到的。</li>
+</ul>
+<h2 id="软件测试报告简介"><a href="#软件测试报告简介" class="headerlink" title="软件测试报告简介"></a>软件测试报告简介</h2><ul>
+<li>软件测试的五个阶段中:评估阶段(测试人员必须会的)</li>
+<li>公司一般都有自己的软件测试报告模板，看下我们的软件测试报告模板</li>
+<li>在进行完整个测试工作后，你就要对测试产品做一个总结&#x2F;评估，提交给你老大或者是研发部门负责人，项目经理目的:产品质量&#x3D;&#x3D;用例是否执行完了? bug修复完&#x3D;&#x3D;&#x3D;结论:是否可以上线?</li>
+<li>包括的内容:测试范围、测试环境、遗留的bug有哪些，测试用例覆盖率有多少，bug的统计与分析，风险有哪测试评估，发布的建议</li>
+<li>一般公司有自己的报告模板，照写就好。没有，可以用老师提供的模板。<ul>
+<li>注意:一个项目出几份测试报告?谁写?<ul>
+<li>一份,由测试负责人编写</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见面试题-6"><a href="#常见面试题-6" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>1:写过测试报告&#x2F;计划么?内容包括什么?(笔记详细-面试:挑选重要的说明）测试报告的编写目的是什么?<ul>
+<li>1）评估软件质量（用例&#x2F;bug)，是否达到上线标准</li>
+<li>2）分析bug分布，总结经验，优化下次项目执行</li>
+</ul>
+</li>
+<li>2:报告中的结果是怎么分析的?分析的目的是什么?</li>
+<li>3:你认为测试报告的侧重点?— Bug的分析，测试用例覆盖率</li>
+</ul>
+<h1 id="项目发布流程"><a href="#项目发布流程" class="headerlink" title="项目发布流程"></a>项目发布流程</h1><h2 id="项目测试流程"><a href="#项目测试流程" class="headerlink" title="项目测试流程"></a>项目测试流程</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/25/28fdea52da194fd5ab751b177dd3048c" alt="image-20230925094956602"></p>
+<h2 id="项目发布流程-1"><a href="#项目发布流程-1" class="headerlink" title="项目发布流程"></a>项目发布流程</h2><ul>
+<li>第一步:测试完成，测试报告下结论:<ul>
+<li>测试结束了!发邮件通知相关人员。</li>
+</ul>
+</li>
+<li>第二步:<ul>
+<li>验收测试—产品验收</li>
+</ul>
+</li>
+<li>第三步:开发打包做新版本</li>
+<li>第四步:产品，开发,运维(每个公司不一样) , 部署线上环境<ul>
+<li>部署生产环境发布上线时 : 产品，开发, 运维、测试均要在场</li>
+</ul>
+</li>
+<li>第五步:线上环境测试做冒烟测试。</li>
+<li>发布成功</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/09/22/de00b400c52a4db89c00e14d2003f451" alt="image-20230922204457692"></p>
+<h2 id="常见面试题-7"><a href="#常见面试题-7" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>面试题:<ul>
+<li>生命周期模型包含哪些阶段?你们开发的模型是什么?</li>
+<li>你们公司的开发流程是怎样的?</li>
+<li>你们公司的测试流程是怎样的?各个阶段的输出是什么?</li>
+<li>开发环境，测试环境，预发布环境(验收环境) , 生产环境是什么?你在测试环境后台添加的数据和信息，能够在生产环境看到么?</li>
+</ul>
+</li>
+</ul>
+<h1 id="浏览器兼容性测试"><a href="#浏览器兼容性测试" class="headerlink" title="浏览器兼容性测试"></a>浏览器兼容性测试</h1><h2 id="浏览器兼容性简介"><a href="#浏览器兼容性简介" class="headerlink" title="浏览器兼容性简介"></a>浏览器兼容性简介</h2><ul>
+<li>产生浏览器兼容性问题的原因:<ul>
+<li>因为不同浏览器使用内核及所支持的HTML（标准通用标记语言下的一个应用）等网页语言标准不同;以及用户客户端的环境不同(如分辨率不同）造成的罐示效果不能达到理想效果。最常见的问题就是网页元素位置混乱，错位，重叠。–U界面测试</li>
+</ul>
+</li>
+<li>为什么做兼容性测试﹖预见所有客户可能遇到浏览器。–显示&#x2F;使用–贴近用户使用场景!<ul>
+<li>内核:决定了浏览器如何显示网页的内容以及页面的格式信息</li>
+</ul>
+</li>
+<li>如何选择浏览器做兼容性? ? —主流＋内核（类型)</li>
+</ul>
+<h2 id="浏览器兼容性测试原则"><a href="#浏览器兼容性测试原则" class="headerlink" title="浏览器兼容性测试原则"></a>浏览器兼容性测试原则</h2><ul>
+<li>选择浏览器做兼容性测试的原则<ul>
+<li>1.用户有要求，指定浏览器 - 优先</li>
+<li>2.网站一般都需要做兼容，用户使用量+内核来看，选取主流浏览器 ，最新版本 chrome UC &#x2F;QQ firefox <ul>
+<li>测试选择之后，找产品确认; 编写在测试计划文档里&#x3D; where (软件测试环境)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>一般兼容性测试是测试什么? 什么时候测试的? 以及怎么来做的?<ul>
+<li>1,兼容性测试内容:–U界面进行测试 随着功能测试同步去做 ! 功能同时会去检查页面!<ul>
+<li>主要是页面的格式，字体，输入框，下拉框，复选框，按钮等的检查;页面显示正常</li>
+</ul>
+</li>
+<li>2.什么时候测呢?—系统测试同时进行，分配? chrome firefox 360<ul>
+<li>方案一: 按照轮次2-4轮&#x3D;&#x3D;&#x3D;轮次可能无法覆盖所有的浏览器<ul>
+<li>第一轮: chrome 第二轮: firefox 第三轮: 360</li>
+</ul>
+</li>
+<li>方案二:按照任务分配&#x3D;&#x3D;&#x3D;没人分配不同的功能模块<ul>
+<li>购物车: A测试 chrome—同时检查下其他模块的UI—浏览商品，订单</li>
+<li>浏览商品: B测试 firefox —同时检查下其他模块的UI—购物车，订单</li>
+<li>订单: C测试 360—同时检查下其他模块的UI—购物车，浏览商品</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见面试题-8"><a href="#常见面试题-8" class="headerlink" title="常见面试题"></a>常见面试题</h2><ul>
+<li>1, 小众浏览器出现问题，需不需要做兼容性测试?<ul>
+<li>1, 用户特别要求的，要进行覆盖测试—–用户的需求优先</li>
+<li>2, 不是特别客户的要求，我们不用去覆盖兼容性测试(主流+内核)<ul>
+<li>提交测试报告&#x3D;&#x3D;&#x3D;测试覆盖的浏览器+产品支持的浏览器—给到市场、售前、售后&#x3D;&#x3D;&#x3D;给用户发这个测试报告，户使用我们推荐的浏览器</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2, 如果一个网站分为前台访问系统、后台管理系统;是否都需要做浏览器兼容性测试?<ul>
+<li>前台—用户操作的页面—以用户为中心–要进行兼容性测试—-甲方要求优先&#x2F;(主流+内核)</li>
+<li>后台—管理员使用+内部操作人员使用–看情况，看项目来，看时间–可以不覆盖，可以做兼容性测试</li>
+</ul>
+</li>
+<li>3, 浏览器的兼容性测试是怎么做的?–真实面试高频<ul>
+<li>1, 怎么选择浏览器<ul>
+<li>如果说是用户特别要求，按用户需求优先。</li>
+<li>市场调研的项目(主流+内核) , 可以参考百度流量统计</li>
+</ul>
+</li>
+<li>2, 兼容性测试是伴随着功能测试一起做的，不同的模块任务划分进行的，覆盖不同的浏览器</li>
+</ul>
+</li>
+</ul>
+<h1 id="阶段综合案例分析"><a href="#阶段综合案例分析" class="headerlink" title="阶段综合案例分析"></a>阶段综合案例分析</h1><h2 id="项目背景介绍"><a href="#项目背景介绍" class="headerlink" title="项目背景介绍"></a>项目背景介绍</h2><ul>
+<li>传智作为一个T教育机构，拥有自己开发且实际运营的产品，将开发和运营的技术作为授课的内容，对于学员而言学到的都是一手的真实案例和实际经验，知识内容也可以细化深入。而且一个产品就可以涵盖公司多个学科的技术，衍生的课程价值辐射多个学科，这可以作为公司的一个核心竞争力。</li>
+</ul>
+<h2 id="产品定位"><a href="#产品定位" class="headerlink" title="产品定位"></a>产品定位</h2><ul>
+<li>一款汇集科技资讯、技术文章和问答交流的用户移动终端产品。</li>
+<li>用户通过该产品，可以获取最新的科技资讯，发表或学习技术文章，讨论交流技术问题。</li>
+</ul>
+<h2 id="项目目标"><a href="#项目目标" class="headerlink" title="项目目标"></a>项目目标</h2><ul>
+<li>1）研发并上线运营头条产品</li>
+<li>2）从实际的产品技术中孵化 Python 人工智能、Python 数据分析、Python Web、测试、运维等课程案例</li>
+<li>3）构建公司自己的数据仓库、和算法模型</li>
+</ul>
+<h2 id="产品功能架构"><a href="#产品功能架构" class="headerlink" title="产品功能架构"></a>产品功能架构</h2><ul>
+<li>产品主要分为三个前端子产品：</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/ec802562590e4d979b62ee05b2c4010a" alt="image-20231103094047442" style="zoom:150%;" />
+
+<ul>
+<li>1）用户端：APP，用户可以查看资讯、文章内容，进行问答讨论交流</li>
+<li>2）自媒体运营平台：PC网站，自媒体用户可以管理文章、评论，查看分析粉丝数据</li>
+<li>3）系统后台：PC网站，内部运营管理系统</li>
+</ul>
+<h2 id="登录功能测试"><a href="#登录功能测试" class="headerlink" title="登录功能测试"></a>登录功能测试</h2><h3 id="测试对象"><a href="#测试对象" class="headerlink" title="测试对象"></a>测试对象</h3><ul>
+<li>完成黑马头条web登录功能测试</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/87b38561d98f49cfb94d51ca2fb5ee98" alt="image-20231103094246124"></p>
+<h3 id="登录需求1"><a href="#登录需求1" class="headerlink" title="登录需求1"></a>登录需求1</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/67da4e225dab44269ec8331907227af1" alt="image-20231103094410947"></p>
+<ul>
+<li>输入正确的中国手机号（11位）<ul>
+<li>当文本框失去焦点的时候验证，红色为失败，绿色为成功</li>
+</ul>
+</li>
+<li>点击发送验证码<ul>
+<li>如果手机号文本框状态为绿色，弹出“点击按钮进行验证”；</li>
+<li>如果手机号文本框为红色，提示手机号不正确</li>
+</ul>
+</li>
+<li>点击按钮进行验证<ul>
+<li>拖拽图形到指定位置，按钮消失；</li>
+<li>拖拽图形未到指定位置，晃动提醒，滑块回到初始位置；</li>
+<li>超过5次，提示尝试过多，请点击重试；</li>
+</ul>
+</li>
+</ul>
+<h3 id="登录需求2"><a href="#登录需求2" class="headerlink" title="登录需求2"></a>登录需求2</h3><ul>
+<li>输入验证码<ul>
+<li>正确的验证码，并“勾选我已阅读并同意 ”，点击登录，进入系统；</li>
+<li>错误的验证码，并“勾选我已阅读并同意 ”，点击登录，提示验证码错误；</li>
+<li>正确的验证码，未“勾选我已阅读并同意 ”，点击登录，提示请勾选；</li>
+</ul>
+</li>
+<li>点击登录<ul>
+<li>手机号、验证码都为绿色，勾选“我已阅读并同意”，登录成功</li>
+</ul>
+</li>
+</ul>
+<h3 id="登录测试用例"><a href="#登录测试用例" class="headerlink" title="登录测试用例"></a>登录测试用例</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/99eb7afa04f148d7a21cad95380ef6b7" alt="image-20231103101556068"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/b7cf817935784f26a396b5187c33793f" alt="image-20231103101618026"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/4a7e62bfa5c64cc3be5c35bdfbe4d3e2" alt="image-20231103101640273"></p>
+<h2 id="文章发布功能测试"><a href="#文章发布功能测试" class="headerlink" title="文章发布功能测试"></a>文章发布功能测试</h2><h3 id="学习目标-1"><a href="#学习目标-1" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>能够对于发布文章模块进行需求分析（提取测试点）</li>
+<li>能够对于发布文章测试点进行设计用例和执行</li>
+<li>能够对于使用禅道记录缺陷</li>
+<li>能够对于黑马头条项目测试进行编写测试报告</li>
+</ul>
+<h3 id="测试对象-1"><a href="#测试对象-1" class="headerlink" title="测试对象"></a>测试对象</h3><ul>
+<li>完成黑马头条web发布文章功能测试</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/160f1259a7bf45aa888e4c3c58927682" alt="image-20231103101858246"></p>
+<h3 id="案例需求-2"><a href="#案例需求-2" class="headerlink" title="案例需求"></a>案例需求</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/f0c9c6088b0e40e88d7e6a1b21d100c0" alt="image-20231103102030465"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/7bf05e4e88a44c82920a97bc11bffc77" alt="image-20231103102003877"></p>
+<h3 id="测试用例-1"><a href="#测试用例-1" class="headerlink" title="测试用例"></a>测试用例</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/75aef917a3de4a9eb2ec0da716e7ec24" alt="image-20231103105526187"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/61456f640ea44c69a91917630e569e92" alt="image-20231103105621241"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2023/11/03/87281e58aa0448109e45abb28bef9ab6" alt="image-20231103105644340"></p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/24/Web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/402_Webpack/40201_Webpack/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Webpack</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8B%E5%89%8D%E8%A8%80"><span class="toc-text">课程前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%98%AF%E5%B9%B2%E5%95%A5"><span class="toc-text">测试是干啥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%BA%8B%E7%9A%84%E5%B2%97%E4%BD%8D"><span class="toc-text">从事的岗位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%B1%95%E5%89%8D%E6%99%AF"><span class="toc-text">发展前景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%BA%E6%89%8D%E7%BC%BA%E5%8F%A3"><span class="toc-text">人才缺口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B1%95%E8%B7%AF%E7%BA%BF"><span class="toc-text">发展路线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B2%97%E4%BD%8D%E8%96%AA%E8%B5%84"><span class="toc-text">岗位薪资</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B2%97%E4%BD%8D%E6%8F%90%E5%8D%87"><span class="toc-text">岗位提升</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%8F%AD%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">基础班学习目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%8F%AD%E7%9B%AE%E6%A0%87"><span class="toc-text">基础班目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%8F%AD%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="toc-text">基础班学习路线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%8F%AD%E5%85%B7%E5%A4%87%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-text">基础班具备的能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%AD%A6"><span class="toc-text">怎么学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F"><span class="toc-text">学习方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0%E6%96%B9%E5%BC%8F"><span class="toc-text">复习方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E6%B5%8B%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF"><span class="toc-text">软测测试学习路线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%B1%E4%B8%9A%E6%96%B9%E5%90%91"><span class="toc-text">就业方向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8F%8A%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%AE%80%E4%BB%8B"><span class="toc-text">软件及软件测试简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BD%AF%E4%BB%B6"><span class="toc-text">什么是软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84"><span class="toc-text">软件应用架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-S%E6%9E%B6%E6%9E%84"><span class="toc-text">C&#x2F;S架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-S%E6%9E%B6%E6%9E%84"><span class="toc-text">B&#x2F;S架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E7%89%88%E6%9E%B6%E6%9E%84"><span class="toc-text">简版架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="toc-text">软件的基本组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E4%BA%A7%E7%94%9F%E8%BF%87%E7%A8%8B"><span class="toc-text">软件产生过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">软件的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="toc-text">什么是软件测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-text">软件测试的目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%9E%84%E6%88%90"><span class="toc-text">项目的构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%BB%E6%B5%81%E6%8A%80%E8%83%BD"><span class="toc-text">测试主流技能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">功能测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-text">自动化测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-text">接口测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">性能测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB"><span class="toc-text">测试分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%B5%8B%E8%AF%95%E9%98%B6%E6%AE%B5%E5%88%92%E5%88%86"><span class="toc-text">按测试阶段划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E4%BB%A3%E7%A0%81%E5%8F%AF%E8%A7%81%E5%BA%A6%E5%88%92%E5%88%86"><span class="toc-text">按代码可见度划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%B5%8B%E8%AF%95%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E8%BF%90%E8%A1%8C%E5%88%92%E5%88%86"><span class="toc-text">按测试对象是否运行划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%B5%8B%E8%AF%95%E6%89%8B%E6%AE%B5%E5%88%92%E5%88%86"><span class="toc-text">按测试手段划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%B5%8B%E8%AF%95%E5%86%85%E5%AE%B9%E5%88%92%E5%88%86"><span class="toc-text">按测试内容划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB"><span class="toc-text">其他测试分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-3"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B"><span class="toc-text">测试模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A8%E9%87%8F%E6%A8%A1%E5%9E%8B"><span class="toc-text">质量模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901"><span class="toc-text">案例分析1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E9%9C%80%E6%B1%82"><span class="toc-text">案例需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E6%80%A7"><span class="toc-text">功能性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD"><span class="toc-text">性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%93%E7%94%A8%E6%80%A7"><span class="toc-text">易用性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">可靠性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">安全性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%80%A7"><span class="toc-text">可移植性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E7%BB%B4%E6%8A%A4%E6%80%A7"><span class="toc-text">可维护性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%80%91%E5%B8%83%E6%A8%A1%E5%9E%8B"><span class="toc-text">瀑布模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%9A%E4%B9%89%E5%8F%8A%E8%A7%84%E5%88%92"><span class="toc-text">问题的定义及规划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%84%E5%AE%A1"><span class="toc-text">需求分析和评审</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1"><span class="toc-text">设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81"><span class="toc-text">编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="toc-text">软件测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%B4%E6%8A%A4"><span class="toc-text">运行维护</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V%E6%A8%A1%E5%9E%8B"><span class="toc-text">V模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-1"><span class="toc-text">优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#W%E6%A8%A1%E5%9E%8B"><span class="toc-text">W模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="toc-text">敏捷开发模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-4"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-1"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="toc-text">软件测试流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">软件测试工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-1"><span class="toc-text">软件测试工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%90%84%E9%98%B6%E6%AE%B5%E5%88%86%E6%9E%90"><span class="toc-text">测试各阶段分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95"><span class="toc-text">系统测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%92%E7%83%9F%E6%B5%8B%E8%AF%95"><span class="toc-text">冒烟测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-5"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-text">测试需求分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%9C%80%E6%B1%82%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">测试需求是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%B5%8B%E8%AF%95%E9%9C%80%E6%B1%82"><span class="toc-text">为什么需要测试需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%BC%80%E5%B1%95%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C"><span class="toc-text">如何开展测试工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-2"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%94%A8%E4%BE%8B"><span class="toc-text">什么是用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">什么是测试用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">测试用例的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E5%85%AB%E5%A4%A7%E8%A6%81%E7%B4%A0"><span class="toc-text">测试用例的八大要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-text">编写测试用例的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99%E7%9A%84%E5%8E%9F%E5%88%99"><span class="toc-text">测试用例编写的原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E7%BC%96%E5%86%99%E6%A0%BC%E5%BC%8F"><span class="toc-text">测试用例的编写格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AF%84%E5%AE%A1"><span class="toc-text">测试用例评审</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E5%8F%98%E6%9B%B4"><span class="toc-text">测试用例的变更</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901-1"><span class="toc-text">案例分析1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E9%9C%80%E6%B1%82-1"><span class="toc-text">案例需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99"><span class="toc-text">测试用例编写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-3"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="toc-text">测试用例设计方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E8%8A%82%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">本节学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E7%B1%BB%E5%88%92%E5%88%86%E6%B3%95"><span class="toc-text">等价类划分法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E%EF%BD%9C%E5%88%86%E7%B1%BB%EF%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-text">说明｜分类｜步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E7%B1%BB%E5%88%92%E5%88%86%E6%B3%95%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">等价类划分法的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4%E5%92%8C%E5%8E%9F%E5%88%99"><span class="toc-text">用例设计步骤和原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E9%9C%80%E6%B1%821"><span class="toc-text">案例需求1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E9%9C%80%E6%B1%822"><span class="toc-text">案例需求2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E5%80%BC%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-text">边界值分析法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E5%80%BC%E5%88%86%E6%9E%90%E6%B3%95-1"><span class="toc-text">边界值分析法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901-2"><span class="toc-text">案例分析1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%B9%E7%95%8C%E8%8C%83%E5%9B%B4%E8%8A%82%E7%82%B9"><span class="toc-text">边界范围节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%94%A8%E4%BE%8B%E6%AD%A5%E9%AA%A4"><span class="toc-text">设计用例步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%902"><span class="toc-text">案例分析2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%903"><span class="toc-text">案例分析3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BC%98%E5%8C%96"><span class="toc-text">案例优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E5%AE%9A%E8%A1%A8%E6%B3%95"><span class="toc-text">判定表法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E5%AE%9A%E8%A1%A8%E6%B3%95%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-text">判定表法的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E5%AE%9A%E8%A1%A8%E5%AE%9A%E4%B9%89%E5%8F%8A%E7%BB%84%E6%88%90"><span class="toc-text">判定表定义及组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E5%AE%9A%E8%A1%A8%E6%B3%95%E8%AE%BE%E8%AE%A1%E7%94%A8%E4%BE%8B%E6%AD%A5%E9%AA%A4"><span class="toc-text">判定表法设计用例步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901-3"><span class="toc-text">案例分析1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%902-1"><span class="toc-text">案例分析2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E6%B3%95"><span class="toc-text">场景法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E6%B3%95-1"><span class="toc-text">场景法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B"><span class="toc-text">应用场景举例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901-4"><span class="toc-text">案例分析1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-text">场景法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-3"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%902-2"><span class="toc-text">案例分析2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%903-1"><span class="toc-text">案例分析3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%8E%A8%E8%8D%90%E6%B3%95"><span class="toc-text">错误推荐法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%901-5"><span class="toc-text">案例分析1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%902-3"><span class="toc-text">案例分析2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%8E%A8%E6%B5%8B%E6%B3%95%E6%A1%88%E4%BE%8B"><span class="toc-text">错误推测法案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-4"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bug%E7%BC%BA%E9%99%B7%E7%AE%A1%E7%90%86"><span class="toc-text">bug缺陷管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E5%AE%9A%E4%B9%89"><span class="toc-text">缺陷定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E7%9A%84%E5%88%A4%E5%AE%9A%E6%A0%87%E5%87%86"><span class="toc-text">缺陷的判定标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">bug的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%9E%8B-Bug"><span class="toc-text">功能型 Bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%9E%8B-bug"><span class="toc-text">需求型 bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%9E%8BBug"><span class="toc-text">性能型Bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%AF%86%E5%9E%8BBug"><span class="toc-text">常识型Bug</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E7%9A%84%E7%AD%89%E7%BA%A7"><span class="toc-text">bug的等级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%B4%E5%91%BD%E9%94%99%E8%AF%AFP1%E7%BA%A7"><span class="toc-text">致命错误P1级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A5%E9%87%8D%E9%94%99%E8%AF%AFP2%E7%BA%A7"><span class="toc-text">严重错误P2级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E9%94%99%E8%AF%AFP3%E7%BA%A7"><span class="toc-text">一般错误P3级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%86%E5%BE%AE%E9%94%99%E8%AF%AFP4%E7%BA%A7"><span class="toc-text">细微错误P4级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E5%BB%BA%E8%AE%AEP5%E7%BA%A7"><span class="toc-text">改进建议P5级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0%E5%88%86%E6%9E%90"><span class="toc-text">案例练习分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="toc-text">缺陷产生原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%BC%BA%E9%99%B7%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">软件缺陷的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%BC%BA%E9%99%B7%E7%9A%84%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9"><span class="toc-text">软件缺陷的核心内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E6%8F%90%E4%BA%A4%E8%A6%81%E7%B4%A0"><span class="toc-text">缺陷提交要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%BC%BA%E9%99%B7%E7%B1%BB%E5%9E%8B"><span class="toc-text">软件缺陷类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E6%8A%A5%E5%91%8A%E7%A4%BA%E4%BE%8B"><span class="toc-text">缺陷报告示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E7%8A%B6%E6%80%81%E8%B7%9F%E8%B8%AA%E6%B5%81%E7%A8%8B"><span class="toc-text">bug状态跟踪流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bug%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-text">bug的状态管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E7%BC%BA%E9%99%B7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">提交缺陷注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E6%8F%90%E4%BA%A4%E8%A7%84%E8%8C%83"><span class="toc-text">bug提交规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E7%9A%84%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-text">bug的管理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-text">禅道的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-text">禅道使用流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%E6%8F%8F%E8%BF%B0"><span class="toc-text">缺陷描述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-5"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">测试计划与测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E7%AE%80%E4%BB%8B"><span class="toc-text">测试计划简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E7%AE%80%E4%BB%8B"><span class="toc-text">软件测试报告简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-6"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B"><span class="toc-text">项目发布流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B"><span class="toc-text">项目测试流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B-1"><span class="toc-text">项目发布流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-7"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-text">浏览器兼容性测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7%E7%AE%80%E4%BB%8B"><span class="toc-text">浏览器兼容性简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95%E5%8E%9F%E5%88%99"><span class="toc-text">浏览器兼容性测试原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98-8"><span class="toc-text">常见面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-text">阶段综合案例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="toc-text">项目背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E5%AE%9A%E4%BD%8D"><span class="toc-text">产品定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E6%A0%87"><span class="toc-text">项目目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%9E%84"><span class="toc-text">产品功能架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">登录功能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AF%B9%E8%B1%A1"><span class="toc-text">测试对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%9C%80%E6%B1%821"><span class="toc-text">登录需求1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%9C%80%E6%B1%822"><span class="toc-text">登录需求2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">登录测试用例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E5%8F%91%E5%B8%83%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">文章发布功能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87-1"><span class="toc-text">学习目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AF%B9%E8%B1%A1-1"><span class="toc-text">测试对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E9%9C%80%E6%B1%82-2"><span class="toc-text">案例需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B-1"><span class="toc-text">测试用例</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇"><img alt="MySQL运维篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.LVnC_YS6D56g7magE9AD_gHaEK?w=189&amp;h=106&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇">MySQL运维篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.NHdSfyHemLa4eaycz7QR2AHaEK?w=333&amp;h=187&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.XiTVekPE9y_42SZHAbxTZAHaEK?w=318&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇"><img alt="MySQL基础篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.3km1icpIVZB3d4flVs-JRgHaEK?w=318&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇">MySQL基础篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux"><img alt="Linux" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.XXu034JxuR9rZCV5_40S-wAAAA?w=267&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux">Linux</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>

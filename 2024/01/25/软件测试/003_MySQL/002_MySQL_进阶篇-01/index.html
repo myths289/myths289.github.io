@@ -1,0 +1,1495 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MySQL进阶篇 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# 课程大纲 存储引擎 索引 SQL优化 视图&amp;#x2F;存储过程&amp;#x2F;触发器 锁 InnoDB核心 MySQL管理 存储引擎MySQL体系结构 和其他数据库相比，MySQL有点与众不同，它的架构可以在多种不同场景中应用并发挥良好作用。 主要体现在存储引擎上，插件式的存储引擎架构，将"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">48</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">MySQL进阶篇</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse2-mm.cn.bing.net/th/id/OIP-C.XiTVekPE9y_42SZHAbxTZAHaEK?w=318&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="MySQL进阶篇"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">MySQL进阶篇</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-25 03:00:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-24T19:00:00.000Z">2024-01-24T19:00:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-01-28 21:15:28"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-01-28T13:15:28.821Z">2024-01-28T13:15:28.821Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">15.1k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>59 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# 课程大纲
+
+<ul>
+<li>存储引擎</li>
+<li>索引</li>
+<li>SQL优化</li>
+<li>视图&#x2F;存储过程&#x2F;触发器</li>
+<li>锁</li>
+<li>InnoDB核心</li>
+<li>MySQL管理</li>
+</ul>
+<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h2 id="MySQL体系结构"><a href="#MySQL体系结构" class="headerlink" title="MySQL体系结构"></a>MySQL体系结构</h2><ul>
+<li><p>和其他数据库相比，MySQL有点与众不同，它的架构可以在多种不同场景中应用并发挥良好作用。</p>
+</li>
+<li><p>主要体现在存储引擎上，插件式的存储引擎架构，将查询处理和其他的系统任务以及数据的存储提取分离。</p>
+</li>
+<li><p>这种架构可以根据业务的需求和实际需要选择合适的存储引擎。</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/1b204efe15c24ee8847e6b391ea32c1f" alt="image-20240104222323529"></p>
+<ul>
+<li><p>1). 连接层</p>
+<ul>
+<li>最上层是一些客户端和链接服务，包含本地sock 通信和大多数基于客户端&#x2F;服务端工具实现的类似于TCP&#x2F;IP的通信。</li>
+<li>主要完成一些类似于连接处理、授权认证、及相关的安全方案。</li>
+<li>在该层上引入了线程池的概念，为通过认证安全接入的客户端提供线程。</li>
+<li>同样在该层上可以实现基于SSL的安全链接。</li>
+<li>服务器也会为安全接入的每个客户端验证它所具有的操作权限。</li>
+</ul>
+</li>
+<li><p>2). 服务层</p>
+<ul>
+<li>第二层架构主要完成大多数的核心服务功能，如SQL接口，并完成缓存的查询，SQL的分析和优化，部分内置函数的执行。</li>
+<li>所有跨存储引擎的功能也在这一层实现，如 过程、函数等。在该层，服务器会解析查询并创建相应的内部解析树，并对其完成相应的优化如确定表的查询的顺序，是否利用索引等，最后生成相应的执行操作。</li>
+<li>如果是select语句，服务器还会查询内部的缓存，如果缓存空间足够大，这样在解决大量读操作的环境中能够很好的提升系统的性能。</li>
+</ul>
+</li>
+<li><p>3). 引擎层</p>
+<ul>
+<li>存储引擎层， 存储引擎真正的负责了MySQL中数据的存储和提取，服务器通过API和存储引擎进行通信。</li>
+<li>不同的存储引擎具有不同的功能，这样我们可以根据自己的需要，来选取合适的存储引擎。数据库中的索引是在存储引擎层实现的。</li>
+</ul>
+</li>
+<li><p>4). 存储层</p>
+<ul>
+<li>数据存储层， 主要是将数据(如: redolog、undolog、数据、索引、二进制日志、错误日志、查询日志、慢查询日志等)存储在文件系统之上，并完成与存储引擎的交互。</li>
+</ul>
+</li>
+</ul>
+<h2 id="存储引擎-1"><a href="#存储引擎-1" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="存储引擎介绍"><a href="#存储引擎介绍" class="headerlink" title="存储引擎介绍"></a>存储引擎介绍</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/cb10cb4251144c6b9e635e144f7ba00e" alt="image-20240104222555869"></p>
+<ul>
+<li>大家可能没有听说过存储引擎，但是一定听过引擎这个词，引擎就是发动机，是一个机器的核心组件。<ul>
+<li>比如，对于舰载机、直升机、火箭来说，他们都有各自的引擎，是他们最为核心的组件。</li>
+<li>而我们在选择引擎的时候，需要在合适的场景，选择合适的存储引擎，就像在直升机上，我们不能选择舰载机的引擎一样。</li>
+</ul>
+</li>
+<li>而对于存储引擎，也是一样，他是mysql数据库的核心，我们也需要在合适的场景选择合适的存储引擎。接下来就来介绍一下存储引擎。<ul>
+<li><strong>存储引擎就是存储数据、建立索引、更新&#x2F;查询数据等技术的实现方式</strong> 。</li>
+<li>存储引擎是基于表的，而不是基于库的，所以存储引擎也可被称为表类型。</li>
+<li>我们可以在创建表的时候，来指定选择的存储引擎，如果没有指定将自动选择默认的存储引擎。</li>
+</ul>
+</li>
+</ul>
+<h3 id="指定存储引擎"><a href="#指定存储引擎" class="headerlink" title="指定存储引擎"></a>指定存储引擎</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE 表名(</span><br><span class="line">字段1 字段1类型 [ COMMENT 字段1注释 ] ,</span><br><span class="line">......</span><br><span class="line">字段n 字段n类型 [COMMENT 字段n注释 ]</span><br><span class="line">) ENGINE = INNODB [ COMMENT 表注释 ] ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询当前存储引擎"><a href="#查询当前存储引擎" class="headerlink" title="查询当前存储引擎"></a>查询当前存储引擎</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engines;</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>案例 A. 查询建表语句<ul>
+<li>默认存储引擎: InnoDB</li>
+<li>我们可以看到，创建表时，即使我们没有指定存储引擎，数据库也会自动选择默认的存储引擎。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table account;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/0234ea09a8a345b787ae1b630c1503e5" alt="image-20240104223036698"></p>
+<ul>
+<li>案例 B. 查询当前数据库支持的存储引擎</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engines ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/435508c80cde46a2bb40a5acfb406ea5" alt="image-20240104223207054"></p>
+<ul>
+<li>案例 C. 创建表 my_myisam , 并指定MyISAM存储引擎</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table my_myisam(</span><br><span class="line">id int,</span><br><span class="line">name varchar(10)</span><br><span class="line">) engine = MyISAM ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>案例 D. 创建表 my_memory , 指定Memory存储引擎</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table my_memory(</span><br><span class="line">id int,</span><br><span class="line">name varchar(10)</span><br><span class="line">) engine = Memory ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储引擎特点"><a href="#存储引擎特点" class="headerlink" title="存储引擎特点"></a>存储引擎特点</h2><ul>
+<li>上面我们介绍了什么是存储引擎，以及如何在建表时如何指定存储引擎，接下来我们就来介绍下来上面重点提到的三种存储引擎 <strong>InnoDB</strong>、<strong>MyISAM</strong>、<strong>Memory</strong> 的特点。</li>
+</ul>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>InnoDB是一种兼顾高可靠性和高性能的通用存储引擎，在 MySQL 5.5 之后，InnoDB是默认的MySQL 存储引擎。</li>
+</ul>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>DML操作遵循ACID模型，支持事务；</li>
+<li>行级锁，提高并发访问性能；</li>
+<li>支持外键FOREIGN KEY约束，保证数据的完整性和正确性；</li>
+</ul>
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><ul>
+<li>xxx.ibd：xxx代表的是表名，innoDB引擎的每张表都会对应这样一个表空间文件，存储该表的表结构（frm-早期的 、sdi-新版的）、数据和索引。</li>
+<li>参数：innodb_file_per_table</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#x27;innodb_file_per_table&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/2ebbecefee4042ce977c0cc216aab320" alt="image-20240104223503896"></p>
+<ul>
+<li>如果该参数开启，代表对于InnoDB引擎的表，每一张表都对应一个ibd文件。 我们直接打开MySQL的数据存放目录： C:\ProgramData\MySQL\MySQL Server 8.0\Data ， 这个目录下有很多文件夹，不同的文件夹代表不同的数据库，我们直接打开itcast文件夹。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/3be0b23dc6a34f5892cf9afe61ec045c" alt="image-20240104223527117"></p>
+<ul>
+<li>可以看到里面有很多的ibd文件，每一个ibd文件就对应一张表，比如：我们有一张表 account，就有这样的一个account.ibd文件，而在这个ibd文件中不仅存放表结构、数据，还会存放该表对应的索引信息。 而该文件是基于二进制存储的，不能直接基于记事本打开，我们可以使用mysql提供的一个指令 ibd2sdi ，通过该指令就可以从ibd文件中提取sdi信息，而sdi数据字典信息中就包含该表的表结构。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/f9ed0baae6b545cdbc3635f936563d4a" alt="image-20240104223600545"></p>
+<h4 id="逻辑存储结构"><a href="#逻辑存储结构" class="headerlink" title="逻辑存储结构"></a>逻辑存储结构</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/754e2298be0e4ede9eeb38e3e5b39b78" alt="image-20240104223629232"></p>
+<ul>
+<li>表空间 : InnoDB存储引擎逻辑结构的最高层，ibd文件其实就是表空间文件，在表空间中可以包含多个Segment段。</li>
+<li>段 : 表空间是由各个段组成的， 常见的段有数据段、索引段、回滚段等。InnoDB中对于段的管理，都是引擎自身完成，不需要人为对其控制，一个段中包含多个区。</li>
+<li>区 : 区是表空间的单元结构，每个区的大小为1M。 默认情况下， InnoDB存储引擎页大小为16K， 即一个区中一共有64个连续的页。</li>
+<li>页 : 页是组成区的最小单元，页也是InnoDB 存储引擎磁盘管理的最小单元，每个页的大小默认为 16KB。为了保证页的连续性，InnoDB 存储引擎每次从磁盘申请 4-5 个区。</li>
+<li>行 : InnoDB 存储引擎是面向行的，也就是说数据是按行进行存放的，在每一行中除了定义表时所指定的字段以外，还包含两个隐藏字段(后面会详细介绍)。</li>
+</ul>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>MyISAM是MySQL早期的默认存储引擎。</li>
+</ul>
+<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>不支持事务，不支持外键</li>
+<li>支持表锁，不支持行锁</li>
+<li>访问速度快</li>
+</ul>
+<h4 id="文件-1"><a href="#文件-1" class="headerlink" title="文件"></a>文件</h4><ul>
+<li>xxx.sdi：存储表结构信息</li>
+<li>xxx.MYD: 存储数据</li>
+<li>xxx.MYI: 存储索引</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/c23d3dc0d8be4773a2b0bbbe74fcca83" alt="image-20240104223804574"></p>
+<h3 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h3><h4 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>Memory引擎的表数据时存储在内存中的，由于受到硬件问题、或断电问题的影响，只能将这些表作为临时表或缓存使用。</li>
+</ul>
+<h4 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>内存存放</li>
+<li>hash索引（默认）</li>
+</ul>
+<h4 id="文件-2"><a href="#文件-2" class="headerlink" title="文件"></a>文件</h4><ul>
+<li>xxx.sdi：存储表结构信息</li>
+</ul>
+<h4 id="区别及特点"><a href="#区别及特点" class="headerlink" title="区别及特点"></a>区别及特点</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/0b3f7fbe10674e708464a199f58ded47" alt="image-20240104223921253"></p>
+<h3 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h3><ul>
+<li>InnoDB引擎与MyISAM引擎的区别 ?<ul>
+<li>①. InnoDB引擎, 支持事务, 而MyISAM不支持。</li>
+<li>②. InnoDB引擎, 支持行锁和表锁, 而MyISAM仅支持表锁, 不支持行锁。</li>
+<li>③. InnoDB引擎, 支持外键, 而MyISAM是不支持的。</li>
+</ul>
+</li>
+<li>主要是上述三点区别，当然也可以从索引结构、存储限制等方面，更加深入的回答，具体参考如下官方文档：<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html">https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/myisam-storage-engine.html">https://dev.mysql.com/doc/refman/8.0/en/myisam-storage-engine.html</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="存储引擎选择"><a href="#存储引擎选择" class="headerlink" title="存储引擎选择"></a>存储引擎选择</h2><ul>
+<li><p>在选择存储引擎时，应该根据应用系统的特点选择合适的存储引擎。对于复杂的应用系统，还可以根据实际情况选择多种存储引擎进行组合。</p>
+<ul>
+<li><p>InnoDB: 是Mysql的默认存储引擎，支持事务、外键。如果应用对事务的完整性有比较高的要求，在并发条件下要求数据的一致性，数据操作除了插入和查询之外，还包含很多的更新、删除操作，那么InnoDB存储引擎是比较合适的选择。</p>
+</li>
+<li><p>MyISAM ： 如果应用是以读操作和插入操作为主，只有很少的更新和删除操作，并且对事务的完整性、并发性要求不是很高，那么选择这个存储引擎是非常合适的。</p>
+</li>
+<li><p>MEMORY：将所有数据保存在内存中，访问速度快，通常用于临时表及缓存。MEMORY的缺陷就是对表的大小有限制，太大的表无法缓存在内存中，而且无法保障数据的安全性。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h2 id="索引概述"><a href="#索引概述" class="headerlink" title="索引概述"></a>索引概述</h2><h3 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>索引（index）是帮助MySQL高效获取数据的数据结构(有序)。在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据， 这样就可以在这些数据结构上实现高级查找算法，这种数据结构就是索引。</li>
+<li>一提到数据结构，大家都会有所担心，担心自己不能理解，跟不上节奏。不过在这里大家完全不用担心，我们后面在讲解时，会详细介绍。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/44358646a7914d998c373335e656afd6" alt="image-20240104225710900"></p>
+<h3 id="案例演示"><a href="#案例演示" class="headerlink" title="案例演示"></a>案例演示</h3><ul>
+<li>表结构及其数据如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/bec2756f22804b45b5b8dded32143fc6" alt="image-20240104225838303"></p>
+<ul>
+<li><p>假如我们要执行的SQL语句为 ： <code>select * from user where age = 45;</code></p>
+</li>
+<li><p>1). 无索引情况</p>
+<ul>
+<li>在无索引情况下，就需要从第一行开始扫描，一直扫描到最后一行，我们称之为 全表扫描，性能很低。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/e27c7115d2604fc0ad9fe183e4f0dcdb" alt="image-20240104225903423"></p>
+<ul>
+<li>2). 有索引情况<ul>
+<li>如果我们针对于这张表建立了索引，假设索引结构就是二叉树，那么也就意味着，会对age这个字段建立一个二叉树的索引结构。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/716b471b4e344875a9d488c3e03ad4d6" alt="image-20240104225941455"></p>
+<ul>
+<li><p>此时我们在进行查询时，只需要扫描三次就可以找到数据了，极大的提高的查询的效率。</p>
+</li>
+<li><p>备注： 这里我们只是假设索引的结构是二叉树，介绍一下索引的大概原理，只是一个示意图，并不是索引的真实结构，索引的真实结构，后面会详细介绍。</p>
+</li>
+</ul>
+<h3 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/d8ef4aed76f3465bb0dfbb93dc2a4985" alt="image-20240104230039078"></p>
+<h2 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>MySQL的索引是在存储引擎层实现的，不同的存储引擎有不同的索引结构，主要包含以下几种：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/af16f5cdac6e4daca1cbf93978979b5a" alt="image-20240104230125757"></p>
+<ul>
+<li>上述是MySQL中所支持的所有的索引结构，接下来，我们再来看看不同的存储引擎对于索引结构的支持情况。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/832eaa14f6be477d9465bfa386498788" alt="image-20240104230152088"></p>
+<ul>
+<li>注意： 我们平常所说的索引，如果没有特别指明，都是指B+树结构组织的索引。</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>假如说MySQL的索引结构采用二叉树的数据结构，比较理想的结构如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/2fdd0b60144f41f8a8c5df44d0b9c667" alt="image-20240104230240149"></p>
+<ul>
+<li>如果主键是顺序插入的，则会形成一个单向链表，结构如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/78a05f77ee9a463eacc5da6b3b918418" alt="image-20240104230256834"></p>
+<ul>
+<li>所以，如果选择二叉树作为索引结构，会存在以下缺点：<ul>
+<li>顺序插入时，会形成一个链表，查询性能大大降低。</li>
+<li>大数据量情况下，层级较深，检索速度慢。</li>
+</ul>
+</li>
+<li>此时大家可能会想到，我们可以选择红黑树，红黑树是一颗自平衡二叉树，那这样即使是顺序插入数据，最终形成的数据结构也是一颗平衡的二叉树,结构如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/670ec4d85edb4224bc2988ebba195215" alt="image-20240104230326577"></p>
+<ul>
+<li>但是，即使如此，由于红黑树也是一颗二叉树，所以也会存在一个缺点：<ul>
+<li>大数据量情况下，层级较深，检索速度慢。</li>
+</ul>
+</li>
+<li>所以，在MySQL的索引结构中，并没有选择二叉树或者红黑树，而选择的是B+Tree，那么什么是B+Tree呢？在详解B+Tree之前，先来介绍一个B-Tree。</li>
+</ul>
+<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B-Tree"></a>B-Tree</h3><ul>
+<li>B-Tree，B树是一种多叉路衡查找树，相对于二叉树，B树每个节点可以有多个分支，即多叉。</li>
+<li>以一颗最大度数（max-degree）为5(5阶)的b-tree为例，那这个B树每个节点最多存储4个key，5个指针：<ul>
+<li>树的度数指的是一个节点的子节点个数。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/3e1322a838f54fcb935b69a6a09a8aff" alt="image-20240104230419598"></p>
+<ul>
+<li>我们可以通过一个数据结构可视化的网站来简单演示一下。 <a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a></li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/d44b63fba2314130a7b55379a0755efc" alt="image-20240104230509914"></p>
+<ul>
+<li>插入一组数据： 100 65 169 368 900 556 780 35 215 1200 234 888 158 90 1000 88 120 268 250 。然后观察一些数据插入过程中，节点的变化情况。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/b43cf29f17c84963a52f90bdbd368eaa" alt="image-20240104230529619"></p>
+<ul>
+<li>特点：<ul>
+<li>5阶的B树，每一个节点最多存储4个key，对应5个指针。</li>
+<li>一旦节点存储的key数量到达5，就会裂变，中间元素向上分裂。</li>
+<li>在B树中，非叶子节点和叶子节点都会存放数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="B-Tree-1"><a href="#B-Tree-1" class="headerlink" title="B+Tree"></a>B+Tree</h3><ul>
+<li>B+Tree是B-Tree的变种，我们以一颗最大度数（max-degree）为4（4阶）的b+tree为例，来看一下其结构示意图：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/5a4047bec9bb4a68baf3dc3259193fde" alt="image-20240104230837464"></p>
+<ul>
+<li><p>我们可以看到，两部分：</p>
+<ul>
+<li>绿色框框起来的部分，是索引部分，仅仅起到索引数据的作用，不存储数据。</li>
+<li>红色框框起来的部分，是数据存储部分，在其叶子节点中要存储具体的数据。</li>
+</ul>
+</li>
+<li><p>我们可以通过一个数据结构可视化的网站来简单演示一下。 <a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html">https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html</a></p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/af24f46ac6974be7943d0486d5d390e7" alt="image-20240104230906345"></p>
+<ul>
+<li>插入一组数据： 100 65 169 368 900 556 780 35 215 1200 234 888 158 90 1000 88 120 268 250 。然后观察一些数据插入过程中，节点的变化情况。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/9081bd06677c4215b3611badddf97ae4" alt="image-20240104230921597"></p>
+<ul>
+<li><p>最终我们看到，B+Tree 与 B-Tree相比，主要有以下三点区别：</p>
+<ul>
+<li>所有的数据都会出现在叶子节点。</li>
+<li>叶子节点形成一个单向链表。</li>
+<li>非叶子节点仅仅起到索引数据作用，具体的数据都是在叶子节点存放的。</li>
+</ul>
+</li>
+<li><p>上述我们所看到的结构是标准的B+Tree的数据结构，接下来，我们再来看看MySQL中优化之后的B+Tree。</p>
+</li>
+<li><p>MySQL索引数据结构对经典的B+Tree进行了优化。在原B+Tree的基础上，增加一个指向相邻叶子节点的链表指针，就形成了带有顺序指针的B+Tree，提高区间访问的性能，利于排序。</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/7e0535f5500e4ad6928b95241389aa1f" alt="image-20240104231000290"></p>
+<h3 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h3><ul>
+<li>MySQL中除了支持B+Tree索引，还支持一种索引类型—Hash索引。</li>
+</ul>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><ul>
+<li>哈希索引就是采用一定的hash算法，将键值换算成新的hash值，映射到对应的槽位上，然后存储在hash表中。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/a99473d7cdf5481bba0edb6750f477ca" alt="image-20240104231049673"></p>
+<ul>
+<li>如果两个(或多个)键值，映射到一个相同的槽位上，他们就产生了hash冲突（也称为hash碰撞），可以通过链表来解决。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/04/f99ee5373c7b45d39aa2e66c28525a34" alt="image-20240104231131382"></p>
+<h4 id="特点-4"><a href="#特点-4" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>A. Hash索引只能用于对等比较(&#x3D;，in)，不支持范围查询（between，&gt;，&lt; ，…）</li>
+<li>B. 无法利用索引完成排序操作</li>
+<li>C. 查询效率高，通常(不存在hash冲突的情况)只需要一次检索就可以了，效率通常要高于B+tree索引</li>
+</ul>
+<h4 id="存储引擎支持"><a href="#存储引擎支持" class="headerlink" title="存储引擎支持"></a>存储引擎支持</h4><ul>
+<li><p>在MySQL中，支持hash索引的是Memory存储引擎。 而InnoDB中具有自适应hash功能，hash索引是InnoDB存储引擎根据B+Tree索引在指定条件下自动构建的。</p>
+</li>
+<li><p>思考题： 为什么InnoDB存储引擎选择使用B+tree索引结构?</p>
+<ul>
+<li>A. 相对于二叉树，层级更少，搜索效率高；</li>
+<li>B. 对于B-tree，无论是叶子节点还是非叶子节点，都会保存数据，这样导致一页中存储的键值减少，指针跟着减少，要同样保存大量数据，只能增加树的高度，导致性能降低；</li>
+<li>C. 相对Hash索引，B+tree支持范围匹配及排序操作；</li>
+</ul>
+</li>
+</ul>
+<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h2><h3 id="索引分类-1"><a href="#索引分类-1" class="headerlink" title="索引分类"></a>索引分类</h3><ul>
+<li>在MySQL数据库，将索引的具体类型主要分为以下几类：主键索引、唯一索引、常规索引、全文索引。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/bc91c7c54cc248ada2476a6de491d430" alt="image-20240105143446683"></p>
+<h3 id="聚集索引-二级索引"><a href="#聚集索引-二级索引" class="headerlink" title="聚集索引 | 二级索引"></a>聚集索引 | 二级索引</h3><ul>
+<li>而在在InnoDB存储引擎中，根据索引的存储形式，又可以分为以下两种：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/82152ab8b94d4aa6ae8845e3bd637539" alt="image-20240105143533942"></p>
+<ul>
+<li><p>聚集索引选取规则:</p>
+<ul>
+<li>如果存在主键，主键索引就是聚集索引。</li>
+<li>如果不存在主键，将使用第一个唯一（UNIQUE）索引作为聚集索引。</li>
+<li>如果表没有主键，或没有合适的唯一索引，则InnoDB会自动生成一个rowid作为隐藏的聚集索引。</li>
+</ul>
+</li>
+<li><p>聚集索引和二级索引的具体结构如下：</p>
+<ul>
+<li>聚集索引的叶子节点下挂的是这一行的数据 。</li>
+<li>二级索引的叶子节点下挂的是该字段值对应的主键值。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/2b501ee08f444b2a99c1f3cdb218143f" alt="image-20240105143609652"></p>
+<ul>
+<li>接下来，我们来分析一下，当我们执行如下的SQL语句时，具体的查找过程是什么样子的。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/3e90013e62664d62a720b279b44ec7bd" alt="image-20240105143638360"></p>
+<ul>
+<li><p>具体过程如下:</p>
+<ul>
+<li>①. 由于是根据name字段进行查询，所以先根据name&#x3D;’Arm’到name字段的二级索引中进行匹配查找。但是在二级索引中只能查找到 Arm 对应的主键值 10。</li>
+<li>②. 由于查询返回的数据是*，所以此时，还需要根据主键值10，到聚集索引中查找10对应的记录，最终找到10对应的行row。</li>
+<li>③. 最终拿到这一行的数据，直接返回即可。</li>
+</ul>
+</li>
+<li><p>回表查询： 这种先到二级索引中查找数据，找到主键值，然后再到聚集索引中根据主键值，获取数据的方式，就称之为回表查询。</p>
+</li>
+<li><p>思考题：</p>
+<ul>
+<li>以下两条SQL语句，那个执行效率高? 为什么?<ul>
+<li>A. <code>select * from user where id = 10 ;</code></li>
+<li>B. <code>select * from user where name = &#39;Arm&#39; ;</code></li>
+<li>备注: id为主键，name字段创建的有索引；</li>
+</ul>
+</li>
+<li>解答：<ul>
+<li>A 语句的执行性能要高于B 语句。<ul>
+<li>因为A语句直接走聚集索引，直接返回数据。 而B语句需要先查询name字段的二级索引，然后再查询聚集索引，也就是需要进行回表查询。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>思考题：</p>
+<ul>
+<li>InnoDB主键索引的B+tree高度为多高呢?</li>
+<li>假设:</li>
+<li>一行数据大小为1k，一页中可以存储16行这样的数据。InnoDB的指针占用6个字节的空间，主键即使为bigint，占用字节数为8。</li>
+<li>高度为2：<ul>
+<li><code>n * 8 + (n + 1) * 6 = 16*1024 </code>, 算出n约为 1170</li>
+<li>1171* 16 &#x3D; 18736</li>
+<li>也就是说，如果树的高度为2，则可以存储 18000 多条记录。</li>
+</ul>
+</li>
+<li>高度为3：<ul>
+<li><code>1171 * 1171 * 16 = 21939856</code></li>
+<li>也就是说，如果树的高度为3，则可以存储 2200w 左右的记录。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/0955afbed63a4e4d8701c8e79e293c30" alt="image-20240105143841460"></p>
+<h2 id="索引语法"><a href="#索引语法" class="headerlink" title="索引语法"></a>索引语法</h2><h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE [ UNIQUE | FULLTEXT ] INDEX index_name ON table_name (index_col_name,... ) ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW INDEX FROM table_name ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX index_name ON table_name ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例演示-1"><a href="#案例演示-1" class="headerlink" title="案例演示"></a>案例演示</h3><ul>
+<li>先来创建一张表 tb_user，并且查询测试数据。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">create table tb_user(</span><br><span class="line">id int primary key auto_increment comment &#x27;主键&#x27;,</span><br><span class="line">name varchar(50) not null comment &#x27;用户名&#x27;,</span><br><span class="line">phone varchar(11) not null comment &#x27;手机号&#x27;,</span><br><span class="line">email varchar(100) comment &#x27;邮箱&#x27;,</span><br><span class="line">profession varchar(11) comment &#x27;专业&#x27;,</span><br><span class="line">age tinyint unsigned comment &#x27;年龄&#x27;,</span><br><span class="line">gender char(1) comment &#x27;性别 , 1: 男, 2: 女&#x27;,</span><br><span class="line">status char(1) comment &#x27;状态&#x27;,</span><br><span class="line">createtime datetime comment &#x27;创建时间&#x27;</span><br><span class="line">) comment &#x27;系统用户表&#x27;;</span><br><span class="line"></span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;吕布&#x27;, &#x27;17799990000&#x27;, &#x27;lvbu666@163.com&#x27;, &#x27;软件工程&#x27;, 23, &#x27;1&#x27;,</span><br><span class="line">&#x27;6&#x27;, &#x27;2001-02-02 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;曹操&#x27;, &#x27;17799990001&#x27;, &#x27;caocao666@qq.com&#x27;, &#x27;通讯工程&#x27;, 33,</span><br><span class="line">&#x27;1&#x27;, &#x27;0&#x27;, &#x27;2001-03-05 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;赵云&#x27;, &#x27;17799990002&#x27;, &#x27;17799990@139.com&#x27;, &#x27;英语&#x27;, 34, &#x27;1&#x27;,</span><br><span class="line">&#x27;2&#x27;, &#x27;2002-03-02 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;孙悟空&#x27;, &#x27;17799990003&#x27;, &#x27;17799990@sina.com&#x27;, &#x27;工程造价&#x27;, 54,</span><br><span class="line">&#x27;1&#x27;, &#x27;0&#x27;, &#x27;2001-07-02 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;花木兰&#x27;, &#x27;17799990004&#x27;, &#x27;19980729@sina.com&#x27;, &#x27;软件工程&#x27;, 23,</span><br><span class="line">&#x27;2&#x27;, &#x27;1&#x27;, &#x27;2001-04-22 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;大乔&#x27;, &#x27;17799990005&#x27;, &#x27;daqiao666@sina.com&#x27;, &#x27;舞蹈&#x27;, 22, &#x27;2&#x27;,</span><br><span class="line">&#x27;0&#x27;, &#x27;2001-02-07 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;露娜&#x27;, &#x27;17799990006&#x27;, &#x27;luna_love@sina.com&#x27;, &#x27;应用数学&#x27;, 24,</span><br><span class="line">&#x27;2&#x27;, &#x27;0&#x27;, &#x27;2001-02-08 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;程咬金&#x27;, &#x27;17799990007&#x27;, &#x27;chengyaojin@163.com&#x27;, &#x27;化工&#x27;, 38,</span><br><span class="line">&#x27;1&#x27;, &#x27;5&#x27;, &#x27;2001-05-23 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;项羽&#x27;, &#x27;17799990008&#x27;, &#x27;xiaoyu666@qq.com&#x27;, &#x27;金属材料&#x27;, 43,</span><br><span class="line">&#x27;1&#x27;, &#x27;0&#x27;, &#x27;2001-09-18 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;白起&#x27;, &#x27;17799990009&#x27;, &#x27;baiqi666@sina.com&#x27;, &#x27;机械工程及其自动</span><br><span class="line">化&#x27;, 27, &#x27;1&#x27;, &#x27;2&#x27;, &#x27;2001-08-16 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;韩信&#x27;, &#x27;17799990010&#x27;, &#x27;hanxin520@163.com&#x27;, &#x27;无机非金属材料工</span><br><span class="line">程&#x27;, 27, &#x27;1&#x27;, &#x27;0&#x27;, &#x27;2001-06-12 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;荆轲&#x27;, &#x27;17799990011&#x27;, &#x27;jingke123@163.com&#x27;, &#x27;会计&#x27;, 29, &#x27;1&#x27;,</span><br><span class="line">&#x27;0&#x27;, &#x27;2001-05-11 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;兰陵王&#x27;, &#x27;17799990012&#x27;, &#x27;lanlinwang666@126.com&#x27;, &#x27;工程造价&#x27;,</span><br><span class="line">44, &#x27;1&#x27;, &#x27;1&#x27;, &#x27;2001-04-09 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;狂铁&#x27;, &#x27;17799990013&#x27;, &#x27;kuangtie@sina.com&#x27;, &#x27;应用数学&#x27;, 43,</span><br><span class="line">&#x27;1&#x27;, &#x27;2&#x27;, &#x27;2001-04-10 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;貂蝉&#x27;, &#x27;17799990014&#x27;, &#x27;84958948374@qq.com&#x27;, &#x27;软件工程&#x27;, 40,</span><br><span class="line">&#x27;2&#x27;, &#x27;3&#x27;, &#x27;2001-02-12 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;妲己&#x27;, &#x27;17799990015&#x27;, &#x27;2783238293@qq.com&#x27;, &#x27;软件工程&#x27;, 31,</span><br><span class="line">&#x27;2&#x27;, &#x27;0&#x27;, &#x27;2001-01-30 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;芈月&#x27;, &#x27;17799990016&#x27;, &#x27;xiaomin2001@sina.com&#x27;, &#x27;工业经济&#x27;, 35,</span><br><span class="line">&#x27;2&#x27;, &#x27;0&#x27;, &#x27;2000-05-03 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;嬴政&#x27;, &#x27;17799990017&#x27;, &#x27;8839434342@qq.com&#x27;, &#x27;化工&#x27;, 38, &#x27;1&#x27;,</span><br><span class="line">&#x27;1&#x27;, &#x27;2001-08-08 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;狄仁杰&#x27;, &#x27;17799990018&#x27;, &#x27;jujiamlm8166@163.com&#x27;, &#x27;国际贸易&#x27;,</span><br><span class="line">30, &#x27;1&#x27;, &#x27;0&#x27;, &#x27;2007-03-12 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;安琪拉&#x27;, &#x27;17799990019&#x27;, &#x27;jdodm1h@126.com&#x27;, &#x27;城市规划&#x27;, 51,</span><br><span class="line">&#x27;2&#x27;, &#x27;0&#x27;, &#x27;2001-08-15 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;典韦&#x27;, &#x27;17799990020&#x27;, &#x27;ycaunanjian@163.com&#x27;, &#x27;城市规划&#x27;, 52,</span><br><span class="line">&#x27;1&#x27;, &#x27;2&#x27;, &#x27;2000-04-12 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;廉颇&#x27;, &#x27;17799990021&#x27;, &#x27;lianpo321@126.com&#x27;, &#x27;土木工程&#x27;, 19,</span><br><span class="line">&#x27;1&#x27;, &#x27;3&#x27;, &#x27;2002-07-18 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;后羿&#x27;, &#x27;17799990022&#x27;, &#x27;altycj2000@139.com&#x27;, &#x27;城市园林&#x27;, 20,</span><br><span class="line">&#x27;1&#x27;, &#x27;0&#x27;, &#x27;2002-03-10 00:00:00&#x27;);</span><br><span class="line">INSERT INTO tb_user (name, phone, email, profession, age, gender, status,</span><br><span class="line">createtime) VALUES (&#x27;姜子牙&#x27;, &#x27;17799990023&#x27;, &#x27;37483844@qq.com&#x27;, &#x27;工程造价&#x27;, 29,</span><br><span class="line">&#x27;1&#x27;, &#x27;4&#x27;, &#x27;2003-05-26 00:00:00&#x27;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表结构中插入的数据如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/1acb6131603149e3995c77a8a6654e05" alt="image-20240105144225175"></p>
+<ul>
+<li>数据准备好了之后，接下来，我们就来完成如下需求：</li>
+<li>A. name字段为姓名字段，该字段的值可能会重复，为该字段创建索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX idx_user_name ON tb_user(name);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>B. phone手机号字段的值，是非空，且唯一的，为该字段创建唯一索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE UNIQUE INDEX idx_user_phone ON tb_user(phone);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C. 为profession、age、status创建联合索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX idx_user_pro_age_sta ON tb_user(profession,age,status);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>D. 为email建立合适的索引来提升查询效率。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX idx_email ON tb_user(email);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>完成上述的需求之后，我们再查看tb_user表的所有的索引数据。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show index from tb_user;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/b80519fd55a945a99ec89f38918f8cbf" alt="image-20240105144358752"></p>
+<h2 id="SQL性能分析"><a href="#SQL性能分析" class="headerlink" title="SQL性能分析"></a>SQL性能分析</h2><h3 id="SQL执行频率"><a href="#SQL执行频率" class="headerlink" title="SQL执行频率"></a>SQL执行频率</h3><ul>
+<li>MySQL 客户端连接成功后，通过 <code>show [session|global] status</code> 命令可以提供服务器状态信息。通过如下指令，可以查看当前数据库的INSERT、UPDATE、DELETE、SELECT的访问频次：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- session 是查看当前会话 ;</span><br><span class="line">-- global 是查询全局数据 ;</span><br><span class="line">SHOW GLOBAL STATUS LIKE &#x27;Com_______&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/18cabf03d299402db73add2612318e2f" alt="image-20240105144817928"></p>
+<ul>
+<li>Com_delete: 删除次数</li>
+<li>Com_insert: 插入次数</li>
+<li>Com_select: 查询次数</li>
+<li>Com_update: 更新次数</li>
+<li>我们可以在当前数据库再执行几次查询操作，然后再次查看执行频次，看看 Com_select 参数会不会变化</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/350e5b3d55594cf195ad9736275306e1" alt="image-20240105144859227"></p>
+<ul>
+<li><p>通过上述指令，我们可以查看到当前数据库到底是以查询为主，还是以增删改为主，从而为数据库优化提供参考依据。 如果是以增删改为主，我们可以考虑不对其进行索引的优化。 如果是以查询为主，那么就要考虑对数据库的索引进行优化了。</p>
+</li>
+<li><p>那么通过查询SQL的执行频次，我们就能够知道当前数据库到底是增删改为主，还是查询为主。 那假如说是以查询为主，我们又该如何定位针对于那些查询语句进行优化呢？ 次数我们可以借助于慢查询日志。</p>
+</li>
+<li><p>接下来，我们就来介绍一下MySQL中的慢查询日志。</p>
+</li>
+</ul>
+<h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><ul>
+<li>慢查询日志记录了所有执行时间超过指定参数（long_query_time，单位：秒，默认10秒）的所有SQL语句的日志。</li>
+<li>MySQL的慢查询日志默认没有开启，我们可以查看一下系统变量 slow_query_log。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/f19fdc18032941b7b544ecaf361c5f3b" alt="image-20240105145012502"></p>
+<ul>
+<li>如果要开启慢查询日志，需要在MySQL的配置文件（<code>/etc/my.cnf</code>）中配置如下信息：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 开启MySQL慢日志查询开关</span><br><span class="line">slow_query_log=1</span><br><span class="line"># 设置慢日志的时间为2秒，SQL语句执行时间超过2秒，就会视为慢查询，记录慢查询日志</span><br><span class="line">long_query_time=2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置完毕之后，通过以下指令重新启动MySQL服务器进行测试，查看慢日志文件中记录的信息<ul>
+<li><code>/var/lib/mysql/localhost-slow.log。</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysqld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后，再次查看开关情况，慢查询日志就已经打开了。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/7629effef8584f8390185dc5d25e4587" alt="image-20240105145114538"></p>
+<ul>
+<li>案例 A : 执行如下SQL语句 ：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user; -- 这条SQL执行效率比较高, 执行耗时 0.00sec</span><br><span class="line">select count(*) from tb_sku; -- 由于tb_sku表中, 预先存入了1000w的记录, count一次,耗时13.35sec</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/5e9ec67745f24b88ab4cf6c2b5233a12" alt="image-20240105145158484"></p>
+<ul>
+<li>B. 检查慢查询日志 ：<ul>
+<li>最终我们发现，在慢查询日志中，只会记录执行时间超多我们预设时间（2s）的SQL，执行较快的SQL是不会记录的。</li>
+</ul>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/e0e0c5682ed44eb1935d15c335a18676" alt="image-20240105145234278" style="zoom:150%;" />
+
+<ul>
+<li>那这样，通过慢查询日志，就可以定位出执行效率比较低的SQL，从而有针对性的进行优化。</li>
+</ul>
+<h3 id="profile详情"><a href="#profile详情" class="headerlink" title="profile详情"></a>profile详情</h3><ul>
+<li>show profiles 能够在做SQL优化时帮助我们了解时间都耗费到哪里去了。</li>
+<li>通过have_profiling 参数，能够看到当前MySQL是否支持profile操作：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@have_profiling ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/d63e1d1ac8c04fdea622bd0f7fbf4d2b" alt="image-20240105145359378"></p>
+<ul>
+<li>可以看到，当前MySQL是支持 profile操作的，但是开关是关闭的。可以通过set语句在 session&#x2F;global级别开启profiling：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET profiling = 1;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开关已经打开了，接下来，我们所执行的SQL语句，都会被MySQL记录，并记录执行时间消耗到哪儿去了。 我们直接执行如下的SQL语句：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user;</span><br><span class="line">select * from tb_user where id = 1;</span><br><span class="line">select * from tb_user where name = &#x27;白起&#x27;;</span><br><span class="line">select count(*) from tb_sku;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行一系列的业务SQL的操作，然后通过如下指令查看指令的执行耗时：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 查看每一条SQL的耗时基本情况</span><br><span class="line">show profiles;</span><br><span class="line">-- 查看指定query_id的SQL语句各个阶段的耗时情况</span><br><span class="line">show profile for query query_id;</span><br><span class="line">-- 查看指定query_id的SQL语句CPU的使用情况</span><br><span class="line">show profile cpu for query query_id;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看每一条SQL的耗时情况:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/98540a890cc14c018b135b55eaba9d68" alt="image-20240105145518371"></p>
+<ul>
+<li>查看指定SQL各个阶段的耗时情况 :</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/f501e640987e4262ac7bbe906146504f" alt="image-20240105145538288"></p>
+<h3 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h3><ul>
+<li><p>EXPLAIN 或者 DESC命令获取 MySQL 如何执行 SELECT 语句的信息，包括在 SELECT 语句执行过程中表如何连接和连接的顺序。</p>
+</li>
+<li><p>语法:</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 直接在select语句之前加上关键字 explain / desc</span><br><span class="line">EXPLAIN SELECT 字段列表 FROM 表名 WHERE 条件 ;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/49c10bcd3d264d908052a13e8193577a" alt="image-20240105145646730" style="zoom:150%;" />
+
+<ul>
+<li>Explain 执行计划中各个字段的含义:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/f43f6bbdfa584d318bf5e87daee0b34e" alt="image-20240105145717684"></p>
+<h2 id="索引使用"><a href="#索引使用" class="headerlink" title="索引使用"></a>索引使用</h2><h3 id="验证索引效率"><a href="#验证索引效率" class="headerlink" title="验证索引效率"></a>验证索引效率</h3><ul>
+<li>在讲解索引的使用原则之前，先通过一个简单的案例，来验证一下索引，看看是否能够通过索引来提升数据查询性能。在演示的时候，我们还是使用之前准备的一张表 tb_sku , 在这张表中准备了1000w的记录。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/f28905aaa49c40399728b0ab60d6b5ff" alt="image-20240105150221796"></p>
+<ul>
+<li>这张表中id为主键，有主键索引，而其他字段是没有建立索引的。 我们先来查询其中的一条记录，看看里面的字段情况，执行如下SQL：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_sku where id = 1\G;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/a977c54cb3b04a4596c31747e36d05ea" alt="image-20240105150253814"></p>
+<ul>
+<li>可以看到即使有1000w的数据,根据id进行数据查询,性能依然很快，因为主键id是有索引的。 那么接下来，我们再来根据 sn 字段进行查询，执行如下SQL：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM tb_sku WHERE sn = &#x27;100000003145001&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/062ec636262e4b6888528eecf13145e3" alt="image-20240105150321787"></p>
+<ul>
+<li>我们可以看到根据sn字段进行查询，查询返回了一条数据，结果耗时 20.78sec，就是因为sn没有索引，而造成查询效率很低。</li>
+<li>那么我们可以针对于sn字段，建立一个索引，建立了索引之后，我们再次根据sn进行查询，再来看一下查询耗时情况。</li>
+<li>创建索引：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_sku_sn on tb_sku(sn) ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/9ec89159590b479da9e00e1a0efd3040" alt="image-20240105150355980"></p>
+<ul>
+<li>然后再次执行相同的SQL语句，再次查看SQL的耗时。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM tb_sku WHERE sn = &#x27;100000003145001&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/0409240db0ef4f5b95b0a4294e03f6d4" alt="image-20240105150420989"></p>
+<ul>
+<li>我们明显会看到，sn字段建立了索引之后，查询性能大大提升。建立索引前后，查询耗时都不是一个数量级的。</li>
+</ul>
+<h3 id="最左前缀法则"><a href="#最左前缀法则" class="headerlink" title="最左前缀法则"></a>最左前缀法则</h3><ul>
+<li>如果索引了多列（联合索引），要遵守最左前缀法则。最左前缀法则指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳跃某一列，索引将会部分失效(后面的字段索引失效)。</li>
+<li>以 tb_user 表为例，我们先来查看一下之前 tb_user 表所创建的索引。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/95a95f2f48b8429db155adfdc727ece6" alt="image-20240105150509175"></p>
+<ul>
+<li>在 tb_user 表中，有一个联合索引，这个联合索引涉及到三个字段，顺序分别为：profession，age，status。</li>
+<li>对于最左前缀法则指的是，查询时，最左变的列，也就是profession必须存在，否则索引全部失效。</li>
+<li>而且中间不能跳过某一列，否则该列后面的字段索引将失效。 接下来，我们来演示几组案例，看一下</li>
+<li>具体的执行计划：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/762671d0086f4309bccae0a1fd0b05b5" alt="image-20240105150547341"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age = 31;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/804376860d43450098ba4cb013292f33" alt="image-20240105150608591"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/09bf4b276d2844c5a18e299bfcb5dfa9" alt="image-20240105150628212"></p>
+<ul>
+<li>以上的这三组测试中，我们发现只要联合索引最左边的字段 profession存在，索引就会生效，只不过索引的长度不同。 而且由以上三组测试，我们也可以推测出profession字段索引长度为47、age字段索引长度为2、status字段索引长度为5。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where age = 31 and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/b3f53c7417e646ec811737232eb5679b" alt="image-20240105150705067"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/9c8e3b7772524290b6d82ca1abcfbb72" alt="image-20240105150723654"></p>
+<ul>
+<li>而通过上面的这两组测试，我们也可以看到索引并未生效，原因是因为不满足最左前缀法则，联合索引最左边的列profession不存在。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/b1a9293505da4d7cb4633fad2784a097" alt="image-20240105150747326"></p>
+<ul>
+<li><p>上述的SQL查询时，存在profession字段，最左边的列是存在的，索引满足最左前缀法则的基本条件。但是查询时，跳过了age这个列，所以后面的列索引是不会使用的，也就是索引部分生效，所以索引的长度就是47。</p>
+</li>
+<li><p>思考题：</p>
+<ul>
+<li>当执行SQL语句: explain select * from tb_user where age &#x3D; 31 and status &#x3D; ‘0’ and profession &#x3D; ‘软件工程’； 时，是否满足最左前缀法则，走不走上述的联合索引，索引长度？</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/ff6327c154504c0ba9cfd8a4d6cb9784" alt="image-20240105150828528"></p>
+<ul>
+<li>可以看到，是完全满足最左前缀法则的，索引长度54，联合索引是生效的。</li>
+<li>注意 ： 最左前缀法则中指的最左边的列，是指在查询时，联合索引的最左边的字段(即是第一个字段)必须存在，与我们编写SQL时，条件编写的先后顺序无关。</li>
+</ul>
+<h3 id="范围查询"><a href="#范围查询" class="headerlink" title="范围查询"></a>范围查询</h3><ul>
+<li>联合索引中，出现范围查询(<code>&gt;,&lt;</code>)，范围查询右侧的列索引失效。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age &gt; 30 and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/1870c01c77214ceb9f11cfac7d5f4315" alt="image-20240105150958861"></p>
+<ul>
+<li>当范围查询使用 <code>&gt;</code>或 <code>&lt;</code> 时，走联合索引了，但是索引的长度为49，就说明范围查询右边的status字段是没有走索引的。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age &gt;= 30 and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/4dffdde1787e4c7a899fb11cbc018954" alt="image-20240105151054641"></p>
+<ul>
+<li>当范围查询使用<code>&gt;=</code> 或 <code>&lt;=</code> 时，走联合索引了，但是索引的长度为54，就说明所有的字段都是走索引的。</li>
+<li>所以，在业务允许的情况下，尽可能的使用类似于 <code>&gt;=</code> 或 <code>&lt;=</code> 这类的范围查询，而避免使用 <code>&gt;</code> 或 <code>&lt;</code> 。</li>
+</ul>
+<h3 id="索引失效情况"><a href="#索引失效情况" class="headerlink" title="索引失效情况"></a>索引失效情况</h3><h4 id="索引列运算"><a href="#索引列运算" class="headerlink" title="索引列运算"></a>索引列运算</h4><ul>
+<li>不要在索引列上进行运算操作， 索引将失效。</li>
+<li>在tb_user表中，除了前面介绍的联合索引之外，还有一个索引，是phone字段的单列索引。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/db4f272553434a2b8663d4711d1f74d9" alt="image-20240105151224853"></p>
+<ul>
+<li>A. 当根据phone字段进行等值匹配查询时, 索引生效。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where phone = &#x27;17799990015&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/5c19db6c8637413aadc27b29407bf2ac" alt="image-20240105151250596" style="zoom:150%;" />
+
+<ul>
+<li>B. 当根据phone字段进行函数运算操作之后，索引失效。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where substring(phone,10,2) = &#x27;15&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/122089e7033a4c97839ce012c36d771f" alt="image-20240105151323688" style="zoom:150%;" />
+
+<h4 id="字符串不加引号"><a href="#字符串不加引号" class="headerlink" title="字符串不加引号"></a>字符串不加引号</h4><ul>
+<li>字符串类型字段使用时，不加引号，索引将失效。</li>
+<li>接下来，我们通过两组示例，来看看对于字符串类型的字段，加单引号与不加单引号的区别：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27;;</span><br><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = 0;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/4b57fd2ef881440da963b7bde625d6d4" alt="image-20240105151411397"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where phone = &#x27;17799990015&#x27;;</span><br><span class="line">explain select * from tb_user where phone = 17799990015;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/536453a39e764fcfb786a0003b9b3363" alt="image-20240105151430989"></p>
+<ul>
+<li>经过上面两组示例，我们会明显的发现，如果字符串不加单引号，对于查询结果，没什么影响，但是数据库存在隐式类型转换，索引将失效。</li>
+</ul>
+<h4 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h4><ul>
+<li>如果仅仅是尾部模糊匹配，索引不会失效。如果是头部模糊匹配，索引失效。</li>
+<li>接下来，我们来看一下这三条SQL语句的执行效果，查看一下其执行计划：</li>
+<li>由于下面查询语句中，都是根据profession字段查询，符合最左前缀法则，联合索引是可以生效的，我们主要看一下，模糊查询时，%加在关键字之前，和加在关键字之后的影响。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession like &#x27;软件%&#x27;;</span><br><span class="line">explain select * from tb_user where profession like &#x27;%工程&#x27;;</span><br><span class="line">explain select * from tb_user where profession like &#x27;%工%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/e663ecd738494844a137205dd2bb7154" alt="image-20240105151543721"></p>
+<ul>
+<li>经过上述的测试，我们发现，在like模糊查询中，在关键字后面加%，索引可以生效。而如果在关键字前面加了%，索引将会失效。</li>
+</ul>
+<h4 id="or连接条件"><a href="#or连接条件" class="headerlink" title="or连接条件"></a>or连接条件</h4><ul>
+<li>用or分割开的条件， 如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where id = 10 or age = 23;</span><br><span class="line">explain select * from tb_user where phone = &#x27;17799990017&#x27; or age = 23;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/5cc10752646b418098eb64fd41ecac0a" alt="image-20240105151732256"></p>
+<ul>
+<li>由于age没有索引，所以即使id、phone有索引，索引也会失效。所以需要针对于age也要建立索引。</li>
+<li>然后，我们可以对age字段建立索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_user_age on tb_user(age);</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/deac1c78dd174cfab04deb4bb80da381" alt="image-20240105151801649" style="zoom:150%;" />
+
+<ul>
+<li>建立了索引之后，我们再次执行上述的SQL语句，看看前后执行计划的变化。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/449b85468e8d4cb79e58800cc2f91815" alt="image-20240105151814278"></p>
+<ul>
+<li>最终，我们发现，当or连接的条件，左右两侧字段都有索引时，索引才会生效。</li>
+</ul>
+<h4 id="数据分布影响"><a href="#数据分布影响" class="headerlink" title="数据分布影响"></a>数据分布影响</h4><ul>
+<li>如果MySQL评估使用索引比全表更慢，则不使用索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_user where phone &gt;= &#x27;17799990005&#x27;;</span><br><span class="line">select * from tb_user where phone &gt;= &#x27;17799990015&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/a193faef6d7a4d94a932c09f4be018e9" alt="image-20240105151859968" style="zoom:150%;" />
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/533b66c971c6450792670bd0a4661fce" alt="image-20240105151905076" style="zoom:150%;" />
+
+<ul>
+<li>经过测试我们发现，相同的SQL语句，只是传入的字段值不同，最终的执行计划也完全不一样，这是为什么呢？</li>
+<li>就是因为MySQL在查询时，会评估使用索引的效率与走全表扫描的效率，如果走全表扫描更快，则放弃索引，走全表扫描。 因为索引是用来索引少量数据的，如果通过索引查询返回大批量的数据，则还不如走全表扫描来的快，此时索引就会失效。</li>
+<li>接下来，我们再来看看 is null 与 is not null 操作是否走索引。</li>
+<li>执行如下两条语句 ：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user where profession is null;</span><br><span class="line">explain select * from tb_user where profession is not null;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/23c11ed2bc78484ebb4f3f0aede81c2a" alt="image-20240105152000383"></p>
+<ul>
+<li>接下来，我们做一个操作将profession字段值全部更新为null。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="C:/Users/online289/AppData/Roaming/Typora/typora-user-images/image-20240105152019401.png" alt="image-20240105152019401"></p>
+<ul>
+<li>然后，再次执行上述的两条SQL，查看SQL语句的执行计划。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/b5e721ba601c4e649d2e6dda9a770e8c" alt="image-20240105152035113"></p>
+<ul>
+<li>最终我们看到，一模一样的SQL语句，先后执行了两次，结果查询计划是不一样的，为什么会出现这种现象，这是和数据库的数据分布有关系。查询时MySQL会评估，走索引快，还是全表扫描快，如果全表扫描更快，则放弃索引走全表扫描。 因此，is null 、is not null是否走索引，得具体情况具体分析，并不是固定的。</li>
+</ul>
+<h3 id="SQL提示"><a href="#SQL提示" class="headerlink" title="SQL提示"></a>SQL提示</h3><ul>
+<li>目前tb_user表的数据情况如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/aad79fb409114fe7a893a43c51847b64" alt="image-20240105152118898"></p>
+<ul>
+<li>索引情况如下:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/a65373a630f046bdb4e6c7ae5683249e" alt="image-20240105152130519"></p>
+<ul>
+<li>把上述的 idx_user_age, idx_email 这两个之前测试使用过的索引直接删除。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop index idx_user_age on tb_user;</span><br><span class="line">drop index idx_email on tb_user;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>A. 执行SQL : <code>explain select * from tb_user where profession = &#39;软件工程&#39;;</code><ul>
+<li>查询走了联合索引。</li>
+</ul>
+</li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/0d2ee17e653c484c98088b0f28050319" alt="image-20240105152209685" style="zoom:150%;" />
+
+<ul>
+<li>B. 执行SQL，创建profession的单列索引：<code>create index idx_user_pro on tb_user(profession);</code></li>
+</ul>
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/11535faee00945f99c83aa3a30f3265c" alt="image-20240105152316596" style="zoom:150%;" />
+
+<ul>
+<li>C. 创建单列索引后，再次执行A中的SQL语句，查看执行计划，看看到底走哪个索引。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/8efd05e1784542ac9499ece8094b2efe" alt="image-20240105152344593"></p>
+<ul>
+<li>测试结果，我们可以看到，possible_keys中 idx_user_pro_age_sta,idx_user_pro 这两个索引都可能用到，最终MySQL选择了idx_user_pro_age_sta索引。这是MySQL自动选择的结果。</li>
+<li>那么，我们能不能在查询的时候，自己来指定使用哪个索引呢？ 答案是肯定的，此时就可以借助于MySQL的SQL提示来完成。 接下来，介绍一下SQL提示。</li>
+<li>SQL提示，是优化数据库的一个重要手段，简单来说，就是在SQL语句中加入一些人为的提示来达到优化操作的目的。</li>
+<li>1). use index ： 建议MySQL使用哪一个索引完成此次查询（仅仅是建议，mysql内部还会再次进行评估）。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user use index(idx_user_pro) where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2). ignore index ： 忽略指定的索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user ignore index(idx_user_pro) where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3). force index ： 强制使用索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user force index(idx_user_pro) where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>示例演示：</li>
+<li>A. use index</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user use index(idx_user_pro) where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/6b83b8255155425b861d9149d57a9819" alt="image-20240105152534661" style="zoom:150%;" />
+
+<ul>
+<li>B. ignore index</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user ignore index(idx_user_pro) where profession = &#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/44cc4fd556374f68a8e875f40b255952" alt="image-20240105152606969" style="zoom:150%;" />
+
+<ul>
+<li>C. force index</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_user force index(idx_user_pro_age_sta) where profession =&#x27;软件工程&#x27;;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/1f652e053b3b46658e43e2f22fd0714d" alt="image-20240105152634328" style="zoom:150%;" />
+
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><ul>
+<li>尽量使用覆盖索引，减少select *。 那么什么是覆盖索引呢？ 覆盖索引是指 查询使用了索引，并且需要返回的列，在该索引中已经全部能够找到 。</li>
+<li>接下来，我们来看一组SQL的执行计划，看看执行计划的差别，然后再来具体做一个解析。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">explain select id, profession from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27; ;</span><br><span class="line">explain select id,profession,age, status from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27; ;</span><br><span class="line">explain select id,profession,age, status, name from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27; ;</span><br><span class="line">explain select * from tb_user where profession = &#x27;软件工程&#x27; and age = 31 and status = &#x27;0&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上述这几条SQL的执行结果为:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/57d70755ec5d4cc6984f9c29f0febc1d" alt="image-20240105152812554"></p>
+<ul>
+<li>从上述的执行计划我们可以看到，这四条SQL语句的执行计划前面所有的指标都是一样的，看不出来差异。但是此时，我们主要关注的是后面的Extra，前面两天SQL的结果为 Using where; Using Index ; 而后面两条SQL的结果为: Using index condition 。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/a195a454534c4fc89e4de1f01630e3f9" alt="image-20240105152839797"></p>
+<ul>
+<li><p>因为，在tb_user表中有一个联合索引 idx_user_pro_age_sta，该索引关联了三个字段profession、age、status，而这个索引也是一个二级索引，所以叶子节点下面挂的是这一行的主键id。 所以当我们查询返回的数据在 id、profession、age、status 之中，则直接走二级索引直接返回数据了。 </p>
+</li>
+<li><p>如果超出这个范围，就需要拿到主键id，再去扫描聚集索引，再获取额外的数据了，这个过程就是回表。 </p>
+</li>
+<li><p>而我们如果一直使用select * 查询返回所有字段值，很容易就会造成回表查询（除非是根据主键查询，此时只会扫描聚集索引）。</p>
+</li>
+<li><p>为了大家更清楚的理解，什么是覆盖索引，什么是回表查询，我们一起再来看下面的这组SQL的执行过程。</p>
+</li>
+<li><p>A. 表结构及索引示意图:</p>
+<ul>
+<li>id是主键，是一个聚集索引。 name字段建立了普通索引，是一个二级索引（辅助索引）。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/0428421501bd4ca08103233edd5b8f10" alt="image-20240105152942632"></p>
+<ul>
+<li>B. 执行SQL : <code>select * from tb_user where id = 2;</code><ul>
+<li>根据id查询，直接走聚集索引查询，一次索引扫描，直接返回数据，性能高。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/2c1c17d31091409ca2210969cb93b711" alt="image-20240105153021441"></p>
+<ul>
+<li>C. 执行SQL：<code>selet id,name from tb_user where name = &#39;Arm&#39;;</code><ul>
+<li>虽然是根据name字段查询，查询二级索引，但是由于查询返回在字段为 id，name，在name的二级索引中，这两个值都是可以直接获取到的，因为覆盖索引，所以不需要回表查询，性能高。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/5d8c056a2f46495b9c4a5e43e5a61bdf" alt="image-20240105153111214"></p>
+<ul>
+<li>D. 执行SQL：<code>selet id,name,gender from tb_user where name = &#39;Arm&#39;;</code><ul>
+<li>由于在name的二级索引中，不包含gender，所以，需要两次索引扫描，也就是需要回表查询，性能相对较差一点。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/c206c19dc2744d7183f29c696d2ea4c6" alt="image-20240105153144719"></p>
+<ul>
+<li>思考题：</li>
+<li>一张表, 有四个字段(id, username, password, status), 由于数据量大, 需要对以下SQL语句进行优化, 该如何进行才是最优方案:</li>
+<li><code>select id,username,password from tb_user where username = &#39;itcast&#39;;</code></li>
+<li>答案: 针对于 username, password建立联合索引, sql为: <code>create index idx_user_name_pass on tb_user(username,password);</code></li>
+<li>这样可以避免上述的SQL语句，在查询的过程中，出现回表查询。</li>
+</ul>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><ul>
+<li>当字段类型为字符串（varchar，text，longtext等）时，有时候需要索引很长的字符串，这会让索引变得很大，查询时，浪费大量的磁盘IO， 影响查询效率。此时可以只将字符串的一部分前缀，建立索引，这样可以大大节约索引空间，从而提高索引效率。</li>
+</ul>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_xxxx on table_name(column(n)) ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>示例: 为tb_user表的email字段，建立长度为5的前缀索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_email_5 on tb_user(email(5));</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/8e054e42d4bc48b89e57630891afd08a" alt="image-20240105153409310"></p>
+<h4 id="前缀长度"><a href="#前缀长度" class="headerlink" title="前缀长度"></a>前缀长度</h4><ul>
+<li>可以根据索引的选择性来决定，而选择性是指不重复的索引值（基数）和数据表的记录总数的比值，索引选择性越高则查询效率越高， 唯一索引的选择性是1，这是最好的索引选择性，性能也是最好的。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct email) / count(*) from tb_user ;</span><br><span class="line">select count(distinct substring(email,1,5)) / count(*) from tb_user ;</span><br></pre></td></tr></table></figure>
+
+<h4 id="前缀索引的查询流程"><a href="#前缀索引的查询流程" class="headerlink" title="前缀索引的查询流程"></a>前缀索引的查询流程</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/ddf5829d9e8f4a37aebb4b04469ecde9" alt="image-20240105153457891"></p>
+<h3 id="单列索引-联合索引"><a href="#单列索引-联合索引" class="headerlink" title="单列索引 | 联合索引"></a>单列索引 | 联合索引</h3><ul>
+<li>单列索引：即一个索引只包含单个列。</li>
+<li>联合索引：即一个索引包含了多个列。</li>
+<li>我们先来看看 tb_user 表中目前的索引情况:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/23ec394a329d4b2e98f7cef3d365c4c9" alt="image-20240105153600252"></p>
+<ul>
+<li>在查询出来的索引中，既有单列索引，又有联合索引。</li>
+<li>接下来，我们来执行一条SQL语句，看看其执行计划：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/c84b8c4a85194800942d70a781a696e5" alt="image-20240105153615980"></p>
+<ul>
+<li>通过上述执行计划我们可以看出来，在and连接的两个字段 phone、name上都是有单列索引的，但是最终mysql只会选择一个索引，也就是说，只能走一个字段的索引，此时是会回表查询的。</li>
+<li>紧接着，我们再来创建一个phone和name字段的联合索引来查询一下执行计划。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create unique index idx_user_phone_name on tb_user(phone,name);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/8822e805ea4c41da815ae0ca995a2c2b" alt="image-20240105153648186"></p>
+<ul>
+<li><p>此时，查询时，就走了联合索引，而在联合索引中包含 phone、name的信息，在叶子节点下挂的是对应的主键id，所以查询是无需回表查询的。</p>
+</li>
+<li><p>在业务场景中，如果存在多个查询条件，考虑针对于查询字段建立索引时，建议建立联合索引，而非单列索引。</p>
+</li>
+<li><p>如果查询使用的是联合索引，具体的结构示意图如下：</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/05/fb018528751c49048c20cb1d30b084e3" alt="image-20240105153724170"></p>
+<h2 id="索引设计原则"><a href="#索引设计原则" class="headerlink" title="索引设计原则"></a>索引设计原则</h2><ul>
+<li>1). 针对于数据量较大，且查询比较频繁的表建立索引。</li>
+<li>2). 针对于常作为查询条件（where）、排序（order by）、分组（group by）操作的字段建立索引。</li>
+<li>3). 尽量选择区分度高的列作为索引，尽量建立唯一索引，区分度越高，使用索引的效率越高。</li>
+<li>4). 如果是字符串类型的字段，字段的长度较长，可以针对于字段的特点，建立前缀索引。</li>
+<li>5). 尽量使用联合索引，减少单列索引，查询时，联合索引很多时候可以覆盖索引，节省存储空间，避免回表，提高查询效率。</li>
+<li>6). 要控制索引的数量，索引并不是多多益善，索引越多，维护索引结构的代价也就越大，会影响增删改的效率。</li>
+<li>7). 如果索引列不能存储NULL值，请在创建表时使用NOT NULL约束它。当优化器知道每列是否包含NULL值时，它可以更好地确定哪个索引最有效地用于查询。</li>
+</ul>
+<h1 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h1><h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><h3 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h3><ul>
+<li>如果我们需要一次性往数据库表中插入多条记录，可以从以下三个方面进行优化。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">insert into tb_test values(1,&#x27;tom&#x27;);</span><br><span class="line">insert into tb_test values(2,&#x27;cat&#x27;);</span><br><span class="line">insert into tb_test values(3,&#x27;jerry&#x27;);</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化方案一"><a href="#优化方案一" class="headerlink" title="优化方案一"></a>优化方案一</h4><ul>
+<li>批量插入数据</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Insert into tb_test values(1,&#x27;Tom&#x27;),(2,&#x27;Cat&#x27;),(3,&#x27;Jerry&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化方案二"><a href="#优化方案二" class="headerlink" title="优化方案二"></a>优化方案二</h4><ul>
+<li>手动控制事务</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br><span class="line">insert into tb_test values(1,&#x27;Tom&#x27;),(2,&#x27;Cat&#x27;),(3,&#x27;Jerry&#x27;);</span><br><span class="line">insert into tb_test values(4,&#x27;Tom&#x27;),(5,&#x27;Cat&#x27;),(6,&#x27;Jerry&#x27;);</span><br><span class="line">insert into tb_test values(7,&#x27;Tom&#x27;),(8,&#x27;Cat&#x27;),(9,&#x27;Jerry&#x27;);</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化方案三"><a href="#优化方案三" class="headerlink" title="优化方案三"></a>优化方案三</h4><ul>
+<li>主键顺序插入，性能要高于乱序插入。<ul>
+<li>主键乱序插入 : 8 1 9 21 88 2 4 15 89 5 7 3</li>
+<li>主键顺序插入 : 1 2 3 4 5 7 8 9 15 21 88 89</li>
+</ul>
+</li>
+</ul>
+<h3 id="大批量插入数据"><a href="#大批量插入数据" class="headerlink" title="大批量插入数据"></a>大批量插入数据</h3><h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4><ul>
+<li>如果一次性需要插入大批量数据(比如: 几百万的记录)，使用insert语句插入性能较低，此时可以使用MySQL数据库提供的load指令进行插入。操作如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/064e6db2071c4b13a29e4d04e7668213" alt="image-20240106213649294"></p>
+<ul>
+<li>可以执行如下指令，将数据脚本文件中的数据加载到表结构中：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- 客户端连接服务端时，加上参数 -–local-infile</span><br><span class="line">mysql –-local-infile -u root -p</span><br><span class="line">-- 设置全局参数local_infile为1，开启从本地加载文件导入数据的开关</span><br><span class="line">set global local_infile = 1;</span><br><span class="line">-- 执行load指令将准备好的数据，加载到表结构中</span><br><span class="line">load data local infile &#x27;/root/sql1.log&#x27; into table tb_user fields</span><br><span class="line">terminated by &#x27;,&#x27; lines terminated by &#x27;\n&#x27; ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>主键顺序插入性能高于乱序插入</li>
+</ul>
+<h4 id="示例演示"><a href="#示例演示" class="headerlink" title="示例演示"></a>示例演示</h4><ul>
+<li>A. 创建表结构</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `tb_user` (</span><br><span class="line">`id` INT(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">`username` VARCHAR(50) NOT NULL,</span><br><span class="line">`password` VARCHAR(50) NOT NULL,</span><br><span class="line">`name` VARCHAR(20) NOT NULL,</span><br><span class="line">`birthday` DATE DEFAULT NULL,</span><br><span class="line">`sex` CHAR(1) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (`id`),</span><br><span class="line">UNIQUE KEY `unique_user_username` (`username`)</span><br><span class="line">) ENGINE=INNODB DEFAULT CHARSET=utf8 ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>B. 设置参数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 客户端连接服务端时，加上参数 -–local-infile</span><br><span class="line">mysql –-local-infile -u root -p</span><br><span class="line">-- 设置全局参数local_infile为1，开启从本地加载文件导入数据的开关</span><br><span class="line">set global local_infile = 1;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C. load加载数据</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data local infile &#x27;/root/load_user_100w_sort.sql&#x27; into table tb_user fields terminated by &#x27;,&#x27; lines terminated by &#x27;\n&#x27; ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/b435cb0c94744090bb6bc4f7f3585f17" alt="image-20240106213859672"></p>
+<ul>
+<li>我们看到，插入100w的记录，17s就完成了，性能很好。</li>
+<li>在load时，主键顺序插入性能高于乱序插入</li>
+</ul>
+<h2 id="主键优化"><a href="#主键优化" class="headerlink" title="主键优化"></a>主键优化</h2><ul>
+<li>在上一小节，我们提到，主键顺序插入的性能是要高于乱序插入的。 这一小节，就来介绍一下具体的原因，然后再分析一下主键又该如何设计。</li>
+</ul>
+<h3 id="数据组织方式"><a href="#数据组织方式" class="headerlink" title="数据组织方式"></a>数据组织方式</h3><ul>
+<li>在InnoDB存储引擎中，表数据都是根据主键顺序组织存放的，这种存储方式的表称为索引组织表(index organized table IOT)。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/bc69aba860f34d368132fee77e9b8e12" alt="image-20240106214416907"></p>
+<ul>
+<li>行数据，都是存储在聚集索引的叶子节点上的。而我们之前也讲解过InnoDB的逻辑结构图：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/3cff698fb5ef45069ab5e53041e5f747" alt="image-20240106214431071"></p>
+<ul>
+<li>在InnoDB引擎中，数据行是记录在逻辑结构 page 页中的，而每一个页的大小是固定的，默认16K。</li>
+<li>那也就意味着， 一个页中所存储的行也是有限的，如果插入的数据行row在该页存储不小，将会存储到下一个页中，页与页之间会通过指针连接。</li>
+</ul>
+<h3 id="页分裂"><a href="#页分裂" class="headerlink" title="页分裂"></a>页分裂</h3><ul>
+<li>页可以为空，也可以填充一半，也可以填充100%。每个页包含了2-N行数据(如果一行数据过大，会行溢出)，根据主键排列。</li>
+</ul>
+<h4 id="主键顺序插入效果"><a href="#主键顺序插入效果" class="headerlink" title="主键顺序插入效果"></a>主键顺序插入效果</h4><ul>
+<li>①. 从磁盘中申请页， 主键顺序插入</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/672d9e2a40d6478790a005d287f88ffb" alt="image-20240106214617305"></p>
+<ul>
+<li>②. 第一个页没有满，继续往第一页插入</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/82c4c8b7cd38407584647471628a8236" alt="image-20240106215001400"></p>
+<ul>
+<li>③. 当第一个也写满之后，再写入第二个页，页与页之间会通过指针连接</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/a817c03e7188471c99a54d67ebc3b5e2" alt="image-20240106215018133"></p>
+<ul>
+<li>④. 当第二页写满了，再往第三页写入</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/e281ca352aee44f9afd0f2e40eb00c2b" alt="image-20240106215037485"></p>
+<h4 id="主键乱序插入效果"><a href="#主键乱序插入效果" class="headerlink" title="主键乱序插入效果"></a>主键乱序插入效果</h4><ul>
+<li>①. 加入1#,2#页都已经写满了，存放了如图所示的数据</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/4d5eb19038574c948b297165893987f1" alt="image-20240106215104249"></p>
+<ul>
+<li>②. 此时再插入id为50的记录，我们来看看会发生什么现象 , 会再次开启一个页，写入新的页中吗？</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/4ee54a67e7d04c1e9f811ac3a15cba61" alt="image-20240106215148366"></p>
+<ul>
+<li>不会。因为，索引结构的叶子节点是有顺序的。按照顺序，应该存储在47之后。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/645a4eb574a946419c7627b243f4cce7" alt="image-20240106215220812"></p>
+<ul>
+<li>但是47所在的1#页，已经写满了，存储不了50对应的数据了。 那么此时会开辟一个新的页 3#。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/80c8a437faf5490db25070771568b01a" alt="image-20240106215235625"></p>
+<ul>
+<li>但是并不会直接将50存入3#页，而是会将1#页后一半的数据，移动到3#页，然后在3#页，插入50。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/0724694548e745f485b6f1ee8cafa7da" alt="image-20240106215305708"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/853186e25a1d4a0ba3f210b5eeead63e" alt="image-20240106215300524"></p>
+<ul>
+<li>移动数据，并插入id为50的数据之后，那么此时，这三个页之间的数据顺序是有问题的。 1#的下一个页，应该是3#， 3#的下一个页是2#。 所以，此时，需要重新设置链表指针。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/2e12248d995b4c4180a1162714730136" alt="image-20240106215320032"></p>
+<ul>
+<li>上述的这种现象，称之为 “页分裂”，是比较耗费性能的操作。</li>
+</ul>
+<h3 id="页合并"><a href="#页合并" class="headerlink" title="页合并"></a>页合并</h3><ul>
+<li>目前表中已有数据的索引结构(叶子节点)如下：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/20855f7676c9499b9ca5c977944fb5ce" alt="image-20240106220651655"></p>
+<ul>
+<li>当我们对已有数据进行删除时，具体的效果如下:</li>
+<li>当删除一行记录时，实际上记录并没有被物理删除，只是记录被标记（flaged）为删除并且它的空间 , 变得允许被其他记录声明使用。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/2f0f1092dae146859b49552b13c1cc3a" alt="image-20240106220723422"></p>
+<ul>
+<li>当我们继续删除2#的数据记录</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/996da5c3be9f4a04937420ebce0722ce" alt="image-20240106220738512"></p>
+<ul>
+<li>当页中删除的记录达到 MERGE_THRESHOLD（默认为页的50%），InnoDB会开始寻找最靠近的页（前或后）看看是否可以将两个页合并以优化空间使用。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/93d0ddc78cd84e5ea4d0083ee78b66cd" alt="image-20240106220803313"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/4609da8b187b40ca970f2dd35fd62c38" alt="image-20240106220808979"></p>
+<ul>
+<li>删除数据，并将页合并之后，再次插入新的数据21，则直接插入3#页</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/5e50af53f5894d0194947902961376c0" alt="image-20240106220824201"></p>
+<ul>
+<li><p>这个里面所发生的合并页的这个现象，就称之为 “页合并”。</p>
+</li>
+<li><p>知识小贴士：</p>
+<ul>
+<li>MERGE_THRESHOLD：合并页的阈值，可以自己设置，在创建表或者创建索引时指定。</li>
+</ul>
+</li>
+</ul>
+<h3 id="索引设计原则-1"><a href="#索引设计原则-1" class="headerlink" title="索引设计原则"></a>索引设计原则</h3><ul>
+<li>满足业务需求的情况下，尽量降低主键的长度。</li>
+<li>插入数据时，尽量选择顺序插入，选择使用AUTO_INCREMENT自增主键。</li>
+<li>尽量不要使用UUID做主键或者是其他自然主键，如身份证号。</li>
+<li>业务操作时，避免对主键的修改。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/2109038051d84be5947141356c54abf9" alt="image-20240106220912162"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/d07a513c7ae24fdf9b95fca00c7c19e5" alt="image-20240106220918864"></p>
+<h2 id="order-by优化"><a href="#order-by优化" class="headerlink" title="order by优化"></a>order by优化</h2><ul>
+<li>MySQL的排序，有两种方式：</li>
+<li>Using filesort : 通过表的索引或全表扫描，读取满足条件的数据行，然后在排序缓冲区sort buffer中完成排序操作，所有不是通过索引直接返回排序结果的排序都叫 FileSort 排序。</li>
+<li>Using index : 通过有序索引顺序扫描直接返回有序数据，这种情况即为 using index，不需要额外排序，操作效率高。</li>
+<li>对于以上的两种排序方式，Using index的性能高，而Using filesort的性能低，我们在优化排序操作时，尽量要优化为 Using index。</li>
+<li>接下来，我们来做一个测试：</li>
+<li>A. 数据准备<ul>
+<li>把之前测试时，为tb_user表所建立的部分索引直接删除掉</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">drop index idx_user_phone on tb_user;</span><br><span class="line">drop index idx_user_phone_name on tb_user;</span><br><span class="line">drop index idx_user_name on tb_user;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/8eb8dbc5d687470287c891a5f1a5bcf0" alt="image-20240106221015272"></p>
+<ul>
+<li>B. 执行排序SQL</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age ;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/7975cd948bd84954b8d39917a23db96f" alt="image-20240106221212499" style="zoom:150%;" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age, phone ;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/21f4ac5f7cfa4f92b49b0a469bf87369" alt="image-20240106221227198" style="zoom:150%;" />
+
+<ul>
+<li><p>由于 age, phone 都没有索引，所以此时再排序时，出现Using filesort， 排序性能较低。</p>
+</li>
+<li><p>C. 创建索引</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 创建索引</span><br><span class="line">create index idx_user_age_phone_aa on tb_user(age,phone);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>D. 创建索引后，根据age, phone进行升序排序</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/716e9c7a4ccb4a749b911b0c5ffeca80" alt="image-20240106221332340" style="zoom:150%;" />
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age , phone;</span><br></pre></td></tr></table></figure>
+
+<img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/af992e01618d48988e7f2906ae6e8a22" alt="image-20240106221352447" style="zoom:150%;" />
+
+<ul>
+<li><p>建立索引之后，再次进行排序查询，就由原来的Using filesort， 变为了 Using index，性能就是比较高的了。</p>
+</li>
+<li><p>E. 创建索引后，根据age, phone进行降序排序</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age desc , phone desc ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/50f8ba9dd9d34f8787fb3f6946fdc7b4" alt="image-20240106221743715"></p>
+<ul>
+<li><p>也出现 Using index， 但是此时Extra中出现了 Backward index scan，这个代表反向扫描索引，因为在MySQL中我们创建的索引，默认索引的叶子节点是从小到大排序的，而此时我们查询排序时，是从大到小，所以，在扫描时，就是反向扫描，就会出现 Backward index scan。 </p>
+</li>
+<li><p>在MySQL8版本中，支持降序索引，我们也可以创建降序索引。</p>
+</li>
+<li><p>F. 根据phone，age进行升序排序，phone在前，age在后。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by phone , age;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/c1be334ecae84bb48f7e0d398061199c" alt="image-20240106221842374"></p>
+<ul>
+<li><p>排序时,也需要满足最左前缀法则,否则也会出现 filesort。因为在创建索引的时候， age是第一个字段，phone是第二个字段，所以排序时，也就该按照这个顺序来，否则就会出现 Using filesort。</p>
+</li>
+<li><p>F. 根据age, phone进行降序一个升序，一个降序</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age asc , phone desc ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/b4ff885ddf7447f79c8cacc53cb71dab" alt="image-20240106221930248"></p>
+<ul>
+<li>因为创建索引时，如果未指定顺序，默认都是按照升序排序的，而查询时，一个升序，一个降序，此时就会出现Using filesort。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/516708311fec41ef864e5847a47f5c94" alt="image-20240106221948466"></p>
+<ul>
+<li>因为创建索引时，如果未指定顺序，默认都是按照升序排序的，而查询时，一个升序，一个降序，此时就会出现Using filesort。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/516708311fec41ef864e5847a47f5c94" alt="image-20240106222008759"></p>
+<ul>
+<li><p>为了解决上述的问题，我们可以创建一个索引，这个联合索引中 age 升序排序，phone 倒序排序。</p>
+</li>
+<li><p>G. 创建联合索引(age 升序排序，phone 倒序排序)</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_user_age_phone_ad on tb_user(age asc ,phone desc);</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/826e434fdf574191bd99d13272f0ba9f" alt="image-20240106222047149"></p>
+<ul>
+<li>H. 然后再次执行如下SQL</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select id,age,phone from tb_user order by age asc , phone desc ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/ea9b3861af694e07b2bec2bcf5cdf8f0" alt="image-20240106222114451"></p>
+<ul>
+<li>升序&#x2F;降序联合索引结构图示:</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/84c00750c5d14ef2a50a4e6bec838278" alt="image-20240106222127754"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/4f3fa25119de40ad86ec25d472b04f83" alt="image-20240106222134297"></p>
+<ul>
+<li>由上述的测试,我们得出order by优化原则:<ul>
+<li>A. 根据排序字段建立合适的索引，多字段排序时，也遵循最左前缀法则。</li>
+<li>B. 尽量使用覆盖索引。</li>
+<li>C. 多字段排序, 一个升序一个降序，此时需要注意联合索引在创建时的规则（ASC&#x2F;DESC）。</li>
+<li>D. 如果不可避免的出现filesort，大数据量排序时，可以适当增大排序缓冲区大小 sort_buffer_size(默认256k)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="group-by优化"><a href="#group-by优化" class="headerlink" title="group by优化"></a>group by优化</h2><ul>
+<li>分组操作，我们主要来看看索引对于分组操作的影响。</li>
+<li>首先我们先将 tb_user 表的索引全部删除掉 。</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/46568c51f00340e3ba288e74fa7f3727" alt="image-20240106222712327"></p>
+<ul>
+<li>接下来，在没有索引的情况下，执行如下SQL，查询执行计划：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select profession , count(*) from tb_user group by profession ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/930a880966a24159a3eb8d58b8c24c36" alt="image-20240106222734735"></p>
+<ul>
+<li>然后，我们在针对于 profession ， age， status 创建一个联合索引。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index idx_user_pro_age_sta on tb_user(profession , age , status);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>紧接着，再执行前面相同的SQL查看执行计划。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select profession , count(*) from tb_user group by profession ;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/bb9847b2cd2c4bb8bca58fda5161941f" alt="image-20240106223449463"></p>
+<ul>
+<li>再执行如下的分组查询SQL，查看执行计划：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/f89b19024ec8480791ca0764649768c6" alt="image-20240106223509207"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/2bae8081055f4601ab6ec004f8a8a250" alt="image-20240106223514844"></p>
+<ul>
+<li><p>我们发现，如果仅仅根据age分组，就会出现 Using temporary ；而如果是 根据profession,age两个字段同时分组，则不会出现 Using temporary。原因是因为对于分组操作，在联合索引中，也是符合最左前缀法则的。</p>
+</li>
+<li><p>所以，在分组操作中，我们需要通过以下两点进行优化，以提升性能：</p>
+<ul>
+<li>A. 在分组操作时，可以通过索引来提高效率。</li>
+<li>B. 分组操作时，索引的使用也是满足最左前缀法则的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="limit优化"><a href="#limit优化" class="headerlink" title="limit优化"></a>limit优化</h2><ul>
+<li>在数据量比较大时，如果进行limit分页查询，在查询时，越往后，分页查询效率越低。</li>
+<li>我们一起来看看执行limit分页查询耗时对比：</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/89bc83ff3c1346b484ed9faf50cd16d1" alt="image-20240106223700301"></p>
+<ul>
+<li>通过测试我们会看到，越往后，分页查询效率越低，这就是分页查询的问题所在。</li>
+<li>因为，当在进行分页查询时，如果执行 limit 2000000,10 ，此时需要MySQL排序前2000010 记录，仅仅返回 2000000 - 2000010 的记录，其他记录丢弃，查询排序的代价非常大 。</li>
+<li>优化思路: 一般分页查询时，通过创建 覆盖索引 能够比较好地提高性能，可以通过覆盖索引加子查询形式进行优化。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_sku t , (select id from tb_sku order by id limit 2000000,10) a where t.id = a.id;</span><br></pre></td></tr></table></figure>
+
+<h2 id="count优化"><a href="#count优化" class="headerlink" title="count优化"></a>count优化</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from tb_user ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在之前的测试中，我们发现，如果数据量很大，在执行count操作时，是非常耗时的。</li>
+<li>MyISAM 引擎把一个表的总行数存在了磁盘上，因此执行 count(*) 的时候会直接返回这个数，效率很高； 但是如果是带条件的count，MyISAM也慢。</li>
+<li>InnoDB 引擎就麻烦了，它执行 count(*) 的时候，需要把数据一行一行地从引擎里面读出来，然后累积计数。</li>
+<li>如果说要大幅度提升InnoDB表的count效率，主要的优化思路：自己计数(可以借助于redis这样的数据库进行,但是如果是带条件的count又比较麻烦了)。</li>
+</ul>
+<h3 id="count用法"><a href="#count用法" class="headerlink" title="count用法"></a>count用法</h3><ul>
+<li>count() 是一个聚合函数，对于返回的结果集，一行行地判断，如果 count 函数的参数不是NULL，累计值就加 1，否则不加，最后返回累计值。</li>
+<li>用法：count（*）、count（主键）、count（字段）、count（数字）</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/01/06/c3dfa9d8f3f449adadfc71d11e45c66f" alt="image-20240106223922662"></p>
+<ul>
+<li>按照效率排序的话，count(字段) &lt; count(主键 id) &lt; count(1) ≈ <code>count(*)</code>，所以尽量使用 <code>count(*)</code>。</li>
+</ul>
+<h2 id="update优化"><a href="#update优化" class="headerlink" title="update优化"></a>update优化</h2><ul>
+<li>我们主要需要注意一下update语句执行时的注意事项。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update course set name = &#x27;javaEE&#x27; where id = 1 ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当我们在执行删除的SQL语句时，会锁定id为1这一行的数据，然后事务提交之后，行锁释放。但是当我们在执行如下SQL时。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update course set name = &#x27;SpringBoot&#x27; where name = &#x27;PHP&#x27; ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>当我们开启多个事务，在执行上述的SQL时，我们发现行锁升级为了表锁。 导致该update语句的性能大大降低。</p>
+</li>
+<li><p>InnoDB的行锁是针对索引加的锁，不是针对记录加的锁 ,并且该索引不能失效，否则会从行锁升级为表锁 。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL进阶篇</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL基础篇</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-text">存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">MySQL体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E-1"><span class="toc-text">存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D"><span class="toc-text">存储引擎介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-text">指定存储引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%BD%93%E5%89%8D%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-text">查询当前存储引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-text">案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%89%B9%E7%82%B9"><span class="toc-text">存储引擎特点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB"><span class="toc-text">InnoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-text">逻辑存储结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyISAM"><span class="toc-text">MyISAM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-1"><span class="toc-text">文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Memory"><span class="toc-text">Memory</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-2"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-2"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6-2"><span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%BA%E5%88%AB%E5%8F%8A%E7%89%B9%E7%82%B9"><span class="toc-text">区别及特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">面试题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E9%80%89%E6%8B%A9"><span class="toc-text">存储引擎选择</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%A6%82%E8%BF%B0"><span class="toc-text">索引概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-3"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="toc-text">案例演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-3"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="toc-text">索引结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Tree"><span class="toc-text">B-Tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Tree-1"><span class="toc-text">B+Tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash"><span class="toc-text">Hash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-4"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%94%AF%E6%8C%81"><span class="toc-text">存储引擎支持</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB"><span class="toc-text">索引分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB-1"><span class="toc-text">索引分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95-%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95"><span class="toc-text">聚集索引 | 二级索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E8%AF%AD%E6%B3%95"><span class="toc-text">索引语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-text">创建索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%B4%A2%E5%BC%95"><span class="toc-text">查看索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="toc-text">删除索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA-1"><span class="toc-text">案例演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">SQL性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%89%A7%E8%A1%8C%E9%A2%91%E7%8E%87"><span class="toc-text">SQL执行频率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-text">慢查询日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#profile%E8%AF%A6%E6%83%85"><span class="toc-text">profile详情</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explain"><span class="toc-text">explain</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8"><span class="toc-text">索引使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%B4%A2%E5%BC%95%E6%95%88%E7%8E%87"><span class="toc-text">验证索引效率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E6%B3%95%E5%88%99"><span class="toc-text">最左前缀法则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">范围查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%83%85%E5%86%B5"><span class="toc-text">索引失效情况</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%97%E8%BF%90%E7%AE%97"><span class="toc-text">索引列运算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E5%8A%A0%E5%BC%95%E5%8F%B7"><span class="toc-text">字符串不加引号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2"><span class="toc-text">模糊查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#or%E8%BF%9E%E6%8E%A5%E6%9D%A1%E4%BB%B6"><span class="toc-text">or连接条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%BD%B1%E5%93%8D"><span class="toc-text">数据分布影响</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%8F%90%E7%A4%BA"><span class="toc-text">SQL提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-text">前缀索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E9%95%BF%E5%BA%A6"><span class="toc-text">前缀长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B"><span class="toc-text">前缀索引的查询流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-text">单列索引 | 联合索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-text">索引设计原则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E4%BC%98%E5%8C%96"><span class="toc-text">SQL优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">插入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#insert"><span class="toc-text">insert</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88%E4%B8%80"><span class="toc-text">优化方案一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88%E4%BA%8C"><span class="toc-text">优化方案二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88%E4%B8%89"><span class="toc-text">优化方案三</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">大批量插入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-text">操作步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="toc-text">示例演示</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E4%BC%98%E5%8C%96"><span class="toc-text">主键优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F"><span class="toc-text">数据组织方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E5%88%86%E8%A3%82"><span class="toc-text">页分裂</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E9%A1%BA%E5%BA%8F%E6%8F%92%E5%85%A5%E6%95%88%E6%9E%9C"><span class="toc-text">主键顺序插入效果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E4%B9%B1%E5%BA%8F%E6%8F%92%E5%85%A5%E6%95%88%E6%9E%9C"><span class="toc-text">主键乱序插入效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E5%90%88%E5%B9%B6"><span class="toc-text">页合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99-1"><span class="toc-text">索引设计原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#order-by%E4%BC%98%E5%8C%96"><span class="toc-text">order by优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#group-by%E4%BC%98%E5%8C%96"><span class="toc-text">group by优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#limit%E4%BC%98%E5%8C%96"><span class="toc-text">limit优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#count%E4%BC%98%E5%8C%96"><span class="toc-text">count优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count%E7%94%A8%E6%B3%95"><span class="toc-text">count用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#update%E4%BC%98%E5%8C%96"><span class="toc-text">update优化</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇"><img alt="MySQL运维篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.LVnC_YS6D56g7magE9AD_gHaEK?w=189&amp;h=106&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/" title="MySQL运维篇">MySQL运维篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/004_MySQL_%E8%BF%90%E7%BB%B4%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.NHdSfyHemLa4eaycz7QR2AHaEK?w=333&amp;h=187&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/003_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇"><img alt="MySQL进阶篇" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.XiTVekPE9y_42SZHAbxTZAHaEK?w=318&amp;h=184&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/" title="MySQL进阶篇">MySQL进阶篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/002_MySQL_%E8%BF%9B%E9%98%B6%E7%AF%87-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇"><img alt="MySQL基础篇" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.3km1icpIVZB3d4flVs-JRgHaEK?w=318&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/" title="MySQL基础篇">MySQL基础篇</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/003_MySQL/001_MySQL_%E5%9F%BA%E7%A1%80%E7%AF%87/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux"><img alt="Linux" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.XXu034JxuR9rZCV5_40S-wAAAA?w=267&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/" title="Linux">Linux</a><a class="article-recent_post_categories" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
