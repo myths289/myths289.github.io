@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>软件测试基础-慕课网 | 蜗牛浪迹天涯</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><!-- index.css--><link rel="stylesheet" href="/css/index.css"><!-- inject head--><link rel="stylesheet" href="https://cdn3.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><link rel="stylesheet" href="/lib/snackbar.min.css"><!-- comment--><!-- pace 胶囊加载条(Capsule loading bar)--><script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- search--><script src="https://cdn.bootcdn.net/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script><!-- aplayer--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.css"><!-- echarts--><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script><!-- 灰色纪念日(Gray Anniversary)--><!-- Open Graph--><meta name="description" content="# 目录 项目管理软件 项目管理软件-禅道的介绍 禅道环境搭建 熟悉禅道的Bug管理流程 测试前的准备 被测系统业务逻辑梳理 测试计划与方案设计思路 编写软件测试计划 测试实施阶段 分模块进行测试计划与执行 测试报告的撰写 禅道的介绍禅道的安装 官网下载地址 : https:&amp;#x2F;&amp;#x2F;www.z"><!-- pwa--><script>(win => {
+        win.saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay,
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        }
+
+        const DarkModeStatus = localStorage.getItem('theme')
+        if (DarkModeStatus !== null) {
+            if (DarkModeStatus === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light')
+            }
+        }
+
+        const asideStatus = saveToLocal.get('aside-status')
+        if (asideStatus !== undefined) {
+            if (asideStatus === 'hide') {
+                document.documentElement.classList.add('hide-aside')
+            } else {
+                document.documentElement.classList.remove('hide-aside')
+            }
+        }
+    }
+)(window)
+
+console.log(
+    "%c🔥 程序：Hexo | 主题：Hexo-Theme-Solitude | 作者：王卓Sco、亦封 | Github: https://github.com/DuoSco/Hexo-theme-solitude | 版本：v1.3.0 😄",
+    "color: #fff; background: linear-gradient(-25deg, #a8edea, #fed6e3); padding: 8px 15px; border-radius: 8px; text-shadow: 2px 2px 4px white; color: black;"
+);
+</script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script></div><!-- custom inject--><script>console.log("head")</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":true,"path":"/search.xml"},
+    runtime: '2024-01-01 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.png'
+    },
+    hightlight: {
+        enable: true,
+        limit: 200,
+        expand: false,
+        copy: true,
+    },
+    lightbox: true,
+    randomlinks: false,
+    lang: {
+        theme: {
+            dark: '已切换至深色模式',
+            light: '已切换至浅色模式',
+        },
+        copy: {
+            success: '复制成功',
+            error: '复制失败',
+        },
+        backtop: '返回顶部',
+        time: {
+            recent: '最近',
+            yesterday: '昨天',
+            berforeyesterday: '前天',
+            daybefore: '天前',
+            runtime: '天',
+        },
+        sayhello: {
+            morning: `一日之计在于晨`,
+            noon: `吃饱了才有力气干活`,
+            afternoon: `集中精力，攻克难关`,
+            night: `不要太劳累了，早睡更健康`,
+            goodnight: `睡个好觉，保证精力充沛`,
+        },
+        search: {
+            empty: '找不到你查询的内容：${query}',
+            hit: '找到 ${hits} 条结果，用时 ${time} 毫秒',
+            placeholder: '输入关键词快速查找',
+        }
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {
+        enable: false,
+        type: 'twikoo',
+        commentBarrage: false,
+        randomInfoStart: ["聪敏的","可爱的","美丽的"],
+        randomInfoEnd: ["白菜","小可爱","小仙女"],
+        twikoo: {
+            url: '',
+            accessToken: ''
+        },
+        waline: {
+            url: '',
+        }
+    },
+    rightside: {
+        enable: false
+    },
+    ai:{
+        enable: false,
+        key: '',
+        talk: '我是王卓Sco开发的摘要生成助理ScoGPT，ScoGPT在静态部署时进行摘要的撰写，并且在访客访问时通过ScoCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。',
+        randomPost: false,
+    },
+    music:{
+        enable: true,
+    }
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body id="body"><!-- loading--><div id="loading-box" onclick="preloader.endLoading();" style="zoom:1"><div class="loading-bg"><img class="loading-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="loading image"></div></div><script>const preloader = {
+    endLoading: () => {
+        document.getElementById('loading-box').classList.add('loaded');
+    },
+    initLoading: () => {
+        document.getElementById('loading-box').classList.remove('loaded');
+    },
+    removePaceDone: () => {
+        document.getElementById('body').classList = 'pace-done';
+    }
+}
+window.addEventListener('load', () => {
+    preloader.endLoading();
+});
+window.addEventListener('pjax:send', () => {
+    preloader.initLoading();
+});
+document.addEventListener('pjax:complete', () => {
+    preloader.endLoading();
+});</script><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="scoicon sco-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互动</div><div class="author-content-item-title">最新评论</div></div><div class="aside-list"></div></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2024/')" href="javascript:void(0);"><span class="card-archive-list-date">2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">59</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i></a></div><div class="console-btn-item" id="consoleHideAside"><a class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制" href="javascript:void(0);"><i class="scoicon sco-side-bar-fill"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="sco.musicToggle()"><a class="music-switch" title="音乐开关" href="javascript:void(0);"><i class="scoicon sco-disc-fill"></i></a></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()" href="javascript:void(0);"><i class="scoicon sco-moon-clear-fill"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon scoicon sco-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-solitude" title="Solitude"><img class="back-menu-item-icon" src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="项目"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页" target="_self"><span class="scoicon">首页</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">软件测试基础-慕课网</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="scoicon sco-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="scoicon sco-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="scoicon sco-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="scoicon sco-wifi-fill"></i><span>鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="scoicon sco-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="scoicon sco-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="scoicon sco-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="scoicon sco-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="scoicon sco-laptop-line"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="scoicon sco-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button"><a class="site-page" href="https://www.travellings.cn/go.html" title="开往-友链接力" target="_blank"><i class="scoicon sco-train-line"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="scoicon sco-signal-tower-fill"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="scoicon sco-search-line"></i></a></div><div class="nav-button" id="nav-console"><a class="console_switchbutton" onclick="sco.showConsole()" title="中控台" href="javascript:void(0);"><i class="scoicon sco-dashboard-fill"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="scoicon sco-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="scoicon sco-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://tse2-mm.cn.bing.net/th/id/OIP-C.7PEJfc9lBxB9KSHnzNg7VAHaEo?w=287&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7" alt="软件测试基础-慕课网"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/软件测试/">软件测试</a></span><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">软件测试基础-慕课网</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="meta_posted 2024-01-25 00:10:00"><i class="post-meta-icon scoicon sco-calendar-todo-fill"></i><time datetime="2024-01-24T16:10:00.000Z">2024-01-24T16:10:00.000Z</time></span><span class="post-meta-date" title="meta_updated 2024-02-17 13:26:25"><i class="post-meta-icon scoicon sco-refresh-line"></i><time datetime="2024-02-17T05:26:25.610Z">2024-02-17T05:26:25.610Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon scoicon sco-word-fill" title="文章字数"></i><span class="word-count">1.4k</span><span class="post-meta-separator"></span><i class="post-meta-icon scoicon sco-clock-fill" title="阅读耗时"></i><span>4 min</span></span><span class="post-meta-position" title="作者IP归属地为衡阳"><i class="post-meta-icon scoicon sco-map-pin-fill"></i><span>衡阳</span></span><a class="post-meta-pv" href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/001_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98_%E6%85%95%E8%AF%BE%E7%BD%91/" title="文章热度"><i class="post-meta-icon scoicon sco-fire-fill"></i><span id="busuanzi_value_page_pv"><i class="scoicon sco-loading-line"></i></span></a></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer" />
+# 目录
+
+<h2 id="项目管理软件"><a href="#项目管理软件" class="headerlink" title="项目管理软件"></a>项目管理软件</h2><ul>
+<li>项目管理软件-禅道的介绍</li>
+<li>禅道环境搭建</li>
+<li>熟悉禅道的Bug管理流程</li>
+</ul>
+<h2 id="测试前的准备"><a href="#测试前的准备" class="headerlink" title="测试前的准备"></a>测试前的准备</h2><ul>
+<li>被测系统业务逻辑梳理</li>
+<li>测试计划与方案设计思路</li>
+<li>编写软件测试计划</li>
+</ul>
+<h2 id="测试实施阶段"><a href="#测试实施阶段" class="headerlink" title="测试实施阶段"></a>测试实施阶段</h2><ul>
+<li>分模块进行测试计划与执行</li>
+<li>测试报告的撰写</li>
+</ul>
+<h1 id="禅道的介绍"><a href="#禅道的介绍" class="headerlink" title="禅道的介绍"></a>禅道的介绍</h1><h2 id="禅道的安装"><a href="#禅道的安装" class="headerlink" title="禅道的安装"></a>禅道的安装</h2><ul>
+<li><p>官网下载地址 : <a target="_blank" rel="noopener" href="https://www.zentao.net/page/download.html">https://www.zentao.net/page/download.html</a></p>
+</li>
+<li><p>注意 : </p>
+<ul>
+<li>安装路径不能包含中文</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/d74c766a3ef84d60b30d9af4cd7db4d3" alt="image-20240213113755773"></p>
+<h2 id="bug的管理流程"><a href="#bug的管理流程" class="headerlink" title="bug的管理流程"></a>bug的管理流程</h2><h3 id="添加产品"><a href="#添加产品" class="headerlink" title="添加产品"></a>添加产品</h3><ul>
+<li>首次使用需要先添加产品</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/6176ded622834864a72071fcb0313166" alt="image-20240213115559112"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/4e601edf18ff4582957b6dd024203f80" alt="image-20240213115711702"></p>
+<h2 id="创建项目并启用"><a href="#创建项目并启用" class="headerlink" title="创建项目并启用"></a>创建项目并启用</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/e1b0a10d65a44acc868090490fe2916f" alt="image-20240213115948096"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/b7d77002a0604a23a7dae82d614f490f" alt="image-20240213120018241"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/2c783df112024226ac3a826e24caeb5c" alt="image-20240213120130467"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/983e125f31dd4b2dac601ed7da16b35d" alt="image-20240213120158627"></p>
+<h2 id="新建测试用例"><a href="#新建测试用例" class="headerlink" title="新建测试用例"></a>新建测试用例</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/73fa4abf660e453aabd30ec2658c897a" alt="image-20240213120324890"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/176510e790e4437d8fd5c00d56765f3e" alt="image-20240213120644236"></p>
+<h2 id="提交bug"><a href="#提交bug" class="headerlink" title="提交bug"></a>提交bug</h2><ul>
+<li>提交 bug</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/41dd4b57f7ee42ceb8b1043b3ed23b52" alt="image-20240213120930345"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/0cdf6b41b41443a5b312b5911f07412b" alt="image-20240213121304751"></p>
+<ul>
+<li>确认 bug</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/63acd6a49d6a4eefa6ac7465e72d71d1" alt="image-20240213121623306"></p>
+<ul>
+<li>编辑 bug</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/a376450ad70941a59fcf4e2c72e90aa9" alt="image-20240213121715311"></p>
+<h2 id="解决-bug"><a href="#解决-bug" class="headerlink" title="解决 bug"></a>解决 bug</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/033daf74dbe44433a739d7a77c1ede72" alt="image-20240213121844855"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/b490bd56cc004930bf032472ada689ab" alt="image-20240213121913602"></p>
+<h1 id="测试前的准备-1"><a href="#测试前的准备-1" class="headerlink" title="测试前的准备"></a>测试前的准备</h1><h2 id="被测系统业务逻辑梳理"><a href="#被测系统业务逻辑梳理" class="headerlink" title="被测系统业务逻辑梳理"></a>被测系统业务逻辑梳理</h2><ul>
+<li>被测系统地址 : <ul>
+<li>慕慕生鲜 : <a target="_blank" rel="noopener" href="http://111.231.103.117/#/index">http://111.231.103.117/#/index</a></li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/91aee8314970464f8e7397ccffbcef2b" alt="image-20240213122849692"></p>
+<h2 id="测试计划书的作用"><a href="#测试计划书的作用" class="headerlink" title="测试计划书的作用"></a>测试计划书的作用</h2><h3 id="计划书的作用"><a href="#计划书的作用" class="headerlink" title="计划书的作用"></a>计划书的作用</h3><ul>
+<li>有条理的进行测试</li>
+<li>合理的分配工作</li>
+<li>风险预估</li>
+<li>测试排期得到大家的认可</li>
+</ul>
+<h3 id="计划书包含的要素"><a href="#计划书包含的要素" class="headerlink" title="计划书包含的要素"></a>计划书包含的要素</h3><ul>
+<li>项目背景</li>
+<li>书写计划书参考的文档</li>
+<li>测试范围</li>
+<li>测试过程提交及产出的文档</li>
+<li>测试所需的资源</li>
+<li>测试所需的工具</li>
+<li>测试人员安排</li>
+<li>测试所需的时间预估</li>
+<li>要做哪些类型的测试</li>
+<li>测试目标的统一</li>
+<li>风险预估</li>
+<li>风险发生时的应急策略</li>
+</ul>
+<h2 id="测试计划书的编写"><a href="#测试计划书的编写" class="headerlink" title="测试计划书的编写"></a>测试计划书的编写</h2><h3 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><ul>
+<li>书写测试计划书，有助于实现以下目标：<ul>
+<li>项目有条理的进行测试；</li>
+<li>测试人员对自己负责模块的梳理；</li>
+<li>测试能够有计划地进行：</li>
+</ul>
+</li>
+<li>本次测试执行后交付文档：<ul>
+<li>测试计划书</li>
+<li>测试用例</li>
+<li>测试报告</li>
+</ul>
+</li>
+</ul>
+<h4 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h4><ul>
+<li>现今年轻人的生活压力大、生活节奏快、饮食不健康等状况已经越来越严重。</li>
+<li>慕慕生鲜秉承着为了让年轻人能够吃上一口新鲜蔬菜、水果、海鲜等，将传统线下购物模式复制到线上，统一解决进货、仓储、配送等全流程问题。</li>
+<li>为了让年轻人在任何时候都能够享受到新鲜的美食，我们从原产地直接采购，蔬菜水果真空冷藏存储、海鲜仓库新鲜养殖，用户线上订购即从全国仓库直接发货。</li>
+</ul>
+<h4 id="测试范围"><a href="#测试范围" class="headerlink" title="测试范围"></a>测试范围</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/d5b6976a568e4024bee9cfbe32f480bc" alt="image-20240213123806454"></p>
+<h3 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h3><h4 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h4><ul>
+<li>产品说明文档</li>
+<li>需求文档</li>
+<li>接口文档</li>
+<li>……</li>
+</ul>
+<h4 id="测试提交文档"><a href="#测试提交文档" class="headerlink" title="测试提交文档"></a>测试提交文档</h4><ul>
+<li>测试计划</li>
+<li>测试用例</li>
+<li>测试报告</li>
+<li>版本说明书</li>
+<li>……</li>
+</ul>
+<h3 id="测试资源"><a href="#测试资源" class="headerlink" title="测试资源"></a>测试资源</h3><h4 id="测试设备"><a href="#测试设备" class="headerlink" title="测试设备"></a>测试设备</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/3a46c2e4aab24fe38b8a74e13ffde83f" alt="image-20240213124027287"></p>
+<h4 id="服务器资源"><a href="#服务器资源" class="headerlink" title="服务器资源"></a>服务器资源</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/3e4f1904cdd145d78addebbdfaa48e12" alt="image-20240213124053173"></p>
+<h4 id="软件资源"><a href="#软件资源" class="headerlink" title="软件资源"></a>软件资源</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/2a01809141384244824f141e34563ba8" alt="image-20240213124113713"></p>
+<h4 id="人员安排"><a href="#人员安排" class="headerlink" title="人员安排"></a>人员安排</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/52a67e3f7e844552948989a0dd8a280d" alt="image-20240213124140003"></p>
+<h4 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/4e49ce2b59c54aafa9dbe129d6593753" alt="image-20240213124215883"></p>
+<h2 id="测试策略"><a href="#测试策略" class="headerlink" title="测试策略"></a>测试策略</h2><h3 id="整体策略"><a href="#整体策略" class="headerlink" title="整体策略"></a>整体策略</h3><ul>
+<li>整体测试所需时间 : 10人 &#x2F; 天</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/f0cce160f5944345b75f5094989ffc3e" alt="image-20240213124347711"></p>
+<h3 id="测试类型"><a href="#测试类型" class="headerlink" title="测试类型"></a>测试类型</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/8dc9b03e45094d879dded852ecc32294" alt="image-20240213124511014"></p>
+<h3 id="测试目标"><a href="#测试目标" class="headerlink" title="测试目标"></a>测试目标</h3><ul>
+<li>系统测试覆盖率达100%</li>
+<li>测试用例执行率达100%</li>
+<li>无高级别Bug遗留</li>
+<li>……</li>
+</ul>
+<h2 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h2><h3 id="需求变更"><a href="#需求变更" class="headerlink" title="需求变更"></a>需求变更</h3><ul>
+<li>如遇需求变更，则需重新评估开发及测试时间</li>
+</ul>
+<h3 id="其他风险"><a href="#其他风险" class="headerlink" title="其他风险"></a>其他风险</h3><ul>
+<li>……</li>
+</ul>
+<h3 id="风险应对策略"><a href="#风险应对策略" class="headerlink" title="风险应对策略"></a>风险应对策略</h3><ul>
+<li>加班！！！！这里要优雅的说加班，不然太招人恨了。<ul>
+<li>比如：积极推动项目进度、提升工作效率</li>
+</ul>
+</li>
+</ul>
+<h3 id="风险预警相关人员"><a href="#风险预警相关人员" class="headerlink" title="风险预警相关人员"></a>风险预警相关人员</h3><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/4620be2ab1864f8c8be2758fe406787b" alt="image-20240213124908111"></p>
+<h1 id="分模块的测试设计与执行"><a href="#分模块的测试设计与执行" class="headerlink" title="分模块的测试设计与执行"></a>分模块的测试设计与执行</h1><h2 id="登录模块的测试用例设计与执行"><a href="#登录模块的测试用例设计与执行" class="headerlink" title="登录模块的测试用例设计与执行"></a>登录模块的测试用例设计与执行</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/c1e3d33fc9ae41d5b1a297bcabd1b4cb" alt="image-20240213130856747"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/0eaf3bf672ab4c08a56d20b5a6925102" alt="image-20240213130909354"></p>
+<h2 id="搜索模块测试用例设计与执行"><a href="#搜索模块测试用例设计与执行" class="headerlink" title="搜索模块测试用例设计与执行"></a>搜索模块测试用例设计与执行</h2><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/67e952787c764ed6b64827e5817b11fc" alt="image-20240213132703723"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/f62fae22dcb04032a678d7e18cee3948" alt="image-20240213133126138"></p>
+<h1 id="软件测试报告"><a href="#软件测试报告" class="headerlink" title="软件测试报告"></a>软件测试报告</h1><h2 id="测试报告的基本结构"><a href="#测试报告的基本结构" class="headerlink" title="测试报告的基本结构"></a>测试报告的基本结构</h2><ul>
+<li>项目背景</li>
+<li>术语定义</li>
+<li>参考资料</li>
+<li>被测系统版本简介</li>
+<li>各模块的测试负责人</li>
+<li>测试环境</li>
+<li>测试执行过程时间点</li>
+<li>测试过程产出物</li>
+<li>Bug汇总</li>
+<li>Bug分布</li>
+<li>遗留Bug说明</li>
+<li>测试结论</li>
+</ul>
+<h2 id="撰写测试报告"><a href="#撰写测试报告" class="headerlink" title="撰写测试报告"></a>撰写测试报告</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><h4 id="项目背景-1"><a href="#项目背景-1" class="headerlink" title="项目背景"></a>项目背景</h4><ul>
+<li>现今年轻人的生活压力大、生活节奏快、饮食不健康等状况已经越来越严重。</li>
+<li>慕慕生鲜秉承着为了让年轻人能够吃上一口新鲜蔬菜、水果、海鲜等，将传统线下购物模式复制到线上，统一解决进货、仓储、配送等全流程问题。</li>
+<li>为了让年轻人在任何时候都能够享受到新鲜的美食，我们从原产地直接采购，蔬菜水果真空冷藏存储、海鲜仓库新鲜养殖，用户线上订购即从全国仓库直接发货。</li>
+</ul>
+<h4 id="术语定义"><a href="#术语定义" class="headerlink" title="术语定义"></a>术语定义</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/f9e8f33da021412bb93ac46f9c57f5ce" alt="image-20240213135310726"></p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
+<li>测试计划书</li>
+<li>测试用例文档</li>
+<li>……</li>
+</ul>
+<h3 id="测试概要"><a href="#测试概要" class="headerlink" title="测试概要"></a>测试概要</h3><h4 id="系统简介与测试责任人"><a href="#系统简介与测试责任人" class="headerlink" title="系统简介与测试责任人"></a>系统简介与测试责任人</h4><ul>
+<li><p>系统说明：被测系统为慕慕生鲜首次提测版本，实现了用户登录、商品搜索、商品列表、商品详情、添加购物车、下单、个人中心模块功能</p>
+</li>
+<li><p>测试模块及测试责任人如下 :</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/c5a5ba38c72340849f1d62a9d5476a53" alt="image-20240213135454063"></p>
+<ul>
+<li>系统版本<ul>
+<li>v1.0</li>
+</ul>
+</li>
+</ul>
+<h4 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h4><ul>
+<li>服务器硬件配置</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/892725c33e094f73aa05a917c5c5516b" alt="image-20240213135538039"></p>
+<ul>
+<li>软件环境</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/163b911341f64c3a8c246c5ed0757e43" alt="image-20240213135555702"></p>
+<h4 id="测试执行过程时间点"><a href="#测试执行过程时间点" class="headerlink" title="测试执行过程时间点"></a>测试执行过程时间点</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/39d2b8a0985f42b5b69369560bfff772" alt="image-20240213135635509"></p>
+<h4 id="过程产出物"><a href="#过程产出物" class="headerlink" title="过程产出物"></a>过程产出物</h4><ul>
+<li>业务流程思维导图</li>
+<li>慕慕生鲜测试用例设计</li>
+<li>……</li>
+</ul>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><h4 id="Bug汇总"><a href="#Bug汇总" class="headerlink" title="Bug汇总"></a>Bug汇总</h4><ul>
+<li>这里要写一些按照严重程度汇总Bug的情况，是所有你发现的Bug都整理一下，最好弄一个图，看看是饼图好，还是柱状图好</li>
+</ul>
+<h4 id="Bug所在模块分布"><a href="#Bug所在模块分布" class="headerlink" title="Bug所在模块分布"></a>Bug所在模块分布</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/8deb8ef3af3744ffa001c3a3f782ad1f" alt="image-20240213135814468"></p>
+<h4 id="遗留Bug说明"><a href="#遗留Bug说明" class="headerlink" title="遗留Bug说明"></a>遗留Bug说明</h4><p><img src= "/img/loading.gif" data-lazy-src="https://s1.vika.cn/space/2024/02/13/053f601a22fb40b08294739b365c9476" alt="image-20240213135835674"></p>
+<h3 id="测试结论"><a href="#测试结论" class="headerlink" title="测试结论"></a>测试结论</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
+<li><p>测试场景覆盖率达100%</p>
+</li>
+<li><p>Bug修复率为98%</p>
+</li>
+<li><p>遗留Bug不影响主要功能和用户的使用</p>
+</li>
+<li><p>建议：测试通过可以上线(如果这里有风险，则请领导审批和下结论，是否通过上线）</p>
+</li>
+</ul>
+<h4 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h4><ul>
+<li>由于…情况，测试执行过程中出现了时间风险</li>
+<li>以后为避免时间风险，测试可更早介入，提前把控软件的质量</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"></a><div class="post-copyright__author_name">蜗牛浪迹天涯</div><div class="post-copyright__author_desc">宁静致远，热爱生活。</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div><div class="post-reward" onclick="AddRewardMask()"><div class="reward-button" title="赞赏作者"><i class="scoicon sco-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><ul class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a target="_blank" rel="noopener" href="https://bu.dusays.com/2023/11/07/6549e79364fa3.png"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79364fa3.png" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/07/6549e79d02bd6.png" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></ul></div></div><script>function RemoveRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("RemoveRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "none";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "none";
+    }
+}
+
+function AddRewardMask() {
+    let rewardMainElements = document.querySelectorAll(".reward-main");
+    let quitBoxElement = document.querySelector("#quit-box");
+
+    console.log("AddRewardMask")
+
+    rewardMainElements.forEach(element => {
+        element.style.display = "flex";
+    });
+
+    if (quitBoxElement) {
+        quitBoxElement.style.display = "flex";
+    }
+}</script></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">蜗牛浪迹天涯</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/002_Linux/001_Linux/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/25/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/001_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/01_%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80_%E5%88%86%E7%B1%BB_%E6%A8%A1%E5%9E%8B_%E6%B5%81%E7%A8%8B_%E7%94%A8%E4%BE%8B_bug%E7%AE%A1%E7%90%86/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软件测试基础</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">一日之计在于晨</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/12/30/659011053e246.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">分享自己对编程的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><div class="author-info__name">snail289</div><div class="author-info__desc">宁静致远，热爱生活。</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/DuoSco/Hexo-Theme-slitude" title="Github"><i class="scoicon sco-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/1329819902" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="scoicon sco-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E8%BD%AF%E4%BB%B6"><span class="toc-text">项目管理软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-text">测试前的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%96%BD%E9%98%B6%E6%AE%B5"><span class="toc-text">测试实施阶段</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-text">禅道的介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">禅道的安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bug%E7%9A%84%E7%AE%A1%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-text">bug的管理流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BA%A7%E5%93%81"><span class="toc-text">添加产品</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E5%B9%B6%E5%90%AF%E7%94%A8"><span class="toc-text">创建项目并启用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-text">新建测试用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4bug"><span class="toc-text">提交bug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-bug"><span class="toc-text">解决 bug</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87-1"><span class="toc-text">测试前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A2%AB%E6%B5%8B%E7%B3%BB%E7%BB%9F%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%A2%B3%E7%90%86"><span class="toc-text">被测系统业务逻辑梳理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E4%B9%A6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">测试计划书的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E5%88%92%E4%B9%A6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">计划书的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E5%88%92%E4%B9%A6%E5%8C%85%E5%90%AB%E7%9A%84%E8%A6%81%E7%B4%A0"><span class="toc-text">计划书包含的要素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E4%B9%A6%E7%9A%84%E7%BC%96%E5%86%99"><span class="toc-text">测试计划书的编写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B"><span class="toc-text">项目简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-text">目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%8C%83%E5%9B%B4"><span class="toc-text">测试范围</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3"><span class="toc-text">相关文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-text">参考文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%8F%90%E4%BA%A4%E6%96%87%E6%A1%A3"><span class="toc-text">测试提交文档</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%B5%84%E6%BA%90"><span class="toc-text">测试资源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%BE%E5%A4%87"><span class="toc-text">测试设备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B5%84%E6%BA%90"><span class="toc-text">服务器资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E8%B5%84%E6%BA%90"><span class="toc-text">软件资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E5%91%98%E5%AE%89%E6%8E%92"><span class="toc-text">人员安排</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-text">测试工具</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5"><span class="toc-text">测试策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E7%AD%96%E7%95%A5"><span class="toc-text">整体策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">测试类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%9B%AE%E6%A0%87"><span class="toc-text">测试目标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9"><span class="toc-text">风险</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%8F%98%E6%9B%B4"><span class="toc-text">需求变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%A3%8E%E9%99%A9"><span class="toc-text">其他风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5"><span class="toc-text">风险应对策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E9%99%A9%E9%A2%84%E8%AD%A6%E7%9B%B8%E5%85%B3%E4%BA%BA%E5%91%98"><span class="toc-text">风险预警相关人员</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%A8%A1%E5%9D%97%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%89%A7%E8%A1%8C"><span class="toc-text">分模块的测试设计与执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97%E7%9A%84%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%89%A7%E8%A1%8C"><span class="toc-text">登录模块的测试用例设计与执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%89%A7%E8%A1%8C"><span class="toc-text">搜索模块测试用例设计与执行</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">软件测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">测试报告的基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%92%B0%E5%86%99%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">撰写测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF-1"><span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD%E5%AE%9A%E4%B9%89"><span class="toc-text">术语定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%A6%82%E8%A6%81"><span class="toc-text">测试概要</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%B5%8B%E8%AF%95%E8%B4%A3%E4%BB%BB%E4%BA%BA"><span class="toc-text">系统简介与测试责任人</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-text">测试环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E6%97%B6%E9%97%B4%E7%82%B9"><span class="toc-text">测试执行过程时间点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E4%BA%A7%E5%87%BA%E7%89%A9"><span class="toc-text">过程产出物</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="toc-text">测试结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bug%E6%B1%87%E6%80%BB"><span class="toc-text">Bug汇总</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bug%E6%89%80%E5%9C%A8%E6%A8%A1%E5%9D%97%E5%88%86%E5%B8%83"><span class="toc-text">Bug所在模块分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%97%E7%95%99Bug%E8%AF%B4%E6%98%8E"><span class="toc-text">遗留Bug说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E8%AE%BA"><span class="toc-text">测试结论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE"><span class="toc-text">建议</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="scoicon sco-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/02/01/Python/%E9%BB%91%E9%A9%ACPython/" title="Python基础"><img alt="Python基础" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.fs21LLVsDhIQJeG3UilvswHaEK?w=306&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/02/01/Python/%E9%BB%91%E9%A9%ACPython/" title="Python基础">Python基础</a><a class="article-recent_post_categories" href="/2024/02/01/Python/%E9%BB%91%E9%A9%ACPython/">Python</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试"><img alt="UI自动化测试" src= "/img/loading.gif" data-lazy-src="https://tse3-mm.cn.bing.net/th/id/OIP-C.FjupsUlF0U4eTb-7NSK7VQHaEK?w=324&amp;h=182&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="UI自动化测试">UI自动化测试</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/007_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/001_UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02"><img alt="性能测试基础02" src= "/img/loading.gif" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.n0oCh3l8SwuNaJd7YTGnbAHaEo?w=254&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/" title="性能测试基础02">性能测试基础02</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-02/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01"><img alt="性能测试基础01" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.ZtthBYLzEnDQCcjKSvSD9gHaEo?w=273&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/" title="性能测试基础01">性能测试基础01</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/006_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/11_%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95-01/">软件测试</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装"><img alt="接口对象封装" src= "/img/loading.gif" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.28wuGV9jWB2_sq1WCmD7HAHaEK?w=304&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;pid=1.7"></a><div class="content"><a class="title" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" title="接口对象封装">接口对象封装</a><a class="article-recent_post_categories" href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/005_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/10_%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95_%E6%8E%A5%E5%8F%A3%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85_%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6_%E5%85%A8%E9%87%8F%E5%AD%97%E6%AE%B5%E6%A0%A1%E9%AA%8C_%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">软件测试</a></div></div></div></div></div></div></main><footer id="footer"><div id="sco-footer-bar"><div class="footer-logo"><span class="scoicon">首页</span></div><div class="footer-bar-description">来自蜗牛浪迹天涯 - 宁静致远，热爱生活。的文章</div><a class="footer-bar-link" href="/">了解更多</a></div><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://github.com" title="Github"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" href="mailto:1448623289@qq.com" title="Mail"><i class="scoicon sco-mail-line"></i></a><div class="footer_mini_logo" id="footer_mini_logo" title="返回顶部" onclick="sco.toTop()"><img src= "/img/loading.gif" data-lazy-src="https://bu.dusays.com/2023/11/08/654af68b25bb8.jpg" alt="返回顶部"></div><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com" title="Bilibili"><i class="scoicon sco-bilibili-line"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com" title="抖音"><i class="scoicon sco-douyin-fill"></i></a></div><div id="sco-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a><a class="footer-item" target="_blank" rel="noopener" href="https://v6.51.la/" title="51la统计">51la统计</a><a class="footer-item" target="_blank" rel="noopener" href="https://tongji.baidu.com/" title="百度统计">百度统计</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a><a class="footer-item" target="_blank" rel="noopener" href="https://docs.wzsco.top/" title="文档">文档</a><a class="footer-item" target="_blank" rel="noopener" href="https://blog.wzsco.top/" title="案例">案例</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">snail289</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/DuoSco/hexo-theme-solitude">主题</a><a class="footer-bar-link cc" href="/copyright/"><i class="scoicon sco-copyright-line"></i><i class="scoicon sco-creative-commons-by-line"></i><i class="scoicon sco-creative-commons-nc-line"></i><i class="scoicon sco-creative-commons-nd-line"></i></a></div></div></div><div class="needEndHide" id="cookies-window"><div class="cookies-window-title">协议提醒助手</div><div class="cookies-window-content"><span class="cookies-tip">查看本站为你的个人隐私做出的努力</span><a class="cookies-link" href="/privacy/" title="本站如何保护你的隐私"><i class="scoicon sco-right-btn-fill"></i></a></div></div></footer></div><!-- inject body--><script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/lib/lazyload.min.js"></script><script src="/lib/snackbar.min.js"></script><script src="/lib/view-image.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.2.4/swiper-bundle.min.js"></script><div id="js-pjax"><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: 'post',
+    toc: true,
+    comment: false,
+}
+</script></div><!-- post-ai)--><script src="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/meting/2.0.1/Meting.min.js"></script><script>const meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script><script>const coverColorConfig = {
+    mode: 'local',
+    api: 'https://img2color.meuicat.com/api?img=',
+    time: 43200000,
+}</script><script src="/lib/cover-color.min.js"></script><!-- waterfall--><script src="/lib/waterfall.min.js"></script><!-- pjax--><script>let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax',
+    'meta[property^="og:"]',
+]
+
+const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- music--><script src="/js/music.js"></script><!-- inject custom body--><script>console.log("body")</script><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="scoicon sco-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/extend/search/local-search.js"></script><!-- music--><div class="needEndHide" id="nav-music" onclick="sco.musicToggle()"><div id="nav-music-hoverTips">音乐已暂停</div><meting-js id="8927329843" server="netease" type="playlist" mutex="true" preload="none" data-lrctype="0" order="random" theme="var(--sco-main)"></meting-js></div></body></html><script>const posts=["2024/02/01/Python/黑马Python/","2024/01/26/软件测试/007_UI自动化测试/001_UI自动化测试/","2024/01/26/软件测试/006_性能测试/11_性能测试-02/","2024/01/26/软件测试/006_性能测试/11_性能测试-01/","2024/01/26/软件测试/005_接口测试/10_接口测试_接口对象封装_接口自动化测试框架_全量字段校验_持续集成/","2024/01/26/软件测试/005_接口测试/09_接口测试_Requests库_UnitTest框架_数据库操作_日志收集/","2024/01/26/软件测试/005_接口测试/08_接口测试_Postman的使用/","2024/01/26/软件测试/005_接口测试/接口自动化测试_慕课网/","2024/01/26/软件测试/005_接口测试/接口测试_慕课网/","2024/01/26/软件测试/005_接口测试/07_接口测试_接口测试基础/","2024/01/25/软件测试/003_MySQL/004_MySQL_运维篇/","2024/01/25/软件测试/003_MySQL/003_MySQL_进阶篇-02/","2024/01/25/软件测试/003_MySQL/002_MySQL_进阶篇-01/","2024/01/25/软件测试/003_MySQL/001_MySQL_基础篇/","2024/01/25/软件测试/002_Linux/001_Linux/","2024/01/25/软件测试/001_软件测试基础/功能测试项目实战_慕课网/","2024/01/25/软件测试/001_软件测试基础/01_软件测试基础_分类_模型_流程_用例_bug管理/","2024/01/24/Web前端开发/402_Webpack/40201_Webpack/","2024/01/24/Web前端开发/401_TypeScript/40101_TypeScript/","2024/01/23/Web前端开发/303_React/30305_React_Hooks解析/","2024/01/23/Web前端开发/303_React/30304_React_Router/","2024/01/23/Web前端开发/303_React/30303_Redux/","2024/01/23/Web前端开发/303_React/30302_React_过渡动画与CSS样式/","2024/01/23/Web前端开发/303_React/30301_React核心基础/","2024/01/23/Web前端开发/302_Vue3/30207_Vue3_Vue3原理/","2024/01/23/Web前端开发/302_Vue3/30206_Vue3_过渡与动画/","2024/01/23/Web前端开发/302_Vue3/30205_Vue3_自定义指令与插件/","2024/01/23/Web前端开发/302_Vue3/30204_Vue3_Pinia/","2024/01/23/Web前端开发/302_Vue3/30203_Vue3_VueX/","2024/01/23/Web前端开发/302_Vue3/30202_Vue3_Router/","2024/01/23/Web前端开发/302_Vue3/30201_Vue3_基础核心/","2024/01/23/Web前端开发/301_Vue2/30103_Vue2_VueX/","2024/01/23/Web前端开发/301_Vue2/30102_Vue2_VueRouter/","2024/01/23/Web前端开发/301_Vue2/30101_Vue2_Vue2Base/","2024/01/23/Web前端开发/206_模块化/20601_ModuleJS/","2024/01/22/Web前端开发/205_Git/20501_Git/","2024/01/21/Web前端开发/204_Fetch/20401_Fetch/","2024/01/20/Web前端开发/203_Axios/20301_Axios/","2024/01/19/Web前端开发/106_JavaScript高级/10509_JS代码的执行原理/","2024/01/19/Web前端开发/202_Promise/20201_Promise/","2024/01/18/Web前端开发/106_JavaScript高级/10508_浏览器执行过程原理/","2024/01/18/Web前端开发/201_Ajax/20101_Ajax/","2024/01/17/Web前端开发/106_JavaScript高级/10507_JS_ES6-ES13/","2024/01/16/Web前端开发/105_JavaScript/10506_JS_BOM/","2024/01/15/Web前端开发/105_JavaScript/10505_JS_DOM/","2024/01/14/Web前端开发/105_JavaScript/10504_JS_Function/","2024/01/13/Web前端开发/105_JavaScript/10503_JS_Object/","2024/01/12/Web前端开发/105_JavaScript/10502_JS_Array/","2024/01/11/Web前端开发/105_JavaScript/10501_JavaScript_Base/","2024/01/10/Web前端开发/104_Less/10401_Less/","2024/01/09/Web前端开发/103_移动端开发/10304_Flex/","2024/01/08/Web前端开发/103_移动端开发/10303_Rem/","2024/01/07/Web前端开发/103_移动端开发/10302_Percent/","2024/01/06/Web前端开发/103_移动端开发/10301_WebMobileBase/","2024/01/05/Web前端开发/102_HTML5_CSS3/10202_CSS3/","2024/01/04/Web前端开发/102_HTML5_CSS3/10201_HTML5/","2024/01/03/Web前端开发/101_HTML_CSS/10103_CSS/","2024/01/02/Web前端开发/101_HTML_CSS/10102_HTML/","2024/01/01/Web前端开发/101_HTML_CSS/10101_WebBase/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); };</script>
